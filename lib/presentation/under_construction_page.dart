@@ -6,7 +6,12 @@ class UnderConstructionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Antonio Manuel Díaz Moreno'),
+      child: Column(
+        children: [
+          Text('Antonio Manuel Díaz Moreno'),
+          Text('Under Construction'),
+        ],
+      ),
     );
   }
 }
