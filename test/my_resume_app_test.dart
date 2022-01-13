@@ -6,4 +6,8 @@ void main() {
     await tester.pumpWidget(const MyResumeApp());
     expect(find.text('Antonio Manuel Díaz Moreno'), findsOneWidget);
   });
+  testWidgets('show under construction', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyResumeApp());
+    expect(find.text('Under Construction'), findsOneWidget);
+  });
 }
