@@ -38,19 +38,28 @@ class Arcade extends StatelessWidget {
   Container _buildConsole(BuildContext context) {
     return Container(
       color: Colors.green.withOpacity(.5),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 50),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(
             'Antonio Manuel Díaz Moreno',
+            textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline1,
           ),
+          const SizedBox(height: 10),
+          Text(
+            'Developer | .NET | TypeScript | Dart | Angular | Flutter 🚀',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          const Spacer(),
           Text(
             'Under Construction',
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context).textTheme.headline2,
           ),
+          const Spacer(),
         ],
       ),
     );
