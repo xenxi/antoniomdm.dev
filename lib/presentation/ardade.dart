@@ -9,8 +9,7 @@ class Arcade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 900,
+    return FittedBox(
       child: Stack(
         children: [
           const Image(
@@ -19,16 +18,17 @@ class Arcade extends StatelessWidget {
             alignment: Alignment.center,
           ),
           Positioned(
-            top: 230,
-            left: 195,
-            width: 500,
-            height: 380,
+            top: 420,
+            left: 340,
+            width: 890,
+            height: 650,
             child: Transform(
               transform: Matrix4.identity()
                 ..setEntry(3, 2, 0.001)
-                ..rotateX(-.4),
+                ..rotateX(-.15),
               alignment: FractionalOffset.center,
-              child: Padding(
+              child: Container(
+                color: Colors.green.withOpacity(.5),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
                 child: Column(
