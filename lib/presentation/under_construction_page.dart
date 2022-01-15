@@ -11,21 +11,19 @@ class UnderConstructionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(ImagePath.bg5),
-              fit: BoxFit.cover,
-              alignment: Alignment.center,
-            ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(ImagePath.bg5),
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
           ),
-          alignment: Alignment.bottomCenter,
-          child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-              child: const Arcade()),
         ),
+        alignment: Alignment.bottomCenter,
+        child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+            child: Transform.translate(
+                offset: const Offset(0, 50), child: const Arcade())),
       ),
     );
   }
