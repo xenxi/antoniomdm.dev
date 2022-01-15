@@ -76,6 +76,12 @@ flutter:
     - family: Arcade
       fonts:
         - asset: assets/fonts/ARCADE_I.ttf
+    - family: Radical
+      fonts:
+        - asset: assets/fonts/Lady_Radical.ttf
+    - family: Edunline
+      fonts:
+        - asset: assets/fonts/edunline.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
