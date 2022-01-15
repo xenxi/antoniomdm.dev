@@ -27,27 +27,30 @@ class Arcade extends StatelessWidget {
                 ..setEntry(3, 2, 0.001)
                 ..rotateX(-.15),
               alignment: FractionalOffset.center,
-              child: Container(
-                color: Colors.green.withOpacity(.5),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Antonio Manuel Díaz Moreno',
-                      style: Theme.of(context).textTheme.headline1,
-                    ),
-                    Text(
-                      'Under Construction',
-                      style: Theme.of(context).textTheme.headlineLarge,
-                    ),
-                  ],
-                ),
-              ),
+              child: _buildConsole(context),
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Container _buildConsole(BuildContext context) {
+    return Container(
+      color: Colors.green.withOpacity(.5),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            'Antonio Manuel Díaz Moreno',
+            style: Theme.of(context).textTheme.headline1,
+          ),
+          Text(
+            'Under Construction',
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
         ],
       ),
     );
