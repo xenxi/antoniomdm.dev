@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../shared/values/image_path.dart';
-import 'terminal.dart';
+import 'shared/widgets/terminal.dart';
 
 class Arcade extends StatelessWidget {
   const Arcade({
