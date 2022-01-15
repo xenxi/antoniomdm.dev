@@ -69,7 +69,7 @@ flutter:
   fonts:
     - family: Arcade
       fonts:
-        - asset: assets/fonts/ARCADE_I.ttf
+        - asset: assets/fonts/arcade_i.ttf
     - family: Radical
       fonts:
         - asset: assets/fonts/Lady_Radical.ttf
