@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class Terminal extends HookWidget {
+  static final background = TweenSequence<Color?>([
+    TweenSequenceItem(
+      weight: 1.0,
+      tween: ColorTween(
+        begin: Colors.green.withOpacity(.5),
+        end: Colors.transparent,
+      ),
+    ),
+  ]);
+
   const Terminal({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final background = TweenSequence<Color?>([
-      TweenSequenceItem(
-        weight: 1.0,
-        tween: ColorTween(
-          begin: Colors.green.withOpacity(.5),
-          end: Colors.transparent,
-        ),
-      ),
-    ]);
     final controller =
         useAnimationController(duration: const Duration(milliseconds: 1500))
           ..repeat();
