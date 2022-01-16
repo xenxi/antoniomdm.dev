@@ -29,17 +29,16 @@ class Terminal extends HookWidget {
             return Container(
               color:
                   background.evaluate(AlwaysStoppedAnimation(controller.value)),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 50),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  FittedBox(
-                    child: Text(
-                      'Antonio Manuel Díaz Moreno',
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline1,
-                    ),
+                  const Spacer(),
+                  Text(
+                    'Antonio Manuel Díaz Moreno',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline1,
                   ),
                   const SizedBox(height: 10),
                   Text(
