@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -32,26 +33,41 @@ class Terminal extends HookWidget {
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const Spacer(),
-                  Text(
-                    'Antonio Manuel Díaz Moreno',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline1,
+                  AnimatedTextKit(
+                    isRepeatingAnimation: false,
+                    animatedTexts: [
+                      TypewriterAnimatedText('Antonio Manuel Díaz Moreno',
+                          speed: const Duration(milliseconds: 100),
+                          textStyle: Theme.of(context).textTheme.headline1,
+                          textAlign: TextAlign.center),
+                    ],
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    'Developer | .NET | TypeScript | Dart | Angular | Flutter 🚀',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.subtitle1,
+                  AnimatedTextKit(
+                    isRepeatingAnimation: false,
+                    animatedTexts: [
+                      TypewriterAnimatedText(
+                        'Developer | .NET | TypeScript | Dart | Angular | Flutter 🚀',
+                        textStyle: Theme.of(context).textTheme.subtitle1,
+                        textAlign: TextAlign.center,
+                        speed: const Duration(milliseconds: 100),
+                      ),
+                    ],
                   ),
                   const Spacer(),
-                  Text(
-                    'Under Construction',
-                    style: Theme.of(context).textTheme.headline2,
+                  AnimatedTextKit(
+                    repeatForever: true,
+                    animatedTexts: [
+                      FlickerAnimatedText('Under Construction',
+                          textStyle: Theme.of(context).textTheme.headline2),
+                      FlickerAnimatedText(' ',
+                          textStyle: Theme.of(context).textTheme.headline2),
+                    ],
                   ),
-                  const Spacer(),
+                  // const Spacer(),
                 ],
               ),
             );
