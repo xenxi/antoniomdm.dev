@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:antoniomdm/shared/values/image_path.dart';
 import 'package:flutter/material.dart';
 
-import 'ardade.dart';
+import 'arcade.dart';
 
 class UnderConstructionPage extends StatelessWidget {
   const UnderConstructionPage({Key? key}) : super(key: key);
@@ -23,7 +23,8 @@ class UnderConstructionPage extends StatelessWidget {
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
             child: Transform.translate(
-                offset: const Offset(0, 50), child: const Arcade())),
+                offset: const Offset(0, 50),
+                child: const SizedBox.expand(child: Arcade()))),
       ),
     );
   }
