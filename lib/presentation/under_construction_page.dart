@@ -19,12 +19,13 @@ class UnderConstructionPage extends StatelessWidget {
             alignment: Alignment.center,
           ),
         ),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         alignment: Alignment.bottomCenter,
         child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
             child: Transform.translate(
-                offset: const Offset(0, 50),
-                child: const SizedBox.expand(child: Arcade()))),
+                offset: const Offset(0, 50), child: const Arcade())),
       ),
     );
   }

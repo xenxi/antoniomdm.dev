@@ -9,17 +9,17 @@ class CustomTheme {
       textTheme: defaultDarkTheme.textTheme.copyWith(
         headline1: const TextStyle(
             color: primaryText2,
-            fontSize: 58,
+            fontSize: 40,
             fontWeight: FontWeight.bold,
             fontFamily: 'Edunline'),
         headline2: const TextStyle(
             color: Colors.white,
-            fontSize: 30,
+            fontSize: 20,
             fontWeight: FontWeight.normal,
             fontFamily: 'Arcade'),
         subtitle1: const TextStyle(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: 12,
             fontWeight: FontWeight.normal,
             fontFamily: 'Arcade'),
       ),
