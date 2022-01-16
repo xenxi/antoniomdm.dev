@@ -22,6 +22,7 @@ class Terminal extends HookWidget {
     final controller =
         useAnimationController(duration: const Duration(milliseconds: 1500))
           ..repeat();
+    final nameIsVisible = useState(false);
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -38,6 +39,7 @@ class Terminal extends HookWidget {
                       const SizedBox(height: 20),
                       AnimatedTextKit(
                         isRepeatingAnimation: false,
+                        onFinished: () => nameIsVisible.value = true,
                         animatedTexts: [
                           TypewriterAnimatedText('Antonio Manuel Díaz Moreno',
                               speed: const Duration(milliseconds: 100),
@@ -46,17 +48,18 @@ class Terminal extends HookWidget {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      AnimatedTextKit(
-                        isRepeatingAnimation: false,
-                        animatedTexts: [
-                          TypewriterAnimatedText(
-                            'Developer | .NET | TypeScript | Dart | Angular | Flutter 🚀',
-                            textStyle: Theme.of(context).textTheme.subtitle1,
-                            textAlign: TextAlign.center,
-                            speed: const Duration(milliseconds: 100),
-                          ),
-                        ],
-                      ),
+                      if (nameIsVisible.value)
+                        AnimatedTextKit(
+                          isRepeatingAnimation: false,
+                          animatedTexts: [
+                            TypewriterAnimatedText(
+                              'Developer | .NET | TypeScript | Dart | Angular | Flutter 🚀',
+                              textStyle: Theme.of(context).textTheme.subtitle1,
+                              textAlign: TextAlign.center,
+                              speed: const Duration(milliseconds: 100),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
 
