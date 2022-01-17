@@ -24,22 +24,24 @@ class UnderConstructionPage extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              if (constraints.maxWidth < 630) {
-                return Transform.scale(
-                    scale: 1.3,
-                    origin: Offset(-30, constraints.maxWidth < 350 ? 50 : 140),
-                    alignment: Alignment.center,
-                    child: const Arcade());
-              }
-
-              return Transform.translate(
-                  offset: const Offset(0, 50), child: const Arcade());
-            },
-          ),
+          child: _buildBody(),
         ),
       ),
     );
   }
+
+  Widget _buildBody() => LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          if (constraints.maxWidth < 630) {
+            return Transform.scale(
+                scale: 1.3,
+                origin: Offset(-30, constraints.maxWidth < 350 ? 50 : 140),
+                alignment: Alignment.center,
+                child: const Arcade());
+          }
+
+          return Transform.translate(
+              offset: const Offset(0, 50), child: const Arcade());
+        },
+      );
 }
