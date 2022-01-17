@@ -71,6 +71,9 @@ flutter:
     - family: Edunline
       fonts:
         - asset: assets/fonts/edunline.ttf
+    - family: Neon
+      fonts:
+        - asset: assets/fonts/neon.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
