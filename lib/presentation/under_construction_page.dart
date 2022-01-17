@@ -28,8 +28,8 @@ class UnderConstructionPage extends StatelessWidget {
             builder: (BuildContext context, BoxConstraints constraints) {
               if (constraints.maxWidth < 630) {
                 return Transform.scale(
-                    scale: 1.4,
-                    origin: Offset(0, constraints.maxWidth < 350 ? 50 : 140),
+                    scale: 1.3,
+                    origin: Offset(-30, constraints.maxWidth < 350 ? 50 : 140),
                     alignment: Alignment.center,
                     child: const Arcade());
               }
