@@ -41,7 +41,6 @@ class UnderConstructionView extends StatelessWidget {
               ),
           ],
         ),
-
         Align(
           alignment: Alignment.bottomCenter,
           child: AnimatedTextKit(

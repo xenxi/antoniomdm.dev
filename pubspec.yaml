@@ -29,6 +29,7 @@ environment:
 dependencies:
   animated_text_kit: ^4.2.1
   cupertino_icons: ^1.0.2
+  fluro: ^2.0.3
   flutter:
     sdk: flutter
   flutter_hooks: ^0.18.2
