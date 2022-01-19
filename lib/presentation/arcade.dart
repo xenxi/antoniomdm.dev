@@ -1,3 +1,4 @@
+import 'package:antoniomdm/presentation/views/under_construction_view.dart';
 import 'package:flutter/material.dart';
 
 import '../shared/values/image_path.dart';
@@ -32,7 +33,9 @@ class Arcade extends StatelessWidget {
                   ..setEntry(3, 2, 0.0008)
                   ..rotateX(-.35),
                 alignment: FractionalOffset.center,
-                child: const TerminalContainer(),
+                child: const TerminalContainer(
+                  child: UnderConstructionView(),
+                ),
               ),
             )
           ],
