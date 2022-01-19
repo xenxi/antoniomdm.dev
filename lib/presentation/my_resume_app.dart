@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'core/custom_theme.dart';
 import 'layouts/arcade/arcade_layout.dart';
+import 'layouts/terminal/terminal_layout.dart';
 
 class MyResumeApp extends StatelessWidget {
   final FluroRouteGenerator _routeGenerator = FluroRouteGenerator();
