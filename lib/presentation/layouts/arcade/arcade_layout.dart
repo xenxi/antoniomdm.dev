@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:antoniomdm/presentation/layouts/arcade/widgets/arcade_container.dart';
 import 'package:antoniomdm/presentation/layouts/arcade/widgets/desktop_arcade_body.dart';
-import 'package:antoniomdm/presentation/shared/widgets/components/adaptative_funtions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/values/image_path.dart';
+import '../../shared/components/adaptative_funtions.dart';
 import 'widgets/mobile_arcade_body.dart';
 
 class ArcadeLayout extends StatelessWidget {
