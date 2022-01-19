@@ -1,3 +1,4 @@
 import 'package:flutter/cupertino.dart';
 
-bool isMobile(BuildContext context) => MediaQuery.of(context).size.width < 720;
+bool isMobileScreen(BuildContext context) =>
+    MediaQuery.of(context).size.width < 720;

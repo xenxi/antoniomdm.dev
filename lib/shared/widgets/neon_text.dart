@@ -22,7 +22,7 @@ class NeonText extends StatelessWidget {
           repeatForever: true,
           animatedTexts: [
             FlickerAnimatedText(text,
-                textStyle: _lightsOnFontStyle(Colors.greenAccent)),
+                textStyle: _lightsOnFontStyle(Colors.purpleAccent)),
           ],
         ),
       ],

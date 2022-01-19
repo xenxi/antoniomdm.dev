@@ -28,6 +28,7 @@ class ArcadeLayout extends StatelessWidget {
             ),
             image: const AssetImage(ImagePath.animatedBg1),
             fit: BoxFit.cover,
+            repeat: ImageRepeat.noRepeat,
             alignment: Alignment.center,
           ),
         ),
@@ -42,7 +43,7 @@ class ArcadeLayout extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context, {required Widget child}) {
-    return isMobile(context)
+    return isMobileScreen(context)
         ? MobileArcadeBody(child: child)
         : DesktopArcadeBody(child: child);
   }
