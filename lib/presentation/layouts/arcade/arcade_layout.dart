@@ -26,7 +26,7 @@ class ArcadeLayout extends StatelessWidget {
               Colors.black.withOpacity(0.5),
               BlendMode.darken,
             ),
-            image: const AssetImage(ImagePath.bg5),
+            image: const AssetImage(ImagePath.animatedBg1),
             fit: BoxFit.cover,
             alignment: Alignment.center,
           ),
@@ -34,7 +34,7 @@ class ArcadeLayout extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
           child: _buildBody(context, child: ArcadeContainer(child: child)),
         ),
       ),
