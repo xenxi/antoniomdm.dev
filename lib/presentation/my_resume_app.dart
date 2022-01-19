@@ -15,7 +15,7 @@ class MyResumeApp extends StatelessWidget {
       title: 'Material App',
       theme: CustomTheme.light,
       onGenerateRoute: _routeGenerator.generateRoute,
-      builder: (context, child) => ArcadeLayout(
+      builder: (context, child) => TerminalLayout(
           child: child ??
               const Center(
                 child: Text('ERROR'),
