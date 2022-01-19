@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/values/image_path.dart';
+import '../../../shared/widgets/terminal_container.dart';
 
 class ArcadeContainer extends StatelessWidget {
   final Widget child;
@@ -33,7 +34,7 @@ class ArcadeContainer extends StatelessWidget {
                   ..setEntry(3, 2, 0.0008)
                   ..rotateX(-.35),
                 alignment: FractionalOffset.center,
-                child: child,
+                child: TerminalContainer(child: child),
               ),
             )
           ],

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import '../../views/under_construction_view.dart';
-
 class TerminalContainer extends HookWidget {
+  final Widget child;
   static final background = TweenSequence<Color?>([
     TweenSequenceItem(
       weight: 1.0,
@@ -16,6 +15,7 @@ class TerminalContainer extends HookWidget {
 
   const TerminalContainer({
     Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -24,21 +24,15 @@ class TerminalContainer extends HookWidget {
         useAnimationController(duration: const Duration(milliseconds: 1500))
           ..repeat();
 
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        AnimatedBuilder(
-          builder: (BuildContext context, Widget? child) {
-            return Container(
-              color:
-                  background.evaluate(AlwaysStoppedAnimation(controller.value)),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-              child: const UnderConstructionView(),
-            );
-          },
-          animation: controller,
-        ),
-      ],
+    return AnimatedBuilder(
+      builder: (BuildContext context, Widget? child) {
+        return Container(
+          color: background.evaluate(AlwaysStoppedAnimation(controller.value)),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          child: this.child,
+        );
+      },
+      animation: controller,
     );
   }
 }

@@ -16,10 +16,8 @@ class MyResumeApp extends StatelessWidget {
       onGenerateRoute: _routeGenerator.generateRoute,
       builder: (context, child) => ArcadeLayout(
           child: child ??
-              Container(
-                child: Center(
-                  child: Text('ERROR'),
-                ),
+              const Center(
+                child: Text('ERROR'),
               )),
     );
   }
