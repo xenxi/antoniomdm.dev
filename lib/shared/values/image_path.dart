@@ -5,5 +5,6 @@ class ImagePath {
   static const String bg3 = '$imageDir/bg_03.png';
   static const String bg4 = '$imageDir/bg_04.jpg';
   static const String bg5 = '$imageDir/bg_05.jpg';
+  static const String animatedBg1 = '$imageDir/animate_bg_01.gif';
   static const String arcade = '$imageDir/arcade.png';
 }

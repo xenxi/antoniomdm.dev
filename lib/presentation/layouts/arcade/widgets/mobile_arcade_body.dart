@@ -20,7 +20,7 @@ class MobileArcadeBody extends StatelessWidget {
           flex: 2,
         ),
         Transform.scale(
-            scale: 1.25,
+            scale: 1.15,
             origin: const Offset(-35, 50),
             alignment: Alignment.center,
             child: child),
