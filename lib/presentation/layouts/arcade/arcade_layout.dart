@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:antoniomdm/presentation/layouts/arcade/widgets/arcade_container.dart';
+import 'package:antoniomdm/presentation/layouts/arcade/widgets/desktop_arcade_body.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/values/image_path.dart';
@@ -46,6 +48,8 @@ class ArcadeLayout extends StatelessWidget {
         if (constraints.maxWidth < 720) {
           return MobileArcadeBody(maxWidth: constraints.maxWidth, child: child);
         }
+
+        return DesktopArcadeBody(child: child);
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
