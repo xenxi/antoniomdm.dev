@@ -23,7 +23,7 @@ class Terminal extends HookWidget {
     final controller =
         useAnimationController(duration: const Duration(milliseconds: 1500))
           ..repeat();
-    final nameIsVisible = useState(false);
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -33,7 +33,7 @@ class Terminal extends HookWidget {
               color:
                   background.evaluate(AlwaysStoppedAnimation(controller.value)),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-              child: UnderConstructionView(nameIsVisible: nameIsVisible),
+              child: const UnderConstructionView(),
             );
           },
           animation: controller,
