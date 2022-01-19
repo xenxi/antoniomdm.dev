@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../shared/components/launcher_funtions.dart';
+
 class TerminalLayout extends StatelessWidget {
   final Widget child;
   const TerminalLayout({
@@ -33,7 +35,10 @@ class TerminalLayout extends StatelessWidget {
               child: Row(
                 children: [
                   TextButton.icon(
-                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                      ),
+                      onPressed: () => openUrl('https://github.com/xenxi'),
                       icon: const FaIcon(FontAwesomeIcons.github),
                       label: const Text('C:/github/xenxi.exe')),
                   const Spacer(),
