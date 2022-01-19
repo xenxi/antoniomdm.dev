@@ -32,7 +32,10 @@ class TerminalLayout extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.settings),
+                  TextButton.icon(
+                      onPressed: () {},
+                      icon: const FaIcon(FontAwesomeIcons.github),
+                      label: const Text('C:/github/xenxi.exe')),
                   const Spacer(),
                   IconButton(
                       hoverColor: Colors.black,
