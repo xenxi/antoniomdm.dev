@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:antoniomdm/presentation/layouts/arcade/widgets/arcade_container.dart';
 import 'package:antoniomdm/presentation/layouts/arcade/widgets/desktop_arcade_body.dart';
+import 'package:antoniomdm/presentation/shared/widgets/components/adaptative_funtions.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/values/image_path.dart';
@@ -34,20 +35,15 @@ class ArcadeLayout extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-          child: _buildBody(child: ArcadeContainer(child: child)),
+          child: _buildBody(context, child: ArcadeContainer(child: child)),
         ),
       ),
     );
   }
 
-  Widget _buildBody({required Widget child}) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        if (constraints.maxWidth < 720) {
-          return MobileArcadeBody(maxWidth: constraints.maxWidth, child: child);
-        }
-        return DesktopArcadeBody(child: child);
-      },
-    );
+  Widget _buildBody(BuildContext context, {required Widget child}) {
+    return isMobile(context)
+        ? MobileArcadeBody(child: child)
+        : DesktopArcadeBody(child: child);
   }
 }

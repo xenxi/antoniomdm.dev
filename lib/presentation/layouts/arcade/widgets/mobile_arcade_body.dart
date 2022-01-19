@@ -4,11 +4,9 @@ import '../../../../shared/widgets/neon_text.dart';
 
 class MobileArcadeBody extends StatelessWidget {
   final Widget child;
-  final double maxWidth;
   const MobileArcadeBody({
     Key? key,
     required this.child,
-    required this.maxWidth,
   }) : super(key: key);
 
   @override
@@ -23,7 +21,7 @@ class MobileArcadeBody extends StatelessWidget {
         ),
         Transform.scale(
             scale: 1.25,
-            origin: Offset(-35, maxWidth < 350 ? 50 : 140),
+            origin: const Offset(-35, 50),
             alignment: Alignment.center,
             child: child),
       ],
