@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../views/under_construction_view.dart';
 
-class Terminal extends HookWidget {
+class TerminalContainer extends HookWidget {
   static final background = TweenSequence<Color?>([
     TweenSequenceItem(
       weight: 1.0,
@@ -14,7 +14,7 @@ class Terminal extends HookWidget {
     ),
   ]);
 
-  const Terminal({
+  const TerminalContainer({
     Key? key,
   }) : super(key: key);
 
