@@ -28,7 +28,7 @@ class TerminalContainer extends HookWidget {
       builder: (BuildContext context, Widget? child) {
         return Container(
           color: background.evaluate(AlwaysStoppedAnimation(controller.value)),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 30),
           child: this.child,
         );
       },
