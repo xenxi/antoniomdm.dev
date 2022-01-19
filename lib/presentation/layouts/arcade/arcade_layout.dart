@@ -1,10 +1,11 @@
 import 'dart:ui';
 
-import 'package:antoniomdm/presentation/layouts/arcade/widgets/arcade.dart';
+import 'package:antoniomdm/presentation/layouts/arcade/widgets/arcade_container.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/values/image_path.dart';
 import '../../../shared/widgets/neon_text.dart';
+import 'widgets/mobile_arcade_body.dart';
 
 class ArcadeLayout extends StatelessWidget {
   final Widget child;
@@ -42,6 +43,9 @@ class ArcadeLayout extends StatelessWidget {
   Widget _buildBody({required Widget child}) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
+        if (constraints.maxWidth < 720) {
+          return MobileArcadeBody(maxWidth: constraints.maxWidth, child: child);
+        }
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
