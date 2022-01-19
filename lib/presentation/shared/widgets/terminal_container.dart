@@ -20,9 +20,9 @@ class TerminalContainer extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller =
-        useAnimationController(duration: const Duration(milliseconds: 1500))
-          ..repeat();
+    final controller = useAnimationController(
+      duration: const Duration(milliseconds: 1500),
+    )..repeat();
 
     return AnimatedBuilder(
       builder: (BuildContext context, Widget? child) {
