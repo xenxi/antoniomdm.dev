@@ -1,16 +1,15 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class UnderConstructionView extends StatelessWidget {
+class UnderConstructionView extends HookWidget {
   const UnderConstructionView({
     Key? key,
-    required this.nameIsVisible,
   }) : super(key: key);
-
-  final ValueNotifier<bool> nameIsVisible;
 
   @override
   Widget build(BuildContext context) {
+    final nameIsVisible = useState(false);
     return Stack(
       children: [
         Column(
