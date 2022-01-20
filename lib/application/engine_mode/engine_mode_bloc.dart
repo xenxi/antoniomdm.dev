@@ -1,0 +1,13 @@
+import 'package:bloc/bloc.dart';
+import 'package:meta/meta.dart';
+
+part 'engine_mode_event.dart';
+part 'engine_mode_state.dart';
+
+class EngineModeBloc extends Bloc<EngineModeEvent, EngineModeState> {
+  EngineModeBloc() : super(EngineModeWindows()) {
+    on<EngineModeEvent>((event, emit) {
+      // TODO: implement event handler
+    });
+  }
+}
