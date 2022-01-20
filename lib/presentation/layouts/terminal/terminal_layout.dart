@@ -84,6 +84,44 @@ class TerminalLayout extends StatelessWidget {
               ),
             ),
           ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              width: double.infinity,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: const BorderRadius.all(Radius.circular(2)),
+                border: Border.all(color: Colors.grey, width: .2),
+              ),
+              child: Wrap(
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(FontAwesomeIcons.windows)),
+                  ),
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(.1),
+                        border: const Border(
+                          bottom: BorderSide(
+                            color: Colors.white,
+                            width: .6,
+                          ),
+                        )),
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const FaIcon(FontAwesomeIcons.github)),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
