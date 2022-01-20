@@ -1,4 +1,5 @@
 import 'package:antoniomdm/application/engine_mode/engine_mode_bloc.dart';
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -8,5 +9,12 @@ void main() {
 
       expect(bloc.state, equals(EngineModeWindows()));
     });
+
+    blocTest<EngineModeBloc, EngineModeState>('switch to arcade mode',
+        build: () => EngineModeBloc(),
+        act: (bloc) => bloc.add(ArcadeEngineModeSelected()),
+        expect: () => [
+              EngineModeArcade(),
+            ]);
   });
 }
