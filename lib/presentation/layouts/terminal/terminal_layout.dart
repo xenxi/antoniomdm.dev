@@ -94,7 +94,7 @@ class TerminalLayout extends StatelessWidget {
                 borderRadius: const BorderRadius.all(Radius.circular(2)),
                 border: Border.all(color: Colors.grey, width: .2),
               ),
-              child: Wrap(
+              child: Row(
                 children: [
                   SizedBox(
                     height: 50,
@@ -118,6 +118,18 @@ class TerminalLayout extends StatelessWidget {
                         onPressed: () {},
                         icon: const FaIcon(FontAwesomeIcons.github)),
                   ),
+                  const Spacer(),
+                  SizedBox(
+                    height: 50,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text('8:00'),
+                        Text('20/01/2022'),
+                      ],
+                    ),
+                  ),
+                  const VerticalDivider()
                 ],
               ),
             ),
