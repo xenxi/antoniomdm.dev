@@ -1,6 +1,6 @@
-import 'package:antoniomdm/presentation/layouts/terminal/widgets/popup_options_bar.dart';
-import 'package:antoniomdm/presentation/layouts/terminal/widgets/windows_navigation_bar.dart';
-import 'package:antoniomdm/shared/values/image_path.dart';
+import 'package:amdiaz/presentation/layouts/terminal/widgets/popup_options_bar.dart';
+import 'package:amdiaz/presentation/layouts/terminal/widgets/windows_navigation_bar.dart';
+import 'package:amdiaz/shared/values/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
