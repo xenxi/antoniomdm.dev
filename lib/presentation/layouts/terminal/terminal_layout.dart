@@ -21,6 +21,19 @@ class TerminalLayout extends StatelessWidget {
           const SizedBox.expand(
             child: Image(image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
           ),
+          Positioned(
+              top: 20,
+              left: 20,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                      onPressed: () {},
+                      icon: const FaIcon(FontAwesomeIcons.gamepad)),
+                  const Text('Arcade Mode')
+                ],
+              )),
           Align(
             alignment: Alignment.center,
             child: FittedBox(
