@@ -1,4 +1,4 @@
-import 'package:antoniomdm/presentation/views/under_construction_view.dart';
+import 'package:amdiaz/presentation/views/under_construction_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 
