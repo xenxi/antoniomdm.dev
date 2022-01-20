@@ -1,4 +1,5 @@
 import 'package:antoniomdm/presentation/core/routes/fluro_route_generator.dart';
+import 'package:antoniomdm/shared/values/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,7 +19,7 @@ class MyResumeApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => engineModeBloc,
       child: MaterialApp(
-          title: 'Material App',
+          title: Location.fullName,
           theme: CustomTheme.light,
           onGenerateRoute: _routeGenerator.generateRoute,
           builder: (_, child) {
