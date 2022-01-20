@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'clock.dart';
+
 class WindowsNavigationBar extends StatelessWidget {
   const WindowsNavigationBar({
     Key? key,
@@ -39,15 +41,9 @@ class WindowsNavigationBar extends StatelessWidget {
                 onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.github)),
           ),
           const Spacer(),
-          SizedBox(
+          const SizedBox(
             height: 50,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text('8:00'),
-                Text('20/01/2022'),
-              ],
-            ),
+            child: Clock(),
           ),
           const VerticalDivider()
         ],
