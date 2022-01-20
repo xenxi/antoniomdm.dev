@@ -17,4 +17,11 @@ void main() {
               EngineModeArcade(),
             ]);
   });
+
+  blocTest<EngineModeBloc, EngineModeState>('switch to windows mode',
+      build: () => EngineModeBloc(),
+      act: (bloc) => bloc.add(WindowsEngineModeSelected()),
+      expect: () => [
+            EngineModeWindows(),
+          ]);
 }
