@@ -2,8 +2,10 @@ import 'package:antoniomdm/presentation/layouts/terminal/widgets/popup_options_b
 import 'package:antoniomdm/presentation/layouts/terminal/widgets/windows_navigation_bar.dart';
 import 'package:antoniomdm/shared/values/image_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../application/engine_mode/engine_mode_bloc.dart';
 import '../../shared/components/launcher_funtions.dart';
 
 class TerminalLayout extends StatelessWidget {
@@ -29,7 +31,8 @@ class TerminalLayout extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () => BlocProvider.of<EngineModeBloc>(context)
+                          .add(ArcadeEngineModeSelected()),
                       icon: const FaIcon(FontAwesomeIcons.gamepad)),
                   const Text('Arcade Mode')
                 ],
