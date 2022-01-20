@@ -10,6 +10,8 @@ class EngineModeBloc extends Bloc<EngineModeEvent, EngineModeState> {
     on<EngineModeEvent>((event, emit) {
       if (event is ArcadeEngineModeSelected) {
         emit(EngineModeArcade());
+      } else if (event is WindowsEngineModeSelected) {
+        emit(EngineModeWindows());
       }
     });
   }
