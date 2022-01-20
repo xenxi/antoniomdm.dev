@@ -1,3 +1,4 @@
+import 'package:antoniomdm/presentation/layouts/terminal/widgets/popup_options_bar.dart';
 import 'package:antoniomdm/presentation/layouts/terminal/widgets/windows_navigation_bar.dart';
 import 'package:antoniomdm/shared/values/image_path.dart';
 import 'package:flutter/material.dart';
@@ -32,49 +33,7 @@ class TerminalLayout extends StatelessWidget {
                   elevation: 8,
                   child: Column(
                     children: [
-                      Container(
-                        width: double.infinity,
-                        height: 60,
-                        color: Theme.of(context).primaryColor,
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        margin: const EdgeInsets.only(
-                          bottom: 20,
-                        ),
-                        child: Row(
-                          children: [
-                            TextButton.icon(
-                                style: TextButton.styleFrom(
-                                  primary: Colors.white,
-                                ),
-                                onPressed: () =>
-                                    openUrl('https://github.com/xenxi'),
-                                icon: const FaIcon(FontAwesomeIcons.github),
-                                label: const Text('C:/github/xenxi.exe')),
-                            const Spacer(),
-                            IconButton(
-                                hoverColor: Colors.black,
-                                focusColor: Colors.black,
-                                highlightColor: Colors.black,
-                                splashColor: Colors.black,
-                                onPressed: () {},
-                                icon: const Icon(Icons.minimize_outlined)),
-                            IconButton(
-                                hoverColor: Colors.black,
-                                focusColor: Colors.black,
-                                highlightColor: Colors.black,
-                                splashColor: Colors.black,
-                                onPressed: () {},
-                                icon: const Icon(Icons.fullscreen_outlined)),
-                            IconButton(
-                                hoverColor: Colors.black,
-                                focusColor: Colors.black,
-                                highlightColor: Colors.black,
-                                splashColor: Colors.black,
-                                onPressed: () {},
-                                icon: const Icon(Icons.close_outlined)),
-                          ],
-                        ),
-                      ),
+                      const PopupOptionsBar(),
                       Expanded(child: child),
                       const SizedBox(
                         height: 20,
