@@ -1,3 +1,4 @@
+import 'package:antoniomdm/presentation/layouts/terminal/widgets/windows_navigation_bar.dart';
 import 'package:antoniomdm/shared/values/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -84,55 +85,9 @@ class TerminalLayout extends StatelessWidget {
               ),
             ),
           ),
-          Align(
+          const Align(
             alignment: Alignment.bottomCenter,
-            child: Container(
-              width: double.infinity,
-              height: 50,
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: const BorderRadius.all(Radius.circular(2)),
-                border: Border.all(color: Colors.grey, width: .2),
-              ),
-              child: Row(
-                children: [
-                  SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: const FaIcon(FontAwesomeIcons.windows)),
-                  ),
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(.1),
-                        border: const Border(
-                          bottom: BorderSide(
-                            color: Colors.white,
-                            width: .6,
-                          ),
-                        )),
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: const FaIcon(FontAwesomeIcons.github)),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    height: 50,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text('8:00'),
-                        Text('20/01/2022'),
-                      ],
-                    ),
-                  ),
-                  const VerticalDivider()
-                ],
-              ),
-            ),
+            child: WindowsNavigationBar(),
           ),
         ],
       ),
