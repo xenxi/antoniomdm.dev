@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:amdiaz/presentation/layouts/arcade/widgets/arcade_container.dart';
 import 'package:amdiaz/presentation/layouts/arcade/widgets/desktop_arcade_body.dart';
+import 'package:amdiaz/shared/values/audioPath.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/values/image_path.dart';
@@ -17,6 +19,7 @@ class ArcadeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _play();
     return Scaffold(
       body: Container(
         clipBehavior: Clip.hardEdge,
@@ -40,6 +43,12 @@ class ArcadeLayout extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _play() async {
+    AudioPlayer audioPlayer = AudioPlayer();
+    final player =
+        await audioPlayer.play(AudioPath.arcadeMusic1, isLocal: true);
   }
 
   Widget _buildBody(BuildContext context, {required Widget child}) {
