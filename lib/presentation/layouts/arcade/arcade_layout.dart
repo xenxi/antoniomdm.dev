@@ -5,9 +5,13 @@ import 'package:amdiaz/presentation/layouts/arcade/widgets/desktop_arcade_body.d
 import 'package:amdiaz/shared/values/audioPath.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../application/engine_mode/engine_mode_bloc.dart';
 import '../../../shared/values/image_path.dart';
 import '../../shared/components/adaptative_funtions.dart';
+import 'widgets/ambient_music.dart';
 import 'widgets/mobile_arcade_body.dart';
 
 class ArcadeLayout extends StatelessWidget {
@@ -19,7 +23,6 @@ class ArcadeLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _play();
     return Scaffold(
       body: Container(
         clipBehavior: Clip.hardEdge,
@@ -39,16 +42,27 @@ class ArcadeLayout extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-          child: _buildBody(context, child: ArcadeContainer(child: child)),
+          child: Stack(
+            children: [
+              _buildBody(context, child: ArcadeContainer(child: child)),
+              Positioned(
+                  top: 20,
+                  right: 20,
+                  child: Row(
+                    children: [
+                      IconButton(
+                          onPressed: () =>
+                              BlocProvider.of<EngineModeBloc>(context)
+                                  .add(WindowsEngineModeSelected()),
+                          icon: const FaIcon(FontAwesomeIcons.windows)),
+                      AmbientMusic(),
+                    ],
+                  )),
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  Future<void> _play() async {
-    AudioPlayer audioPlayer = AudioPlayer();
-    final player =
-        await audioPlayer.play(AudioPath.arcadeMusic1, isLocal: true);
   }
 
   Widget _buildBody(BuildContext context, {required Widget child}) {
