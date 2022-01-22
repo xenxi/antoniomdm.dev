@@ -1,9 +1,5 @@
-import 'dart:io';
-
 import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../shared/values/audioPath.dart';
 
 class AmbientMusic extends StatefulWidget {
@@ -20,22 +16,19 @@ class _AmbientMusicState extends State<AmbientMusic> {
   void initState() {
     super.initState();
     _playerState = PlayerState.STOPPED;
-    _play();
-    soundManager.onPlayerStateChanged.listen((state) {
-      setState(() {
-        _playerState = state;
-      });
-
-      if (state == PlayerState.COMPLETED) {
-        _play();
-      }
-    });
+    // _play();
+    // soundManager.onPlayerStateChanged.listen((state) {
+    //   if (state == PlayerState.COMPLETED) {
+    //     _stop();
+    //   }
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: _playerState != PlayerState.PLAYING ? _play : _pause,
+      onPressed: () async =>
+          _playerState != PlayerState.PLAYING ? await _play() : await _stop(),
       icon: Icon(
           _playerState != PlayerState.PLAYING ? Icons.play_arrow : Icons.pause),
     );
@@ -44,15 +37,22 @@ class _AmbientMusicState extends State<AmbientMusic> {
   @override
   void dispose() {
     super.dispose();
-    soundManager.stop();
     soundManager.dispose();
   }
 
-  Future<int> _play() async {
-    return await soundManager.play(AudioPath.arcadeMusic1, isLocal: true);
+  Future<void> _play() async {
+    await soundManager.play(AudioPath.arcadeMusic1,
+        isLocal: true, position: const Duration(seconds: 30));
+
+    setState(() {
+      _playerState = PlayerState.PLAYING;
+    });
   }
 
-  Future<int> _pause() async {
-    return await soundManager.pause();
+  Future<void> _stop() async {
+    await soundManager.pause();
+    setState(() {
+      _playerState = PlayerState.STOPPED;
+    });
   }
 }

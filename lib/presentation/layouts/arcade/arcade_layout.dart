@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:amdiaz/presentation/layouts/arcade/widgets/arcade_container.dart';
 import 'package:amdiaz/presentation/layouts/arcade/widgets/desktop_arcade_body.dart';
-import 'package:amdiaz/shared/values/audioPath.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -55,7 +53,7 @@ class ArcadeLayout extends StatelessWidget {
                               BlocProvider.of<EngineModeBloc>(context)
                                   .add(WindowsEngineModeSelected()),
                           icon: const FaIcon(FontAwesomeIcons.windows)),
-                      AmbientMusic(),
+                      const AmbientMusic(),
                     ],
                   )),
             ],
