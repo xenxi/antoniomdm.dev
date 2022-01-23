@@ -8,4 +8,11 @@ abstract class EngineModeState extends Equatable {
 
 class EngineModeWindows extends EngineModeState {}
 
-class EngineModeArcade extends EngineModeState {}
+class EngineModeArcade extends EngineModeState {
+  final Option<bool> playingBackgroundMusicOption;
+
+  EngineModeArcade({required this.playingBackgroundMusicOption});
+  factory EngineModeArcade.initial() => EngineModeArcade(
+        playingBackgroundMusicOption: none(),
+      );
+}
