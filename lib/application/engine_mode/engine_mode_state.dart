@@ -15,4 +15,7 @@ class EngineModeArcade extends EngineModeState {
   factory EngineModeArcade.initial() => EngineModeArcade(
         playingBackgroundMusicOption: none(),
       );
+
+  @override
+  List<Object?> get props => [playingBackgroundMusicOption];
 }
