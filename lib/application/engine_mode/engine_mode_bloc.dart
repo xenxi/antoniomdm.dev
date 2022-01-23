@@ -22,6 +22,9 @@ class EngineModeBloc extends Bloc<EngineModeEvent, EngineModeState> {
       } else if (event is PauseBackgroundMusicSelected) {
         await player.pause();
         emit(EngineModeArcade(playingBackgroundMusicOption: some(false)));
+      } else if (event is ResumeBackgroundMusicSelected) {
+        await player.resume();
+        emit(EngineModeArcade(playingBackgroundMusicOption: some(true)));
       } else if (event is WindowsEngineModeSelected) {
         emit(EngineModeWindows());
       }
