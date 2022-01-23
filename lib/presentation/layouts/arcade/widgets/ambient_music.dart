@@ -10,12 +10,13 @@ class AmbientMusic extends StatefulWidget {
 }
 
 class _AmbientMusicState extends State<AmbientMusic> {
+  static AudioCache cache = AudioCache();
   AudioPlayer soundManager = AudioPlayer();
-  late PlayerState _playerState;
+  late bool _isPlaying;
   @override
   void initState() {
     super.initState();
-    _playerState = PlayerState.STOPPED;
+    _isPlaying = false;
     // _play();
     // soundManager.onPlayerStateChanged.listen((state) {
     //   if (state == PlayerState.COMPLETED) {
@@ -27,11 +28,8 @@ class _AmbientMusicState extends State<AmbientMusic> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () async =>
-          _playerState != PlayerState.PLAYING ? await _play() : await _stop(),
-      icon: Icon(
-          _playerState != PlayerState.PLAYING ? Icons.play_arrow : Icons.pause),
-    );
+        onPressed: () async => _isPlaying ? await _stop() : await _play(),
+        icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow));
   }
 
   @override
@@ -41,18 +39,19 @@ class _AmbientMusicState extends State<AmbientMusic> {
   }
 
   Future<void> _play() async {
-    await soundManager.play(AudioPath.arcadeMusic1,
-        isLocal: true, position: const Duration(seconds: 30));
+    soundManager = await cache.play(AudioPath.arcadeMusic1);
+    // await soundManager.play(AudioPath.arcadeMusic1,
+    //     isLocal: true, position: const Duration(seconds: 30));
 
     setState(() {
-      _playerState = PlayerState.PLAYING;
+      _isPlaying = true;
     });
   }
 
   Future<void> _stop() async {
     await soundManager.pause();
     setState(() {
-      _playerState = PlayerState.STOPPED;
+      _isPlaying = false;
     });
   }
 }
