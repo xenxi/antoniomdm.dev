@@ -1,8 +1,10 @@
 import 'package:dartz/dartz.dart';
+import 'package:just_audio/just_audio.dart';
 
 import '../domain/music_player.dart';
 
 class JustAudioMusicPlayer implements MusicPlayer {
+  final _player = AudioPlayer();
   @override
   Future<Either<Failure, Unit>> pause() {
     // TODO: implement pause
@@ -10,9 +12,14 @@ class JustAudioMusicPlayer implements MusicPlayer {
   }
 
   @override
-  Future<Either<Failure, Unit>> play(String filePath) {
-    // TODO: implement play
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> play(String filePath) async {
+    final duration = await _player.setAsset(filePath);
+    if (duration == null) {
+      return Left(Failure());
+    }
+    _player.play();
+
+    return const Right(unit);
   }
 
   @override

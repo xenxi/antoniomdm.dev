@@ -9,5 +9,5 @@ abstract class MusicPlayer {
 
 class Failure {
   final String message;
-  Failure(this.message);
+  Failure({this.message = 'Something went wrong'});
 }
