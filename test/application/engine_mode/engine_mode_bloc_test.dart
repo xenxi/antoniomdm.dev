@@ -58,4 +58,27 @@ void main() {
             EngineModeArcade(playingBackgroundMusicOption: none()),
             EngineModeArcade(playingBackgroundMusicOption: some(true)),
           ]);
+  blocTest<EngineModeBloc, EngineModeState>('pause blackground music',
+      build: () => EngineModeBloc(musicPlayer),
+      setUp: () {
+        when(
+          () => musicPlayer.play(any()),
+        ).thenAnswer((_) => Future.value(right(unit)));
+        when(
+          () => musicPlayer.pause(),
+        ).thenAnswer((_) => Future.value(right(unit)));
+      },
+      act: (bloc) => bloc
+        ..add(ArcadeEngineModeSelected())
+        ..add(PauseBackgroundMusicSelected()),
+      verify: (_) {
+        verify(
+          () => musicPlayer.pause(),
+        ).called(1);
+      },
+      expect: () => [
+            EngineModeArcade(playingBackgroundMusicOption: none()),
+            EngineModeArcade(playingBackgroundMusicOption: some(true)),
+            EngineModeArcade(playingBackgroundMusicOption: some(false)),
+          ]);
 }

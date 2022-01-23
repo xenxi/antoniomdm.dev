@@ -8,4 +8,6 @@ abstract class EngineModeEvent extends Equatable {
 
 class ArcadeEngineModeSelected extends EngineModeEvent {}
 
+class PauseBackgroundMusicSelected extends EngineModeEvent {}
+
 class WindowsEngineModeSelected extends EngineModeEvent {}
