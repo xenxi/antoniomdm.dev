@@ -23,6 +23,11 @@ void main() {
 
     blocTest<EngineModeBloc, EngineModeState>('switch to arcade mode',
         build: () => EngineModeBloc(musicPlayer),
+        setUp: () {
+          when(
+            () => musicPlayer.play(any()),
+          ).thenAnswer((_) => Future.value(right(unit)));
+        },
         act: (bloc) => bloc.add(ArcadeEngineModeSelected()),
         expect: () => [
               EngineModeArcade(playingBackgroundMusicOption: none()),
@@ -38,7 +43,12 @@ void main() {
   blocTest<EngineModeBloc, EngineModeState>(
       'play blackground music when switch to arcade mode',
       build: () => EngineModeBloc(musicPlayer),
-      act: (bloc) => bloc.add(WindowsEngineModeSelected()),
+      setUp: () {
+        when(
+          () => musicPlayer.play(any()),
+        ).thenAnswer((_) => Future.value(right(unit)));
+      },
+      act: (bloc) => bloc.add(ArcadeEngineModeSelected()),
       verify: (_) {
         verify(
           () => musicPlayer.play(AudioPath.arcadeMusic1),
