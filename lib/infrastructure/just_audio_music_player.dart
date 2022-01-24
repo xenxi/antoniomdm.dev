@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:just_audio/just_audio.dart';
 
+import '../domain/failures.dart';
 import '../domain/music_player.dart';
 
 class JustAudioMusicPlayer implements MusicPlayer {
@@ -26,11 +27,5 @@ class JustAudioMusicPlayer implements MusicPlayer {
   Future<Either<Failure, Unit>> resume() {
     _player.play();
     return Future.value(right(unit));
-  }
-
-  @override
-  Future<Either<Failure, Unit>> stop() {
-    // TODO: implement stop
-    throw UnimplementedError();
   }
 }
