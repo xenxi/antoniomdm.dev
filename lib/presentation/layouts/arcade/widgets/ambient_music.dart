@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:just_audio/just_audio.dart';
 import '../../../../application/engine_mode/engine_mode_bloc.dart';
-import '../../../../shared/values/audioPath.dart';
 
 class AmbientMusic extends StatelessWidget {
   const AmbientMusic({Key? key}) : super(key: key);
@@ -10,17 +8,19 @@ class AmbientMusic extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<EngineModeBloc, EngineModeState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         if (state is EngineModeArcade &&
             state.playingBackgroundMusicOption.isSome()) {
           final isPlaying =
               state.playingBackgroundMusicOption.getOrElse(() => false);
-          // return IconButton(
-          //     onPressed: () async => isPlaying ? await _stop() : await _play(),
-          //     icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow));
+          return IconButton(
+              onPressed: () => isPlaying
+                  ? BlocProvider.of<EngineModeBloc>(context)
+                      .add(PauseBackgroundMusicSelected())
+                  : BlocProvider.of<EngineModeBloc>(context)
+                      .add(ResumeBackgroundMusicSelected()),
+              icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow));
         }
         return Container();
       },

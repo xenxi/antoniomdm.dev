@@ -6,9 +6,9 @@ import '../domain/music_player.dart';
 class JustAudioMusicPlayer implements MusicPlayer {
   final _player = AudioPlayer();
   @override
-  Future<Either<Failure, Unit>> pause() {
-    // TODO: implement pause
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> pause() async {
+    await _player.pause();
+    return right(unit);
   }
 
   @override
@@ -24,8 +24,8 @@ class JustAudioMusicPlayer implements MusicPlayer {
 
   @override
   Future<Either<Failure, Unit>> resume() {
-    // TODO: implement resume
-    throw UnimplementedError();
+    _player.play();
+    return Future.value(right(unit));
   }
 
   @override
