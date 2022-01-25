@@ -26,7 +26,15 @@ class EngineModeBloc extends Bloc<EngineModeEvent, EngineModeState> {
         await player.resume();
         emit(state.copyWith(playingBackgroundMusicOption: some(true)));
       } else if (event is WindowsEngineModeSelected) {
-        emit(state.copyWith(engine: Engine.windows));
+        final option = state.playingBackgroundMusicOption.bind((a) {
+          if (a) {
+            player.pause();
+          }
+          return some(false);
+        });
+
+        emit(state.copyWith(
+            engine: Engine.windows, playingBackgroundMusicOption: option));
       }
     });
   }

@@ -52,6 +52,38 @@ void main() {
                   playingBackgroundMusicOption: some(true),
                   engine: Engine.arcade),
             ]);
+    blocTest<EngineModeBloc, EngineModeState>(
+        'pause blackground music when switch to windows mode from arcade mode',
+        build: () => EngineModeBloc(musicPlayer),
+        setUp: () {
+          when(
+            () => musicPlayer.play(any()),
+          ).thenAnswer((_) => Future.value(right(unit)));
+          when(
+            () => musicPlayer.pause(),
+          ).thenAnswer((_) => Future.value(right(unit)));
+        },
+        act: (bloc) => bloc
+          ..add(ArcadeEngineModeSelected())
+          ..add(WindowsEngineModeSelected()),
+        verify: (_) {
+          verify(
+            () => musicPlayer.play(AudioPath.arcadeMusic1),
+          ).called(1);
+          verify(
+            () => musicPlayer.pause(),
+          ).called(1);
+        },
+        expect: () => [
+              EngineModeState(
+                  playingBackgroundMusicOption: none(), engine: Engine.arcade),
+              EngineModeState(
+                  playingBackgroundMusicOption: some(true),
+                  engine: Engine.arcade),
+              EngineModeState(
+                  playingBackgroundMusicOption: some(false),
+                  engine: Engine.windows),
+            ]);
     blocTest<EngineModeBloc, EngineModeState>('pause blackground music',
         build: () => EngineModeBloc(musicPlayer),
         setUp: () {
