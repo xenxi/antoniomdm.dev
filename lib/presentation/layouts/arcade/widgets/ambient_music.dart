@@ -12,30 +12,25 @@ class AmbientMusic extends HookWidget {
         useAnimationController(duration: const Duration(milliseconds: 500));
     return BlocConsumer<EngineModeBloc, EngineModeState>(
       listener: (context, state) {
-        if (state is EngineModeArcade) {
-          state.playingBackgroundMusicOption.fold(() => {}, (isPlaying) {
-            if (isPlaying) {
-              controller.forward();
-            } else {
-              controller.reverse();
-            }
-          });
-        }
+        state.playingBackgroundMusicOption.fold(() => {}, (isPlaying) {
+          if (isPlaying) {
+            controller.forward();
+          } else {
+            controller.reverse();
+          }
+        });
       },
       builder: (context, state) {
-        if (state is EngineModeArcade) {
-          return IconButton(
-              onPressed: state.playingBackgroundMusicOption.fold(
-                  () => null,
-                  (isPlaying) => () => isPlaying
-                      ? BlocProvider.of<EngineModeBloc>(context)
-                          .add(PauseBackgroundMusicSelected())
-                      : BlocProvider.of<EngineModeBloc>(context)
-                          .add(ResumeBackgroundMusicSelected())),
-              icon: AnimatedIcon(
-                  icon: AnimatedIcons.play_pause, progress: controller));
-        }
-        return Container();
+        return IconButton(
+            onPressed: state.playingBackgroundMusicOption.fold(
+                () => null,
+                (isPlaying) => () => isPlaying
+                    ? BlocProvider.of<EngineModeBloc>(context)
+                        .add(PauseBackgroundMusicSelected())
+                    : BlocProvider.of<EngineModeBloc>(context)
+                        .add(ResumeBackgroundMusicSelected())),
+            icon: AnimatedIcon(
+                icon: AnimatedIcons.play_pause, progress: controller));
       },
     );
   }
