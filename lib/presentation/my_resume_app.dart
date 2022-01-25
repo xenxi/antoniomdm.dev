@@ -26,18 +26,19 @@ class MyResumeApp extends StatelessWidget {
           builder: (_, child) {
             return BlocBuilder<EngineModeBloc, EngineModeState>(
               builder: (context, state) {
-                if (engineModeBloc.state is EngineModeArcade) {
-                  return ArcadeLayout(
-                      child: child ??
-                          const Center(
-                            child: Text('ERROR'),
-                          ));
-                } else {
-                  return TerminalLayout(
-                      child: child ??
-                          const Center(
-                            child: Text('ERROR'),
-                          ));
+                switch (state.engine) {
+                  case Engine.arcade:
+                    return ArcadeLayout(
+                        child: child ??
+                            const Center(
+                              child: Text('ERROR'),
+                            ));
+                  case Engine.windows:
+                    return TerminalLayout(
+                        child: child ??
+                            const Center(
+                              child: Text('ERROR'),
+                            ));
                 }
               },
             );
