@@ -80,6 +80,7 @@ void main() {
         },
         act: (bloc) => bloc
           ..add(ArcadeEngineModeSelected())
+          ..add(ResumeBackgroundMusicSelected())
           ..add(PauseBackgroundMusicSelected()),
         verify: (_) {
           verify(
