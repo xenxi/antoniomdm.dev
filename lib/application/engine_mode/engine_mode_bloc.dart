@@ -16,15 +16,17 @@ class EngineModeBloc extends Bloc<EngineModeEvent, EngineModeState> {
   ) : super(EngineModeState.initial()) {
     on<EngineModeEvent>((event, emit) async {
       if (event is ArcadeEngineModeSelected) {
-        await state.playingBackgroundMusicOption.fold(() async {
-          emit(state.copyWith(engine: Engine.arcade));
-          await player.play(AudioPath.arcadeMusic1);
-          emit(state.copyWith(playingBackgroundMusicOption: some(true)));
-        }, (playingBackgroundMusicOption) async {
-          await player.resume();
-          emit(state.copyWith(
-              engine: Engine.arcade, playingBackgroundMusicOption: some(true)));
-        });
+        emit(state.copyWith(engine: Engine.arcade));
+        //   await player.play(AudioPath.arcadeMusic1);
+        // await state.playingBackgroundMusicOption.fold(() async {
+        //   emit(state.copyWith(engine: Engine.arcade));
+        //   await player.play(AudioPath.arcadeMusic1);
+        //   emit(state.copyWith(playingBackgroundMusicOption: some(true)));
+        // }, (playingBackgroundMusicOption) async {
+        //   await player.resume();
+        //   emit(state.copyWith(
+        //       engine: Engine.arcade, playingBackgroundMusicOption: some(true)));
+        // });
       } else if (event is PauseBackgroundMusicSelected) {
         await player.pause();
         emit(state.copyWith(playingBackgroundMusicOption: some(false)));
