@@ -45,40 +45,23 @@ void main() {
                   showLoader: false),
             ]);
     blocTest<EngineModeBloc, EngineModeState>(
-        'resume blackground music when switch to windows arcade mode',
+        'play blackground music in arcade mode',
         build: () => EngineModeBloc(musicPlayer),
         setUp: () {
           when(
             () => musicPlayer.play(any()),
           ).thenAnswer((_) => Future.value(right(unit)));
-          when(
-            () => musicPlayer.pause(),
-          ).thenAnswer((_) => Future.value(right(unit)));
-          when(
-            () => musicPlayer.resume(),
-          ).thenAnswer((_) => Future.value(right(unit)));
         },
         act: (bloc) => bloc
           ..add(ArcadeEngineModeSelected())
-          ..add(WindowsEngineModeSelected())
-          ..add(ArcadeEngineModeSelected()),
-        verify: (_) {
-          verify(
-            () => musicPlayer.resume(),
-          ).called(1);
-        },
+          ..add(ResumeBackgroundMusicSelected()),
+        verify: (_) => verify(
+              () => musicPlayer.play(AudioPath.arcadeMusic1),
+            ).called(1),
         expect: () => [
               EngineModeState(
                   playingBackgroundMusicOption: none(),
                   engine: Engine.arcade,
-                  showLoader: false),
-              EngineModeState(
-                  playingBackgroundMusicOption: some(true),
-                  engine: Engine.arcade,
-                  showLoader: false),
-              EngineModeState(
-                  playingBackgroundMusicOption: some(false),
-                  engine: Engine.windows,
                   showLoader: false),
               EngineModeState(
                   playingBackgroundMusicOption: some(true),
@@ -119,6 +102,47 @@ void main() {
               EngineModeState(
                   playingBackgroundMusicOption: some(false),
                   engine: Engine.windows,
+                  showLoader: false),
+            ]);
+    blocTest<EngineModeBloc, EngineModeState>(
+        'resume blackground music when switch to windows arcade mode',
+        build: () => EngineModeBloc(musicPlayer),
+        setUp: () {
+          when(
+            () => musicPlayer.play(any()),
+          ).thenAnswer((_) => Future.value(right(unit)));
+          when(
+            () => musicPlayer.pause(),
+          ).thenAnswer((_) => Future.value(right(unit)));
+          when(
+            () => musicPlayer.resume(),
+          ).thenAnswer((_) => Future.value(right(unit)));
+        },
+        act: (bloc) => bloc
+          ..add(ArcadeEngineModeSelected())
+          ..add(WindowsEngineModeSelected())
+          ..add(ArcadeEngineModeSelected()),
+        verify: (_) {
+          verify(
+            () => musicPlayer.resume(),
+          ).called(1);
+        },
+        expect: () => [
+              EngineModeState(
+                  playingBackgroundMusicOption: none(),
+                  engine: Engine.arcade,
+                  showLoader: false),
+              EngineModeState(
+                  playingBackgroundMusicOption: some(true),
+                  engine: Engine.arcade,
+                  showLoader: false),
+              EngineModeState(
+                  playingBackgroundMusicOption: some(false),
+                  engine: Engine.windows,
+                  showLoader: false),
+              EngineModeState(
+                  playingBackgroundMusicOption: some(true),
+                  engine: Engine.arcade,
                   showLoader: false),
             ]);
     blocTest<EngineModeBloc, EngineModeState>('pause blackground music',
