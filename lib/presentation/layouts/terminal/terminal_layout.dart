@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../application/engine_mode/engine_mode_bloc.dart';
-import '../../shared/components/launcher_funtions.dart';
 
 class TerminalLayout extends StatelessWidget {
   final Widget child;
@@ -31,8 +30,14 @@ class TerminalLayout extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                      onPressed: () => BlocProvider.of<EngineModeBloc>(context)
-                          .add(ArcadeEngineModeSelected()),
+                      onPressed: () {
+                        final bloc = BlocProvider.of<EngineModeBloc>(context);
+                        bloc.add(ArcadeEngineModeSelected());
+
+                        bloc.state.playingBackgroundMusicOption.fold(
+                            () => bloc.add(ResumeBackgroundMusicSelected()),
+                            (a) => {});
+                      },
                       icon: const FaIcon(FontAwesomeIcons.gamepad)),
                   const Text('Arcade Mode')
                 ],
