@@ -21,7 +21,9 @@ void main() {
       expect(
           bloc.state,
           equals(EngineModeState(
-              engine: Engine.windows, playingBackgroundMusicOption: none())));
+              engine: Engine.windows,
+              playingBackgroundMusicOption: none(),
+              showLoader: false)));
     });
 
     blocTest<EngineModeBloc, EngineModeState>('switch to windows mode',
@@ -29,7 +31,9 @@ void main() {
         act: (bloc) => bloc.add(WindowsEngineModeSelected()),
         expect: () => [
               EngineModeState(
-                  engine: Engine.windows, playingBackgroundMusicOption: none()),
+                  engine: Engine.windows,
+                  playingBackgroundMusicOption: none(),
+                  showLoader: false),
             ]);
     blocTest<EngineModeBloc, EngineModeState>(
         'play blackground music when switch to arcade mode',
@@ -47,10 +51,13 @@ void main() {
         },
         expect: () => [
               EngineModeState(
-                  playingBackgroundMusicOption: none(), engine: Engine.arcade),
+                  playingBackgroundMusicOption: none(),
+                  engine: Engine.arcade,
+                  showLoader: false),
               EngineModeState(
                   playingBackgroundMusicOption: some(true),
-                  engine: Engine.arcade),
+                  engine: Engine.arcade,
+                  showLoader: false),
             ]);
     blocTest<EngineModeBloc, EngineModeState>(
         'resume blackground music when switch to windows arcade mode',
@@ -77,16 +84,21 @@ void main() {
         },
         expect: () => [
               EngineModeState(
-                  playingBackgroundMusicOption: none(), engine: Engine.arcade),
+                  playingBackgroundMusicOption: none(),
+                  engine: Engine.arcade,
+                  showLoader: false),
               EngineModeState(
                   playingBackgroundMusicOption: some(true),
-                  engine: Engine.arcade),
+                  engine: Engine.arcade,
+                  showLoader: false),
               EngineModeState(
                   playingBackgroundMusicOption: some(false),
-                  engine: Engine.windows),
+                  engine: Engine.windows,
+                  showLoader: false),
               EngineModeState(
                   playingBackgroundMusicOption: some(true),
-                  engine: Engine.arcade),
+                  engine: Engine.arcade,
+                  showLoader: false),
             ]);
     blocTest<EngineModeBloc, EngineModeState>(
         'pause blackground music when switch to windows mode from arcade mode',
@@ -112,13 +124,17 @@ void main() {
         },
         expect: () => [
               EngineModeState(
-                  playingBackgroundMusicOption: none(), engine: Engine.arcade),
+                  playingBackgroundMusicOption: none(),
+                  engine: Engine.arcade,
+                  showLoader: false),
               EngineModeState(
                   playingBackgroundMusicOption: some(true),
-                  engine: Engine.arcade),
+                  engine: Engine.arcade,
+                  showLoader: false),
               EngineModeState(
                   playingBackgroundMusicOption: some(false),
-                  engine: Engine.windows),
+                  engine: Engine.windows,
+                  showLoader: false),
             ]);
     blocTest<EngineModeBloc, EngineModeState>('pause blackground music',
         build: () => EngineModeBloc(musicPlayer),
@@ -140,13 +156,17 @@ void main() {
         },
         expect: () => [
               EngineModeState(
-                  engine: Engine.arcade, playingBackgroundMusicOption: none()),
+                  engine: Engine.arcade,
+                  playingBackgroundMusicOption: none(),
+                  showLoader: false),
               EngineModeState(
                   engine: Engine.arcade,
-                  playingBackgroundMusicOption: some(true)),
+                  playingBackgroundMusicOption: some(true),
+                  showLoader: false),
               EngineModeState(
                   engine: Engine.arcade,
-                  playingBackgroundMusicOption: some(false)),
+                  playingBackgroundMusicOption: some(false),
+                  showLoader: false),
             ]);
     blocTest<EngineModeBloc, EngineModeState>('resume blackground music',
         build: () => EngineModeBloc(musicPlayer),
@@ -172,16 +192,21 @@ void main() {
         },
         expect: () => [
               EngineModeState(
-                  playingBackgroundMusicOption: none(), engine: Engine.arcade),
+                  playingBackgroundMusicOption: none(),
+                  engine: Engine.arcade,
+                  showLoader: false),
               EngineModeState(
                   playingBackgroundMusicOption: some(true),
-                  engine: Engine.arcade),
+                  engine: Engine.arcade,
+                  showLoader: false),
               EngineModeState(
                   playingBackgroundMusicOption: some(false),
-                  engine: Engine.arcade),
+                  engine: Engine.arcade,
+                  showLoader: false),
               EngineModeState(
                   playingBackgroundMusicOption: some(true),
-                  engine: Engine.arcade),
+                  engine: Engine.arcade,
+                  showLoader: false),
             ]);
   });
 }
