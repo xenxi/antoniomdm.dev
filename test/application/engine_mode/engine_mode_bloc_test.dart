@@ -35,27 +35,12 @@ void main() {
                   playingBackgroundMusicOption: none(),
                   showLoader: false),
             ]);
-    blocTest<EngineModeBloc, EngineModeState>(
-        'play blackground music when switch to arcade mode',
+    blocTest<EngineModeBloc, EngineModeState>('switch to arcade mode',
         build: () => EngineModeBloc(musicPlayer),
-        setUp: () {
-          when(
-            () => musicPlayer.play(any()),
-          ).thenAnswer((_) => Future.value(right(unit)));
-        },
         act: (bloc) => bloc.add(ArcadeEngineModeSelected()),
-        verify: (_) {
-          verify(
-            () => musicPlayer.play(AudioPath.arcadeMusic1),
-          ).called(1);
-        },
         expect: () => [
               EngineModeState(
                   playingBackgroundMusicOption: none(),
-                  engine: Engine.arcade,
-                  showLoader: false),
-              EngineModeState(
-                  playingBackgroundMusicOption: some(true),
                   engine: Engine.arcade,
                   showLoader: false),
             ]);
