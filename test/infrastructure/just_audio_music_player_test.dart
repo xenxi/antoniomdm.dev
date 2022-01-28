@@ -13,6 +13,7 @@ void main() {
     when(() => audioPlayer.setAsset(any()))
         .thenAnswer((_) => Future.value(const Duration()));
     when(() => audioPlayer.play()).thenAnswer((_) => Future.value());
+    when(() => audioPlayer.pause()).thenAnswer((_) => Future.value());
 
     justAudioMusicPlayer = JustAudioMusicPlayer(audioPlayer);
   });
@@ -26,6 +27,11 @@ void main() {
         () => audioPlayer.setAsset(audioPath),
         () => audioPlayer.play(),
       ]);
+    });
+    test('pause audio', () async {
+      await justAudioMusicPlayer.pause();
+
+      verify(() => audioPlayer.pause()).called(1);
     });
   });
 }
