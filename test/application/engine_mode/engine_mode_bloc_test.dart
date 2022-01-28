@@ -110,9 +110,6 @@ void main() {
           when(
             () => musicPlayer.pause(),
           ).thenAnswer((_) => Future.value(right(unit)));
-          when(
-            () => musicPlayer.resume(),
-          ).thenAnswer((_) => Future.value(right(unit)));
         },
         act: (bloc) => bloc
           ..add(ArcadeEngineModeSelected())
@@ -120,9 +117,11 @@ void main() {
           ..add(PauseBackgroundMusicSelected())
           ..add(ResumeBackgroundMusicSelected()),
         verify: (_) {
-          verify(
-            () => musicPlayer.resume(),
-          ).called(1);
+          verifyInOrder([
+            () => musicPlayer.play(AudioPath.arcadeMusic1),
+            () => musicPlayer.pause(),
+            () => musicPlayer.play(AudioPath.arcadeMusic1),
+          ]);
         },
         expect: () => [
               EngineModeState(
