@@ -6,7 +6,7 @@ import '../domain/music_player.dart';
 
 class JustAudioMusicPlayer implements MusicPlayer {
   final AudioPlayer _player;
-
+  String? _currentUrl;
   JustAudioMusicPlayer(this._player);
   @override
   Future<Either<Failure, Unit>> pause() async {
@@ -16,10 +16,14 @@ class JustAudioMusicPlayer implements MusicPlayer {
 
   @override
   Future<Either<Failure, Unit>> play(String filePath) async {
-    final duration = await _player.setAsset(filePath);
-    if (duration == null) {
-      return Left(Failure());
+    if (_currentUrl != filePath) {
+      final duration = await _player.setAsset(filePath);
+      if (duration == null) {
+        return Left(Failure());
+      }
+      _currentUrl = filePath;
     }
+
     _player.play();
 
     return const Right(unit);

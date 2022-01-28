@@ -33,5 +33,19 @@ void main() {
 
       verify(() => audioPlayer.pause()).called(1);
     });
+    test('resume audio', () async {
+      const audioPath = 'anyAudioPath';
+      await justAudioMusicPlayer.play(audioPath);
+      await justAudioMusicPlayer.pause();
+
+      await justAudioMusicPlayer.play(audioPath);
+
+      verifyInOrder([
+        () => audioPlayer.setAsset(audioPath),
+        () => audioPlayer.play(),
+        () => audioPlayer.pause(),
+        () => audioPlayer.play(),
+      ]);
+    });
   });
 }
