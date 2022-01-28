@@ -3,6 +3,7 @@ import 'package:amdiaz/presentation/core/routes/fluro_route_generator.dart';
 import 'package:amdiaz/shared/values/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:just_audio/just_audio.dart';
 
 import '../application/engine_mode/engine_mode_bloc.dart';
 import 'core/custom_theme.dart';
@@ -15,7 +16,7 @@ class MyResumeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final engineModeBloc = EngineModeBloc(JustAudioMusicPlayer());
+    final engineModeBloc = EngineModeBloc(JustAudioMusicPlayer(AudioPlayer()));
 
     return BlocProvider(
       create: (context) => engineModeBloc,
