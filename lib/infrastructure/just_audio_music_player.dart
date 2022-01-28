@@ -28,10 +28,4 @@ class JustAudioMusicPlayer implements MusicPlayer {
 
     return const Right(unit);
   }
-
-  @override
-  Future<Either<Failure, Unit>> resume() {
-    _player.play();
-    return Future.value(right(unit));
-  }
 }
