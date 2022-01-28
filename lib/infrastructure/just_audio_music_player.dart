@@ -5,7 +5,9 @@ import '../domain/failures.dart';
 import '../domain/music_player.dart';
 
 class JustAudioMusicPlayer implements MusicPlayer {
-  final _player = AudioPlayer();
+  final AudioPlayer _player;
+
+  JustAudioMusicPlayer(this._player);
   @override
   Future<Either<Failure, Unit>> pause() async {
     await _player.pause();
