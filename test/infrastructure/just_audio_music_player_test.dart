@@ -28,6 +28,20 @@ void main() {
         () => audioPlayer.play(),
       ]);
     });
+    test('play other audio', () async {
+      const audioPath = 'anyAudioPath';
+      const otherAudioPath = 'otherAudioPath =';
+      await justAudioMusicPlayer.play(audioPath);
+
+      await justAudioMusicPlayer.play(otherAudioPath);
+
+      verifyInOrder([
+        () => audioPlayer.setAsset(audioPath),
+        () => audioPlayer.play(),
+        () => audioPlayer.setAsset(otherAudioPath),
+        () => audioPlayer.play(),
+      ]);
+    });
     test('pause audio', () async {
       await justAudioMusicPlayer.pause();
 
