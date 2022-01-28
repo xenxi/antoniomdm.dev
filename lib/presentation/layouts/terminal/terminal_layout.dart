@@ -35,7 +35,7 @@ class TerminalLayout extends StatelessWidget {
                         bloc.add(ArcadeEngineModeSelected());
 
                         bloc.state.playingBackgroundMusicOption.fold(
-                            () => bloc.add(ResumeBackgroundMusicSelected()),
+                            () => bloc.add(PlayBackgroundMusicSelected()),
                             (a) => {});
                       },
                       icon: const FaIcon(FontAwesomeIcons.gamepad)),

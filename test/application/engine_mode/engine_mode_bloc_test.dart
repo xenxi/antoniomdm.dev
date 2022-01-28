@@ -54,7 +54,7 @@ void main() {
         },
         act: (bloc) => bloc
           ..add(ArcadeEngineModeSelected())
-          ..add(ResumeBackgroundMusicSelected()),
+          ..add(PlayBackgroundMusicSelected()),
         verify: (_) => verify(
               () => musicPlayer.play(AudioPath.arcadeMusic1),
             ).called(1),
@@ -80,7 +80,7 @@ void main() {
         },
         act: (bloc) => bloc
           ..add(ArcadeEngineModeSelected())
-          ..add(ResumeBackgroundMusicSelected())
+          ..add(PlayBackgroundMusicSelected())
           ..add(PauseBackgroundMusicSelected()),
         verify: (_) {
           verify(
@@ -113,9 +113,9 @@ void main() {
         },
         act: (bloc) => bloc
           ..add(ArcadeEngineModeSelected())
-          ..add(ResumeBackgroundMusicSelected())
+          ..add(PlayBackgroundMusicSelected())
           ..add(PauseBackgroundMusicSelected())
-          ..add(ResumeBackgroundMusicSelected()),
+          ..add(PlayBackgroundMusicSelected()),
         verify: (_) {
           verifyInOrder([
             () => musicPlayer.play(AudioPath.arcadeMusic1),
