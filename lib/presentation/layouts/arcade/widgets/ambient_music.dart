@@ -28,7 +28,7 @@ class AmbientMusic extends HookWidget {
                     ? BlocProvider.of<EngineModeBloc>(context)
                         .add(PauseBackgroundMusicSelected())
                     : BlocProvider.of<EngineModeBloc>(context)
-                        .add(ResumeBackgroundMusicSelected())),
+                        .add(PlayBackgroundMusicSelected())),
             icon: AnimatedIcon(
                 icon: AnimatedIcons.play_pause, progress: controller));
       },
