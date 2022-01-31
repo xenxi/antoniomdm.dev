@@ -30,9 +30,12 @@ class TerminalLayout extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
-                      onPressed: () => BlocProvider.of<EngineModeBloc>(context)
-                        ..add(ArcadeEngineModeSelected())
-                        ..add(PlayBackgroundMusicSelected()),
+                      onPressed: () {
+                        final bloc = BlocProvider.of<EngineModeBloc>(context)
+                          ..add(ArcadeEngineModeSelected());
+                        Future.delayed(const Duration(milliseconds: 500),
+                            () => bloc.add(PlayBackgroundMusicSelected()));
+                      },
                       icon: const FaIcon(FontAwesomeIcons.gamepad)),
                   const Text('Arcade Mode')
                 ],
