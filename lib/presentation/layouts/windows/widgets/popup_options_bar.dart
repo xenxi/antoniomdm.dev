@@ -4,8 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../shared/components/launcher_funtions.dart';
 
 class PopupOptionsBar extends StatelessWidget {
+  final Function() onToggleExpand;
   const PopupOptionsBar({
     Key? key,
+    required this.onToggleExpand,
   }) : super(key: key);
 
   @override
@@ -31,7 +33,8 @@ class PopupOptionsBar extends StatelessWidget {
           IconButton(
               onPressed: () {}, icon: const Icon(Icons.minimize_outlined)),
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.fullscreen_outlined)),
+              onPressed: onToggleExpand,
+              icon: const Icon(Icons.fullscreen_outlined)),
           IconButton(onPressed: () {}, icon: const Icon(Icons.close_outlined)),
         ],
       ),
