@@ -8,7 +8,7 @@ import 'package:just_audio/just_audio.dart';
 import '../application/engine_mode/engine_mode_bloc.dart';
 import 'core/custom_theme.dart';
 import 'layouts/arcade/arcade_layout.dart';
-import 'layouts/terminal/terminal_layout.dart';
+import 'layouts/windows/windows_layout.dart';
 
 class MyResumeApp extends StatelessWidget {
   final FluroRouteGenerator _routeGenerator = FluroRouteGenerator();
@@ -35,7 +35,7 @@ class MyResumeApp extends StatelessWidget {
                               child: Text('ERROR'),
                             ));
                   case Engine.windows:
-                    return TerminalLayout(
+                    return WindowsLayout(
                         child: child ??
                             const Center(
                               child: Text('ERROR'),
