@@ -19,6 +19,7 @@ class WindowsLayout extends HookWidget {
   Widget build(BuildContext context) {
     final iconOffset = useState<Offset>(const Offset(20, 20));
     final modalOffset = useState<Offset>(const Offset(50, 100));
+    final modalExpanded = useState(true);
     return Scaffold(
       body: Overlay(
         initialEntries: [
@@ -30,7 +31,8 @@ class WindowsLayout extends HookWidget {
                       image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
                 ),
                 _buildDraggableDesktopIcon(context, offset: iconOffset),
-                _buildDraggableModalWindows(offset: modalOffset),
+                _buildDraggableModalWindows(context,
+                    offset: modalOffset, modalExpanded: modalExpanded),
                 const Align(
                   alignment: Alignment.bottomCenter,
                   child: WindowsNavigationBar(),
@@ -43,32 +45,41 @@ class WindowsLayout extends HookWidget {
     );
   }
 
-  Widget _buildDraggableModalWindows({required ValueNotifier<Offset> offset}) =>
+  Widget _buildDraggableModalWindows(BuildContext context,
+          {required ValueNotifier<Offset> offset,
+          required ValueNotifier<bool> modalExpanded}) =>
       Positioned(
-        top: offset.value.dy,
-        left: offset.value.dx,
+        top: modalExpanded.value ? 0 : offset.value.dy,
+        left: modalExpanded.value ? 0 : offset.value.dx,
         child: Draggable(
-          data: 'desktop',
-          feedback: _buildModalWindows(),
+          data: 'modal',
+          feedback: _buildModalWindows(context, modalExpanded: modalExpanded),
           onDragEnd: (details) => offset.value = details.offset,
           childWhenDragging: Opacity(
             opacity: .4,
-            child: _buildModalWindows(),
+            child: _buildModalWindows(context, modalExpanded: modalExpanded),
           ),
-          child: _buildModalWindows(),
+          child: _buildModalWindows(context, modalExpanded: modalExpanded),
         ),
       );
-  Widget _buildModalWindows() => FittedBox(
+  Widget _buildModalWindows(BuildContext context,
+          {required ValueNotifier<bool> modalExpanded}) =>
+      FittedBox(
         child: SizedBox(
-          height: 500,
-          width: 600,
+          height: modalExpanded.value
+              ? MediaQuery.of(context).size.height - 50
+              : 500,
+          width: modalExpanded.value ? MediaQuery.of(context).size.width : 600,
           child: Card(
             clipBehavior: Clip.antiAlias,
             margin: const EdgeInsets.all(20),
             elevation: 8,
             child: Column(
               children: [
-                const PopupOptionsBar(),
+                PopupOptionsBar(
+                  onToggleExpand: () =>
+                      modalExpanded.value = !modalExpanded.value,
+                ),
                 Expanded(child: child),
                 const SizedBox(
                   height: 20,
