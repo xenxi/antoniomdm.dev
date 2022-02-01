@@ -5,9 +5,13 @@ import '../../../shared/components/launcher_funtions.dart';
 
 class PopupOptionsBar extends StatelessWidget {
   final Function() onToggleExpand;
+  final Function() onMinimize;
+  final Function() onClose;
   const PopupOptionsBar({
     Key? key,
     required this.onToggleExpand,
+    required this.onMinimize,
+    required this.onClose,
   }) : super(key: key);
 
   @override
@@ -31,11 +35,12 @@ class PopupOptionsBar extends StatelessWidget {
               label: const Text('C:/github/xenxi.exe')),
           const Spacer(),
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.minimize_outlined)),
+              onPressed: onMinimize, icon: const Icon(Icons.minimize_outlined)),
           IconButton(
               onPressed: onToggleExpand,
               icon: const Icon(Icons.fullscreen_outlined)),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.close_outlined)),
+          IconButton(
+              onPressed: onClose, icon: const Icon(Icons.close_outlined)),
         ],
       ),
     );

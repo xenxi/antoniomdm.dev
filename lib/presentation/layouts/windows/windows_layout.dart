@@ -19,7 +19,8 @@ class WindowsLayout extends HookWidget {
   Widget build(BuildContext context) {
     final iconOffset = useState<Offset>(const Offset(20, 20));
     final modalOffset = useState<Offset>(const Offset(50, 100));
-    final modalExpanded = useState(true);
+    final modalExpanded = useState(false);
+    final modalMinimized = useState(false);
     return Scaffold(
       body: Overlay(
         initialEntries: [
@@ -32,7 +33,9 @@ class WindowsLayout extends HookWidget {
                 ),
                 _buildDraggableDesktopIcon(context, offset: iconOffset),
                 _buildDraggableModalWindows(context,
-                    offset: modalOffset, modalExpanded: modalExpanded),
+                    offset: modalOffset,
+                    modalExpanded: modalExpanded,
+                    modalMinimized: modalMinimized),
                 const Align(
                   alignment: Alignment.bottomCenter,
                   child: WindowsNavigationBar(),
@@ -47,50 +50,63 @@ class WindowsLayout extends HookWidget {
 
   Widget _buildDraggableModalWindows(BuildContext context,
           {required ValueNotifier<Offset> offset,
-          required ValueNotifier<bool> modalExpanded}) =>
+          required ValueNotifier<bool> modalExpanded,
+          required ValueNotifier<bool> modalMinimized}) =>
       Positioned(
         top: modalExpanded.value ? 0 : offset.value.dy,
         left: modalExpanded.value ? 0 : offset.value.dx,
         child: Draggable(
           data: 'modal',
-          feedback: _buildModalWindows(context, modalExpanded: modalExpanded),
+          feedback: _buildModalWindows(context,
+              modalExpanded: modalExpanded, modalMinimized: modalMinimized),
           onDragEnd: (details) => offset.value = details.offset,
           childWhenDragging: Opacity(
             opacity: .4,
-            child: _buildModalWindows(context, modalExpanded: modalExpanded),
+            child: _buildModalWindows(context,
+                modalExpanded: modalExpanded, modalMinimized: modalMinimized),
           ),
-          child: _buildModalWindows(context, modalExpanded: modalExpanded),
+          child: _buildModalWindows(context,
+              modalExpanded: modalExpanded, modalMinimized: modalMinimized),
         ),
       );
   Widget _buildModalWindows(BuildContext context,
-          {required ValueNotifier<bool> modalExpanded}) =>
-      FittedBox(
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.elasticInOut,
-          height: modalExpanded.value
-              ? MediaQuery.of(context).size.height - 50
-              : 500,
-          width: modalExpanded.value ? MediaQuery.of(context).size.width : 600,
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            margin: const EdgeInsets.all(20),
-            elevation: 8,
-            child: Column(
-              children: [
-                PopupOptionsBar(
-                  onToggleExpand: () =>
-                      modalExpanded.value = !modalExpanded.value,
-                ),
-                Expanded(child: child),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
+      {required ValueNotifier<bool> modalExpanded,
+      required ValueNotifier<bool> modalMinimized}) {
+    final size = modalMinimized.value
+        ? Size.zero
+        : (modalExpanded.value
+            ? Size(MediaQuery.of(context).size.width,
+                MediaQuery.of(context).size.height - 50)
+            : const Size(600, 500));
+    return FittedBox(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.elasticInOut,
+        height: size.height,
+        width: size.width,
+        child: Card(
+          clipBehavior: Clip.antiAlias,
+          margin: const EdgeInsets.all(20),
+          elevation: 8,
+          child: Column(
+            children: [
+              PopupOptionsBar(
+                onClose: () => modalMinimized.value = !modalMinimized.value,
+                onMinimize: () => modalMinimized.value = !modalMinimized.value,
+                onToggleExpand: () =>
+                    modalExpanded.value = !modalExpanded.value,
+              ),
+              Expanded(child: child),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
+
   Widget _buildDraggableDesktopIcon(BuildContext context,
           {required ValueNotifier<Offset> offset}) =>
       Positioned(
