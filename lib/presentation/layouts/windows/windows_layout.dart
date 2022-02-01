@@ -85,19 +85,23 @@ class WindowsLayout extends HookWidget {
           ],
         ),
       );
-  Widget _buildDesktopIcon(BuildContext context) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          IconButton(
-              onPressed: () {
-                final bloc = BlocProvider.of<EngineModeBloc>(context)
-                  ..add(ArcadeEngineModeSelected());
-                Future.delayed(const Duration(milliseconds: 500),
-                    () => bloc.add(PlayBackgroundMusicSelected()));
-              },
-              icon: const FaIcon(FontAwesomeIcons.gamepad)),
-          const Text('Arcade Mode')
-        ],
+  Widget _buildDesktopIcon(BuildContext context) => InkWell(
+        onTap: () {
+          final bloc = BlocProvider.of<EngineModeBloc>(context)
+            ..add(ArcadeEngineModeSelected());
+          Future.delayed(const Duration(milliseconds: 500),
+              () => bloc.add(PlayBackgroundMusicSelected()));
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            FaIcon(FontAwesomeIcons.gamepad),
+            SizedBox(
+              height: 6,
+            ),
+            Text('Arcade Mode')
+          ],
+        ),
       );
 }
