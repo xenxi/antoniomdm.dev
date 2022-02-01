@@ -104,13 +104,12 @@ class WindowsLayout extends HookWidget {
 
   Size _calculeSize(ValueNotifier<bool> modalMinimized,
       ValueNotifier<bool> modalExpanded, BuildContext context) {
-    final size = modalMinimized.value
-        ? Size.zero
-        : (modalExpanded.value
-            ? Size(MediaQuery.of(context).size.width,
-                MediaQuery.of(context).size.height - 50)
-            : const Size(600, 500));
-    return size;
+    if (modalMinimized.value) return Size.zero;
+
+    if (!modalExpanded.value) return const Size(600, 500);
+
+    final currentSize = MediaQuery.of(context).size;
+    return Size(currentSize.width, currentSize.height - 50);
   }
 
   Widget _buildDraggableDesktopIcon(BuildContext context,
