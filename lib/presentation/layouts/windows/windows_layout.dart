@@ -3,11 +3,12 @@ import 'package:amdiaz/presentation/layouts/windows/widgets/windows_navigation_b
 import 'package:amdiaz/shared/values/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../application/engine_mode/engine_mode_bloc.dart';
 
-class WindowsLayout extends StatelessWidget {
+class WindowsLayout extends HookWidget {
   final Widget child;
   const WindowsLayout({
     Key? key,
@@ -16,21 +17,29 @@ class WindowsLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final iconOffset = useState<Offset>(const Offset(20, 20));
     return Scaffold(
-      body: Stack(
-        children: [
-          const SizedBox.expand(
-            child: Image(image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
-          ),
-          Positioned(top: 20, left: 20, child: _buildDesktopIcon(context)),
-          Align(
-            alignment: Alignment.center,
-            child: _buildModalWindows(),
-          ),
-          const Align(
-            alignment: Alignment.bottomCenter,
-            child: WindowsNavigationBar(),
-          ),
+      body: Overlay(
+        initialEntries: [
+          OverlayEntry(builder: (context) {
+            return Stack(
+              children: [
+                const SizedBox.expand(
+                  child: Image(
+                      image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
+                ),
+                _buildDraggableDesktopIcon(context, offset: iconOffset),
+                Align(
+                  alignment: Alignment.center,
+                  child: _buildModalWindows(),
+                ),
+                const Align(
+                  alignment: Alignment.bottomCenter,
+                  child: WindowsNavigationBar(),
+                ),
+              ],
+            );
+          }),
         ],
       ),
     );
@@ -56,7 +65,26 @@ class WindowsLayout extends StatelessWidget {
           ),
         ),
       );
-
+  Widget _buildDraggableDesktopIcon(BuildContext context,
+          {required ValueNotifier<Offset> offset}) =>
+      Positioned(
+        top: offset.value.dy,
+        left: offset.value.dx,
+        child: Column(
+          children: [
+            Draggable(
+              data: 'desktop',
+              feedback: _buildDesktopIcon(context),
+              onDragEnd: (details) => offset.value = details.offset,
+              childWhenDragging: Opacity(
+                opacity: .4,
+                child: _buildDesktopIcon(context),
+              ),
+              child: _buildDesktopIcon(context),
+            ),
+          ],
+        ),
+      );
   Widget _buildDesktopIcon(BuildContext context) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
