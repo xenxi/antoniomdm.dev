@@ -26,18 +26,22 @@ class MyResumeApp extends StatelessWidget {
           theme: CustomTheme.light,
           onGenerateRoute: _routeGenerator.generateRoute,
           builder: (_, child) {
-            final nullSafeChild = child ?? const ErrorContainer();
-            return BlocBuilder<EngineModeBloc, EngineModeState>(
-              builder: (context, state) {
-                switch (state.engine) {
-                  case Engine.arcade:
-                    return ArcadeLayout(child: nullSafeChild);
-                  case Engine.windows:
-                    return WindowsLayout(child: nullSafeChild);
-                }
-              },
-            );
+            return _buildLayout(child);
           }),
+    );
+  }
+
+  BlocBuilder<EngineModeBloc, EngineModeState> _buildLayout(Widget? child) {
+    final nullSafeChild = child ?? const ErrorContainer();
+    return BlocBuilder<EngineModeBloc, EngineModeState>(
+      builder: (context, state) {
+        switch (state.engine) {
+          case Engine.arcade:
+            return ArcadeLayout(child: nullSafeChild);
+          case Engine.windows:
+            return WindowsLayout(child: nullSafeChild);
+        }
+      },
     );
   }
 }
