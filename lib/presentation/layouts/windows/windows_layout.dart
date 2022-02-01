@@ -72,12 +72,7 @@ class WindowsLayout extends HookWidget {
   Widget _buildModalWindows(BuildContext context,
       {required ValueNotifier<bool> modalExpanded,
       required ValueNotifier<bool> modalMinimized}) {
-    final size = modalMinimized.value
-        ? Size.zero
-        : (modalExpanded.value
-            ? Size(MediaQuery.of(context).size.width,
-                MediaQuery.of(context).size.height - 50)
-            : const Size(600, 500));
+    Size size = _calculeSize(modalMinimized, modalExpanded, context);
     return FittedBox(
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
@@ -105,6 +100,17 @@ class WindowsLayout extends HookWidget {
         ),
       ),
     );
+  }
+
+  Size _calculeSize(ValueNotifier<bool> modalMinimized,
+      ValueNotifier<bool> modalExpanded, BuildContext context) {
+    final size = modalMinimized.value
+        ? Size.zero
+        : (modalExpanded.value
+            ? Size(MediaQuery.of(context).size.width,
+                MediaQuery.of(context).size.height - 50)
+            : const Size(600, 500));
+    return size;
   }
 
   Widget _buildDraggableDesktopIcon(BuildContext context,
