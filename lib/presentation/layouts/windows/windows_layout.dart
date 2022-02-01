@@ -83,19 +83,15 @@ class WindowsLayout extends HookWidget {
       Positioned(
         top: offset.value.dy,
         left: offset.value.dx,
-        child: Column(
-          children: [
-            Draggable(
-              data: 'desktop',
-              feedback: _buildDesktopIcon(context),
-              onDragEnd: (details) => offset.value = details.offset,
-              childWhenDragging: Opacity(
-                opacity: .4,
-                child: _buildDesktopIcon(context),
-              ),
-              child: _buildDesktopIcon(context),
-            ),
-          ],
+        child: Draggable(
+          data: 'desktop',
+          feedback: _buildDesktopIcon(context),
+          onDragEnd: (details) => offset.value = details.offset,
+          childWhenDragging: Opacity(
+            opacity: .4,
+            child: _buildDesktopIcon(context),
+          ),
+          child: _buildDesktopIcon(context),
         ),
       );
   Widget _buildDesktopIcon(BuildContext context) => InkWell(
