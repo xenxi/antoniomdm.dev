@@ -22,24 +22,7 @@ class WindowsLayout extends StatelessWidget {
           const SizedBox.expand(
             child: Image(image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
           ),
-          Positioned(
-              top: 20,
-              left: 20,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        final bloc = BlocProvider.of<EngineModeBloc>(context)
-                          ..add(ArcadeEngineModeSelected());
-                        Future.delayed(const Duration(milliseconds: 500),
-                            () => bloc.add(PlayBackgroundMusicSelected()));
-                      },
-                      icon: const FaIcon(FontAwesomeIcons.gamepad)),
-                  const Text('Arcade Mode')
-                ],
-              )),
+          Positioned(top: 20, left: 20, child: _buildDesktopIcon(context)),
           Align(
             alignment: Alignment.center,
             child: FittedBox(
@@ -69,6 +52,24 @@ class WindowsLayout extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildDesktopIcon(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        IconButton(
+            onPressed: () {
+              final bloc = BlocProvider.of<EngineModeBloc>(context)
+                ..add(ArcadeEngineModeSelected());
+              Future.delayed(const Duration(milliseconds: 500),
+                  () => bloc.add(PlayBackgroundMusicSelected()));
+            },
+            icon: const FaIcon(FontAwesomeIcons.gamepad)),
+        const Text('Arcade Mode')
+      ],
     );
   }
 }
