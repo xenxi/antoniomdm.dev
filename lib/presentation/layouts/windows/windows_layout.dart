@@ -1,5 +1,5 @@
-import 'package:amdiaz/presentation/layouts/terminal/widgets/popup_options_bar.dart';
-import 'package:amdiaz/presentation/layouts/terminal/widgets/windows_navigation_bar.dart';
+import 'package:amdiaz/presentation/layouts/windows/widgets/popup_options_bar.dart';
+import 'package:amdiaz/presentation/layouts/windows/widgets/windows_navigation_bar.dart';
 import 'package:amdiaz/shared/values/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,9 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../application/engine_mode/engine_mode_bloc.dart';
 
-class TerminalLayout extends StatelessWidget {
+class WindowsLayout extends StatelessWidget {
   final Widget child;
-  const TerminalLayout({
+  const WindowsLayout({
     Key? key,
     required this.child,
   }) : super(key: key);
