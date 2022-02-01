@@ -18,9 +18,14 @@ class WindowsLayout extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final iconOffset = useState<Offset>(const Offset(20, 20));
-    final modalOffset = useState<Offset>(const Offset(50, 100));
     final modalExpanded = useState(false);
     final modalMinimized = useState(false);
+    final currentSize = MediaQuery.of(context).size;
+    final modalSize =
+        _calculeSize(modalMinimized.value, modalExpanded.value, context);
+    final modalOffset = useState<Offset>(Offset(
+        (currentSize.width / 2) - (modalSize.width / 2),
+        (currentSize.height / 2) - (modalSize.height / 2)));
     return Scaffold(
       body: Overlay(
         initialEntries: [
@@ -34,6 +39,7 @@ class WindowsLayout extends HookWidget {
                 _buildDraggableDesktopIcon(context, offset: iconOffset),
                 _buildDraggableModalWindows(context,
                     offset: modalOffset,
+                    size: modalSize,
                     modalExpanded: modalExpanded,
                     modalMinimized: modalMinimized),
                 const Align(
@@ -49,67 +55,83 @@ class WindowsLayout extends HookWidget {
   }
 
   Widget _buildDraggableModalWindows(BuildContext context,
-          {required ValueNotifier<Offset> offset,
-          required ValueNotifier<bool> modalExpanded,
-          required ValueNotifier<bool> modalMinimized}) =>
-      Positioned(
-        top: modalExpanded.value ? 0 : offset.value.dy,
-        left: modalExpanded.value ? 0 : offset.value.dx,
-        child: Draggable(
-          data: 'modal',
-          feedback: _buildModalWindows(context,
-              modalExpanded: modalExpanded, modalMinimized: modalMinimized),
-          onDragEnd: (details) => offset.value = details.offset,
-          childWhenDragging: Opacity(
-            opacity: .4,
-            child: _buildModalWindows(context,
-                modalExpanded: modalExpanded, modalMinimized: modalMinimized),
-          ),
-          child: _buildModalWindows(context,
-              modalExpanded: modalExpanded, modalMinimized: modalMinimized),
-        ),
-      );
-  Widget _buildModalWindows(BuildContext context,
-      {required ValueNotifier<bool> modalExpanded,
+      {required ValueNotifier<Offset> offset,
+      required Size size,
+      required ValueNotifier<bool> modalExpanded,
       required ValueNotifier<bool> modalMinimized}) {
-    Size size = _calculeSize(modalMinimized, modalExpanded, context);
-    return FittedBox(
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.elasticInOut,
-        height: size.height,
-        width: size.width,
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          margin: const EdgeInsets.all(20),
-          elevation: 8,
-          child: Column(
-            children: [
-              PopupOptionsBar(
-                onClose: () => modalMinimized.value = !modalMinimized.value,
-                onMinimize: () => modalMinimized.value = !modalMinimized.value,
-                onToggleExpand: () =>
-                    modalExpanded.value = !modalExpanded.value,
+    return Positioned(
+      top: modalExpanded.value ? 0 : offset.value.dy,
+      left: modalExpanded.value ? 0 : offset.value.dx,
+      child: modalExpanded.value
+          ? _buildModalWindows(context,
+              size: size,
+              modalExpanded: modalExpanded,
+              modalMinimized: modalMinimized)
+          : Draggable(
+              data: 'modal',
+              feedback: _buildModalWindows(context,
+                  size: size,
+                  modalExpanded: modalExpanded,
+                  modalMinimized: modalMinimized),
+              onDragEnd: (details) => offset.value = details.offset,
+              childWhenDragging: Opacity(
+                opacity: .4,
+                child: _buildModalWindows(context,
+                    size: size,
+                    modalExpanded: modalExpanded,
+                    modalMinimized: modalMinimized),
               ),
-              Expanded(child: child),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
-        ),
-      ),
+              child: _buildModalWindows(context,
+                  size: size,
+                  modalExpanded: modalExpanded,
+                  modalMinimized: modalMinimized),
+            ),
     );
   }
 
-  Size _calculeSize(ValueNotifier<bool> modalMinimized,
-      ValueNotifier<bool> modalExpanded, BuildContext context) {
-    if (modalMinimized.value) return Size.zero;
+  Widget _buildModalWindows(BuildContext context,
+          {required Size size,
+          required ValueNotifier<bool> modalExpanded,
+          required ValueNotifier<bool> modalMinimized}) =>
+      FittedBox(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.elasticInOut,
+          height: size.height,
+          width: size.width,
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            margin: const EdgeInsets.all(20),
+            elevation: 8,
+            child: Column(
+              children: [
+                PopupOptionsBar(
+                  onClose: () => modalMinimized.value = !modalMinimized.value,
+                  onMinimize: () =>
+                      modalMinimized.value = !modalMinimized.value,
+                  onToggleExpand: () =>
+                      modalExpanded.value = !modalExpanded.value,
+                ),
+                Expanded(child: child),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 
-    if (!modalExpanded.value) return const Size(600, 500);
+  Size _calculeSize(
+      bool modalMinimized, bool modalExpanded, BuildContext context) {
+    if (modalMinimized) return Size.zero;
 
     final currentSize = MediaQuery.of(context).size;
-    return Size(currentSize.width, currentSize.height - 50);
+    if (modalExpanded) {
+      return Size(currentSize.width, currentSize.height - 50);
+    }
+    return Size(600 > currentSize.width - 20 ? currentSize.width - 20 : 600,
+        500 > currentSize.height - 50 ? currentSize.height - 50 : 500);
   }
 
   Widget _buildDraggableDesktopIcon(BuildContext context,
