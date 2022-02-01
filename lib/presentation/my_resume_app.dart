@@ -1,5 +1,6 @@
 import 'package:amdiaz/infrastructure/just_audio_music_player.dart';
 import 'package:amdiaz/presentation/core/routes/fluro_route_generator.dart';
+import 'package:amdiaz/presentation/shared/widgets/error_container.dart';
 import 'package:amdiaz/shared/values/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,17 +30,9 @@ class MyResumeApp extends StatelessWidget {
               builder: (context, state) {
                 switch (state.engine) {
                   case Engine.arcade:
-                    return ArcadeLayout(
-                        child: child ??
-                            const Center(
-                              child: Text('ERROR'),
-                            ));
+                    return ArcadeLayout(child: child ?? ErrorContainer());
                   case Engine.windows:
-                    return WindowsLayout(
-                        child: child ??
-                            const Center(
-                              child: Text('ERROR'),
-                            ));
+                    return WindowsLayout(child: child ?? ErrorContainer());
                 }
               },
             );
