@@ -65,7 +65,9 @@ class WindowsLayout extends HookWidget {
   Widget _buildModalWindows(BuildContext context,
           {required ValueNotifier<bool> modalExpanded}) =>
       FittedBox(
-        child: SizedBox(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.elasticInOut,
           height: modalExpanded.value
               ? MediaQuery.of(context).size.height - 50
               : 500,
