@@ -18,6 +18,7 @@ class WindowsLayout extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final iconOffset = useState<Offset>(const Offset(20, 20));
+    final modalOffset = useState<Offset>(const Offset(50, 100));
     return Scaffold(
       body: Overlay(
         initialEntries: [
@@ -29,10 +30,7 @@ class WindowsLayout extends HookWidget {
                       image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
                 ),
                 _buildDraggableDesktopIcon(context, offset: iconOffset),
-                Align(
-                  alignment: Alignment.center,
-                  child: _buildModalWindows(),
-                ),
+                _buildDraggableModalWindows(offset: modalOffset),
                 const Align(
                   alignment: Alignment.bottomCenter,
                   child: WindowsNavigationBar(),
@@ -45,6 +43,21 @@ class WindowsLayout extends HookWidget {
     );
   }
 
+  Widget _buildDraggableModalWindows({required ValueNotifier<Offset> offset}) =>
+      Positioned(
+        top: offset.value.dy,
+        left: offset.value.dx,
+        child: Draggable(
+          data: 'desktop',
+          feedback: _buildModalWindows(),
+          onDragEnd: (details) => offset.value = details.offset,
+          childWhenDragging: Opacity(
+            opacity: .4,
+            child: _buildModalWindows(),
+          ),
+          child: _buildModalWindows(),
+        ),
+      );
   Widget _buildModalWindows() => FittedBox(
         child: SizedBox(
           height: 500,
