@@ -4,9 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../shared/components/launcher_funtions.dart';
 
 class PopupOptionsBar extends StatelessWidget {
-  final Function() onToggleExpand;
-  final Function() onMinimize;
-  final Function() onClose;
+  final void Function() onToggleExpand;
+  final void Function() onMinimize;
+  final void Function() onClose;
   const PopupOptionsBar({
     Key? key,
     required this.onToggleExpand,

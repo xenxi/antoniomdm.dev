@@ -8,6 +8,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../application/engine_mode/engine_mode_bloc.dart';
+import 'widgets/windows_modal.dart';
 
 class WindowsLayout extends HookWidget {
   final Widget child;
@@ -85,29 +86,11 @@ class WindowsLayout extends HookWidget {
           curve: Curves.elasticInOut,
           height: size.height,
           width: size.width,
-          child: Card(
-            clipBehavior: Clip.antiAlias,
-            margin: const EdgeInsets.all(20),
-            elevation: 8,
-            child: Column(
-              children: [
-                PopupOptionsBar(
-                  onClose: () => modalMinimized.value = !modalMinimized.value,
-                  onMinimize: () =>
-                      modalMinimized.value = !modalMinimized.value,
-                  onToggleExpand: () =>
-                      modalExpanded.value = !modalExpanded.value,
-                ),
-                Expanded(
-                    child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: child,
-                )),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
+          child: WindowsModal(
+            onClose: () => modalMinimized.value = !modalMinimized.value,
+            onMinimize: () => modalMinimized.value = !modalMinimized.value,
+            onToggleExpand: () => modalExpanded.value = !modalExpanded.value,
+            child: child,
           ),
         ),
       );
