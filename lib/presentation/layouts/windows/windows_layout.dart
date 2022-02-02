@@ -39,7 +39,6 @@ class WindowsLayout extends HookWidget {
                 _buildDraggableDesktopIcon(context, offset: iconOffset),
                 _buildDraggableModalWindows(context,
                     offset: modalOffset,
-                    size: modalSize,
                     modalExpanded: modalExpanded,
                     modalMinimized: modalMinimized),
                 const Align(
@@ -56,36 +55,34 @@ class WindowsLayout extends HookWidget {
 
   Widget _buildDraggableModalWindows(BuildContext context,
       {required ValueNotifier<Offset> offset,
-      required Size size,
       required ValueNotifier<bool> modalExpanded,
       required ValueNotifier<bool> modalMinimized}) {
-    return Positioned(
+    final modalSize =
+        _calculeSize(modalMinimized.value, modalExpanded.value, context);
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
       top: modalExpanded.value ? 0 : offset.value.dy,
       left: modalExpanded.value ? 0 : offset.value.dx,
-      child: modalExpanded.value
-          ? _buildModalWindows(context,
-              size: size,
+      child: Draggable(
+        data: 'modal',
+        feedback: _buildModalWindows(context,
+            size: modalSize,
+            modalExpanded: modalExpanded,
+            modalMinimized: modalMinimized),
+        onDragEnd: (details) => offset.value = details.offset,
+        childWhenDragging: Opacity(
+          opacity: .4,
+          child: _buildModalWindows(context,
+              size: modalSize,
               modalExpanded: modalExpanded,
-              modalMinimized: modalMinimized)
-          : Draggable(
-              data: 'modal',
-              feedback: _buildModalWindows(context,
-                  size: size,
-                  modalExpanded: modalExpanded,
-                  modalMinimized: modalMinimized),
-              onDragEnd: (details) => offset.value = details.offset,
-              childWhenDragging: Opacity(
-                opacity: .4,
-                child: _buildModalWindows(context,
-                    size: size,
-                    modalExpanded: modalExpanded,
-                    modalMinimized: modalMinimized),
-              ),
-              child: _buildModalWindows(context,
-                  size: size,
-                  modalExpanded: modalExpanded,
-                  modalMinimized: modalMinimized),
-            ),
+              modalMinimized: modalMinimized),
+        ),
+        child: _buildModalWindows(context,
+            size: modalSize,
+            modalExpanded: modalExpanded,
+            modalMinimized: modalMinimized),
+      ),
     );
   }
 
@@ -95,7 +92,7 @@ class WindowsLayout extends HookWidget {
           required ValueNotifier<bool> modalMinimized}) =>
       FittedBox(
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 800),
           curve: Curves.elasticInOut,
           height: size.height,
           width: size.width,
