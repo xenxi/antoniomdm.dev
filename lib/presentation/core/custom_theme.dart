@@ -11,6 +11,7 @@ class CustomTheme {
             color: primaryText2,
             fontSize: 40,
             fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
             fontFamily: 'Edunline'),
         headline2: const TextStyle(
             color: Colors.white,
