@@ -1,4 +1,3 @@
-import 'package:amdiaz/presentation/layouts/windows/widgets/popup_options_bar.dart';
 import 'package:amdiaz/presentation/layouts/windows/widgets/windows_navigation_bar.dart';
 import 'package:amdiaz/presentation/shared/widgets/draggable_container.dart';
 import 'package:amdiaz/shared/values/image_path.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../application/engine_mode/engine_mode_bloc.dart';
+import 'widgets/desktop_icon.dart';
 import 'widgets/windows_modal.dart';
 
 class WindowsLayout extends HookWidget {
@@ -89,7 +89,7 @@ class WindowsLayout extends HookWidget {
           required ValueNotifier<bool> modalMinimized}) =>
       FittedBox(
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 800),
           curve: Curves.elasticInOut,
           height: size.height,
           width: size.width,
@@ -114,23 +114,14 @@ class WindowsLayout extends HookWidget {
         500 > currentSize.height - 50 ? currentSize.height - 50 : 500);
   }
 
-  Widget _buildDesktopIcon(BuildContext context) => InkWell(
+  Widget _buildDesktopIcon(BuildContext context) => DesktopIcon(
+        icon: FontAwesomeIcons.gamepad,
+        text: 'Arcade Mode',
         onTap: () {
           final bloc = BlocProvider.of<EngineModeBloc>(context)
             ..add(ArcadeEngineModeSelected());
           Future.delayed(const Duration(milliseconds: 500),
               () => bloc.add(PlayBackgroundMusicSelected()));
         },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            FaIcon(FontAwesomeIcons.gamepad),
-            SizedBox(
-              height: 6,
-            ),
-            Text('Arcade Mode')
-          ],
-        ),
       );
 }
