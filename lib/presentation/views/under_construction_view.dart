@@ -13,6 +13,7 @@ class UnderConstructionView extends HookWidget {
     final nameIsVisible = useState(false);
     final subtitleIsVisible = useState(false);
     return Stack(
+      fit: StackFit.expand,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
