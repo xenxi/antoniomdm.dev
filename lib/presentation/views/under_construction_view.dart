@@ -45,12 +45,14 @@ class UnderConstructionView extends HookWidget {
               flex: 3,
             ),
             if (subtitleIsVisible.value)
-              AnimatedTextKit(
-                repeatForever: true,
-                animatedTexts: [
-                  FlickerAnimatedText('Under Construction',
-                      textStyle: Theme.of(context).textTheme.headline2),
-                ],
+              FittedBox(
+                child: AnimatedTextKit(
+                  repeatForever: true,
+                  animatedTexts: [
+                    FlickerAnimatedText('Under Construction',
+                        textStyle: Theme.of(context).textTheme.headline2),
+                  ],
+                ),
               ),
             const Spacer(),
           ],
