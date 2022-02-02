@@ -112,7 +112,11 @@ class WindowsLayout extends HookWidget {
                   onToggleExpand: () =>
                       modalExpanded.value = !modalExpanded.value,
                 ),
-                Expanded(child: child),
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: child,
+                )),
                 const SizedBox(
                   height: 20,
                 ),
