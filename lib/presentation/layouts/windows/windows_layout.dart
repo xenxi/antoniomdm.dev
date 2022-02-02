@@ -25,6 +25,7 @@ class WindowsLayout extends HookWidget {
     final currentSize = MediaQuery.of(context).size;
     final modalSize =
         _calculeSize(modalMinimized.value, modalExpanded.value, context);
+    final duration = useState(Duration.zero);
     final modalOffset = useState<Offset>(Offset(
         (currentSize.width / 2) - (modalSize.width / 2),
         (currentSize.height / 2) - (modalSize.height / 2)));
@@ -48,6 +49,7 @@ class WindowsLayout extends HookWidget {
                 ),
                 _buildDraggableModalWindows(context,
                     offset: modalOffset,
+                    duration: duration,
                     modalExpanded: modalExpanded,
                     modalMinimized: modalMinimized),
                 const Align(
@@ -65,19 +67,21 @@ class WindowsLayout extends HookWidget {
   Widget _buildDraggableModalWindows(BuildContext context,
       {required ValueNotifier<Offset> offset,
       required ValueNotifier<bool> modalExpanded,
+      required ValueNotifier<Duration> duration,
       required ValueNotifier<bool> modalMinimized}) {
     final modalSize =
         _calculeSize(modalMinimized.value, modalExpanded.value, context);
-
     return AnimatedPositioned(
-      duration: const Duration(milliseconds: 300),
+      duration: duration.value,
       curve: Curves.easeInOut,
+      onEnd: () => duration.value = Duration.zero,
       top: modalExpanded.value ? 0 : offset.value.dy,
       left: modalExpanded.value ? 0 : offset.value.dx,
       child: DraggableContainer(
           onDragEnd: (details) => offset.value = details.offset,
           child: _buildModalWindows(context,
               size: modalSize,
+              duration: duration,
               modalExpanded: modalExpanded,
               modalMinimized: modalMinimized)),
     );
@@ -86,6 +90,7 @@ class WindowsLayout extends HookWidget {
   Widget _buildModalWindows(BuildContext context,
           {required Size size,
           required ValueNotifier<bool> modalExpanded,
+          required ValueNotifier<Duration> duration,
           required ValueNotifier<bool> modalMinimized}) =>
       FittedBox(
         child: AnimatedContainer(
@@ -96,7 +101,10 @@ class WindowsLayout extends HookWidget {
           child: WindowsModal(
             onClose: () => modalMinimized.value = !modalMinimized.value,
             onMinimize: () => modalMinimized.value = !modalMinimized.value,
-            onToggleExpand: () => modalExpanded.value = !modalExpanded.value,
+            onToggleExpand: () {
+              duration.value = const Duration(milliseconds: 600);
+              modalExpanded.value = !modalExpanded.value;
+            },
             child: child,
           ),
         ),
