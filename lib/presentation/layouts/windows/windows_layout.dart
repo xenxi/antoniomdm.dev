@@ -1,5 +1,6 @@
 import 'package:amdiaz/presentation/layouts/windows/widgets/popup_options_bar.dart';
 import 'package:amdiaz/presentation/layouts/windows/widgets/windows_navigation_bar.dart';
+import 'package:amdiaz/presentation/shared/widgets/draggable_container.dart';
 import 'package:amdiaz/shared/values/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,30 +60,18 @@ class WindowsLayout extends HookWidget {
       required ValueNotifier<bool> modalMinimized}) {
     final modalSize =
         _calculeSize(modalMinimized.value, modalExpanded.value, context);
+
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       top: modalExpanded.value ? 0 : offset.value.dy,
       left: modalExpanded.value ? 0 : offset.value.dx,
-      child: Draggable(
-        data: 'modal',
-        feedback: _buildModalWindows(context,
-            size: modalSize,
-            modalExpanded: modalExpanded,
-            modalMinimized: modalMinimized),
-        onDragEnd: (details) => offset.value = details.offset,
-        childWhenDragging: Opacity(
-          opacity: .4,
+      child: DraggableContainer(
+          onDragEnd: (details) => offset.value = details.offset,
           child: _buildModalWindows(context,
               size: modalSize,
               modalExpanded: modalExpanded,
-              modalMinimized: modalMinimized),
-        ),
-        child: _buildModalWindows(context,
-            size: modalSize,
-            modalExpanded: modalExpanded,
-            modalMinimized: modalMinimized),
-      ),
+              modalMinimized: modalMinimized)),
     );
   }
 
@@ -140,14 +129,8 @@ class WindowsLayout extends HookWidget {
       Positioned(
         top: offset.value.dy,
         left: offset.value.dx,
-        child: Draggable(
-          data: 'desktop',
-          feedback: _buildDesktopIcon(context),
+        child: DraggableContainer(
           onDragEnd: (details) => offset.value = details.offset,
-          childWhenDragging: Opacity(
-            opacity: .4,
-            child: _buildDesktopIcon(context),
-          ),
           child: _buildDesktopIcon(context),
         ),
       );
