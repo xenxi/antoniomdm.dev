@@ -45,22 +45,37 @@ class UnderConstructionView extends HookWidget {
             const Spacer(
               flex: 3,
             ),
-            if (subtitleIsVisible.value)
-              FittedBox(
-                child: AnimatedTextKit(
-                  repeatForever: true,
-                  animatedTexts: [
-                    FlickerAnimatedText('Under Construction',
-                        textStyle: Theme.of(context).textTheme.headline2),
-                  ],
-                ),
-              ),
+            if (subtitleIsVisible.value) const _UnderConstructionText(),
             const Spacer(),
           ],
         ),
 
         // const Spacer(),
       ],
+    );
+  }
+}
+
+class _UnderConstructionText extends HookWidget {
+  const _UnderConstructionText({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final controller =
+        useAnimationController(duration: const Duration(milliseconds: 1500))
+          ..repeat();
+
+    final animation = CurvedAnimation(
+      parent: controller,
+      curve: Curves.bounceInOut,
+    );
+    return FadeTransition(
+      opacity: animation,
+      child: Text('Under Construction',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline2),
     );
   }
 }
