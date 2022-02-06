@@ -21,17 +21,17 @@ class MyResumeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final engineModeBloc = EngineModeBloc(JustAudioMusicPlayer(AudioPlayer()));
 
-    return BlocProvider(
-      create: (context) => engineModeBloc,
-      child: MaterialApp(
-          navigatorKey: navigator,
-          title: Location.fullName,
-          theme: CustomTheme.light,
-          onGenerateRoute: _routeGenerator.generateRoute,
-          builder: (context, child) {
-            return _buildLayout(child);
-          }),
-    );
+    return MaterialApp(
+        navigatorKey: navigator,
+        title: Location.fullName,
+        theme: CustomTheme.light,
+        onGenerateRoute: _routeGenerator.generateRoute,
+        builder: (context, child) {
+          return BlocProvider(
+            create: (context) => engineModeBloc,
+            child: _buildLayout(child),
+          );
+        });
   }
 
   BlocBuilder<EngineModeBloc, EngineModeState> _buildLayout(Widget? child) {
