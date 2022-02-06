@@ -39,6 +39,7 @@ class WindowsLayout extends HookWidget {
             top: iconOffset.value.dy,
             left: iconOffset.value.dx,
             child: DraggableContainer(
+              feedback: _buildDesktopIconFeedback(context),
               onDragEnd: (details) => iconOffset.value = details.offset,
               child: _buildDesktopIcon(context),
             ),
@@ -71,12 +72,18 @@ class WindowsLayout extends HookWidget {
       top: modalExpanded.value ? 0 : offset.value.dy,
       left: modalExpanded.value ? 0 : offset.value.dx,
       child: DraggableContainer(
+          feedback: _buildModalWindows(context,
+              size: modalSize,
+              duration: duration,
+              modalExpanded: modalExpanded,
+              modalMinimized: modalMinimized),
           onDragEnd: (details) => offset.value = details.offset,
           child: _buildModalWindows(context,
               size: modalSize,
               duration: duration,
               modalExpanded: modalExpanded,
-              modalMinimized: modalMinimized)),
+              modalMinimized: modalMinimized,
+              child: child)),
     );
   }
 
@@ -84,7 +91,8 @@ class WindowsLayout extends HookWidget {
           {required Size size,
           required ValueNotifier<bool> modalExpanded,
           required ValueNotifier<Duration> duration,
-          required ValueNotifier<bool> modalMinimized}) =>
+          required ValueNotifier<bool> modalMinimized,
+          Widget? child}) =>
       FittedBox(
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 800),
@@ -98,7 +106,7 @@ class WindowsLayout extends HookWidget {
               duration.value = const Duration(milliseconds: 600);
               modalExpanded.value = !modalExpanded.value;
             },
-            child: child,
+            child: child ?? Container(),
           ),
         ),
       );
@@ -124,5 +132,9 @@ class WindowsLayout extends HookWidget {
           Future.delayed(const Duration(milliseconds: 500),
               () => bloc.add(PlayBackgroundMusicSelected()));
         },
+      );
+  Widget _buildDesktopIconFeedback(BuildContext context) => const DesktopIcon(
+        icon: FontAwesomeIcons.gamepad,
+        text: 'Arcade Mode',
       );
 }
