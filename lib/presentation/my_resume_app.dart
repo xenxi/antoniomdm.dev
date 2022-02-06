@@ -11,6 +11,8 @@ import 'core/custom_theme.dart';
 import 'layouts/arcade/arcade_layout.dart';
 import 'layouts/windows/windows_layout.dart';
 
+final navigator = GlobalKey<NavigatorState>();
+
 class MyResumeApp extends StatelessWidget {
   final FluroRouteGenerator _routeGenerator = FluroRouteGenerator();
   MyResumeApp({Key? key}) : super(key: key);
@@ -22,10 +24,11 @@ class MyResumeApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => engineModeBloc,
       child: MaterialApp(
+          navigatorKey: navigator,
           title: Location.fullName,
           theme: CustomTheme.light,
           onGenerateRoute: _routeGenerator.generateRoute,
-          builder: (_, child) {
+          builder: (context, child) {
             return _buildLayout(child);
           }),
     );
