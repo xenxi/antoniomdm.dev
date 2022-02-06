@@ -1,6 +1,5 @@
 import 'package:amdiaz/infrastructure/just_audio_music_player.dart';
 import 'package:amdiaz/presentation/core/routes/fluro_route_generator.dart';
-import 'package:amdiaz/presentation/shared/widgets/error_container.dart';
 import 'package:amdiaz/shared/values/location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +7,7 @@ import 'package:just_audio/just_audio.dart';
 
 import '../application/engine_mode/engine_mode_bloc.dart';
 import 'core/custom_theme.dart';
-import 'layouts/arcade/arcade_layout.dart';
-import 'layouts/windows/windows_layout.dart';
+import 'core/main_layout_builder.dart';
 
 final navigator = GlobalKey<NavigatorState>();
 
@@ -29,22 +27,8 @@ class MyResumeApp extends StatelessWidget {
         builder: (context, child) {
           return BlocProvider(
             create: (context) => engineModeBloc,
-            child: _buildLayout(child),
+            child: MainLayoutBuilder(child: child),
           );
         });
-  }
-
-  BlocBuilder<EngineModeBloc, EngineModeState> _buildLayout(Widget? child) {
-    final nullSafeChild = child ?? const ErrorContainer();
-    return BlocBuilder<EngineModeBloc, EngineModeState>(
-      builder: (context, state) {
-        switch (state.engine) {
-          case Engine.arcade:
-            return ArcadeLayout(child: nullSafeChild);
-          case Engine.windows:
-            return WindowsLayout(child: nullSafeChild);
-        }
-      },
-    );
   }
 }
