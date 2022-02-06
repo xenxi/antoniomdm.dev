@@ -32,37 +32,30 @@ class WindowsLayout extends HookWidget {
         (currentSize.height / 2) - (modalSize.height / 2)));
     return Scaffold(
       bottomSheet: _showBottomSheet(isOpen: isOpen),
-      body: Overlay(
-        initialEntries: [
-          OverlayEntry(builder: (context) {
-            return Stack(
-              children: [
-                const SizedBox.expand(
-                  child: Image(
-                      image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
-                ),
-                Positioned(
-                  top: iconOffset.value.dy,
-                  left: iconOffset.value.dx,
-                  child: DraggableContainer(
-                    onDragEnd: (details) => iconOffset.value = details.offset,
-                    child: _buildDesktopIcon(context),
-                  ),
-                ),
-                _buildDraggableModalWindows(context,
-                    offset: modalOffset,
-                    duration: duration,
-                    modalExpanded: modalExpanded,
-                    modalMinimized: modalMinimized),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: WindowsNavigationBar(
-                    onPressed: () => isOpen.value = !isOpen.value,
-                  ),
-                ),
-              ],
-            );
-          }),
+      body: Stack(
+        children: [
+          const SizedBox.expand(
+            child: Image(image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
+          ),
+          Positioned(
+            top: iconOffset.value.dy,
+            left: iconOffset.value.dx,
+            child: DraggableContainer(
+              onDragEnd: (details) => iconOffset.value = details.offset,
+              child: _buildDesktopIcon(context),
+            ),
+          ),
+          _buildDraggableModalWindows(context,
+              offset: modalOffset,
+              duration: duration,
+              modalExpanded: modalExpanded,
+              modalMinimized: modalMinimized),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: WindowsNavigationBar(
+              onPressed: () => isOpen.value = !isOpen.value,
+            ),
+          ),
         ],
       ),
     );
