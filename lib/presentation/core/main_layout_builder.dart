@@ -17,7 +17,11 @@ class MainLayoutBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final nullSafeChild = child ?? const ErrorContainer();
-    return _buildSelectedLayout(nullSafeChild);
+    return Overlay(
+      initialEntries: [
+        OverlayEntry(builder: (context) => _buildSelectedLayout(nullSafeChild)),
+      ],
+    );
   }
 
   BlocBuilder<EngineModeBloc, EngineModeState> _buildSelectedLayout(
