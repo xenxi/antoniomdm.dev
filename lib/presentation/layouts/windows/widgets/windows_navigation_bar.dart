@@ -6,10 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'clock.dart';
 
 class WindowsNavigationBar extends StatelessWidget {
-  final void Function() onPressed;
   const WindowsNavigationBar({
     Key? key,
-    required this.onPressed,
   }) : super(key: key);
 
   @override

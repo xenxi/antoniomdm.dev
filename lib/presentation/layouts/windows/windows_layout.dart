@@ -26,12 +26,10 @@ class WindowsLayout extends HookWidget {
     final modalSize =
         _calculeSize(modalMinimized.value, modalExpanded.value, context);
     final duration = useState(Duration.zero);
-    final isOpen = useState(false);
     final modalOffset = useState<Offset>(Offset(
         (currentSize.width / 2) - (modalSize.width / 2),
         (currentSize.height / 2) - (modalSize.height / 2)));
     return Scaffold(
-      bottomSheet: _showBottomSheet(isOpen: isOpen),
       body: Stack(
         children: [
           const SizedBox.expand(
@@ -50,43 +48,11 @@ class WindowsLayout extends HookWidget {
               duration: duration,
               modalExpanded: modalExpanded,
               modalMinimized: modalMinimized),
-          Align(
+          const Align(
             alignment: Alignment.bottomCenter,
-            child: WindowsNavigationBar(
-              onPressed: () => isOpen.value = !isOpen.value,
-            ),
+            child: WindowsNavigationBar(),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget? _showBottomSheet({required ValueNotifier<bool> isOpen}) {
-    if (!isOpen.value) {
-      return null;
-    }
-    return Transform.translate(
-      offset: const Offset(0, -50),
-      child: BottomSheet(
-        onClosing: () {},
-        builder: (context) {
-          return Container(
-            height: 600,
-            width: 400,
-            color: Colors.grey.shade200,
-            alignment: Alignment.center,
-            child: ElevatedButton(
-              child: Text("Close Bottom Sheet"),
-              style: ElevatedButton.styleFrom(
-                onPrimary: Colors.white,
-                primary: Colors.green,
-              ),
-              onPressed: () {
-                isOpen.value = false;
-              },
-            ),
-          );
-        },
       ),
     );
   }
