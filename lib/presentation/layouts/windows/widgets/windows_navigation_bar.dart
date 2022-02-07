@@ -107,6 +107,7 @@ class _WindowsNavigationBarMenu extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
+              padding: const EdgeInsets.only(top: 10),
               children: [
                 ListTile(
                   leading: const FaIcon(FontAwesomeIcons.gamepad),
