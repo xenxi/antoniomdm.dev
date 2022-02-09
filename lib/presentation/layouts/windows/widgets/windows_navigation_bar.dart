@@ -37,10 +37,7 @@ class WindowsNavigationBar extends HookWidget {
       ),
       child: Row(
         children: [
-          _WindowsButton(onPressed: () {
-            print('clicked: ${isOpen.value}');
-            isOpen.value = !isOpen.value;
-          }),
+          _WindowsButton(onPressed: () => isOpen.value = !isOpen.value),
           Container(
             height: 50,
             width: 50,
