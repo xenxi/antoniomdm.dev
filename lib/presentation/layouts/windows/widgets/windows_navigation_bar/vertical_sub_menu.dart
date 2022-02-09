@@ -17,9 +17,9 @@ class VerticalSubMenu extends HookWidget {
       decoration:
           BoxDecoration(color: Theme.of(context).cardColor.withOpacity(.3)),
       duration: const Duration(milliseconds: 600),
-      curve: Curves.slowMiddle,
+      curve: Curves.fastLinearToSlowEaseIn,
       clipBehavior: Clip.hardEdge,
-      width: isExpanded.value ? width * 3 : width,
+      width: isExpanded.value ? width + 140 : width,
       child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class VerticalSubMenu extends HookWidget {
               showText: isExpanded.value,
               width: width,
               icon: FontAwesomeIcons.powerOff,
-              text: 'Apagar',
+              text: 'Apagado',
             ),
           ]),
     );

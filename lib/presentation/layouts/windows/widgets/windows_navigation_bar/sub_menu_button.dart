@@ -21,15 +21,17 @@ class SubMenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8),
+    return Material(
+      color: Colors.transparent,
       child: InkWell(
         onHover: onHover,
         onTap: onTap,
         child: Row(
           children: [
             SizedBox(
-                width: width, child: Center(child: FaIcon(icon, size: 20))),
+                height: width,
+                width: width,
+                child: Center(child: FaIcon(icon, size: 20))),
             if (showText) Text(text)
           ],
         ),
