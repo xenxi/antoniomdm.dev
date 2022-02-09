@@ -129,8 +129,11 @@ class WindowsLayout extends HookWidget {
         onTap: () {
           final bloc = BlocProvider.of<EngineModeBloc>(context)
             ..add(ArcadeEngineModeSelected());
-          Future.delayed(const Duration(milliseconds: 500),
-              () => bloc.add(PlayBackgroundMusicSelected()));
+
+          bloc.state.playingBackgroundMusicOption.fold(
+              () => Future.delayed(const Duration(milliseconds: 500),
+                  () => bloc.add(PlayBackgroundMusicSelected())),
+              (_) {});
         },
       );
   Widget _buildDesktopIconFeedback(BuildContext context) => const DesktopIcon(
