@@ -30,30 +30,42 @@ class WindowsLayout extends HookWidget {
         (currentSize.width / 2) - (modalSize.width / 2),
         (currentSize.height / 2) - (modalSize.height / 2)));
     return Scaffold(
-      body: Stack(
-        children: [
-          const SizedBox.expand(
-            child: Image(image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
-          ),
-          Positioned(
-            top: iconOffset.value.dy,
-            left: iconOffset.value.dx,
-            child: DraggableContainer(
-              feedback: _buildDesktopIconFeedback(context),
-              onDragEnd: (details) => iconOffset.value = details.offset,
-              child: _buildDesktopIcon(context),
-            ),
-          ),
-          _buildDraggableModalWindows(context,
-              offset: modalOffset,
-              duration: duration,
-              modalExpanded: modalExpanded,
-              modalMinimized: modalMinimized),
-          const Align(
-            alignment: Alignment.bottomCenter,
-            child: WindowsNavigationBar(),
-          ),
-        ],
+      body: BlocBuilder<EngineModeBloc, EngineModeState>(
+        buildWhen: (previous, current) => previous.isOn != current.isOn,
+        builder: (context, state) {
+          return Stack(
+            children: [
+              const SizedBox.expand(
+                child:
+                    Image(image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
+              ),
+              Positioned(
+                top: iconOffset.value.dy,
+                left: iconOffset.value.dx,
+                child: DraggableContainer(
+                  feedback: _buildDesktopIconFeedback(context),
+                  onDragEnd: (details) => iconOffset.value = details.offset,
+                  child: _buildDesktopIcon(context),
+                ),
+              ),
+              _buildDraggableModalWindows(context,
+                  offset: modalOffset,
+                  duration: duration,
+                  modalExpanded: modalExpanded,
+                  modalMinimized: modalMinimized),
+              const Align(
+                alignment: Alignment.bottomCenter,
+                child: WindowsNavigationBar(),
+              ),
+              if (!state.isOn)
+                Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  color: Colors.black,
+                )
+            ],
+          );
+        },
       ),
     );
   }
