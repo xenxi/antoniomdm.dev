@@ -20,12 +20,14 @@ class VerticalMainMenu extends StatelessWidget {
       curve: Curves.fastLinearToSlowEaseIn,
       width: 300,
       color: Theme.of(context).primaryColor,
-      child: Row(
+      child: Stack(
+        alignment: AlignmentDirectional.bottomStart,
         children: [
-          const VerticalSubMenu(
-            width: 49.5,
-          ),
-          Expanded(
+          Positioned(
+            bottom: 0,
+            left: 50,
+            width: 250,
+            height: 600,
             child: ListView(
               padding: const EdgeInsets.only(top: 10),
               children: [
@@ -40,6 +42,9 @@ class VerticalMainMenu extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          const VerticalSubMenu(
+            width: 50,
           ),
         ],
       ),
