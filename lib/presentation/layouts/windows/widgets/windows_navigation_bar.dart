@@ -102,8 +102,31 @@ class _WindowsNavigationBarMenu extends StatelessWidget {
       color: Theme.of(context).primaryColor,
       child: Row(
         children: [
-          const SizedBox(
+          SizedBox(
             width: 49.5,
+            child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.menu),
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.settings),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: FaIcon(FontAwesomeIcons.images),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: FaIcon(FontAwesomeIcons.xbox),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: FaIcon(FontAwesomeIcons.powerOff),
+              ),
+            ]),
           ),
           Expanded(
             child: ListView(
