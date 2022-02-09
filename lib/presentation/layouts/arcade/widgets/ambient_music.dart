@@ -10,8 +10,9 @@ class AmbientMusic extends HookWidget {
   Widget build(BuildContext context) {
     final controller =
         useAnimationController(duration: const Duration(milliseconds: 500));
-    return BlocConsumer<EngineModeBloc, EngineModeState>(
-      listener: (context, state) {
+
+    return BlocBuilder<EngineModeBloc, EngineModeState>(
+      builder: (context, state) {
         state.playingBackgroundMusicOption.fold(() => {}, (isPlaying) {
           if (isPlaying) {
             controller.forward();
@@ -19,8 +20,6 @@ class AmbientMusic extends HookWidget {
             controller.reverse();
           }
         });
-      },
-      builder: (context, state) {
         return IconButton(
             onPressed: state.playingBackgroundMusicOption.fold(
                 () => null,
