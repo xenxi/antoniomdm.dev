@@ -1,4 +1,4 @@
-import 'package:amdiaz/presentation/layouts/windows/widgets/windows_navigation_bar.dart';
+import 'package:amdiaz/presentation/layouts/windows/widgets/windows_navigation_bar/windows_navigation_bar.dart';
 import 'package:amdiaz/presentation/shared/widgets/draggable_container.dart';
 import 'package:amdiaz/shared/values/image_path.dart';
 import 'package:flutter/material.dart';
