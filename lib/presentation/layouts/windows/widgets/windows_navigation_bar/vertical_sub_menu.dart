@@ -14,8 +14,7 @@ class VerticalSubMenu extends HookWidget {
   Widget build(BuildContext context) {
     final isExpanded = useState(false);
     return AnimatedContainer(
-      decoration:
-          BoxDecoration(color: Theme.of(context).cardColor.withOpacity(.3)),
+      decoration: const BoxDecoration(color: Color.fromRGBO(43, 43, 43, 1)),
       duration: const Duration(milliseconds: 600),
       curve: Curves.fastLinearToSlowEaseIn,
       clipBehavior: Clip.hardEdge,
