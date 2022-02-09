@@ -33,7 +33,15 @@ class SubMenuButton extends StatelessWidget {
                 height: width,
                 width: width,
                 child: Center(child: FaIcon(icon, size: 20))),
-            if (showText) Text(highlighted ? text.toUpperCase() : text),
+            if (showText)
+              Text(
+                highlighted ? text.toUpperCase() : text,
+                style: Theme.of(context).textTheme.caption!.copyWith(
+                      color: highlighted ? Colors.white : Colors.white54,
+                      fontWeight:
+                          highlighted ? FontWeight.bold : FontWeight.normal,
+                    ),
+              ),
           ],
         ),
       ),
