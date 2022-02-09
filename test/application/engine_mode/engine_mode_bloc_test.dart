@@ -21,6 +21,7 @@ void main() {
       expect(
           bloc.state,
           equals(EngineModeState(
+              isOn: true,
               engine: Engine.windows,
               playingBackgroundMusicOption: none(),
               showLoader: false)));
@@ -31,6 +32,7 @@ void main() {
         act: (bloc) => bloc.add(WindowsEngineModeSelected()),
         expect: () => [
               EngineModeState(
+                  isOn: true,
                   engine: Engine.windows,
                   playingBackgroundMusicOption: none(),
                   showLoader: false),
@@ -40,8 +42,19 @@ void main() {
         act: (bloc) => bloc.add(ArcadeEngineModeSelected()),
         expect: () => [
               EngineModeState(
+                  isOn: true,
                   playingBackgroundMusicOption: none(),
                   engine: Engine.arcade,
+                  showLoader: false),
+            ]);
+    blocTest<EngineModeBloc, EngineModeState>('to turn off',
+        build: () => EngineModeBloc(musicPlayer),
+        act: (bloc) => bloc.add(TurnOffSelected()),
+        expect: () => [
+              EngineModeState(
+                  isOn: false,
+                  playingBackgroundMusicOption: none(),
+                  engine: Engine.windows,
                   showLoader: false),
             ]);
     blocTest<EngineModeBloc, EngineModeState>(
@@ -60,10 +73,12 @@ void main() {
             ).called(1),
         expect: () => [
               EngineModeState(
+                  isOn: true,
                   playingBackgroundMusicOption: none(),
                   engine: Engine.arcade,
                   showLoader: false),
               EngineModeState(
+                  isOn: true,
                   playingBackgroundMusicOption: some(true),
                   engine: Engine.arcade,
                   showLoader: false),
@@ -89,14 +104,17 @@ void main() {
         },
         expect: () => [
               EngineModeState(
+                  isOn: true,
                   engine: Engine.arcade,
                   playingBackgroundMusicOption: none(),
                   showLoader: false),
               EngineModeState(
+                  isOn: true,
                   engine: Engine.arcade,
                   playingBackgroundMusicOption: some(true),
                   showLoader: false),
               EngineModeState(
+                  isOn: true,
                   engine: Engine.arcade,
                   playingBackgroundMusicOption: some(false),
                   showLoader: false),
@@ -125,18 +143,22 @@ void main() {
         },
         expect: () => [
               EngineModeState(
+                  isOn: true,
                   playingBackgroundMusicOption: none(),
                   engine: Engine.arcade,
                   showLoader: false),
               EngineModeState(
+                  isOn: true,
                   playingBackgroundMusicOption: some(true),
                   engine: Engine.arcade,
                   showLoader: false),
               EngineModeState(
+                  isOn: true,
                   playingBackgroundMusicOption: some(false),
                   engine: Engine.arcade,
                   showLoader: false),
               EngineModeState(
+                  isOn: true,
                   playingBackgroundMusicOption: some(true),
                   engine: Engine.arcade,
                   showLoader: false),

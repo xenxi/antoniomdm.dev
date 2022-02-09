@@ -25,6 +25,8 @@ class EngineModeBloc extends Bloc<EngineModeEvent, EngineModeState> {
         emit(state.copyWith(playingBackgroundMusicOption: some(true)));
       } else if (event is WindowsEngineModeSelected) {
         emit(state.copyWith(engine: Engine.windows));
+      } else if (event is TurnOffSelected) {
+        emit(state.copyWith(isOn: false));
       }
     });
   }

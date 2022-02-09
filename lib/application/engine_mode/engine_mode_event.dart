@@ -13,3 +13,5 @@ class PauseBackgroundMusicSelected extends EngineModeEvent {}
 class PlayBackgroundMusicSelected extends EngineModeEvent {}
 
 class WindowsEngineModeSelected extends EngineModeEvent {}
+
+class TurnOffSelected extends EngineModeEvent {}
