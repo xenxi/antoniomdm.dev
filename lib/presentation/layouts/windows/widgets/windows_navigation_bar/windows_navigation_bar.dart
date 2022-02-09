@@ -1,8 +1,10 @@
 import 'package:amdiaz/presentation/layouts/windows/widgets/windows_navigation_bar/vertical_main_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../../../application/engine_mode/engine_mode_bloc.dart';
 import '../clock.dart';
 
 class WindowsNavigationBar extends HookWidget {
@@ -51,6 +53,25 @@ class WindowsNavigationBar extends HookWidget {
                 onPressed: () {}, icon: const FaIcon(FontAwesomeIcons.github)),
           ),
           const Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: BlocBuilder<EngineModeBloc, EngineModeState>(
+              builder: (context, state) {
+                final active =
+                    state.playingBackgroundMusicOption.getOrElse(() => false);
+                return IconButton(
+                    onPressed: () => BlocProvider.of<EngineModeBloc>(context)
+                        .add(active
+                            ? PauseBackgroundMusicSelected()
+                            : PlayBackgroundMusicSelected()),
+                    icon: Icon(
+                      active
+                          ? FontAwesomeIcons.volumeUp
+                          : FontAwesomeIcons.volumeMute,
+                    ));
+              },
+            ),
+          ),
           const SizedBox(
             height: 50,
             child: Clock(),
