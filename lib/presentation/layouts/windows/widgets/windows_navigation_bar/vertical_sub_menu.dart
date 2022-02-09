@@ -25,12 +25,14 @@ class VerticalSubMenu extends HookWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             SubMenuButton(
-                showText: isExpanded.value,
-                width: width,
-                icon: Icons.menu,
-                text: 'Inicio',
-                highlighted: true,
-                onTap: () => isExpanded.value = !isExpanded.value),
+              showText: isExpanded.value,
+              width: width,
+              icon: Icons.menu,
+              text: 'Inicio',
+              highlighted: true,
+              onTap: () => isExpanded.value = !isExpanded.value,
+              onHover: (val) => isExpanded.value = val,
+            ),
             const Spacer(),
             SubMenuButton(
               showText: isExpanded.value,
