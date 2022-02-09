@@ -19,7 +19,7 @@ class VerticalSubMenu extends HookWidget {
       duration: const Duration(milliseconds: 600),
       curve: Curves.fastLinearToSlowEaseIn,
       clipBehavior: Clip.hardEdge,
-      width: isExpanded.value ? width + 140 : width,
+      width: isExpanded.value ? width + 120 : width,
       child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
