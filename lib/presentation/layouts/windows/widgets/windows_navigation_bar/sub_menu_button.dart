@@ -8,7 +8,7 @@ class SubMenuButton extends StatelessWidget {
   final double width;
   final String text;
   final IconData icon;
-
+  final bool highlighted;
   const SubMenuButton({
     Key? key,
     this.onTap,
@@ -17,6 +17,7 @@ class SubMenuButton extends StatelessWidget {
     required this.width,
     required this.text,
     required this.icon,
+    this.highlighted = false,
   }) : super(key: key);
 
   @override
@@ -32,7 +33,7 @@ class SubMenuButton extends StatelessWidget {
                 height: width,
                 width: width,
                 child: Center(child: FaIcon(icon, size: 20))),
-            if (showText) Text(text)
+            if (showText) Text(highlighted ? text.toUpperCase() : text),
           ],
         ),
       ),

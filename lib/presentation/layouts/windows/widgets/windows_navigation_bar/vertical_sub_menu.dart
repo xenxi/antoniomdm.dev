@@ -29,7 +29,8 @@ class VerticalSubMenu extends HookWidget {
                 showText: isExpanded.value,
                 width: width,
                 icon: Icons.menu,
-                text: 'INICIO',
+                text: 'Inicio',
+                highlighted: true,
                 onTap: () => isExpanded.value = !isExpanded.value),
             const Spacer(),
             SubMenuButton(
