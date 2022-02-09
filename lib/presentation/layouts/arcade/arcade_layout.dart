@@ -49,16 +49,9 @@ class ArcadeLayout extends StatelessWidget {
                   child: Row(
                     children: [
                       IconButton(
-                          onPressed: () {
-                            final bloc =
-                                BlocProvider.of<EngineModeBloc>(context);
-                            bloc.add(WindowsEngineModeSelected());
-
-                            if (bloc.state.playingBackgroundMusicOption
-                                .getOrElse(() => false)) {
-                              bloc.add(PauseBackgroundMusicSelected());
-                            }
-                          },
+                          onPressed: () =>
+                              BlocProvider.of<EngineModeBloc>(context)
+                                  .add(WindowsEngineModeSelected()),
                           icon: const FaIcon(FontAwesomeIcons.windows)),
                       const AmbientMusic(),
                     ],
