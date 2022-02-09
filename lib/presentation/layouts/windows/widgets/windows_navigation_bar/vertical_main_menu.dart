@@ -22,7 +22,9 @@ class VerticalMainMenu extends StatelessWidget {
       color: Theme.of(context).primaryColor,
       child: Row(
         children: [
-          const VerticalSubMenu(),
+          const VerticalSubMenu(
+            width: 49.5,
+          ),
           Expanded(
             child: ListView(
               padding: const EdgeInsets.only(top: 10),
