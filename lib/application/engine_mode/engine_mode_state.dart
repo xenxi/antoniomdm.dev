@@ -19,7 +19,8 @@ class EngineModeState extends Equatable {
     required this.isOn,
   });
   @override
-  List<Object?> get props => [playingBackgroundMusicOption, engine];
+  List<Object?> get props =>
+      [playingBackgroundMusicOption, engine, showLoader, isOn];
 
   EngineModeState copyWith({
     Engine? engine,
