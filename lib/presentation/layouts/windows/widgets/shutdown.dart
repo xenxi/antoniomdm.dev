@@ -1,5 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../application/engine_mode/engine_mode_bloc.dart';
 
 class Shutdown extends StatelessWidget {
   const Shutdown({
@@ -41,6 +44,16 @@ class Shutdown extends StatelessWidget {
               height: double.infinity,
               width: double.infinity,
               color: Colors.black,
+            ),
+          ),
+          JelloIn(
+            child: IconButton(
+              icon: const Icon(
+                Icons.power_settings_new,
+                color: Colors.white,
+              ),
+              onPressed: () => BlocProvider.of<EngineModeBloc>(context)
+                  .add(TurnOnSelected()),
             ),
           ),
         ],

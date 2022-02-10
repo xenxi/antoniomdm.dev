@@ -27,6 +27,8 @@ class EngineModeBloc extends Bloc<EngineModeEvent, EngineModeState> {
         emit(state.copyWith(engine: Engine.windows));
       } else if (event is TurnOffSelected) {
         emit(state.copyWith(isOn: false));
+      } else if (event is TurnOnSelected) {
+        emit(state.copyWith(isOn: true));
       }
     });
   }
