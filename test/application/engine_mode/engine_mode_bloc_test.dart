@@ -1,6 +1,6 @@
 import 'package:amdiaz/application/engine_mode/engine_mode_bloc.dart';
 import 'package:amdiaz/domain/music_player.dart';
-import 'package:amdiaz/shared/values/audioPath.dart';
+import 'package:amdiaz/shared/values/audio_path.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';

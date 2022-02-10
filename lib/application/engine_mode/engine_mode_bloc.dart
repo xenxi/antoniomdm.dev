@@ -1,4 +1,4 @@
-import 'package:amdiaz/shared/values/audioPath.dart';
+import 'package:amdiaz/shared/values/audio_path.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
