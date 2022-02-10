@@ -38,14 +38,7 @@ class Shutdown extends StatelessWidget {
               ),
             ),
           ),
-          FadeIn(
-            delay: const Duration(seconds: 5),
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              color: Colors.black,
-            ),
-          ),
+          _buildTurnOffAnimation(),
           Positioned(
             top: 20,
             right: 20,
@@ -56,22 +49,29 @@ class Shutdown extends StatelessWidget {
     );
   }
 
-  JelloIn _buildTurnOnButton(BuildContext context) {
-    return JelloIn(
-      delay: const Duration(seconds: 6),
-      child: Pulse(
-        infinite: true,
-        delay: const Duration(seconds: 10),
-        child: IconButton(
-          iconSize: 50,
-          icon: const Icon(
-            Icons.power_settings_new,
-            color: Colors.white,
-          ),
-          onPressed: () =>
-              BlocProvider.of<EngineModeBloc>(context).add(TurnOnSelected()),
+  Widget _buildTurnOffAnimation() => FadeIn(
+        delay: const Duration(seconds: 5),
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          color: Colors.black,
         ),
-      ),
-    );
-  }
+      );
+
+  Widget _buildTurnOnButton(BuildContext context) => JelloIn(
+        delay: const Duration(seconds: 6),
+        child: Pulse(
+          infinite: true,
+          delay: const Duration(seconds: 10),
+          child: IconButton(
+            iconSize: 50,
+            icon: const Icon(
+              Icons.power_settings_new,
+              color: Colors.white,
+            ),
+            onPressed: () =>
+                BlocProvider.of<EngineModeBloc>(context).add(TurnOnSelected()),
+          ),
+        ),
+      );
 }
