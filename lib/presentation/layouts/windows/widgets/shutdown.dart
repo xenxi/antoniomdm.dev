@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../application/engine_mode/engine_mode_bloc.dart';
 
 class Shutdown extends StatelessWidget {
+  final Duration duration;
   const Shutdown({
     Key? key,
+    this.duration = const Duration(seconds: 5),
   }) : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class Shutdown extends StatelessWidget {
             color: Theme.of(context).cardColor,
             child: ZoomOut(
               duration: const Duration(milliseconds: 300),
-              delay: const Duration(milliseconds: 4700),
+              delay: Duration(milliseconds: duration.inMilliseconds - 300),
               child: _buildLoader(),
             ),
           ),
@@ -52,7 +54,7 @@ class Shutdown extends StatelessWidget {
       );
 
   Widget _buildTurnOffAnimation() => FadeIn(
-        delay: const Duration(seconds: 5),
+        delay: duration,
         child: Container(
           height: double.infinity,
           width: double.infinity,
@@ -61,10 +63,10 @@ class Shutdown extends StatelessWidget {
       );
 
   Widget _buildTurnOnButton(BuildContext context) => JelloIn(
-        delay: const Duration(seconds: 6),
+        delay: Duration(seconds: duration.inSeconds + 3),
         child: Pulse(
           infinite: true,
-          delay: const Duration(seconds: 10),
+          delay: Duration(seconds: duration.inSeconds + 6),
           child: IconButton(
             iconSize: 50,
             icon: const Icon(
