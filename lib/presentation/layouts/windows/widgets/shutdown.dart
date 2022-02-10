@@ -21,21 +21,7 @@ class Shutdown extends StatelessWidget {
             child: ZoomOut(
               duration: const Duration(milliseconds: 300),
               delay: const Duration(milliseconds: 4700),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: const [
-                  SizedBox(
-                      width: 46,
-                      height: 46,
-                      child: CircularProgressIndicator(color: Colors.white)),
-                  SizedBox(height: 14),
-                  Text(
-                    'Apagando',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ],
-              ),
+              child: _buildLoader(),
             ),
           ),
           _buildTurnOffAnimation(),
@@ -48,6 +34,22 @@ class Shutdown extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildLoader() => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          SizedBox(
+              width: 46,
+              height: 46,
+              child: CircularProgressIndicator(color: Colors.white)),
+          SizedBox(height: 14),
+          Text(
+            'Apagando',
+            style: TextStyle(color: Colors.white),
+          ),
+        ],
+      );
 
   Widget _buildTurnOffAnimation() => FadeIn(
         delay: const Duration(seconds: 5),
