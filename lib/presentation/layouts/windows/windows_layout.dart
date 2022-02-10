@@ -33,7 +33,6 @@ class WindowsLayout extends HookWidget {
         (currentSize.height / 2) - (modalSize.height / 2)));
     return Scaffold(
       body: BlocBuilder<EngineModeBloc, EngineModeState>(
-        buildWhen: (previous, current) => previous.isOn != current.isOn,
         builder: (context, state) {
           return Stack(
             children: [
@@ -59,27 +58,25 @@ class WindowsLayout extends HookWidget {
                 alignment: Alignment.bottomCenter,
                 child: WindowsNavigationBar(),
               ),
-              if (!state.isOn)
+              if (!state.isOn || true)
                 FadeIn(
                   child: Container(
                     height: double.infinity,
                     width: double.infinity,
-                    color: Colors.black,
-                    child: Row(
+                    color: Theme.of(context).cardColor,
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const CircularProgressIndicator(color: Colors.purple),
-                        const SizedBox(width: 14),
-                        const Text(
+                      children: const [
+                        SizedBox(
+                            width: 46,
+                            height: 46,
+                            child:
+                                CircularProgressIndicator(color: Colors.white)),
+                        SizedBox(height: 14),
+                        Text(
                           'Apagando',
                           style: TextStyle(color: Colors.white),
-                        ),
-                        AnimatedTextKit(
-                          animatedTexts: [
-                            WavyAnimatedText(' ...'),
-                          ],
-                          isRepeatingAnimation: true,
                         ),
                       ],
                     ),
