@@ -57,6 +57,23 @@ void main() {
                   engine: Engine.windows,
                   showLoader: false),
             ]);
+    blocTest<EngineModeBloc, EngineModeState>('to turn on',
+        build: () => EngineModeBloc(musicPlayer),
+        act: (bloc) => bloc
+          ..add(TurnOffSelected())
+          ..add(TurnOnSelected()),
+        expect: () => [
+              EngineModeState(
+                  isOn: false,
+                  playingBackgroundMusicOption: none(),
+                  engine: Engine.windows,
+                  showLoader: false),
+              EngineModeState(
+                  isOn: true,
+                  playingBackgroundMusicOption: none(),
+                  engine: Engine.windows,
+                  showLoader: false),
+            ]);
     blocTest<EngineModeBloc, EngineModeState>(
         'play blackground music in arcade mode',
         build: () => EngineModeBloc(musicPlayer),
