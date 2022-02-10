@@ -57,7 +57,7 @@ class WindowsLayout extends HookWidget {
                 alignment: Alignment.bottomCenter,
                 child: WindowsNavigationBar(),
               ),
-              if (!state.isOn) const Shutdown(),
+              if (!state.isOn || true) const Shutdown(),
             ],
           );
         },
