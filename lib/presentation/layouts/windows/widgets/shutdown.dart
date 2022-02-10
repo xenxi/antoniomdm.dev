@@ -50,14 +50,19 @@ class Shutdown extends StatelessWidget {
             top: 20,
             right: 20,
             child: JelloIn(
-              child: IconButton(
-                iconSize: 50,
-                icon: const Icon(
-                  Icons.power_settings_new,
-                  color: Colors.white,
+              delay: const Duration(seconds: 6),
+              child: Pulse(
+                infinite: true,
+                delay: const Duration(seconds: 10),
+                child: IconButton(
+                  iconSize: 50,
+                  icon: const Icon(
+                    Icons.power_settings_new,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => BlocProvider.of<EngineModeBloc>(context)
+                      .add(TurnOnSelected()),
                 ),
-                onPressed: () => BlocProvider.of<EngineModeBloc>(context)
-                    .add(TurnOnSelected()),
               ),
             ),
           ),
