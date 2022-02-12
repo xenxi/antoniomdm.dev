@@ -26,17 +26,7 @@ class PopupOptionsBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          MediaQuery.of(context).size.width < 390
-              ? IconButton(
-                  onPressed: () => openUrl('https://github.com/xenxi'),
-                  icon: const FaIcon(FontAwesomeIcons.github))
-              : TextButton.icon(
-                  style: TextButton.styleFrom(
-                    primary: Colors.white,
-                  ),
-                  onPressed: () => openUrl('https://github.com/xenxi'),
-                  icon: const FaIcon(FontAwesomeIcons.github),
-                  label: const Text('C:/github/xenxi.exe')),
+          _buildDescriptionIcon(context),
           const Spacer(),
           IconButton(
               onPressed: onMinimize, icon: const Icon(Icons.minimize_outlined)),
@@ -49,4 +39,19 @@ class PopupOptionsBar extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildDescriptionIcon(BuildContext context) {
+    const icon = FaIcon(FontAwesomeIcons.github);
+    return MediaQuery.of(context).size.width < 390
+        ? IconButton(onPressed: _openGithub, icon: icon)
+        : TextButton.icon(
+            style: TextButton.styleFrom(
+              primary: Colors.white,
+            ),
+            onPressed: _openGithub,
+            icon: icon,
+            label: const Text('C:/github/xenxi.exe'));
+  }
+
+  void _openGithub() => openUrl('https://github.com/xenxi');
 }
