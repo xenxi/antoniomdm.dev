@@ -26,13 +26,17 @@ class PopupOptionsBar extends StatelessWidget {
       ),
       child: Row(
         children: [
-          TextButton.icon(
-              style: TextButton.styleFrom(
-                primary: Colors.white,
-              ),
-              onPressed: () => openUrl('https://github.com/xenxi'),
-              icon: const FaIcon(FontAwesomeIcons.github),
-              label: const Text('C:/github/xenxi.exe')),
+          MediaQuery.of(context).size.width < 390
+              ? IconButton(
+                  onPressed: () => openUrl('https://github.com/xenxi'),
+                  icon: const FaIcon(FontAwesomeIcons.github))
+              : TextButton.icon(
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                  ),
+                  onPressed: () => openUrl('https://github.com/xenxi'),
+                  icon: const FaIcon(FontAwesomeIcons.github),
+                  label: const Text('C:/github/xenxi.exe')),
           const Spacer(),
           IconButton(
               onPressed: onMinimize, icon: const Icon(Icons.minimize_outlined)),
