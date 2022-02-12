@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../application/engine_mode/engine_mode_bloc.dart';
-import 'widgets/desktop_icon.dart';
+import 'widgets/desktop_icon/draggable_desktop_icon.dart';
 import 'widgets/shutdown.dart';
 import 'widgets/modal/draggable_modal.dart';
 
@@ -39,7 +39,7 @@ class WindowsLayout extends StatelessWidget {
         ),
       );
 
-  Widget _buildDesktopIcon(BuildContext context) => DesktopIcon(
+  Widget _buildDesktopIcon(BuildContext context) => DraggableDesktopIcon(
         icon: FontAwesomeIcons.gamepad,
         text: 'Arcade Mode',
         onTap: () {
