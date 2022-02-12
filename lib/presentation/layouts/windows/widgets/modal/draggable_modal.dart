@@ -4,8 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import '../../../../shared/widgets/draggable_container.dart';
 import 'modal.dart';
 
-class WindowsModal extends HookWidget {
-  const WindowsModal({
+class DraggableModal extends HookWidget {
+  const DraggableModal({
     Key? key,
     required this.child,
   }) : super(key: key);
