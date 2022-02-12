@@ -31,15 +31,16 @@ class WindowsLayout extends HookWidget {
                 child:
                     Image(image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
               ),
-              Positioned(
-                top: iconOffset.value.dy,
-                left: iconOffset.value.dx,
-                child: DraggableContainer(
-                  feedback: _buildDesktopIconFeedback(context),
-                  onDragEnd: (details) => iconOffset.value = details.offset,
-                  child: _buildDesktopIcon(context),
-                ),
-              ),
+              _buildDesktopIcon(context),
+              // Positioned(
+              //   top: iconOffset.value.dy,
+              //   left: iconOffset.value.dx,
+              //   child: DraggableContainer(
+              //     feedback: _buildDesktopIconFeedback(context),
+              //     onDragEnd: (details) => iconOffset.value = details.offset,
+              //     child: _buildDesktopIcon(context),
+              //   ),
+              // ),
               WindowsModal(child: child),
               const Align(
                 alignment: Alignment.bottomCenter,
