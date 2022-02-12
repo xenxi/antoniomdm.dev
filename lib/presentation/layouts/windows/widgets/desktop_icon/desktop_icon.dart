@@ -14,13 +14,14 @@ class DesktopIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (onTap == null) {
-      return _buildIcon(context);
-    }
-    return InkWell(
-      onTap: onTap,
-      child: _buildIcon(context),
-    );
+    final iconButton = _buildIcon(context);
+
+    return onTap == null
+        ? iconButton
+        : InkWell(
+            onTap: onTap,
+            child: iconButton,
+          );
   }
 
   Widget _buildIcon(BuildContext context) => SizedBox(
