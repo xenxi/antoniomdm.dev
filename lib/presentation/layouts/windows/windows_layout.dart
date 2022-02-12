@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../../application/engine_mode/engine_mode_bloc.dart';
 import 'widgets/desktop_icon.dart';
 import 'widgets/shutdown.dart';
-import 'widgets/windows_modal.dart';
+import 'widgets/modal/windows_modal.dart';
 
 class WindowsLayout extends StatelessWidget {
   final Widget child;
