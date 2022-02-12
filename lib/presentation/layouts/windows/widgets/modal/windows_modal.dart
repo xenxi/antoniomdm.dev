@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-import 'package:amdiaz/presentation/layouts/windows/widgets/popup_options_bar.dart';
-
-import '../../../shared/widgets/draggable_container.dart';
+import '../../../../shared/widgets/draggable_container.dart';
+import 'modal.dart';
 
 class WindowsModal extends HookWidget {
   const WindowsModal({
@@ -84,7 +83,7 @@ Widget _buildModalWindows(BuildContext context,
         curve: Curves.elasticInOut,
         height: size.height,
         width: size.width,
-        child: _WindowsModal(
+        child: Modal(
           onClose: () => modalMinimized.value = !modalMinimized.value,
           onMinimize: () => modalMinimized.value = !modalMinimized.value,
           onToggleExpand: () {
@@ -95,43 +94,3 @@ Widget _buildModalWindows(BuildContext context,
         ),
       ),
     );
-
-class _WindowsModal extends StatelessWidget {
-  final void Function() onToggleExpand;
-  final void Function() onMinimize;
-  final void Function() onClose;
-  final Widget child;
-  const _WindowsModal({
-    Key? key,
-    required this.onToggleExpand,
-    required this.onMinimize,
-    required this.onClose,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.all(20),
-      elevation: 8,
-      child: Column(
-        children: [
-          PopupOptionsBar(
-            onClose: onClose,
-            onMinimize: onMinimize,
-            onToggleExpand: onToggleExpand,
-          ),
-          Expanded(
-              child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: child,
-          )),
-          const SizedBox(
-            height: 20,
-          ),
-        ],
-      ),
-    );
-  }
-}
