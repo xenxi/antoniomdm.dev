@@ -1,3 +1,4 @@
+import 'package:amdiaz/presentation/views/experience_view.dart';
 import 'package:amdiaz/presentation/views/under_construction_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,13 @@ class FluroRouteGenerator {
       '/',
       handler: Handler(
         handlerFunc: (context, params) => const UnderConstructionView(),
+      ),
+      transitionType: TransitionType.materialFullScreenDialog,
+    );
+    _router.define(
+      'experence',
+      handler: Handler(
+        handlerFunc: (context, params) => const ExperienceView(),
       ),
       transitionType: TransitionType.materialFullScreenDialog,
     );
