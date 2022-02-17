@@ -20,7 +20,7 @@ class FluroRouteGenerator {
       transitionType: TransitionType.materialFullScreenDialog,
     );
     _router.define(
-      'experence',
+      'experience',
       handler: Handler(
         handlerFunc: (context, params) => const ExperienceView(),
       ),
