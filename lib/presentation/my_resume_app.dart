@@ -23,6 +23,7 @@ class MyResumeApp extends StatelessWidget {
         navigatorKey: navigator,
         title: Location.fullName,
         theme: CustomTheme.light,
+        initialRoute: 'experence',
         onGenerateRoute: _routeGenerator.generateRoute,
         builder: (context, child) {
           return BlocProvider(
