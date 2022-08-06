@@ -27,8 +27,7 @@ class WindowsLayout extends StatelessWidget {
                       image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
                 ),
                 _buildDesktopIcon(context),
-                Positioned(
-                    top: 50, left: 0, child: _buildBlogDesktopIcon(context)),
+                _buildBlogDesktopIcon(context),
                 DraggableModal(child: child),
                 const Align(
                   alignment: Alignment.bottomCenter,
@@ -44,6 +43,7 @@ class WindowsLayout extends StatelessWidget {
   Widget _buildBlogDesktopIcon(BuildContext context) => DraggableDesktopIcon(
         icon: FontAwesomeIcons.blog,
         text: 'Blog',
+        initialPosition: const Offset(50, 90),
         onTap: () {
           final bloc = BlocProvider.of<EngineModeBloc>(context)
             ..add(ArcadeEngineModeSelected());
