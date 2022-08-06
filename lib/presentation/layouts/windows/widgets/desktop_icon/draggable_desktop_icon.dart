@@ -8,16 +8,18 @@ class DraggableDesktopIcon extends HookWidget {
   final void Function()? onTap;
   final IconData icon;
   final String text;
+  final Offset initialPosition;
   const DraggableDesktopIcon({
     Key? key,
     this.onTap,
     required this.icon,
     required this.text,
+    this.initialPosition = const Offset(20, 20),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final iconOffset = useState<Offset>(const Offset(20, 20));
+    final iconOffset = useState<Offset>(initialPosition);
     return Positioned(
       top: iconOffset.value.dy,
       left: iconOffset.value.dx,
