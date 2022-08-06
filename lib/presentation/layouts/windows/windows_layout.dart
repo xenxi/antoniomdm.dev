@@ -44,15 +44,7 @@ class WindowsLayout extends StatelessWidget {
         icon: FontAwesomeIcons.blog,
         text: 'Blog',
         initialPosition: const Offset(50, 90),
-        onTap: () {
-          final bloc = BlocProvider.of<EngineModeBloc>(context)
-            ..add(ArcadeEngineModeSelected());
-
-          bloc.state.playingBackgroundMusicOption.fold(
-              () => Future.delayed(const Duration(milliseconds: 500),
-                  () => bloc.add(PlayBackgroundMusicSelected())),
-              (_) {});
-        },
+        onTap: () => Navigator.pushNamed(context, '/blog'),
       );
   Widget _buildDesktopIcon(BuildContext context) => DraggableDesktopIcon(
         icon: FontAwesomeIcons.gamepad,
