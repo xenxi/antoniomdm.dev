@@ -1,3 +1,4 @@
+import 'package:amdiaz/presentation/views/blog_view.dart';
 import 'package:amdiaz/presentation/views/experience_view.dart';
 import 'package:amdiaz/presentation/views/under_construction_view.dart';
 import 'package:fluro/fluro.dart';
@@ -23,6 +24,13 @@ class FluroRouteGenerator {
       'experience',
       handler: Handler(
         handlerFunc: (context, params) => const ExperienceView(),
+      ),
+      transitionType: TransitionType.materialFullScreenDialog,
+    );
+    _router.define(
+      'blog',
+      handler: Handler(
+        handlerFunc: (context, params) => const BlogView(),
       ),
       transitionType: TransitionType.materialFullScreenDialog,
     );
