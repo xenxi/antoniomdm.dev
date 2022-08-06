@@ -27,6 +27,8 @@ class WindowsLayout extends StatelessWidget {
                       image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
                 ),
                 _buildDesktopIcon(context),
+                Positioned(
+                    top: 50, left: 0, child: _buildBlogDesktopIcon(context)),
                 DraggableModal(child: child),
                 const Align(
                   alignment: Alignment.bottomCenter,
@@ -39,6 +41,19 @@ class WindowsLayout extends StatelessWidget {
         ),
       );
 
+  Widget _buildBlogDesktopIcon(BuildContext context) => DraggableDesktopIcon(
+        icon: FontAwesomeIcons.blog,
+        text: 'Blog',
+        onTap: () {
+          final bloc = BlocProvider.of<EngineModeBloc>(context)
+            ..add(ArcadeEngineModeSelected());
+
+          bloc.state.playingBackgroundMusicOption.fold(
+              () => Future.delayed(const Duration(milliseconds: 500),
+                  () => bloc.add(PlayBackgroundMusicSelected())),
+              (_) {});
+        },
+      );
   Widget _buildDesktopIcon(BuildContext context) => DraggableDesktopIcon(
         icon: FontAwesomeIcons.gamepad,
         text: 'Arcade Mode',
