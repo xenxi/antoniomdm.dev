@@ -38,6 +38,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_hooks: ^0.18.2
   font_awesome_flutter: ^9.2.0
+  github: ^9.4.0
   intl: ^0.17.0
   just_audio: ^0.9.18
   url_launcher: ^6.0.18
