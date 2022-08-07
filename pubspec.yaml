@@ -42,7 +42,6 @@ dependencies:
   intl: ^0.17.0
   just_audio: ^0.9.18
   url_launcher: ^6.0.18
-  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   bloc_test: ^9.0.2
@@ -62,7 +61,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/.env
     - assets/img/
     - assets/audio/
 

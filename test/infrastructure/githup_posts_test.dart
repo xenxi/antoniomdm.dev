@@ -7,7 +7,7 @@ import 'package:github/github.dart';
 
 void main() {
   dotenv.testLoad(fileInput: File('assets/.env').readAsStringSync());
-  final token = dotenv.get('TOKEN', fallback: '');
+  const token = String.fromEnvironment('TOKEN', defaultValue: '');
   final github = GitHub(auth: Authentication.withToken(token));
   group('GithupPosts should', () {
     test('get all posts', () async {
