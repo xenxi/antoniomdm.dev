@@ -21,12 +21,16 @@ class GithubPosts implements Posts {
     final files = posts.tree ?? <GitHubFile>[];
     for (final post in files) {
       if (post.type == 'file') {
-        final contents =
-            await github.repositories.getContents(slug, post.path!);
-        final title = post.name!;
-        final content = contents.file!.text;
-        yield Post(title: title, content: content);
+        await mapPost(post);
       }
     }
+  }
+
+  Future<Post> mapPost(GitHubFile post) async {
+    final contents = await github.repositories.getContents(slug, post.path!);
+    final title = post.name!;
+    final content = contents.file!.text;
+
+    return Post(title: title, content: content);
   }
 }
