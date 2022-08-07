@@ -17,14 +17,14 @@ class GithubPosts implements Posts {
   Future<RepositoryContents> getAllFiles() async =>
       await github.repositories.getContents(slug, './Posts/');
 
-  Stream<Post> mapFrom(Iterable<GitHubFile> posts) async* {
-    final files = posts.where((file) => file.type == 'file');
-    for (final post in files) {
-      yield await mapPost(post);
+  Stream<Post> mapFrom(Iterable<GitHubFile> repositoryContent) async* {
+    final files = repositoryContent.where((file) => file.type == 'file');
+    for (final file in files) {
+      yield await getPost(file);
     }
   }
 
-  Future<Post> mapPost(GitHubFile post) async {
+  Future<Post> getPost(GitHubFile post) async {
     final contents = await github.repositories.getContents(slug, post.path!);
     final title = post.name!;
     final content = contents.file!.text;
