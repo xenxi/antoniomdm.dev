@@ -18,11 +18,10 @@ class GithubPosts implements Posts {
       await github.repositories.getContents(slug, './Posts/');
 
   Stream<Post> mapFrom(RepositoryContents posts) async* {
-    final files = posts.tree ?? <GitHubFile>[];
+    final files =
+        (posts.tree ?? <GitHubFile>[]).where((file) => file.type == 'file');
     for (final post in files) {
-      if (post.type == 'file') {
-        await mapPost(post);
-      }
+      yield await mapPost(post);
     }
   }
 
