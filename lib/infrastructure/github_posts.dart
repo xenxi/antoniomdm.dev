@@ -9,10 +9,13 @@ class GithubPosts implements Posts {
 
   @override
   Future<Iterable<Post>> getAll() async {
-    final posts = await github.repositories.getContents(slug, './Posts/');
+    final posts = await getAllFiles();
 
     return mapFrom(posts).toList();
   }
+
+  Future<RepositoryContents> getAllFiles() async =>
+      await github.repositories.getContents(slug, './Posts/');
 
   Stream<Post> mapFrom(RepositoryContents posts) async* {
     for (final post in posts.tree ?? <GitHubFile>[]) {
