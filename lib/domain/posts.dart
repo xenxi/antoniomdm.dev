@@ -1,3 +1,5 @@
+import 'package:amdiaz/domain/post.dart';
+
 abstract class Posts {
-  Future<Iterable<String>> getAll();
+  Future<Iterable<Post>> getAll();
 }
