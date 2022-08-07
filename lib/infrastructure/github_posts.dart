@@ -7,8 +7,15 @@ class GithubPosts implements Posts {
   GithubPosts(this.github);
 
   @override
-  Future<Iterable<String>> getAll() {
-    // TODO: implement getAll
-    throw UnimplementedError();
+  Future<Iterable<String>> getAll() async {
+    var repositorySlug = RepositorySlug('xenxi', 'blog');
+
+    final posts =
+        await github.repositories.getContents(repositorySlug, './Posts/');
+
+    return posts.tree
+            ?.where((element) => element.name?.isNotEmpty == true)
+            .map((e) => e.name!) ??
+        [];
   }
 }
