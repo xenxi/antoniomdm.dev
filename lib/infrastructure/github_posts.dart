@@ -9,9 +9,9 @@ class GithubPosts implements Posts {
 
   @override
   Future<Iterable<Post>> getAll() async {
-    final posts = await getAllFiles();
+    final files = await getAllFiles();
 
-    return mapFrom(posts).toList();
+    return mapFrom(files).toList();
   }
 
   Future<RepositoryContents> getAllFiles() async =>
