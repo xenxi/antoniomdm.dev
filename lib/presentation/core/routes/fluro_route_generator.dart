@@ -1,8 +1,10 @@
+import 'package:amdiaz/infrastructure/github_posts.dart';
 import 'package:amdiaz/presentation/views/blog_view.dart';
 import 'package:amdiaz/presentation/views/experience_view.dart';
 import 'package:amdiaz/presentation/views/under_construction_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:github/github.dart';
 
 class FluroRouteGenerator {
   final FluroRouter _router;
@@ -30,7 +32,14 @@ class FluroRouteGenerator {
     _router.define(
       'blog',
       handler: Handler(
-        handlerFunc: (context, params) => const BlogView(),
+        handlerFunc: (context, params) {
+          const token =
+              String.fromEnvironment('GITHUB_TOKEN', defaultValue: 'not found');
+          print(token);
+          final github = GitHub(auth: Authentication.withToken(token));
+          final githubPosts = GithubPosts(github);
+          return BlogView(posts: githubPosts);
+        },
       ),
       transitionType: TransitionType.materialFullScreenDialog,
     );

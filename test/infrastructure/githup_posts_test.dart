@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:github/github.dart';
 
 void main() {
-  dotenv.testLoad(fileInput: File('test/.env').readAsStringSync());
+  dotenv.testLoad(fileInput: File('assets/.env').readAsStringSync());
   final token = dotenv.get('TOKEN', fallback: '');
   final github = GitHub(auth: Authentication.withToken(token));
   group('GithupPosts should', () {
