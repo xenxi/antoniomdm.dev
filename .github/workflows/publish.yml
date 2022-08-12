@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "The TOKEN is:$G_TOKEN"
+      - run: echo "The TOKEN is:${{env.G_TOKEN}}"
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
         with:
