@@ -8,9 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: step 1
-        run: echo "The TOKEN is:$TOKEN"
-    steps:
+      - run: echo "The TOKEN is:$TOKEN"
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
         with:
