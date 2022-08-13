@@ -35,7 +35,6 @@ class FluroRouteGenerator {
         handlerFunc: (context, params) {
           const token =
               String.fromEnvironment('GITHUB_TOKEN', defaultValue: 'not found');
-          print(token);
           final github = GitHub(auth: Authentication.withToken(token));
           final githubPosts = GithubPosts(github);
           return BlogView(posts: githubPosts);
