@@ -5,6 +5,7 @@ import 'package:amdiaz/presentation/views/under_construction_view.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:github/github.dart';
+import 'dart:convert';
 
 class FluroRouteGenerator {
   final FluroRouter _router;
@@ -35,8 +36,9 @@ class FluroRouteGenerator {
         handlerFunc: (context, params) {
           const token =
               String.fromEnvironment('GITHUB_TOKEN', defaultValue: 'not found');
-          print(token);
-          final github = GitHub(auth: Authentication.withToken(token));
+
+          String decoded = utf8.fuse(base64).decode(token);
+          final github = GitHub(auth: Authentication.withToken(decoded));
           final githubPosts = GithubPosts(github);
           return BlogView(posts: githubPosts);
         },
