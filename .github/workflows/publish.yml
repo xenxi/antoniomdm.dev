@@ -16,3 +16,4 @@ jobs:
       - uses: bluefireteam/flutter-gh-pages@v7
         with:
           baseHref: /
+          customArgs: --dart-define="G_TOKEN=${{ secrets.G_TOKEN }}"
