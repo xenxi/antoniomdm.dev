@@ -1,3 +1,4 @@
+import 'package:amdiaz/presentation/my_resume_app.dart';
 import 'package:flutter/material.dart';
 
 import 'package:amdiaz/domain/posts.dart';
@@ -20,6 +21,13 @@ class BlogView extends StatelessWidget {
             itemCount: posts.length,
             itemBuilder: (BuildContext context, int index) {
               final post = posts[index];
+              return ListTile(
+                title: Text(post.title),
+                onTap: () {
+                  Navigator.pushNamed(
+                      navigator.currentContext!, '/blog/${post.title}');
+                },
+              );
               return ListTile(
                 title: Text(post.title),
                 subtitle: Text(post.content),

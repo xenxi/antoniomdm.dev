@@ -1,4 +1,5 @@
 import 'package:amdiaz/presentation/layouts/windows/widgets/windows_navigation_bar/windows_navigation_bar.dart';
+import 'package:amdiaz/presentation/my_resume_app.dart';
 import 'package:amdiaz/shared/values/image_path.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class WindowsLayout extends StatelessWidget {
                       image: AssetImage(ImagePath.bg7), fit: BoxFit.cover),
                 ),
                 _buildDesktopIcon(context),
-                _buildBlogDesktopIcon(context),
+                _buildBlogDesktopIcon(),
                 DraggableModal(child: child),
                 const Align(
                   alignment: Alignment.bottomCenter,
@@ -40,11 +41,11 @@ class WindowsLayout extends StatelessWidget {
         ),
       );
 
-  Widget _buildBlogDesktopIcon(BuildContext context) => DraggableDesktopIcon(
+  Widget _buildBlogDesktopIcon() => DraggableDesktopIcon(
         icon: FontAwesomeIcons.blog,
         text: 'Blog',
         initialPosition: const Offset(50, 90),
-        onTap: () => Navigator.pushNamed(context, '/blog'),
+        onTap: () => Navigator.pushNamed(navigator.currentContext!, '/blog'),
       );
   Widget _buildDesktopIcon(BuildContext context) => DraggableDesktopIcon(
         icon: FontAwesomeIcons.gamepad,
