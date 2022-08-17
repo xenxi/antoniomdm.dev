@@ -1,4 +1,5 @@
 import 'package:amdiaz/presentation/layouts/windows/widgets/windows_navigation_bar/vertical_sub_menu.dart';
+import 'package:amdiaz/presentation/my_resume_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -39,6 +40,15 @@ class VerticalMainMenu extends StatelessWidget {
                   ),
                   onTap: () => BlocProvider.of<EngineModeBloc>(context)
                       .add(ArcadeEngineModeSelected()),
+                ),
+                ListTile(
+                  leading: const FaIcon(FontAwesomeIcons.blog),
+                  title: Text(
+                    'Blog',
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                  onTap: () =>
+                      Navigator.pushNamed(navigator.currentContext!, '/blog'),
                 ),
               ],
             ),
