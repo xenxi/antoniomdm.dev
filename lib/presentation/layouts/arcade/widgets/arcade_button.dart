@@ -9,7 +9,14 @@ class ArcadeButton extends HookWidget {
   Widget build(BuildContext context) {
     final pressed = useState(false);
     return InkWell(
-      onTap: () => pressed.value = !pressed.value,
+      onTap: () {
+        pressed.value = !pressed.value;
+
+        if (pressed.value) {
+          Future.delayed(const Duration(milliseconds: 200))
+              .then((value) => pressed.value = false);
+        }
+      },
       mouseCursor: SystemMouseCursors.click,
       child: SizedBox(
         width: 50,
