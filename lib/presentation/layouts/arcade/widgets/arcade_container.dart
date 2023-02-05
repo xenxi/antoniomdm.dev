@@ -46,68 +46,41 @@ class ArcadeContainer extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildLeftGamePad(double left) => [
-        Positioned(
-          bottom: 220,
-          left: left,
-          child: const ArcadeButton(),
-        ),
-        Positioned(
-          bottom: 220,
-          left: left + 60,
-          child: const ArcadeButton(),
-        ),
-        Positioned(
-          bottom: 220,
-          left: left + 60 + 60,
-          child: const ArcadeButton(),
-        ),
-        Positioned(
-          bottom: 200,
-          left: left - 10,
-          child: const ArcadeButton(),
-        ),
-        Positioned(
-          bottom: 200,
-          left: left + 60 - 10,
-          child: const ArcadeButton(),
-        ),
-        Positioned(
-          bottom: 200,
-          left: left + 60 + 60 - 10,
-          child: const ArcadeButton(),
-        ),
-      ];
-  List<Widget> _buildRightGamePad(double left) => [
-        Positioned(
-          bottom: 220,
-          left: left - 10,
-          child: const ArcadeButton(),
-        ),
-        Positioned(
-          bottom: 220,
-          left: left + 60 - 10,
-          child: const ArcadeButton(),
-        ),
-        Positioned(
-          bottom: 220,
-          left: left + 60 + 60 - 10,
-          child: const ArcadeButton(),
-        ),
-        Positioned(
-          bottom: 200,
-          left: left,
-          child: const ArcadeButton(),
-        ),
-        Positioned(
-          bottom: 200,
-          left: left + 60,
-          child: const ArcadeButton(),
-        ),
-        Positioned(
-          bottom: 200,
-          left: left + 60 + 60,
-          child: const ArcadeButton(),
-        ),
-      ];
+  List<Widget> _buildLeftGamePad(double left) {
+    final buttons = <Widget>[];
+    for (var i = 0; i < 3; i++) {
+      buttons.add(Positioned(
+        bottom: 220,
+        left: left + (60 * i),
+        child: const ArcadeButton(),
+      ));
+    }
+    for (var i = 0; i < 3; i++) {
+      buttons.add(Positioned(
+        bottom: 200,
+        left: left + (60 * i) - 10,
+        child: const ArcadeButton(),
+      ));
+    }
+    return buttons;
+  }
+
+  List<Widget> _buildRightGamePad(double left) {
+    final buttons = <Widget>[];
+    for (var i = 0; i < 3; i++) {
+      buttons.add(Positioned(
+        bottom: 220,
+        left: left + (60 * i) - 10,
+        child: const ArcadeButton(),
+      ));
+    }
+    for (var i = 0; i < 3; i++) {
+      buttons.add(Positioned(
+        bottom: 200,
+        left: left + (60 * i),
+        child: const ArcadeButton(),
+      ));
+    }
+    return buttons;
+  }
 }
