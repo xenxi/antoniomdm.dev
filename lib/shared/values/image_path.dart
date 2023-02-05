@@ -10,4 +10,8 @@ class ImagePath {
   static const String animatedBg1 = '$_root/animate_bg_01.gif';
   static const String animatedBg2 = '$_root/animate_bg_02.gif';
   static const String arcade = '$_root/arcade.png';
+  static const String arcadeWithoutButtons =
+      '$_root/arcade_without_buttons.png';
+  static const String arcadeButton = '$_root/arcade_btn.png';
+  static const String arcadeButtonPressed = '$_root/arcade_btn_pressed.png';
 }

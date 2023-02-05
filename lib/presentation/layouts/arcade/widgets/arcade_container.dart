@@ -1,3 +1,4 @@
+import 'package:amdiaz/presentation/layouts/arcade/widgets/arcade_button.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../shared/values/image_path.dart';
@@ -20,10 +21,12 @@ class ArcadeContainer extends StatelessWidget {
         child: Stack(
           children: [
             const Image(
-              image: AssetImage(ImagePath.arcade),
+              image: AssetImage(ImagePath.arcadeWithoutButtons),
               fit: BoxFit.cover,
               alignment: Alignment.center,
             ),
+            ..._buildLeftGamePad(230),
+            ..._buildRightGamePad(570),
             Positioned(
               top: 222,
               left: 188,
@@ -42,4 +45,69 @@ class ArcadeContainer extends StatelessWidget {
       ),
     );
   }
+
+  List<Widget> _buildLeftGamePad(double left) => [
+        Positioned(
+          bottom: 220,
+          left: left,
+          child: const ArcadeButton(),
+        ),
+        Positioned(
+          bottom: 220,
+          left: left + 60,
+          child: const ArcadeButton(),
+        ),
+        Positioned(
+          bottom: 220,
+          left: left + 60 + 60,
+          child: const ArcadeButton(),
+        ),
+        Positioned(
+          bottom: 200,
+          left: left - 10,
+          child: const ArcadeButton(),
+        ),
+        Positioned(
+          bottom: 200,
+          left: left + 60 - 10,
+          child: const ArcadeButton(),
+        ),
+        Positioned(
+          bottom: 200,
+          left: left + 60 + 60 - 10,
+          child: const ArcadeButton(),
+        ),
+      ];
+  List<Widget> _buildRightGamePad(double left) => [
+        Positioned(
+          bottom: 220,
+          left: left - 10,
+          child: const ArcadeButton(),
+        ),
+        Positioned(
+          bottom: 220,
+          left: left + 60 - 10,
+          child: const ArcadeButton(),
+        ),
+        Positioned(
+          bottom: 220,
+          left: left + 60 + 60 - 10,
+          child: const ArcadeButton(),
+        ),
+        Positioned(
+          bottom: 200,
+          left: left,
+          child: const ArcadeButton(),
+        ),
+        Positioned(
+          bottom: 200,
+          left: left + 60,
+          child: const ArcadeButton(),
+        ),
+        Positioned(
+          bottom: 200,
+          left: left + 60 + 60,
+          child: const ArcadeButton(),
+        ),
+      ];
 }
