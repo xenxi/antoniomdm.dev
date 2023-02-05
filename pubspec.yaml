@@ -27,7 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  animate_do: ^2.1.0
+  animate_do: ^3.0.2
   animated_text_kit: ^4.2.1
   cupertino_icons: ^1.0.2
   dartz: ^0.10.1
@@ -37,18 +37,18 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_hooks: ^0.18.2
-  font_awesome_flutter: ^9.2.0
+  font_awesome_flutter: ^10.3.0
   github: ^9.4.0
-  intl: ^0.17.0
+  intl: ^0.18.0
   just_audio: ^0.9.18
   url_launcher: ^6.0.18
 
 dev_dependencies:
   bloc_test: ^9.0.2
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
-  mocktail: ^0.2.0
+  mocktail: ^0.3.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
