@@ -8,9 +8,9 @@ class ArcadeButton extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final pressed = useState(false);
-    return MouseRegion(
-      onEnter: (_) => pressed.value = true,
-      onExit: (_) => pressed.value = false,
+    return InkWell(
+      onTap: () => pressed.value = !pressed.value,
+      mouseCursor: SystemMouseCursors.click,
       child: SizedBox(
         width: 50,
         child: Image.asset(

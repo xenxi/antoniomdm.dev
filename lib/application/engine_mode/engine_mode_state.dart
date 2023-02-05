@@ -8,7 +8,7 @@ class EngineModeState extends Equatable {
   final bool isOn;
   factory EngineModeState.initial() => EngineModeState(
       playingBackgroundMusicOption: none(),
-      engine: Engine.arcade,
+      engine: Engine.windows,
       isOn: true,
       showLoader: false);
 
