@@ -14,7 +14,7 @@ export function ExperienceContent({ data }: { data: UiData }) {
 function EvidenceLinks({ ids, data, kind }: { ids: string[]; data: UiData; kind: 'experience' | 'case' | 'project' }) {
   const { href } = useLocale();
   const labels = kind === 'experience' ? new Map(data.professionalExperience.map(x => [x.id, x.company])) : kind === 'case' ? new Map(data.architectureCases.map(x => [x.id, x.title])) : new Map(data.portfolio.projects.map(x => [x.slug, x.name]));
-  return <div class="evidence-links">{ids.map(id => labels.get(id) ? <a key={id} href={kind === 'experience' ? href(`/experience/#${id}`) : kind === 'case' ? href('/architecture/') : href(`/projects/${id}/`)}>{labels.get(id)}</a> : null)}</div>;
+  return <div class="evidence-links">{ids.map(id => labels.get(id) ? <a key={id} href={kind === 'experience' ? href(`/experience/#${id}`) : kind === 'case' ? href(`/architecture/${id}/`) : href(`/projects/${id}/`)}>{labels.get(id)}</a> : null)}</div>;
 }
 
 function Metric({ metric, t }: { metric: NonNullable<UiData['achievements'][number]['metric']>; t: (v: string) => string }) {

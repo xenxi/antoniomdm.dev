@@ -11,7 +11,7 @@ const entries: [AppId, string, string, string][] = [
 ];
 export const applications: ApplicationDefinition[] = entries.map(([id,name,path,description], index) => ({
   id, name, path, description, icon: id, component: id,
-  defaultSize: { width: id === 'about' ? 960 : 680, height: id === 'about' ? 660 : 510 },
+  defaultSize: { width: id === 'about' ? 960 : id === 'architecture' ? 920 : 680, height: id === 'about' ? 660 : id === 'architecture' ? 720 : 510 },
   minSize: { width: 340, height: 280 }, initialPosition: id === 'about' ? { x: 264, y: 24 } : { x: 270 + index % 4 * 24, y: 40 + index % 4 * 24 },
   resizable: true, maximizable: true, singleInstance: true,
 }));
@@ -22,7 +22,7 @@ export function appForPath(path: string): AppId | undefined {
   if (clean === '/' || clean === '/about/' || profileSections.some(section => section.path === clean)) return 'about';
   if (clean === '/blog/') return 'notes';
   if (clean === '/ai/' || clean === '/lab/') return 'lab';
-  return applications.find(app => app.path !== '/' && (clean === app.path || ((app.id === 'projects' || app.id === 'notes') && clean.startsWith(app.path))))?.id;
+  return applications.find(app => app.path !== '/' && (clean === app.path || ((app.id === 'projects' || app.id === 'notes' || app.id === 'architecture') && clean.startsWith(app.path))))?.id;
 }
 export const desktopApplications: AppId[] = ['about', 'architecture', 'projects', 'lab', 'notes', 'terminal', 'arcade', 'contact'];
 export const launcherApplications = [...desktopApplications, 'settings' as const].map(id => registry[id]);

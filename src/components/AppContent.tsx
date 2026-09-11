@@ -7,13 +7,14 @@ import type { Preferences } from '../os/preferences';
 import Icon from './Icon';
 import Profile from './Profile';
 import ProjectThumbnail from './ProjectThumbnail';
+import Architecture from './Architecture';
 export { ProfileContent, ExperienceContent } from './Profile';
 
 interface Props { id: AppId; path: string; content: ContentData; data: UiData; enterArcade?: () => void; preferences?: Preferences; setPreferences?: (value: Preferences) => void; reset?: () => void; open?: (path: string) => void }
 export default function AppContent(props: Props) {
   const { locale, t, href } = useLocale();
   const { projects, categories, labs } = props.data.portfolio;
-  const { architectureCases, publicLinks } = props.data;
+  const { publicLinks } = props.data;
   const { id, path, content, data } = props;
   const [category, setCategory] = useState<string>(t("All projects"));
   const [lab, setLab] = useState<string | null>(null);
@@ -27,7 +28,7 @@ export default function AppContent(props: Props) {
     const note = content.notes.find(note => path === `/notes/${note.slug}/`);
     return note ? <article class="prose"><a class="back-link" href={href("/notes/")}>{t("← All notes")}</a><p class="eyebrow">{note.date.slice(0, 10)} / {note.readingTime} {t("MIN READ")}</p><h1>{note.title}</h1><div class="tags">{note.tags.map(tag => <span key={tag}>{tag}</span>)}</div><div data-note-body dangerouslySetInnerHTML={{ __html: note.html || `<p>${t("Loading article…")}</p>` }} />{!note.html && <a href={href(`${path}?view=reading`)}>{t("Reading view ↗")}</a>}</article> : <><p class="eyebrow">{t("NOTES / THE OPEN NOTEBOOK")}</p><h1>{t("Thinking out loud.")}</h1><p class="muted">{t("Notes on software and the things I build.")}</p>{content.notes.map(note => <a class="note-card" key={note.slug} href={href(`/notes/${note.slug}/`)}><p class="eyebrow">{note.date.slice(0, 10)} / {note.readingTime} {t("MIN READ")}</p><h2>{note.title} ↗</h2><p>{note.description}</p><div class="tags">{note.tags.map(tag => <span key={tag}>{tag}</span>)}</div></a>)}<a class="back-link" href={href("/rss.xml")}>{t("Subscribe via RSS ↗")}</a></>;
   }
-  if (id === 'architecture') return <><p class="eyebrow">{locale === 'es' ? 'ARQUITECTURA / CASOS CONFIRMADOS' : 'ARCHITECTURE / CONFIRMED CASES'}</p><h1>{locale === 'es' ? 'Decisiones con evidencia.' : 'Evidence-backed decisions.'}</h1><div class="lab-list">{architectureCases.map(item => <article key={item.id}><Icon name="lab" /><h2>{item.title}</h2><p>{item.summary}</p></article>)}</div></>;
+  if (id === 'architecture') return <Architecture path={path} data={data} />;
   if (id === 'lab') return <><p class="eyebrow">AI LAB</p><h1>{locale === 'es' ? 'Dos ámbitos, una frontera clara.' : 'Two scopes, one clear boundary.'}</h1><p class="muted">{locale === 'es' ? 'IA para ingeniería e IA dentro del software se presentan por separado.' : 'AI for engineering and AI inside software are represented separately.'}</p><div class="lab-list">{labs.map(item => <article key={item.id}><Icon name="lab" /><h2>{item.name}</h2><p>{item.description}</p><button aria-expanded={lab === item.id} onClick={() => setLab(lab === item.id ? null : item.id)}>{lab === item.id ? t("Close concept") : t("Explore concept")} ↗</button>{lab === item.id && <div class="lab-concept"><p>{item.concept}</p></div>}</article>)}</div></>;
   if (id === 'contact') return <><p class="eyebrow">{locale === 'es' ? 'CONTACTO / DISPONIBILIDAD VERIFICADA' : 'CONTACT / VERIFIED AVAILABILITY'}</p><h1>{locale === 'es' ? 'Canales profesionales.' : 'Professional channels.'}</h1><div class="lab-list">{publicLinks.map(link => <article key={link.id}><h2>{link.label}</h2>{link.availability === 'available' && link.url ? <a href={link.url}>{locale === 'es' ? 'Abrir enlace ↗' : 'Open link ↗'}</a> : <p class="muted">{link.availability === 'preparing' ? (locale === 'es' ? 'En preparación' : 'Working on it') : (locale === 'es' ? 'No disponible' : 'Unavailable')}</p>}</article>)}</div></>;
   if (id === 'terminal') return <Terminal open={props.open} data={data} />;

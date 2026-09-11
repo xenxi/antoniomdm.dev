@@ -57,11 +57,49 @@ describe('public professional model', () => {
     expect(errors).toContain('pending_editorial but contains public content');
   });
 
-  it('keeps pending editorial fields out of public selectors', () => {
+  it('publishes the approved A5 sections while keeping undocumented options out', () => {
     const cases = getArchitectureCases('en'); const vehicle = cases.find(item => item.id === 'vehicle-read-model')!;
     expect(vehicle.sections.some(section => section.id === 'options')).toBe(false);
-    expect(vehicle.sections.some(section => section.id === 'learning')).toBe(false);
+    expect(vehicle.sections.some(section => section.id === 'learning')).toBe(true);
     expect(validatePublicProfessionalModel(candidate())).toEqual([]);
+  });
+
+  it('keeps the four locked A5 ids, unique slugs and exact relations', () => {
+    const cases = publicProfessionalModel.architectureCases;
+    expect(cases.map(item => item.id)).toEqual(['vehicle-read-model', 'testing-infrastructure', 'event-summaries', 'legacy-modernization']);
+    expect(new Set(cases.map(item => item.slug)).size).toBe(4);
+    expect(cases.map(item => [item.id, item.experienceIds, item.competencyIds, item.achievementIds])).toEqual([
+      ['vehicle-read-model', ['domingo-alonso'], ['software-architecture', 'performance-engineering', 'sql-data-architecture'], []],
+      ['testing-infrastructure', ['domingo-alonso'], ['testing-quality'], ['integration-suite-feedback']],
+      ['event-summaries', ['domingo-alonso'], ['distributed-systems', 'event-driven-architecture'], ['event-summary-api-calls']],
+      ['legacy-modernization', ['domingo-alonso'], ['legacy-modernization', 'software-architecture'], []],
+    ]);
+    const value = candidate(); value.architectureCases[1].slug = value.architectureCases[0].slug;
+    expect(validatePublicProfessionalModel(value).join('\n')).toContain('duplicate slug');
+  });
+
+  it('keeps every published A5 field bilingual and every route destination non-empty', () => {
+    for (const item of publicProfessionalModel.architectureCases) {
+      expect(item.slug.trim()).not.toBe('');
+      expect(item.title.es.trim()).not.toBe(''); expect(item.title.en.trim()).not.toBe('');
+      expect(item.summary.es.trim()).not.toBe(''); expect(item.summary.en.trim()).not.toBe('');
+      for (const section of [item.context, item.problem, item.constraints, item.decision, item.tradeoffs, item.implementation, item.result, item.learning]) {
+        expect(section).toMatchObject({ status: 'published' });
+        expect(section.content?.es.trim()).not.toBe(''); expect(section.content?.en.trim()).not.toBe('');
+      }
+      expect(item.options).toEqual({ status: 'pending_editorial' });
+    }
+  });
+
+  it('protects the two scoped approximate metrics without a primary 30x claim', () => {
+    const testing = getArchitectureCases('en').find(item => item.id === 'testing-infrastructure')!;
+    const events = getArchitectureCases('en').find(item => item.id === 'event-summaries')!;
+    const testingResult = testing.sections.find(section => section.id === 'result')!.content;
+    const eventResult = events.sections.find(section => section.id === 'result')!.content;
+    expect(testingResult).toContain('approximate'); expect(testingResult).toContain('~60'); expect(testingResult).toContain('~2');
+    expect(testingResult).not.toMatch(/30\s*[×x]/i);
+    expect(eventResult).toContain('~1–2'); expect(eventResult).toContain('per relevant event'); expect(eventResult).toContain('affected integrations');
+    expect(publicProfessionalModel.claims.map(claim => `${claim.text.es} ${claim.text.en}`).join(' ')).not.toMatch(/30\s*[×x]/i);
   });
 
   it('keeps availability and delivery status explicit', () => {

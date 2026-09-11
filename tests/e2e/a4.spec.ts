@@ -93,7 +93,7 @@ test('A4 achievement and competency relations reach existing bilingual destinati
   await expect(page).toHaveURL(/\/experience\/#domingo-alonso$/);
   await page.goBack();
   await achievement.locator('.evidence-links a').nth(1).click();
-  await expect(page).toHaveURL('/architecture/');
+  await expect(page).toHaveURL('/architecture/testing-infrastructure/');
   await page.goBack();
   await page.goto(routes.es.competencies);
   await page.locator('#software-architecture .evidence-links a').last().click();

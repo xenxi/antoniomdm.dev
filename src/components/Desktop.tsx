@@ -149,7 +149,7 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
   useLayoutEffect(() => { if (launcher) searchInput.current?.focus(); }, [launcher]);
   function links(event: TargetedMouseEvent<HTMLElement>) {
     const anchor = (event.target as HTMLElement).closest('a');
-    if (!anchor || anchor.target || anchor.hasAttribute('download') || anchor.hasAttribute('data-language') || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    if (!anchor || anchor.target || anchor.hasAttribute('download') || anchor.hasAttribute('data-language') || anchor.hasAttribute('data-native-navigation') || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
     const url = new URL(anchor.href, location.href); const next = normalizePath(basePath(url.pathname));
     if (url.origin === location.origin && !url.search && !url.hash && knownPath(next)) { event.preventDefault(); open(next); }
   }

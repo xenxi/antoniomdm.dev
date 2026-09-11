@@ -50,6 +50,7 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
   const achievementIds = ids(model.achievements, 'achievements', errors);
   const projectIds = ids(model.projects, 'projects', errors);
   const caseIds = ids(model.architectureCases, 'architectureCases', errors);
+  const caseSlugs = new Set<string>();
   const linkIds = ids(model.externalLinks, 'externalLinks', errors);
   const cvIds = ids(model.cvVariants, 'cvVariants', errors);
   const claimIds = ids(model.claims, 'claims', errors);
@@ -92,6 +93,9 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
     }
   }
   for (const item of model.architectureCases) {
+    if (!item.slug.trim()) errors.push(`architectureCases.${item.id}.slug is required`);
+    else if (caseSlugs.has(item.slug)) errors.push(`architectureCases contains duplicate slug "${item.slug}"`);
+    caseSlugs.add(item.slug);
     references(item.claimIds, claimIds, `architectureCases.${item.id}.claimIds`, errors);
     references(item.experienceIds, experienceIds, `architectureCases.${item.id}.experienceIds`, errors);
     references(item.competencyIds, competencyIds, `architectureCases.${item.id}.competencyIds`, errors);

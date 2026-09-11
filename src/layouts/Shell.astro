@@ -10,7 +10,7 @@ interface Props { path: string; content: ContentData }
 const { path, content } = Astro.props;
 const meta = pageMetadata(path, content);
 const locale = localeForPath(path); const t = translator(locale);
-const uiData = getUiData(locale, content);
+const uiData = getUiData(locale, content, path);
 const initialContent = { notes: content.notes.map(note => ({ ...note, html: basePath(path) === `/notes/${note.slug}/` ? note.html : "" })) };
 ---
 <!doctype html>

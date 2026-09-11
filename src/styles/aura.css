@@ -210,3 +210,87 @@
   .reading .desktop-hint { display: none; }
   @media print { .pixel-portrait, .system-profile, .profile-bottom, .system-menu { display: none; } .profile-overview { display: block; } .profile-copy h1, .profile-copy .role, .profile-copy .profile-intro { color: black; text-shadow: none; max-width: none; } .window.active { background: white; } }
 }
+
+/* A5: scan-first architecture cases with presentation-only conceptual diagrams. */
+@layer antonios {
+  .window[data-window="architecture"] { container-type: inline-size; }
+  .content-architecture { padding: 0; }
+  .architecture-app { min-width: 0; overflow-wrap: anywhere; }
+  .architecture-index { padding: 26px; }
+  .architecture-index-header { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: 10px 30px; align-items: end; margin-bottom: 22px; }
+  .architecture-index-header .eyebrow { grid-column: 1 / -1; margin: 0; color: var(--cyan); }
+  .architecture-index-header h1 { margin: 0; max-width: 17ch; font-size: clamp(1.8rem, 4cqi, 2.8rem); line-height: 1.08; letter-spacing: -.045em; }
+  .architecture-index-header > p:last-child { margin: 0; color: var(--text-muted); font-size: .9375rem; }
+  .architecture-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .architecture-card { position: relative; display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; min-height: 205px; padding: 18px; border: 1px solid var(--border); border-top: 3px solid var(--warning); border-radius: 7px; background: color-mix(in srgb, var(--surface-elevated) 72%, var(--surface)); color: var(--text); }
+  .architecture-card:nth-child(2) { border-top-color: var(--cyan); }
+  .architecture-card:nth-child(3) { border-top-color: var(--aura-blue); }
+  .architecture-card:nth-child(4) { border-top-color: var(--violet); }
+  .architecture-card:hover { color: var(--text); border-color: var(--cyan); background: var(--surface-elevated); }
+  .architecture-card:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  .case-number { color: var(--text-muted); font: .75rem/1.4 var(--mono); letter-spacing: .08em; }
+  .architecture-card h2 { margin: 0 0 8px; font-size: 1.15rem; line-height: 1.25; }
+  .architecture-card p { margin: 0 0 12px; color: var(--text-muted); font-size: .875rem; line-height: 1.55; }
+  .case-themes { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .case-themes li { padding: 3px 7px; border: 1px solid var(--border); border-radius: 999px; color: var(--text-muted); font: .75rem/1.45 var(--mono); }
+  .case-open { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; color: var(--warning); font-size: .8125rem; }
+  .architecture-case { max-width: 900px; margin: 0 auto; padding: 24px 30px 44px; }
+  .architecture-case > .back-link { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 10px; }
+  .case-header { padding: 18px 0 28px; border-bottom: 1px solid var(--border); }
+  .case-header .eyebrow { color: var(--cyan); }
+  .case-header h1 { max-width: 19ch; margin: 6px 0 14px; font-size: clamp(2rem, 5cqi, 3.25rem); line-height: 1.06; letter-spacing: -.05em; }
+  .case-header .lead { max-width: 66ch; color: var(--text-muted); font-size: 1.05rem; }
+  .case-sections > section { display: grid; grid-template-columns: minmax(150px, .32fr) minmax(0, 1fr); gap: 28px; padding: 25px 0; border-bottom: 1px solid var(--border); }
+  .case-sections > section h2 { margin: 0; color: var(--warning); font: 600 .8125rem/1.5 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+  .case-sections > section p { margin: 0; color: var(--text-muted); }
+  .architecture-diagram { margin: 28px 0; padding: 22px; border: 1px solid var(--border); border-left: 3px solid var(--cyan); border-radius: 7px; background: #151b1d; }
+  .architecture-diagram > h2 { margin: 0 0 5px; font-size: 1.15rem; }
+  .architecture-diagram > figcaption { max-width: 72ch; margin-bottom: 18px; color: var(--text-muted); font-size: .8125rem; }
+  .diagram-stages { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .diagram-stages > section { min-width: 0; padding: 13px; border: 1px solid var(--border); border-radius: 5px; background: var(--surface); }
+  .diagram-stages > .diagram-wide, .diagram-stages > .diagram-input { grid-column: 1 / -1; }
+  .diagram-stages h3 { margin: 0 0 10px; color: var(--text); font: 600 .75rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .04em; }
+  .diagram-flow { display: flex; align-items: stretch; gap: 17px; margin: 0; padding: 0; list-style: none; }
+  .diagram-node { position: relative; display: grid; place-items: center; flex: 1 1 0; min-width: 0; min-height: 58px; padding: 7px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface-elevated); color: var(--text-muted); font: .7rem/1.35 var(--mono); text-align: center; }
+  .diagram-node:not(:last-child)::after { content: '→'; position: absolute; z-index: 1; left: calc(100% + 3px); top: 50%; width: 12px; color: var(--text-muted); transform: translateY(-50%); }
+  .diagram-node-source { border-style: dashed; }
+  .diagram-node-change { border-color: var(--warning); color: var(--text); }
+  .diagram-node-outcome { border-color: var(--cyan); color: var(--text); }
+  .diagram-choice > div, .diagram-input > div { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .diagram-choice span, .diagram-input span, .diagram-input strong { flex: 1 1 180px; padding: 9px; border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); font: .72rem/1.4 var(--mono); }
+  .diagram-choice strong, .diagram-input strong { color: var(--cyan); }
+  .diagram-note { margin: 9px 0 0; color: var(--warning); font: .7rem/1.4 var(--mono); }
+  .architecture-relations { margin-top: 28px; padding-top: 8px; }
+  .architecture-relations > h2 { font-size: 1.25rem; }
+  .relation-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .relation-groups > div { padding: 14px; border: 1px solid var(--border); border-radius: 5px; }
+  .relation-groups h3 { margin: 0 0 8px; color: var(--text-muted); font: .75rem/1.4 var(--mono); text-transform: uppercase; }
+  .relation-groups a { display: block; min-height: 40px; padding: 7px 0; border-top: 1px solid var(--border); }
+  .relation-groups a:first-of-type { border-top: 0; }
+  @container (max-width: 700px) {
+    .architecture-index-header { grid-template-columns: 1fr; }
+    .architecture-index-header .eyebrow { grid-column: auto; }
+    .architecture-grid { grid-template-columns: 1fr; }
+    .architecture-card { min-height: 0; }
+    .case-sections > section { grid-template-columns: 1fr; gap: 8px; }
+    .diagram-stages { grid-template-columns: 1fr; }
+    .diagram-stages > .diagram-wide, .diagram-stages > .diagram-input { grid-column: auto; }
+    .diagram-flow { flex-direction: column; gap: 18px; }
+    .diagram-node { min-height: 50px; }
+    .diagram-node:not(:last-child)::after { content: '↓'; left: 50%; top: calc(100% + 3px); width: auto; transform: translateX(-50%); }
+    .relation-groups { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 719px) {
+    .content-architecture { padding: 0; }
+    .architecture-index, .architecture-case { padding: 20px 17px 36px; }
+    .architecture-index-header h1, .case-header h1 { font-size: 2rem; }
+    .architecture-card { grid-template-columns: 32px minmax(0, 1fr); padding: 15px; }
+    .architecture-diagram { margin-inline: -3px; padding: 15px; }
+    .case-themes li { font-size: .7rem; }
+  }
+  @media print {
+    .architecture-index, .architecture-case { max-width: none; padding: 0; }
+    .architecture-diagram { background: white; border-color: #777; }
+    .diagram-stages > section, .diagram-node, .relation-groups > div { background: white; border-color: #999; }
+  }
+}
