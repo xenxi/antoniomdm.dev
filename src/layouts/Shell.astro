@@ -1,0 +1,51 @@
+---
+import Desktop from '../components/Desktop';
+import { pageMetadata } from '../data/routes';
+import type { ContentData } from '../data/portfolio';
+import '../styles/global.css';
+import { localeForPath, localizedPath, translator } from '../i18n/core';
+import { getUiData } from '../data/ui';
+interface Props { path: string; content: ContentData }
+const { path, content } = Astro.props;
+const meta = pageMetadata(path, content);
+const locale = localeForPath(path); const t = translator(locale);
+const uiData = getUiData(locale, content);
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title} · AntoñiOS</title>
+    <meta name="description" content={meta.description} />
+    <meta name="theme-color" content="#0a0d1b" />
+    <link rel="canonical" href={meta.canonical} />
+    <link rel="alternate" hreflang="es" href={`https://antoniomdm.dev${localizedPath(path, 'es')}`} />
+    <link rel="alternate" hreflang="en" href={`https://antoniomdm.dev${localizedPath(path, 'en')}`} />
+    <link rel="alternate" hreflang="x-default" href={`https://antoniomdm.dev${localizedPath(path, 'es')}`} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={`AntoñiOS · ${t('Notes')}`} href={localizedPath('/rss.xml', locale)} />
+    <meta property="og:locale" content={locale === 'es' ? 'es_ES' : 'en_GB'} />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:type" content={meta.note ? 'article' : 'website'} />
+    <meta property="og:url" content={meta.canonical} />
+    <meta property="og:site_name" content="AntoñiOS" />
+    <meta property="og:image" content={`https://antoniomdm.dev${locale === 'es' ? '/social.png' : '/en/social.png'}`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:image" content={`https://antoniomdm.dev${locale === 'es' ? '/social.png' : '/en/social.png'}`} />
+    {meta.note && <meta property="article:published_time" content={meta.note.date} />}
+    {meta.note?.updated && <meta property="article:modified_time" content={meta.note.updated} />}
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(meta.schema).replace(/</g, '\u003c')} />
+    <script is:inline>if (new URLSearchParams(location.search).get('view') === 'reading') document.documentElement.classList.add('reading');</script>
+    <noscript><style>.window-controls,.taskbar,.resize-handle,.desktop-hint,.window-status,.no-print{display:none!important}.os,.desktop-surface,.workspace{height:auto!important;min-height:100vh;overflow:visible!important}.window{position:relative!important;inset:auto!important;width:min(90%,850px)!important;height:auto!important;margin:2rem auto}.desktop-icons{position:relative!important;display:flex!important;flex-wrap:wrap!important}.window-content{overflow:visible!important}</style></noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#desktop">{t('Skip to desktop content')}</a>
+    <Desktop path={path} content={content} data={uiData} client:load />
+  </body>
+</html>
