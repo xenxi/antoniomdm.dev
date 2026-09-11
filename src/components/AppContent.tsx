@@ -6,6 +6,7 @@ import type { AppId } from '../os/types';
 import type { Preferences } from '../os/preferences';
 import Icon from './Icon';
 import Profile from './Profile';
+import ProjectThumbnail from './ProjectThumbnail';
 export { ProfileContent, ExperienceContent } from './Profile';
 
 interface Props { id: AppId; path: string; content: ContentData; data: UiData; enterArcade?: () => void; preferences?: Preferences; setPreferences?: (value: Preferences) => void; reset?: () => void; open?: (path: string) => void }
@@ -20,7 +21,7 @@ export default function AppContent(props: Props) {
   if (id === 'projects') {
     const selected = projects.find(project => path === `/projects/${project.slug}/`);
     if (selected) return <article><a class="back-link" href={href("/projects/")}>{t("← All projects")}</a><p class="eyebrow">{t("FEATURED PROJECT /")}{' '}{selected.category}</p><div class="project-mark">9¾</div><h1>{selected.name}</h1><p class="lead">{selected.description}</p><div class="tags">{selected.technologies.map(tech => <span key={tech}>{tech}</span>)}</div><h2>{t("Overview")}</h2><p>{selected.overview}</p><h2>{t("Behind the architecture")}</h2><ul>{selected.capabilities.map(capability => <li key={capability.id}><strong>{capability.deliveryStatus === 'implemented' ? (locale === 'es' ? 'Implementado' : 'Implemented') : capability.deliveryStatus === 'in_progress' ? (locale === 'es' ? 'En desarrollo' : 'In progress') : (locale === 'es' ? 'Experimento' : 'Experiment')}</strong> — {capability.title}: {capability.description}</li>)}</ul></article>;
-    return <><p class="eyebrow">{t("WORK / PROJECT EXPLORER")}</p><h1>{t("Things I've built.")}</h1><p class="muted">{t("Software, experiments and side quests.")}</p><div class="filters" aria-label={t("Project categories")}>{categories.map(value => <button key={value} aria-pressed={category === value} onClick={() => setCategory(value)}>{value}</button>)}</div>{projects.filter(project => category === t("All projects") || project.category === category).map(project => <a class="project-card" href={href(`/projects/${project.slug}/`)} key={project.slug}><div class="project-art"><span>9¾</span><small>PLATFORM</small></div><div><p class="eyebrow">{t("FEATURED /")}{' '}{project.category}</p><h2>{project.name} <span class="arrow">↗</span></h2><p>{project.description}</p><div class="tags">{project.technologies.map(tech => <span key={tech}>{tech}</span>)}</div></div></a>)}{category !== t("All projects") && !projects.some(project => project.category === category) && <div class="empty-state"><Icon name="projects" /><h2>{t("Room for what's next.")}</h2><p>{t("No published projects in this category yet.")}</p><button onClick={() => setCategory(t("All projects"))}>{t("View all projects")}</button></div>}</>;
+    return <><p class="eyebrow">{t("WORK / PROJECT EXPLORER")}</p><h1>{t("Things I've built.")}</h1><p class="muted">{t("Software, experiments and side quests.")}</p><div class="filters" aria-label={t("Project categories")}>{categories.map(value => <button key={value} aria-pressed={category === value} onClick={() => setCategory(value)}>{value}</button>)}</div>{projects.filter(project => category === t("All projects") || project.category === category).map(project => <a class="project-card" href={href(`/projects/${project.slug}/`)} key={project.slug}><div class="project-art"><ProjectThumbnail /><span>9¾</span></div><div><p class="eyebrow">{t("FEATURED /")}{' '}{project.category}</p><h2>{project.name} <span class="arrow" aria-hidden="true">↗</span>{project.featured && <span class="project-featured" aria-label={t("Featured project")}>★</span>}</h2><p>{project.description}</p><div class="tags">{project.technologies.map(tech => <span key={tech}>{tech}</span>)}</div></div></a>)}{category !== t("All projects") && !projects.some(project => project.category === category) && <div class="empty-state"><Icon name="projects" /><h2>{t("Room for what's next.")}</h2><p>{t("No published projects in this category yet.")}</p><button onClick={() => setCategory(t("All projects"))}>{t("View all projects")}</button></div>}</>;
   }
   if (id === 'notes') {
     const note = content.notes.find(note => path === `/notes/${note.slug}/`);
@@ -38,18 +39,20 @@ function Terminal({ open, data }: { open?: (path: string) => void; data: UiData 
   const { profile } = data.portfolio;
   const { terminalIndex } = data;
   const [input, setInput] = useState('');
-  const [lines, setLines] = useState([t('AntoñiOS [version 1.0]'), t("Type help to explore.")]);
+  const [lines, setLines] = useState([t('AntoñiOS [version 1.0]'), 'antonio@antonios:~$ whoami', profile.role, '', t("Type help to explore.")]);
   const commands = Object.fromEntries(terminalIndex.filter(item => item.route).map(item => [item.id, item.route])) as Record<string, string>;
   function execute(event: Event) {
     event.preventDefault(); const command = input.trim().toLowerCase(); setInput('');
     if (command === 'clear') { setLines([]); return; }
     let response = t("Command not found. Type help.");
-    if (command === 'help') response = `help · whoami · ${terminalIndex.map(item => item.id).join(' · ')} · clear · theme · arcade`;
+    if (command === 'help') response = `help · whoami · ${terminalIndex.map(item => item.id).join(' · ')} · clear · theme · arcade · reboot`;
     if (command === 'whoami') response = `${profile.name} — ${profile.role}`;
     if (command === 'sudo') response = t("Nice try. Curiosity needs no root access.");
+    if (command === 'reboot') response = t('Have you tried turning it off and on again?');
+    if (command === 'theme' || command === 'arcade') { open?.(command === 'theme' ? '/settings/' : '/arcade/'); response = `${t('Opening')} ${command}…`; }
     if (commands[command]) { open?.(commands[command]); response = `${t("Opening")} ${command}…`; }
     const external = terminalIndex.find(item => item.id === command)?.url; if (external) response = external;
-    setLines(previous => [...previous, `antonio@os ~ $ ${command}`, response].slice(-100));
+    setLines(previous => [...previous, `antonio@antonios:~$ ${command}`, response].slice(-100));
   }
-  return <div class="terminal"><div role="log" aria-live="polite" aria-label={t("Terminal output")}>{lines.map((line,index) => <p key={index}>{line === profile.github ? <a href={profile.github} target="_blank" rel="noreferrer">{line} ↗</a> : line}</p>)}</div><form onSubmit={execute}><label for="terminal-input">antonio@os <span>~ $</span></label><input id="terminal-input" aria-label={t("Terminal command")} value={input} onInput={event => setInput(event.currentTarget.value)} autoComplete="off" spellcheck={false} /></form></div>;
+  return <div class="terminal"><div role="log" aria-live="polite" aria-label={t("Terminal output")}>{lines.map((line,index) => <p key={index}>{line === profile.github ? <a href={profile.github} target="_blank" rel="noreferrer">{line} ↗</a> : line}</p>)}</div><form onSubmit={execute}><label for="terminal-input">antonio@antonios:<span>~$</span></label><input id="terminal-input" aria-label={t("Terminal command")} value={input} onInput={event => setInput(event.currentTarget.value)} autoComplete="off" spellcheck={false} /></form></div>;
 }

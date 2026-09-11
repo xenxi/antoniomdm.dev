@@ -15,13 +15,13 @@ export async function getStaticPaths() {
     });
   }))).flat();
   const content = await getContent('es');
-  const compatibility = routes(content).map(base => ({ params: { path: base === '/' ? undefined : base.replace(/^\/+|\/+$/g, '') }, props: { path: base, content, redirectTo: localizedPath(base, 'es') } }));
+  const compatibility = routes(content).map(base => ({ params: { path: `es${base}`.replace(/^\/+|\/+$/g, '') }, props: { path: `/es${base}`, content, redirectTo: localizedPath(base, 'es') } }));
   const legacy = (['es', 'en'] as const).flatMap(locale => [
     { from: localizedPath('/about/', locale), to: localizedPath('/profile/', locale) },
     { from: localizedPath('/lab/', locale), to: localizedPath('/ai/', locale) },
   ]).map(({ from, to }) => ({ params: { path: from.replace(/^\/+|\/+$/g, '') }, props: { path: from, content, redirectTo: to } }));
-  const unprefixedLegacy = [{ from: '/about/', to: '/es/profile/' }, { from: '/lab/', to: '/es/ai/' }].map(({ from, to }) => ({ params: { path: from.replace(/^\/+|\/+$/g, '') }, props: { path: from, content, redirectTo: to } }));
-  return [...canonical, ...compatibility, ...legacy, ...unprefixedLegacy];
+  const spanishLegacy = [{ from: '/es/about/', to: '/profile/' }, { from: '/es/lab/', to: '/ai/' }].map(({ from, to }) => ({ params: { path: from.replace(/^\/+|\/+$/g, '') }, props: { path: from, content, redirectTo: to } }));
+  return [...canonical, ...compatibility, ...legacy, ...spanishLegacy];
 }
 const { path, content, redirectTo } = Astro.props as Props;
 ---

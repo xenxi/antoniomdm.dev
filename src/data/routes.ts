@@ -18,8 +18,8 @@ export function pageMetadata(path: string, content: ContentData) {
   const title = note?.title ?? project?.name ?? (normalized === '/' || normalized === '/profile/' ? `${profile.name} · ${profile.role}` : section ? `${app.name} · ${t(section.name)}` : app.name);
   const description = note?.description ?? project?.description ?? (app.id === 'welcome' ? profile.statement : `${app.name} — ${app.description}. ${profile.shortName}, ${t('Software Architect')}.`);
   const canonical = note?.canonical ?? `https://antoniomdm.dev${localizedPath(normalized, locale)}`;
-  const person = { '@type': 'Person', '@id': 'https://antoniomdm.dev/#person', name: profile.name, jobTitle: profile.role, url: 'https://antoniomdm.dev/es/', sameAs: [profile.github], knowsAbout: profile.skills };
-  const schema: Record<string, unknown>[] = [person, { '@type': 'WebSite', '@id': 'https://antoniomdm.dev/#website', name: 'AntoñiOS', url: 'https://antoniomdm.dev/es/' }];
+  const person = { '@type': 'Person', '@id': 'https://antoniomdm.dev/#person', name: profile.name, jobTitle: profile.role, url: 'https://antoniomdm.dev/', sameAs: [profile.github], knowsAbout: profile.skills };
+  const schema: Record<string, unknown>[] = [person, { '@type': 'WebSite', '@id': 'https://antoniomdm.dev/#website', name: 'AntoñiOS', url: 'https://antoniomdm.dev/' }];
   if (note) schema.push({ '@type': 'Article', headline: title, description, inLanguage: locale, datePublished: note.date, dateModified: note.updated ?? note.date, author: { '@id': person['@id'] }, mainEntityOfPage: canonical, keywords: note.tags, image: `https://antoniomdm.dev${locale === 'es' ? '/social.png' : '/en/social.png'}` });
   else if (project) schema.push({ '@type': 'SoftwareSourceCode', name: project.name, description, programmingLanguage: ['Kotlin', 'Dart'], runtimePlatform: ['Android TV', 'Flutter', 'webOS'], url: canonical, author: { '@id': person['@id'] } });
   else schema.push({ '@type': app.id === 'welcome' || app.id === 'about' ? 'ProfilePage' : 'WebPage', name: title, description, url: canonical, mainEntity: { '@id': person['@id'] } });

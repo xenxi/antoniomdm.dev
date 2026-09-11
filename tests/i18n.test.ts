@@ -11,7 +11,8 @@ describe('bilingual publishing contract', () => {
     expect(localeForPath('/')).toBe('es');
     expect(localeForPath('/en/projects/platform934/')).toBe('en');
     expect(localizedPath('/cv/?view=reading', 'en')).toBe('/en/cv/?view=reading');
-    expect(localizedPath('/en/notes/os-foundation/', 'es')).toBe('/es/notes/os-foundation/');
+    expect(localizedPath('/en/notes/os-foundation/', 'es')).toBe('/notes/os-foundation/');
+    expect(localizedPath('/es/projects/?source=legacy#overview', 'es')).toBe('/projects/?source=legacy#overview');
     expect(basePath('/en/')).toBe('/');
     expect(localizedPath('/en/cv.txt', 'en')).toBe('/en/cv.txt');
   });

@@ -1,6 +1,6 @@
 import { defineConfig } from '@playwright/test';
 
-const previewUrl = 'http://127.0.0.1:4321';
+const previewUrl = `http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}`;
 
 export default defineConfig({
   testDir: './tests/e2e',

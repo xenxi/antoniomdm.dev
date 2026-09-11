@@ -3,6 +3,7 @@ import type { UiData } from '../data/ui';
 import { profileSections, profileSectionForPath } from '../os/profile-sections';
 import { registry } from '../os/registry';
 import Icon from './Icon';
+import PixelAvatar from './PixelAvatar';
 
 export function ExperienceContent({ data }: { data: UiData }) {
   const { href } = useLocale();
@@ -44,11 +45,17 @@ export default function Profile({ path, data }: { path: string; data: UiData }) 
     <nav class="profile-tabs" aria-label={t('Profile sections')}>{profileSections.map(item => <a key={item.id} href={href(item.path)} aria-current={section.id === item.id ? 'page' : undefined}>{t(item.name)}</a>)}</nav>
     <div class="profile-section" data-profile-section={section.id}>
       {section.id === 'overview' ? <>
-        <p class="eyebrow profile-loaded"><span class="status-dot" />{t('Profile loaded')}<span>01 / 07</span></p>
-        <ProfileContent data={data} brief />
+        <div class="profile-overview"><div class="profile-main">
+        <p class="eyebrow profile-loaded"><span class="status-dot" />{t('PROFILE.EXE / ONLINE')}</p>
+        <div class="profile-copy"><h1 aria-label={profile.name}><span>{profile.shortName.split(' ')[0]}</span><span>{profile.shortName.split(' ').slice(1).join(' ')}<i aria-hidden="true">_</i></span></h1><p class="role">{profile.role}</p><p class="focus-line">{profile.focusLine}</p><p class="profile-intro">{profile.statement.split('. ')[0]}.</p></div>
+        <PixelAvatar />
         <nav class="professional-actions" aria-label={t('Professional access')}>{(['experience', 'projects', 'architecture', 'cv', 'contact'] as const).map((id, index) => <a key={id} class={index === 0 ? 'action-primary' : ''} href={href(registry[id].path)}><Icon name={id} /><span>{t(registry[id].name)}</span><span aria-hidden="true">↗</span></a>)}</nav>
-        <div class="profile-editorial"><h2>{t('Beyond the role')}</h2><p>{data.humanNote}</p></div>
         <PublicShortcuts data={data} />
+        </div><aside class="system-profile" aria-label={t('System profile')}><h2>SYSTEM.SYS</h2><dl>
+          {data.systemFacts.map(fact => <div key={fact.id}><dt><Icon name={fact.id === 'experience' ? 'experience' : 'architecture'} />{t(fact.label)}</dt><dd>{fact.value}</dd></div>)}
+        </dl></aside>
+        <div class="profile-bottom"><section class="profile-stack"><h2>{t('Tech stack')}</h2><div class="tags">{data.overviewSkills.map(skill => <span key={skill}>{skill}</span>)}</div><a href={href('/profile/competencies/')}>{t('View full stack')} <span aria-hidden="true">→</span></a></section>
+        <section class="profile-editorial"><h2>{t('Beyond the role')}</h2><svg class="pixel-invader" viewBox="0 0 13 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 0h1v1h1v1h5V1h1V0h1v2h-1v1h2v2h1v3h-1V6h-1v3H8V8H5v1H2V6H1v2H0V5h1V3h2V2H2z M3 4v2h2V4z M8 4v2h2V4z" fill-rule="evenodd" /></svg><p>{data.humanNote}</p><a href={href('/contact/')}>{t('Professional channels')} <span aria-hidden="true">→</span></a></section></div></div>
       </> : section.id === 'experience' ? <><p class="eyebrow">{t('CAREER / EXPERIENCE')}</p><h1>{t('The journey so far.')}</h1><ExperienceContent data={data} /></>
       : section.id === 'competencies' ? <><h1>{t(section.name)}</h1><div class="competency-list">{data.competencies.map(item => <article id={item.id} key={item.id}><h2>{item.name}</h2><p class="classification">{item.classification} · {item.recency}</p>{item.summary && <p>{item.summary}</p>}<div class="tags">{item.skills.map(skill => <span key={skill}>{skill}</span>)}</div><h3>{t('Evidence')}</h3><EvidenceLinks ids={item.experienceIds} data={data} kind="experience" /><EvidenceLinks ids={item.caseStudyIds} data={data} kind="case" /><EvidenceLinks ids={item.projectIds} data={data} kind="project" /></article>)}</div></>
       : section.id === 'achievements' ? <><h1>{t(section.name)}</h1><div class="achievement-list">{data.achievements.map(item => <article id={item.id} key={item.id}><h2>{item.title}</h2><p class="lead">{item.summary}</p><p class="muted">{item.scope}</p>{item.metric && <Metric metric={item.metric} t={t} />}<h3>{t('Evidence')}</h3><EvidenceLinks ids={item.experienceIds} data={data} kind="experience" /><EvidenceLinks ids={item.caseStudyIds} data={data} kind="case" /></article>)}</div></>

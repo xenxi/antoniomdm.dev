@@ -5,9 +5,9 @@ import { getAchievements, getCompetencies, getExperience } from '../../src/data/
 
 test.use({ reducedMotion: 'reduce' });
 
-const screenshots = 'docs/quality/a4/screenshots/a4';
+const screenshots = 'test-results/a4';
 const routes = {
-  es: { experience: '/es/experience/', competencies: '/es/profile/competencies/', achievements: '/es/profile/achievements/', education: '/es/profile/education/', languages: '/es/profile/languages/' },
+  es: { experience: '/experience/', competencies: '/profile/competencies/', achievements: '/profile/achievements/', education: '/profile/education/', languages: '/profile/languages/' },
   en: { experience: '/en/experience/', competencies: '/en/profile/competencies/', achievements: '/en/profile/achievements/', education: '/en/profile/education/', languages: '/en/profile/languages/' },
 } as const;
 
@@ -90,14 +90,14 @@ test('A4 achievement and competency relations reach existing bilingual destinati
   await ready(page, routes.es.achievements);
   const achievement = page.locator('#integration-suite-feedback');
   await achievement.locator('.evidence-links a').nth(0).click();
-  await expect(page).toHaveURL(/\/es\/experience\/#domingo-alonso$/);
+  await expect(page).toHaveURL(/\/experience\/#domingo-alonso$/);
   await page.goBack();
   await achievement.locator('.evidence-links a').nth(1).click();
-  await expect(page).toHaveURL('/es/architecture/');
+  await expect(page).toHaveURL('/architecture/');
   await page.goBack();
   await page.goto(routes.es.competencies);
   await page.locator('#software-architecture .evidence-links a').last().click();
-  await expect(page).toHaveURL('/es/projects/platform934/');
+  await expect(page).toHaveURL('/projects/platform934/');
   await expect(page.getByRole('heading', { name: 'Platform 9¾', exact: true })).toBeVisible();
 });
 
@@ -140,7 +140,7 @@ test('A4 responsive layouts remain usable without horizontal overflow', async ({
     await ready(page, routes.es.experience);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
     await expect(page.locator('.timeline')).toBeVisible();
-    await page.locator('.profile-tabs a[href="/es/profile/competencies/"]').click();
+    await page.locator('.profile-tabs a[href="/profile/competencies/"]').click();
     await expect(page.locator('.competency-list')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
   }
@@ -151,7 +151,7 @@ test('A4 no-JS routes expose professional HTML in both locales', async ({ browse
   const page = await context.newPage();
   for (const locale of ['es', 'en'] as const) {
     for (const [section, expected] of [['experience', 9], ['competencies', 19], ['achievements', 2], ['education', 1], ['languages', 1]] as const) {
-      await page.goto(`http://127.0.0.1:4321${routes[locale][section]}`);
+      await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${routes[locale][section]}`);
       await expect(page.locator('.profile-section h1').first()).toBeVisible();
       if (section === 'experience') await expect(page.locator('.timeline-item')).toHaveCount(expected);
       if (section === 'competencies') await expect(page.locator('.competency-list > article')).toHaveCount(expected);

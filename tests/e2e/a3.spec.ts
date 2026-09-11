@@ -13,7 +13,7 @@ for (const [width, height] of [[320, 740], [390, 844], [768, 1024], [820, 1180],
     const requests: string[] = []; page.on('request', request => requests.push(request.url()));
     await page.goto('/es/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
     await expect(page.locator('.os')).toHaveAttribute('data-shell', width < 720 ? 'mobile' : width < 1100 ? 'tablet' : 'desktop');
-    await expect(page.locator('[data-window]')).toHaveCount(1);
+    await expect(page.locator('[data-window]')).toHaveCount(width >= 1280 ? 3 : 1);
     await expect(page.locator('[data-profile-section="overview"]')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno', exact: true })).toBeVisible();
     await expect(page.locator('.role')).toHaveText('Software Architect | Senior .NET Engineer');
@@ -22,8 +22,8 @@ for (const [width, height] of [[320, 740], [390, 844], [768, 1024], [820, 1180],
     expect(requests.filter(url => /\/Arcade\.|\/arcade\/|\.(mp3|wav|ogg)$/.test(url))).toEqual([]);
     const win = (await page.locator('[data-window="about"]').boundingBox())!;
     if (width >= 1100) {
-      expect(win.x).toBeGreaterThanOrEqual(250);
-      const viewport = (await page.locator('.window-content').boundingBox())!;
+      expect(win.x).toBeGreaterThanOrEqual(120);
+      const viewport = (await page.locator('[data-window="about"] .window-content').boundingBox())!;
       for (const action of await page.locator('.professional-actions a').all()) {
         const rect = (await action.boundingBox())!;
         expect(rect.y).toBeGreaterThanOrEqual(viewport.y);
@@ -47,7 +47,7 @@ test('A3 sections share a window, update metadata, restore history and preserve 
   for (let i = 1; i < sections.length; i++) {
     await page.locator(`.profile-tabs a[href="/en${sections[i]}"]`).click();
     await expect(page).toHaveURL(`/en${sections[i]}`);
-    await expect(page.locator('[data-window]')).toHaveCount(1);
+    await expect(page.locator('[data-window="about"]')).toHaveCount(1);
     await expect(page.locator('[data-profile-section]')).toHaveAttribute('data-profile-section', ids[i]);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://antoniomdm.dev/en${sections[i]}`);
   }
@@ -126,7 +126,7 @@ test('A3 all professional sections and real links work without JavaScript', asyn
   const context = await browser.newContext({ javaScriptEnabled: false }); const page = await context.newPage();
   const links = new Set<string>();
   for (const locale of ['es', 'en']) for (let i = 0; i < sections.length; i++) {
-    await page.goto(`http://127.0.0.1:4321/${locale}${sections[i]}`);
+    await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${locale === 'en' ? '/en' : ''}${sections[i]}`);
     await expect(page.locator('[data-profile-section]')).toHaveAttribute('data-profile-section', ids[i]);
     await expect(page.locator('.profile-section h1').first()).toBeVisible();
     for (const href of await page.locator('a[href]').evaluateAll(anchors => anchors.map(anchor => anchor.getAttribute('href')!))) {

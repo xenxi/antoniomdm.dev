@@ -5,12 +5,12 @@ test.use({ reducedMotion: 'reduce' });
 test('Spanish default, language switching, navigation and reading view', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  await expect(page).toHaveURL(/\/es\/$/);
+  await expect(page).toHaveURL(/\/$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');
   await expect(page.getByRole('region', { name: 'Ventana de Perfil' })).toBeVisible();
   await expect(page.locator('.professional-actions').getByRole('link', { name: 'Proyectos', exact: true })).toBeVisible();
   await page.locator('.professional-actions').getByRole('link', { name: 'Experiencia', exact: true }).click();
-  await expect(page).toHaveURL(/\/es\/experience\/$/);
+  await expect(page).toHaveURL(/\/experience\/$/);
   await expect(page.getByRole('heading', { name: 'Mi recorrido hasta hoy.' })).toBeVisible();
   await expect(page.locator('link[hreflang="en"]')).toHaveAttribute('href', 'https://antoniomdm.dev/en/experience/');
   await page.getByRole('link', { name: 'English', exact: true }).click();
@@ -23,7 +23,7 @@ test('Spanish default, language switching, navigation and reading view', async (
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await page.getByRole('link', { name: 'Español', exact: true }).click();
-  await expect(page).toHaveURL(/\/es\/projects\/platform934\/$/);
+  await expect(page).toHaveURL(/\/projects\/platform934\/$/);
   await expect(page.getByRole('heading', { name: 'Decisiones de arquitectura' })).toBeVisible();
   await page.goto('/cv/?view=reading');
   await page.getByRole('link', { name: 'English', exact: true }).click();
@@ -36,13 +36,13 @@ test('both languages publish complete static HTML, notes, feeds and CVs', async 
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   for (const locale of ['es', 'en']) {
-    const prefix = `/${locale}`;
-    await page.goto(`http://127.0.0.1:4321${prefix}/experience/`);
+    const prefix = locale === "en" ? "/en" : "";
+    await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${prefix}/experience/`);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
     await expect(page.locator('.timeline-item')).toHaveCount(9);
     await page.getByRole('link', { name: locale === 'es' ? 'English' : 'Español', exact: true }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', locale === 'es' ? 'en' : 'es');
-    await page.goto(`http://127.0.0.1:4321${prefix}/notes/os-foundation/`);
+    await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${prefix}/notes/os-foundation/`);
     await expect(page.getByRole('heading', { name: locale === 'es' ? 'Un portfolio, dos formas de explorar' : 'One portfolio, two ways to explore' })).toBeVisible();
     const cv = await (await request.get(`${prefix}/cv.txt`)).text();
     expect(cv).toContain(locale === 'es' ? 'título no obtenido' : 'degree not awarded');
@@ -71,13 +71,13 @@ test('canonical locale routes and Spanish compatibility documents preserve route
   for (const path of ['/es/', '/en/', '/es/architecture/', '/en/architecture/', '/es/projects/platform934/', '/en/projects/platform934/']) {
     const response = await request.get(path); expect(response.status(), path).toBe(200);
   }
-  const fallback = await (await request.get('/architecture/')).text();
+  const fallback = await (await request.get('/es/architecture/')).text();
   expect(fallback).toContain('noindex,follow');
-  expect(fallback).toContain('https://antoniomdm.dev/es/architecture/');
-  await page.goto('/projects/platform934/?source=legacy#overview');
-  await expect(page).toHaveURL(/\/es\/projects\/platform934\/\?source=legacy#overview$/);
+  expect(fallback).toContain('https://antoniomdm.dev/architecture/');
+  await page.goto('/es/projects/platform934/?source=legacy#overview');
+  await expect(page).toHaveURL(/\/projects\/platform934\/\?source=legacy#overview$/);
   await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://antoniomdm.dev/es/projects/platform934/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://antoniomdm.dev/projects/platform934/');
   await page.getByRole('link', { name: 'English', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/projects\/platform934\/\?source=legacy#overview$/);
   await page.goto('/es/architecture/');

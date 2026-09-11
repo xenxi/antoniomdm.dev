@@ -13,8 +13,8 @@ test('desktop window lifecycle, drag, resize and exact restore', async ({ page }
   await expect(page).toHaveURL(/\/projects\/$/);
   const before = (await win.boundingBox())!;
   const title = (await win.locator('.titlebar').boundingBox())!;
-  await page.mouse.move(title.x + 220, title.y + 20); await page.mouse.down(); await page.mouse.move(title.x + 310, title.y + 90, { steps: 8 }); await page.mouse.up();
-  const moved = (await win.boundingBox())!; expect(moved.x).toBeCloseTo(before.x + 90); expect(moved.y).toBeCloseTo(before.y + 70);
+  await page.mouse.move(title.x + 220, title.y + 20); await page.mouse.down(); await page.mouse.move(title.x + 130, title.y - 20, { steps: 8 }); await page.mouse.up();
+  const moved = (await win.boundingBox())!; expect(moved.x).toBeCloseTo(before.x - 90); expect(moved.y).toBeCloseTo(before.y - 40);
   const handle = (await win.locator('.resize-se').boundingBox())!;
   await page.mouse.move(handle.x + 5, handle.y + 5); await page.mouse.down(); await page.mouse.move(handle.x + 75, handle.y + 45, { steps: 8 }); await page.mouse.up();
   const resized = (await win.boundingBox())!; expect(resized.width).toBeCloseTo(moved.width + 70); expect(resized.height).toBeCloseTo(moved.height + 40);
@@ -79,10 +79,10 @@ test('mobile apps fill the workspace and switch from dock', async ({ page }) => 
 
 test('static HTML, notes, CV and SEO exist without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false }); const page = await context.newPage();
-  await page.goto('http://127.0.0.1:4321/en/projects/platform934/'); await expect(page.getByRole('heading', { name: 'Platform 9¾', exact: true })).toBeVisible();
+  await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/projects/platform934/`); await expect(page.getByRole('heading', { name: 'Platform 9¾', exact: true })).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://antoniomdm.dev/en/projects/platform934/');
-  await page.goto('http://127.0.0.1:4321/en/notes/os-foundation/'); await expect(page.getByRole('heading', { name: 'One portfolio, two ways to explore' })).toBeVisible();
-  await page.goto('http://127.0.0.1:4321/en/cv/'); await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno' })).toBeVisible();
+  await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/notes/os-foundation/`); await expect(page.getByRole('heading', { name: 'One portfolio, two ways to explore' })).toBeVisible();
+  await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/cv/`); await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno' })).toBeVisible();
   await context.close();
 });
 

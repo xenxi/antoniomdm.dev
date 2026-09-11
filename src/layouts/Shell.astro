@@ -3,6 +3,7 @@ import Desktop from '../components/Desktop';
 import { pageMetadata } from '../data/routes';
 import type { ContentData } from '../data/portfolio';
 import '../styles/global.css';
+import '../styles/aura.css';
 import { basePath, localeForPath, localizedPath, translator } from '../i18n/core';
 import { getUiData } from '../data/ui';
 interface Props { path: string; content: ContentData }
@@ -19,7 +20,7 @@ const initialContent = { notes: content.notes.map(note => ({ ...note, html: base
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{meta.title} · AntoñiOS</title>
     <meta name="description" content={meta.description} />
-    <meta name="theme-color" content="#141718" />
+    <meta name="theme-color" content="#0f0e14" />
     <link rel="canonical" href={meta.canonical} />
     <link rel="alternate" hreflang="es" href={`https://antoniomdm.dev${localizedPath(path, 'es')}`} />
     <link rel="alternate" hreflang="en" href={`https://antoniomdm.dev${localizedPath(path, 'en')}`} />

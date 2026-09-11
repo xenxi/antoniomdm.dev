@@ -3,7 +3,7 @@ import process from 'node:process';
 import { preview } from 'astro';
 
 const host = '127.0.0.1';
-const port = 4321;
+const port = Number(process.env.ANTONIOS_E2E_PORT ?? 4321);
 const startedAt = performance.now();
 
 let server;
