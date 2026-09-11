@@ -1,9 +1,10 @@
 import { applications, appForPath, normalizePath, registry } from '../os/registry';
 import { getPortfolio, type ContentData } from './portfolio';
 import { basePath, localeForPath, localizedPath, translator } from '../i18n/core';
+import { profileSections } from '../os/profile-sections';
 export function routes(content: ContentData) {
   const { projects } = getPortfolio();
-  return [...applications.map(app => app.path), '/architecture/', '/contact/', ...projects.map(project => `/projects/${project.slug}/`), ...content.notes.map(note => `/notes/${note.slug}/`)];
+  return [...new Set([...applications.map(app => app.path), ...profileSections.map(section => section.path), ...projects.map(project => `/projects/${project.slug}/`), ...content.notes.map(note => `/notes/${note.slug}/`)])];
 }
 export function pageMetadata(path: string, content: ContentData) {
   const locale = localeForPath(path); const t = translator(locale);
@@ -13,7 +14,8 @@ export function pageMetadata(path: string, content: ContentData) {
   const app = { ...originalApp, name: t(routeApp?.name ?? originalApp.name), description: t(routeApp?.description ?? originalApp.description) };
   const project = projects.find(project => normalized === `/projects/${project.slug}/`);
   const note = content.notes.find(note => normalized === `/notes/${note.slug}/`);
-  const title = note?.title ?? project?.name ?? (app.id === 'welcome' ? `${profile.shortName} · ${t('Software Architect')}` : app.name);
+  const section = profileSections.find(section => section.path === normalized);
+  const title = note?.title ?? project?.name ?? (normalized === '/' || normalized === '/profile/' ? `${profile.name} · ${profile.role}` : section ? `${app.name} · ${t(section.name)}` : app.name);
   const description = note?.description ?? project?.description ?? (app.id === 'welcome' ? profile.statement : `${app.name} — ${app.description}. ${profile.shortName}, ${t('Software Architect')}.`);
   const canonical = note?.canonical ?? `https://antoniomdm.dev${localizedPath(normalized, locale)}`;
   const person = { '@type': 'Person', '@id': 'https://antoniomdm.dev/#person', name: profile.name, jobTitle: profile.role, url: 'https://antoniomdm.dev/es/', sameAs: [profile.github], knowsAbout: profile.skills };

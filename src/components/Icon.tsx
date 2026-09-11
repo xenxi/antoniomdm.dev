@@ -1,5 +1,7 @@
 import type { AppId } from '../os/types';
 const paths: Record<AppId, string> = {
+  architecture: 'M9 3h6v5H9z M3 16h6v5H3z M15 16h6v5h-6z M12 8v4 M6 16v-4h12v4',
+  contact: 'M3 5h18v14H3z M3 6l9 7 9-7',
   welcome: 'M4 5h16v13H4z M4 9h16 M8 21h8 M12 18v3 M8 12l3 2-3 2 M13 16h3',
   projects: 'M3 7V5h7l2 3h9v12H3z M3 11h18',
   experience: 'M8 7V4h8v3 M3 7h18v13H3z M3 12h18 M10 11v3h4v-3',

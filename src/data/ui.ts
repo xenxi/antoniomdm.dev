@@ -2,7 +2,7 @@ import type { Locale } from '../i18n/core';
 import { localizedPath } from '../i18n/core';
 import { getPortfolio, type ContentData } from './portfolio';
 import { pageMetadata, routes } from './routes';
-import { getArchitectureCases, getCvVariants, getPublicLinks, getTerminalIndex } from './professional';
+import { getArchitectureCases, getCvVariants, getPublicLinks, getTerminalIndex, getProfile, getCompetencies, getAchievements } from './professional';
 
 export function getUiData(locale: Locale, content: ContentData) {
   const metadata = Object.fromEntries(routes(content).map(path => {
@@ -11,6 +11,10 @@ export function getUiData(locale: Locale, content: ContentData) {
   }));
   return {
     portfolio: getPortfolio(locale),
+    humanNote: getProfile(locale).humanNote,
+    competencies: getCompetencies(locale).map(({ id, name, skills, summary }) => ({ id, name, skills, summary })),
+    achievements: getAchievements(locale).map(({ id, title, summary, scope }) => ({ id, title, summary, scope })),
+    pdfs: (['es', 'en'] as const).map(language => ({ language, ...getCvVariants(language).find(variant => variant.primary)!.pdf })),
     architectureCases: getArchitectureCases(locale).map(item => ({ id: item.id, title: item.title, summary: item.summary })),
     publicLinks: getPublicLinks(locale),
     cvVariants: getCvVariants(locale),

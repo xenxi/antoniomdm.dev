@@ -7,9 +7,9 @@ test('Spanish default, language switching, navigation and reading view', async (
   await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await expect(page).toHaveURL(/\/es\/$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');
-  await expect(page.getByRole('region', { name: 'Ventana de Bienvenida' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Explorar proyectos' })).toBeVisible();
-  await page.locator('[data-desktop-app="experience"]').click();
+  await expect(page.getByRole('region', { name: 'Ventana de Perfil' })).toBeVisible();
+  await expect(page.locator('.professional-actions').getByRole('link', { name: 'Proyectos', exact: true })).toBeVisible();
+  await page.locator('.professional-actions').getByRole('link', { name: 'Experiencia', exact: true }).click();
   await expect(page).toHaveURL(/\/es\/experience\/$/);
   await expect(page.getByRole('heading', { name: 'Mi recorrido hasta hoy.' })).toBeVisible();
   await expect(page.locator('link[hreflang="en"]')).toHaveAttribute('href', 'https://antoniomdm.dev/en/experience/');
@@ -60,7 +60,7 @@ test('Spanish mobile layout and translated accessibility controls', async ({ pag
   await expect(page.getByRole('link', { name: 'English', exact: true })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
-  await page.getByRole('link', { name: 'Explorar proyectos' }).click();
+  await page.locator('.professional-actions').getByRole('link', { name: 'Proyectos', exact: true }).click();
   await page.getByRole('button', { name: 'Minimizar Proyectos' }).click();
   await page.getByRole('button', { name: 'Restaurar Proyectos', exact: true }).click();
   await expect(page.locator('[data-window="projects"]')).toBeVisible();

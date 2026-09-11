@@ -7,7 +7,7 @@ test.use({ reducedMotion: 'reduce' });
 
 test('desktop window lifecycle, drag, resize and exact restore', async ({ page }) => {
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  await expect(page.getByRole('region', { name: 'Welcome window' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'Profile window' })).toBeVisible();
   await page.locator('[data-desktop-app="projects"]').dblclick();
   const win = page.locator('[data-window="projects"]'); await expect(win).toBeVisible();
   await expect(page).toHaveURL(/\/projects\/$/);
@@ -68,7 +68,7 @@ test('keyboard navigation, terminal and settings persistence', async ({ page }) 
 
 test('mobile apps fill the workspace and switch from dock', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 }); await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  await page.getByRole('link', { name: 'Explore projects' }).click();
+  await page.locator('.professional-actions').getByRole('link', { name: 'Projects', exact: true }).click();
   const win = page.locator('[data-window="projects"]'); const rect = (await win.boundingBox())!;
   expect(rect.x).toBe(0); expect(rect.width).toBe(390);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
@@ -82,7 +82,7 @@ test('static HTML, notes, CV and SEO exist without JavaScript', async ({ browser
   await page.goto('http://127.0.0.1:4321/en/projects/platform934/'); await expect(page.getByRole('heading', { name: 'Platform 9¾', exact: true })).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://antoniomdm.dev/en/projects/platform934/');
   await page.goto('http://127.0.0.1:4321/en/notes/os-foundation/'); await expect(page.getByRole('heading', { name: 'One portfolio, two ways to explore' })).toBeVisible();
-  await page.goto('http://127.0.0.1:4321/en/cv/'); await expect(page.getByRole('heading', { name: 'Antonio M. Díaz Moreno' })).toBeVisible();
+  await page.goto('http://127.0.0.1:4321/en/cv/'); await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno' })).toBeVisible();
   await context.close();
 });
 
@@ -121,7 +121,7 @@ test('project filters, note content, lab concepts and printable CV', async ({ pa
   await page.getByRole('button', { name: 'Explore concept' }).first().click(); await expect(page.locator('.lab-concept')).toContainText('Supervised agents');
   await page.goto('/en/cv/?view=reading'); await expect(page.locator('html')).toHaveClass('reading');
   await page.emulateMedia({ media: 'print' }); await expect(page.locator('.taskbar')).toBeHidden();
-  await expect(page.getByRole('heading', { name: 'Antonio M. Díaz Moreno' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno' })).toBeVisible();
 });
 
 test('audio requires an explicit Play and stops on Arcade exit', async ({ page }) => {

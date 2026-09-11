@@ -1,5 +1,5 @@
 import { useLocale } from '../i18n/context';
-import { useEffect, useRef } from 'preact/hooks';
+import { useEffect, useLayoutEffect, useRef } from 'preact/hooks';
 import type { ComponentChildren, TargetedPointerEvent, TargetedKeyboardEvent } from 'preact';
 import type { Rect, Size, WindowAction, WindowInstance } from '../os/types';
 import { registry } from '../os/registry';
@@ -14,11 +14,12 @@ export default function Window({ instance: win, active, zIndex, viewport, dispat
   const cleanup = useRef<(() => void) | null>(null);
   const maximized = win.state === 'maximized';
   useEffect(() => () => cleanup.current?.(), []);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (active && ref.current && !ref.current.contains(document.activeElement)) ref.current.focus({ preventScroll: true });
-  }, [active, win.state]);
+  }, [active, win.state, win.path]);
+  useEffect(() => { ref.current?.querySelector('.window-content')?.scrollTo(0, 0); }, [win.path]);
   function start(event: TargetedPointerEvent<HTMLElement>, edge = 'move') {
-    if (event.button !== 0 || maximized || window.matchMedia('(max-width: 719px)').matches || (event.target as HTMLElement).closest('button')) return;
+    if (event.button !== 0 || maximized || window.matchMedia('(max-width: 1099px)').matches || (event.target as HTMLElement).closest('button')) return;
     event.preventDefault(); cleanup.current?.();
     const element = ref.current!; const x = event.clientX; const y = event.clientY; const original = { ...win.rect };
     let next = original; let frame = 0;
@@ -44,16 +45,16 @@ export default function Window({ instance: win, active, zIndex, viewport, dispat
   }
   function keyboard(event: TargetedKeyboardEvent<HTMLElement>) {
     if (event.key === 'Escape') { dispatch({ type: 'minimize', id: win.id }); event.stopPropagation(); }
-    if (!event.altKey || !event.key.startsWith('Arrow') || maximized) return;
+    if (viewport.width < 1100 || !event.altKey || !event.key.startsWith('Arrow') || maximized) return;
     event.preventDefault(); const rect = { ...win.rect }; const delta = event.key === 'ArrowLeft' || event.key === 'ArrowUp' ? -20 : 20;
     if (event.shiftKey) { if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') rect.width += delta; else rect.height += delta; }
     else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') rect.x += delta; else rect.y += delta;
     dispatch({ type: 'geometry', id: win.id, rect, viewport });
   }
-  return <section ref={ref} class={`window ${active ? 'active' : ''} ${maximized ? 'maximized' : ''}`} data-window={win.id} data-state={win.state} role="region" aria-label={t("{name} window").replace("{name}", app.name)} tabIndex={-1} hidden={win.state === 'minimized'} style={{ left: win.rect.x, top: win.rect.y, width: win.rect.width, height: win.rect.height, zIndex }} onPointerDown={() => dispatch({ type: 'focus', id: win.id })} onFocusIn={() => !active && dispatch({ type: 'focus', id: win.id })} onKeyDown={keyboard}>
+  return <section ref={ref} class={`window ${active ? 'active' : ''} ${maximized ? 'maximized' : ''}`} data-window={win.id} data-state={win.state} role="region" aria-label={t("{name} window").replace("{name}", app.name)} tabIndex={-1} hidden={win.state === 'minimized'} inert={win.state === 'minimized' || (viewport.width < 1100 && !active)} style={{ left: win.rect.x, top: win.rect.y, width: win.rect.width, height: win.rect.height, zIndex }} onPointerDown={() => dispatch({ type: 'focus', id: win.id })} onFocusIn={() => !active && dispatch({ type: 'focus', id: win.id })} onKeyDown={keyboard}>
     <header class="titlebar" onPointerDown={start} onDblClick={event => !(event.target as HTMLElement).closest('button') && dispatch({ type: 'maximize', id: win.id })}>
-      <span class="window-title"><Icon name={app.icon} /><span>{app.name.toLowerCase()}.app</span><span class="title-path">{win.path === '/' ? '~' : `~${win.path}`}</span></span>
-      <div class="window-controls"><button aria-label={`${t("Minimize")} ${t(app.name)}`} onClick={() => dispatch({ type: 'minimize', id: win.id })}>−</button>{app.maximizable && <button aria-label={`${maximized ? t("Restore size of") : t("Maximize")} ${t(app.name)}`} onClick={() => dispatch({ type: 'maximize', id: win.id })}>{maximized ? '❐' : '□'}</button>}<button class="close-control" aria-label={`${t("Close")} ${t(app.name)}`} onClick={() => dispatch({ type: 'close', id: win.id })}>×</button></div>
+      <span class="window-title"><Icon name={app.icon} /><span>{app.name}</span><span class="title-path" aria-hidden="true">{win.path === '/' ? '~' : `~${win.path}`}</span></span>
+      <div class="window-controls"><button title={`${t("Minimize")} ${app.name}`} aria-label={`${t("Minimize")} ${t(app.name)}`} onClick={() => dispatch({ type: 'minimize', id: win.id })}>−</button>{app.maximizable && <button title={`${maximized ? t("Restore size of") : t("Maximize")} ${app.name}`} aria-label={`${maximized ? t("Restore size of") : t("Maximize")} ${t(app.name)}`} onClick={() => dispatch({ type: 'maximize', id: win.id })}>{maximized ? '❐' : '□'}</button>}<button title={`${t("Close")} ${app.name}`} class="close-control" aria-label={`${t("Close")} ${t(app.name)}`} onClick={() => dispatch({ type: 'close', id: win.id })}>×</button></div>
     </header>
     <div class={`window-content content-${win.id}`}>{children}</div>
     <footer class="window-status"><span>{t(app.description)}</span><span>AntoñiOS</span></footer>

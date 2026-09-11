@@ -1,0 +1,86 @@
+{
+  "phase": "after",
+  "date": "2026-09-11T06:11:47.990Z",
+  "assets": [
+    {
+      "path": "/es/",
+      "type": "document",
+      "bytes": 48130,
+      "gzip": 11294
+    },
+    {
+      "path": "/_astro/global.C3Fi-C8J.css",
+      "type": "stylesheet",
+      "bytes": 27612,
+      "gzip": 6833
+    },
+    {
+      "path": "/_astro/client.Dod4zqEJ.js",
+      "type": "script",
+      "bytes": 1407,
+      "gzip": 800
+    },
+    {
+      "path": "/_astro/Desktop.C2D5O5_5.js",
+      "type": "script",
+      "bytes": 32487,
+      "gzip": 11171
+    },
+    {
+      "path": "/_astro/preload-helper.BxCGGqdC.js",
+      "type": "script",
+      "bytes": 12352,
+      "gzip": 5174
+    },
+    {
+      "path": "/_astro/hooks.module.Dmdpree8.js",
+      "type": "script",
+      "bytes": 2808,
+      "gzip": 1217
+    },
+    {
+      "path": "/_astro/jsxRuntime.module.D2vvEosW.js",
+      "type": "script",
+      "bytes": 10232,
+      "gzip": 4835
+    }
+  ],
+  "network": [
+    {
+      "name": "http://127.0.0.1:4321/_astro/global.C3Fi-C8J.css",
+      "transfer": 7133
+    },
+    {
+      "name": "http://127.0.0.1:4321/_astro/Desktop.C2D5O5_5.js",
+      "transfer": 11471
+    },
+    {
+      "name": "http://127.0.0.1:4321/_astro/client.Dod4zqEJ.js",
+      "transfer": 1100
+    },
+    {
+      "name": "http://127.0.0.1:4321/_astro/preload-helper.BxCGGqdC.js",
+      "transfer": 5474
+    },
+    {
+      "name": "http://127.0.0.1:4321/_astro/hooks.module.Dmdpree8.js",
+      "transfer": 1517
+    },
+    {
+      "name": "http://127.0.0.1:4321/_astro/jsxRuntime.module.D2vvEosW.js",
+      "transfer": 5135
+    }
+  ],
+  "initialJsGzip": 23197,
+  "homeGzipEstimate": 41324,
+  "deferredBootRequests": [],
+  "lighthouse": {
+    "performance": 100,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100
+  },
+  "lighthouseTransfer": 43774,
+  "lcp": 1204.557,
+  "cls": 0
+}

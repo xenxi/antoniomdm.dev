@@ -3,13 +3,14 @@ import Desktop from '../components/Desktop';
 import { pageMetadata } from '../data/routes';
 import type { ContentData } from '../data/portfolio';
 import '../styles/global.css';
-import { localeForPath, localizedPath, translator } from '../i18n/core';
+import { basePath, localeForPath, localizedPath, translator } from '../i18n/core';
 import { getUiData } from '../data/ui';
 interface Props { path: string; content: ContentData }
 const { path, content } = Astro.props;
 const meta = pageMetadata(path, content);
 const locale = localeForPath(path); const t = translator(locale);
 const uiData = getUiData(locale, content);
+const initialContent = { notes: content.notes.map(note => ({ ...note, html: basePath(path) === `/notes/${note.slug}/` ? note.html : "" })) };
 ---
 <!doctype html>
 <html lang={locale}>
@@ -18,7 +19,7 @@ const uiData = getUiData(locale, content);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{meta.title} · AntoñiOS</title>
     <meta name="description" content={meta.description} />
-    <meta name="theme-color" content="#0a0d1b" />
+    <meta name="theme-color" content="#141718" />
     <link rel="canonical" href={meta.canonical} />
     <link rel="alternate" hreflang="es" href={`https://antoniomdm.dev${localizedPath(path, 'es')}`} />
     <link rel="alternate" hreflang="en" href={`https://antoniomdm.dev${localizedPath(path, 'en')}`} />
@@ -46,6 +47,6 @@ const uiData = getUiData(locale, content);
   </head>
   <body>
     <a class="skip-link" href="#desktop">{t('Skip to desktop content')}</a>
-    <Desktop path={path} content={content} data={uiData} client:load />
+    <Desktop path={path} content={initialContent} data={uiData} client:load />
   </body>
 </html>
