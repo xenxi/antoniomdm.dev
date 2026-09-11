@@ -1,0 +1,72 @@
+{
+  "date": "2026-09-11T21:41:24.302Z",
+  "route": "/projects/platform934/",
+  "environment": "local production preview",
+  "assets": [
+    {
+      "path": "/projects/platform934/",
+      "type": "document",
+      "bytes": 81162,
+      "gzip": 16887
+    },
+    {
+      "path": "/favicon.svg",
+      "type": "image",
+      "bytes": 272,
+      "gzip": 272
+    },
+    {
+      "path": "/_astro/global.Br675Pnk.css",
+      "type": "stylesheet",
+      "bytes": 32935,
+      "gzip": 7854
+    },
+    {
+      "path": "/_astro/_..D0I8WuLF.css",
+      "type": "stylesheet",
+      "bytes": 22625,
+      "gzip": 5447
+    },
+    {
+      "path": "/_astro/client.Dod4zqEJ.js",
+      "type": "script",
+      "bytes": 1407,
+      "gzip": 800
+    },
+    {
+      "path": "/_astro/Desktop.CQq22VA1.js",
+      "type": "script",
+      "bytes": 67907,
+      "gzip": 22408
+    },
+    {
+      "path": "/_astro/preload-helper.BxCGGqdC.js",
+      "type": "script",
+      "bytes": 12352,
+      "gzip": 5174
+    },
+    {
+      "path": "/_astro/hooks.module.Dmdpree8.js",
+      "type": "script",
+      "bytes": 2808,
+      "gzip": 1217
+    },
+    {
+      "path": "/_astro/jsxRuntime.module.BwQKNNc7.js",
+      "type": "script",
+      "bytes": 11184,
+      "gzip": 5284
+    }
+  ],
+  "initialJsGzip": 34883,
+  "routeTransferEstimate": 65343,
+  "arcadeBootRequests": [],
+  "audioBootRequests": [],
+  "lighthouse": {
+    "performance": 100,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100
+  },
+  "lighthouseTransfer": 68389
+}

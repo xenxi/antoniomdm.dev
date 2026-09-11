@@ -214,6 +214,53 @@
   .arcade-launcher h1 { font-family: var(--mono); letter-spacing: .02em; font-size: 2.1rem; }
   .arcade-launcher .button { min-width: 180px; margin: 14px 0 25px; }
   .arcade-launcher .muted { font-size: .85rem; }
+  .platform934 { max-width: 980px; margin: 0 auto; }
+  .platform-hero { border: 1px solid #61513d; background: linear-gradient(135deg, #222222, #18292b 70%); padding: 28px; border-radius: 8px; overflow: hidden; }
+  .platform-hero h1 { font-size: clamp(2.5rem, 7vw, 5rem); margin-bottom: .7rem; }
+  .platform-mark { float: right; border: 1px solid #8e7047; color: var(--violet); padding: 12px 16px; font: 2.3rem var(--mono); letter-spacing: -.12em; }
+  .platform-note { color: var(--cyan); font: .8rem var(--mono); }
+  .platform-section { border-top: 1px solid var(--border); padding-top: 1rem; margin-top: 2.5rem; scroll-margin-top: 1rem; }
+  .platform-section > h2 { color: var(--text); font-size: 1.55rem; }
+  .platform-client-grid, .platform-detail-grid, .platform-api-grid, .platform-decision-grid, .platform-status-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .platform-card, .platform-detail-grid article, .platform-api-grid article, .platform-decision-grid article, .platform-status-grid article, .platform-boundary article { border: 1px solid var(--border); background: #191f21; padding: 17px; border-radius: 6px; }
+  .platform-card-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .platform-card h3, .platform-detail-grid h3, .platform-api-grid h3, .platform-decision-grid h3, .platform-status-grid h3 { margin: 0 0 8px; color: var(--cyan); }
+  .platform-card dl { display: grid; grid-template-columns: 90px 1fr; gap: 4px 10px; font-size: .82rem; }
+  .platform-card dt { color: var(--violet); font-family: var(--mono); }
+  .platform-card dd { margin: 0; color: var(--text-muted); }
+  .platform-status { display: inline-block; width: fit-content; border: 1px solid #7f6847; color: var(--violet); padding: 2px 6px; font: .65rem var(--mono); letter-spacing: .05em; white-space: nowrap; }
+  .platform-annotation, .platform-context { color: var(--cyan); font: .72rem var(--mono); letter-spacing: .04em; }
+  .platform-diagram { border: 1px solid #3f686b; background: #131f21; padding: 18px; margin: 1rem 0; }
+  .platform-diagram h3 { color: var(--cyan); margin: 0 0 5px; }
+  .platform-diagram figcaption { color: var(--text-muted); font-size: .86rem; margin-bottom: 18px; }
+  .platform-flow { max-width: 700px; margin: auto; text-align: center; }
+  .platform-node { border: 1px solid #7f6847; background: #242321; padding: 13px; display: flex; flex-direction: column; gap: 3px; }
+  .platform-node strong { color: var(--violet); font-family: var(--mono); }
+  .platform-node span, .platform-node small { color: var(--text-muted); }
+  .platform-node-wide { border-color: var(--cyan); }
+  .platform-node-wide strong { color: var(--cyan); }
+  .platform-arrows { color: var(--cyan); font: 1.4rem var(--mono); padding: 5px; white-space: pre; }
+  .platform-flow-split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .platform-node-agent { border-color: var(--cyan); }
+  .platform-boundary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .platform-boundary h3 { margin-top: 0; color: var(--violet); }
+  .platform-list { padding-left: 1.2rem; color: var(--text-muted); }
+  .platform-list li + li { margin-top: .5rem; }
+  .platform-timeline { border-left: 1px solid #7f6847; padding-left: 22px; }
+  .platform-timeline article { display: grid; grid-template-columns: 40px 1fr; gap: 10px; position: relative; margin-bottom: 20px; }
+  .timeline-index { color: var(--violet); font: .75rem var(--mono); }
+  .platform-timeline article::before { content: ''; position: absolute; left: -28px; top: 3px; width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); }
+  .platform-timeline h3 { margin: 0 0 5px; color: var(--cyan); }
+  .platform-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .platform-metrics article { border: 1px solid #5a6d6f; padding: 16px; min-width: 0; }
+  .platform-metrics h3 { color: var(--text-muted); font-size: .8rem; font-family: var(--mono); }
+  .platform-metrics strong { color: var(--violet); font-size: 1.35rem; overflow-wrap: anywhere; }
+  .platform-capabilities article { display: flex; justify-content: space-between; align-items: center; gap: 14px; border-top: 1px solid var(--border); padding: 10px 0; }
+  .platform-workflow, .platform-learnings { list-style: none; padding: 0; display: grid; gap: 8px; }
+  .platform-workflow li, .platform-learnings li { display: flex; gap: 12px; border: 1px solid var(--border); padding: 10px 12px; color: var(--text-muted); }
+  .platform-workflow span, .platform-learnings span { color: var(--violet); font-family: var(--mono); }
+  .platform-callout { border-left: 3px solid var(--cyan); padding: 12px 16px; color: var(--cyan); background: #182527; }
+  .platform-relations a { border: 1px solid var(--border); padding: 5px 8px; }
   .not-found { max-width: 650px; padding: 15vh 30px; margin: auto; }
 }
 @layer responsive {
@@ -242,6 +289,11 @@
     .project-art { min-height: 120px; }
     .project-mark { font-size: 2.5rem; }
     .arcade-launcher h1 { font-size: 1.7rem; }
+    .platform934 { max-width: none; }
+    .platform-hero { padding: 20px; }
+    .platform-client-grid, .platform-detail-grid, .platform-api-grid, .platform-decision-grid, .platform-status-grid, .platform-boundary, .platform-flow-split { grid-template-columns: 1fr; }
+    .platform-metrics { grid-template-columns: 1fr; }
+    .platform-mark { font-size: 1.7rem; }
   }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
   .reading .os, .reading .desktop-surface, .reading .workspace { height: auto; min-height: 100dvh; overflow: visible; }

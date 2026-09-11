@@ -24,7 +24,7 @@ test('Spanish default, language switching, navigation and reading view', async (
   await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   await page.getByRole('link', { name: 'Español', exact: true }).click();
   await expect(page).toHaveURL(/\/projects\/platform934\/$/);
-  await expect(page.getByRole('heading', { name: 'Decisiones de arquitectura' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Decisiones y trade-offs' })).toBeVisible();
   await page.goto('/cv/?view=reading');
   await page.getByRole('link', { name: 'English', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/cv\/\?view=reading$/);

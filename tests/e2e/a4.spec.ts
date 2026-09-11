@@ -98,7 +98,7 @@ test('A4 achievement and competency relations reach existing bilingual destinati
   await page.goto(routes.es.competencies);
   await page.locator('#software-architecture .evidence-links a').last().click();
   await expect(page).toHaveURL('/projects/platform934/');
-  await expect(page.getByRole('heading', { name: 'Platform 9¾', exact: true })).toBeVisible();
+  await expect(page.locator('h1', { hasText: 'Platform934' })).toBeVisible();
 });
 
 for (const locale of ['es', 'en'] as const) {

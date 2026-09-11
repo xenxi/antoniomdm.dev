@@ -8,6 +8,7 @@ import Icon from './Icon';
 import Profile from './Profile';
 import ProjectThumbnail from './ProjectThumbnail';
 import Architecture from './Architecture';
+import Platform934 from './Platform934';
 export { ProfileContent, ExperienceContent } from './Profile';
 
 interface Props { id: AppId; path: string; content: ContentData; data: UiData; enterArcade?: () => void; preferences?: Preferences; setPreferences?: (value: Preferences) => void; reset?: () => void; open?: (path: string) => void }
@@ -21,6 +22,7 @@ export default function AppContent(props: Props) {
   if (['about', 'welcome', 'experience', 'cv'].includes(id)) return <Profile path={path} data={data} />;
   if (id === 'projects') {
     const selected = projects.find(project => path === `/projects/${project.slug}/`);
+    if (selected?.slug === 'platform934') return <Platform934 data={data} />;
     if (selected) return <article><a class="back-link" href={href("/projects/")}>{t("← All projects")}</a><p class="eyebrow">{t("FEATURED PROJECT /")}{' '}{selected.category}</p><div class="project-mark">9¾</div><h1>{selected.name}</h1><p class="lead">{selected.description}</p><div class="tags">{selected.technologies.map(tech => <span key={tech}>{tech}</span>)}</div><h2>{t("Overview")}</h2><p>{selected.overview}</p><h2>{t("Behind the architecture")}</h2><ul>{selected.capabilities.map(capability => <li key={capability.id}><strong>{capability.deliveryStatus === 'implemented' ? (locale === 'es' ? 'Implementado' : 'Implemented') : capability.deliveryStatus === 'in_progress' ? (locale === 'es' ? 'En desarrollo' : 'In progress') : (locale === 'es' ? 'Experimento' : 'Experiment')}</strong> — {capability.title}: {capability.description}</li>)}</ul></article>;
     return <><p class="eyebrow">{t("WORK / PROJECT EXPLORER")}</p><h1>{t("Things I've built.")}</h1><p class="muted">{t("Software, experiments and side quests.")}</p><div class="filters" aria-label={t("Project categories")}>{categories.map(value => <button key={value} aria-pressed={category === value} onClick={() => setCategory(value)}>{value}</button>)}</div>{projects.filter(project => category === t("All projects") || project.category === category).map(project => <a class="project-card" href={href(`/projects/${project.slug}/`)} key={project.slug}><div class="project-art"><ProjectThumbnail /><span>9¾</span></div><div><p class="eyebrow">{t("FEATURED /")}{' '}{project.category}</p><h2>{project.name} <span class="arrow" aria-hidden="true">↗</span>{project.featured && <span class="project-featured" aria-label={t("Featured project")}>★</span>}</h2><p>{project.description}</p><div class="tags">{project.technologies.map(tech => <span key={tech}>{tech}</span>)}</div></div></a>)}{category !== t("All projects") && !projects.some(project => project.category === category) && <div class="empty-state"><Icon name="projects" /><h2>{t("Room for what's next.")}</h2><p>{t("No published projects in this category yet.")}</p><button onClick={() => setCategory(t("All projects"))}>{t("View all projects")}</button></div>}</>;
   }

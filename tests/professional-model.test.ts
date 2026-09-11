@@ -28,7 +28,7 @@ describe('public professional model', () => {
 
   it('rejects implemented capabilities backed by in-progress claims', () => {
     const value = candidate(); const project = value.projects[0];
-    project.capabilities.find(item => item.id === 'tool-calling-agent')!.deliveryStatus = 'implemented';
+    project.capabilities.find(item => item.id === 'cross-device-control')!.deliveryStatus = 'implemented';
     expect(validatePublicProfessionalModel(value).join('\n')).toContain('implemented but references an IN_PROGRESS claim');
   });
 
@@ -105,7 +105,7 @@ describe('public professional model', () => {
   it('keeps availability and delivery status explicit', () => {
     const linkedin = getPublicLinks('es').find(link => link.id === 'linkedin'); expect(linkedin).toMatchObject({ availability: 'preparing' }); expect(linkedin).not.toHaveProperty('url');
     expect(getCvVariants('en')[0].pdf).toEqual({ availability: 'preparing' });
-    expect(getProjects('en')[0].capabilities.find(item => item.id === 'tool-calling-agent')?.deliveryStatus).toBe('in_progress');
+    expect(getProjects('en')[0].capabilities.find(item => item.id === 'tool-calling-agent')?.deliveryStatus).toBe('implemented');
     expect(getTerminalIndex('en').find(item => item.id === 'github')?.url).toBe('https://github.com/xenxi');
   });
 });

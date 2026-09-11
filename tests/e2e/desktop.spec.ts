@@ -30,10 +30,10 @@ test('desktop window lifecycle, drag, resize and exact restore', async ({ page }
 
 test('route deep links and browser Back / Forward work', async ({ page }) => {
   await page.goto('/en/projects/platform934/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Platform 9¾', exact: true })).toBeVisible();
+  await expect(page.locator('h1', { hasText: 'Platform934' })).toBeVisible();
   await page.locator('[data-desktop-app="notes"]').click(); await expect(page).toHaveURL(/\/notes\/$/);
   await page.goBack(); await expect(page.locator('[data-window="projects"]')).toHaveClass(/active/);
-  await expect(page.getByRole('heading', { name: 'Platform 9¾', exact: true })).toBeVisible();
+  await expect(page.locator('h1', { hasText: 'Platform934' })).toBeVisible();
   await page.goForward(); await expect(page.locator('[data-window="notes"]')).toHaveClass(/active/);
 });
 
@@ -79,7 +79,7 @@ test('mobile apps fill the workspace and switch from dock', async ({ page }) => 
 
 test('static HTML, notes, CV and SEO exist without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false }); const page = await context.newPage();
-  await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/projects/platform934/`); await expect(page.getByRole('heading', { name: 'Platform 9¾', exact: true })).toBeVisible();
+  await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/projects/platform934/`); await expect(page.locator('h1', { hasText: 'Platform934' })).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://antoniomdm.dev/en/projects/platform934/');
   await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/notes/os-foundation/`); await expect(page.getByRole('heading', { name: 'One portfolio, two ways to explore' })).toBeVisible();
   await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/cv/`); await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno' })).toBeVisible();
@@ -93,7 +93,7 @@ test('main routes and machine-readable outputs respond', async ({ request }) => 
   const sitemap = await (await request.get('/sitemap.xml')).text(); expect(sitemap).toContain('/projects/platform934/');
   const rss = await (await request.get('/rss.xml')).text(); expect(rss).toContain('os-foundation');
   const llms = await (await request.get('/en/llms.txt')).text();
-  expect(llms).toContain('Public professional model'); expect(llms).toContain('in_progress: New API and tool-using agent');
+  expect(llms).toContain('Public professional model'); expect(llms).toContain('implemented: API and tool-using agent');
   expect(llms).not.toMatch(/pending_editorial|NEEDS_VERIFICATION|INTERVIEW_ONLY|PRIVATE|knowledge-vault/);
   expect((await readFile('dist/CNAME', 'utf8')).trim()).toBe('antoniomdm.dev');
   expect(await readFile('dist/.nojekyll', 'utf8')).toBe('');
