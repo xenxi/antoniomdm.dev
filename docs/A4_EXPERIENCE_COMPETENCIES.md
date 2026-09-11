@@ -66,9 +66,9 @@
 **EN:** `npm ci` PASS, `npm run lint` PASS, `npm run typecheck` PASS, `npm test` PASS with 31 tests, `npm run build` PASS, `npm run test:e2e` PASS with 45 scenarios, `git diff --check` PASS.
 
 ## Linux CI
-**ES:** Pendiente de ejecutar sobre el árbol final. No se ha hecho deploy.
+**ES:** Run `34615695541`, SHA `3092458fc49ec551328c2fdba855b1e5007899bb`, runner `ubuntu-latest`, Node `24`: PASS. `npm ci`, lint, typecheck, unit, build y E2E pasaron. Deploy: SKIPPED / NOT RUN.
 
-**EN:** Pending execution on the final tree. No deploy was run.
+**EN:** Run `34615695541`, SHA `3092458fc49ec551328c2fdba855b1e5007899bb`, runner `ubuntu-latest`, Node `24`: PASS. `npm ci`, lint, typecheck, unit, build and E2E passed. Deploy: SKIPPED / NOT RUN.
 
 ## Content review / Revisión de contenido
 **ES:** Todo el contenido profesional visible sigue derivándose de `src/data/professional/model.ts`. No se cambiaron claims, roles, métricas, educación ni idiomas. Los fixes de producto solo corrigieron destinos de links y accesibilidad del markup.
@@ -76,11 +76,11 @@
 **EN:** All visible professional content remains derived from `src/data/professional/model.ts`. Claims, roles, metrics, education and languages were not changed. Product fixes only corrected link destinations and markup accessibility.
 
 ## Remaining limitations / Limitaciones restantes
-**ES:** Falta Linux CI sobre el SHA final y la medición final instrumentada de performance/Lighthouse. La revisión manual con lector de pantalla no se realizó. A5 continúa sin iniciar y no hay deploy.
+**ES:** La revisión manual con lector de pantalla no se realizó. A5 continúa sin iniciar y no hay deploy.
 
-**EN:** Linux CI on the final SHA and final instrumented performance/Lighthouse measurement remain. Manual screen-reader review was not performed. A5 remains unstarted and there was no deploy.
+**EN:** Manual screen-reader review was not performed. A5 remains unstarted and there was no deploy.
 
 ## Ready for A5?
-**NO** hasta completar Linux CI y registrar la evidencia final requerida.
+**NO**. A5 no debe iniciarse dentro de este cierre.
 
-**NO** until Linux CI is complete and the required final evidence is recorded.
+**NO**. A5 must not start as part of this closure.
