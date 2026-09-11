@@ -1,61 +1,86 @@
 # A4 — Experience + Competencies + Achievements
 
-## Scope
+## Scope / Alcance
+**ES:** A4 presenta el modelo público A2 mediante Experience, Competencies, Achievements, Education y Languages. No se añadieron claims profesionales ni fechas nuevas.
 
-Profile now renders the A2 professional model as navigable Experience, Competencies, Achievements, Education and Languages sections. No professional claims or source dates were added.
+**EN:** A4 presents the A2 public model through Experience, Competencies, Achievements, Education and Languages. No professional claims or new dates were added.
 
-## Experience design
+## E2E coverage
+**ES:** `tests/e2e/a4.spec.ts` cubre rutas ES/EN directas, las nueve experiencias derivadas del modelo, cronología y solapamientos, `details/summary` con ratón y teclado, 19 competencias, clasificación y recencia separadas, ausencia de ratings, el anchor `software-architecture`, métricas, alcance de eventos, educación, idiomas, relaciones, Back/Forward, Axe, responsive, no-JS y capturas. Se actualizó el selector obsoleto de `tests/e2e/i18n.spec.ts` para el markup `details` actual.
 
-The nine A2 experiences retain their exact chronology and overlaps. Native `details/summary` elements provide keyboard, touch and no-JS expansion; Domingo Alonso opens with its supported areas visible.
+**EN:** `tests/e2e/a4.spec.ts` covers direct ES/EN routes, all nine model-derived experiences, chronology and overlaps, mouse and keyboard `details/summary` interaction, 19 competencies, separate classification and recency, absence of ratings, the `software-architecture` anchor, metrics, event scope, education, languages, relations, Back/Forward, Axe, responsive behavior, no-JS and screenshots. The obsolete selector in `tests/e2e/i18n.spec.ts` was updated for the current `details` markup.
 
-## Competency design
+## Experience / Experiencia
+**ES:** Las nueve experiencias conservan el orden y fechas exactos del modelo A2, incluidos los solapamientos. `details/summary` sigue siendo nativo, usable con teclado, touch y no-JS. Domingo Alonso aparece abierto inicialmente y conserva su rol exacto: «Desarrollador sénior .NET / Arquitecto de software».
 
-All 19 A2 competencies are shown with separate classification and recency fields, skills, anchors and evidence links. Grouping remains presentation-only.
+**EN:** The nine experiences retain the exact A2 order and dates, including overlaps. Native `details/summary` remains usable with keyboard, touch and no-JS. Domingo Alonso opens initially and keeps its exact role: “Senior .NET Developer / Software Architect”.
 
-## Achievement design
+## Competencies / Competencias
+**ES:** Las 19 competencias muestran clasificación y recencia como ejes separados, además de skills, anchors y relaciones existentes. No se usan progressbars, meters, estrellas, porcentajes ni scores.
 
-The two A2 achievements show scope, related experience/cases and reusable readable metrics. Approximate values remain labelled; no unsupported score or rating is used.
+**EN:** All 19 competencies show classification and recency as separate axes, together with skills, anchors and existing relations. No progressbars, meters, stars, percentages or scores are used.
 
-## Education
+## Achievements / Logros
+**ES:** Los dos logros A2 muestran scope, relaciones y métricas legibles. La suite comunica `~60 minutos → ~2 minutos` como aproximado. La reducción de llamadas conserva el alcance «por evento relevante en las integraciones afectadas». No se añadió `30x` como métrica primaria.
 
-Uses the exact A2 wording and does not imply an awarded degree.
+**EN:** The two A2 achievements show scope, relations and readable metrics. The suite communicates `~60 minutes → ~2 minutes` as approximate. The call reduction retains the scope “per relevant event in affected integrations”. No `30x` primary metric was added.
 
-## Languages
+## Education / Formación
+**ES:** Se conserva el texto A2: estudios cursados salvo el proyecto final; título no obtenido.
 
-Uses A2 wording without CEFR levels or invented proficiency scores.
+**EN:** The A2 wording is preserved: coursework completed except the final project; degree not awarded.
 
-## Evidence relationships
+## Languages / Idiomas
+**ES:** Se conserva español nativo e inglés con lectura/comprensión técnica avanzadas y conversación profesional en desarrollo. No se añaden niveles CEFR.
 
-Experience tags link to competency anchors; competency and achievement evidence links back to experiences and published architecture/project routes when present.
+**EN:** Native Spanish and English with advanced technical reading/comprehension and developing professional conversation are preserved. No CEFR levels are added.
 
-## Accessibility
+## Cross-links / Relaciones
+**ES:** Los links de Experience a Competency, Competency a Experience/Project, Achievement a Experience/Architecture y sus destinos existentes conservan locale, hashes válidos y navegación Back/Forward. No se implementaron casos A5: las relaciones de arquitectura llegan al índice existente de Architecture, sin campos inventados.
 
-Native expandable controls, descriptive headings, readable metric text, focus outlines and CSS-independent timeline order are provided.
+**EN:** Experience-to-Competency, Competency-to-Experience/Project and Achievement-to-Experience/Architecture links preserve locale, valid hashes and Back/Forward navigation. A5 case studies were not implemented: architecture relations reach the existing Architecture index without invented fields.
 
-## Responsive
+## Accessibility QA
+**ES:** Axe pasó sin violaciones en Experience, Competencies y Achievements. La interacción de teclado de `summary`, enlaces, foco visible y métricas como texto se verificó mediante Playwright. Screen reader manual QA: **NOT PERFORMED**.
 
-Existing responsive profile layout is preserved; timeline content stacks naturally and competency evidence wraps without horizontal overflow.
+**EN:** Axe passed with zero violations on Experience, Competencies and Achievements. Keyboard interaction for `summary`, links, visible focus and metrics as text was verified with Playwright. Screen reader manual QA: **NOT PERFORMED**.
 
-## Performance
+## Visual QA / QA visual
+**ES:** Se capturaron `1440x1000` y `390x844`; también se verificaron `820x1180` y `320x740` sin overflow horizontal. Las capturas están en `docs/quality/a4/screenshots/a4/`: `01-experience-es-collapsed.png`, `02-experience-es-domingo-expanded.png`, `03-competencies-es.png`, `04-achievements-es.png`, `05-experience-en.png`, `06-experience-mobile-es.png` y `07-competencies-mobile-es.png`. No se detectó clipping en assertions de layout. La inspección visual humana de píxeles no pudo realizarse en esta interfaz porque el visor de imágenes no está disponible.
 
-The change uses HTML/CSS and existing selectors only. No timeline or chart dependency and no case-study bodies are loaded.
+**EN:** `1440x1000` and `390x844` were captured; `820x1180` and `320x740` were also checked without horizontal overflow. Screenshots are in `docs/quality/a4/screenshots/a4/`: `01-experience-es-collapsed.png`, `02-experience-es-domingo-expanded.png`, `03-competencies-es.png`, `04-achievements-es.png`, `05-experience-en.png`, `06-experience-mobile-es.png` and `07-competencies-mobile-es.png`. No clipping was detected by layout assertions. Human pixel-level visual inspection could not be performed in this interface because an image viewer is unavailable.
 
-## Tests
+## No-JS QA
+**ES:** Experience, Competencies, Achievements, Education y Languages se verificaron en ES y EN con JavaScript deshabilitado; el HTML profesional principal permanece visible.
 
-`npm run typecheck`, `npm run lint` and `npm test` pass. Existing E2E coverage remains available; full gate execution is pending in this pass.
+**EN:** Experience, Competencies, Achievements, Education and Languages were verified in ES and EN with JavaScript disabled; the main professional HTML remains visible.
 
-## Content review
+## Performance after A4 / Rendimiento tras A4
+**ES:** `npm run build` genera 64 páginas. JS inicial: `23.1 KiB gzip`; home: `43.2 KiB` de assets gzip estimados; Arcade/audio inicial: `0` requests. Lighthouse local de producción: `100/100/100/100`, LCP `1206 ms`, CLS `0`, transferencia `45.6 KiB`.
 
-Visible professional content is sourced from `src/data/professional/model.ts` through selectors. No new claims were introduced.
+**EN:** `npm run build` generates 64 pages. Initial JS: `23.1 KiB gzip`; home: `43.2 KiB` estimated gzipped assets; initial Arcade/audio: `0` requests. Local production Lighthouse: `100/100/100/100`, LCP `1206 ms`, CLS `0`, transfer `45.6 KiB`.
 
-## Screenshots
+## Local gates / Gates locales
+**ES:** `npm ci` PASS, `npm run lint` PASS, `npm run typecheck` PASS, `npm test` PASS con 31 tests, `npm run build` PASS, `npm run test:e2e` PASS con 45 escenarios, `git diff --check` PASS.
 
-Not captured in this implementation pass.
+**EN:** `npm ci` PASS, `npm run lint` PASS, `npm run typecheck` PASS, `npm test` PASS with 31 tests, `npm run build` PASS, `npm run test:e2e` PASS with 45 scenarios, `git diff --check` PASS.
 
-## Known gaps
+## Linux CI
+**ES:** Pendiente de ejecutar sobre el árbol final. No se ha hecho deploy.
 
-Dedicated A4-specific unit/E2E assertions, visual captures, and Linux CI verification remain to be added.
+**EN:** Pending execution on the final tree. No deploy was run.
+
+## Content review / Revisión de contenido
+**ES:** Todo el contenido profesional visible sigue derivándose de `src/data/professional/model.ts`. No se cambiaron claims, roles, métricas, educación ni idiomas. Los fixes de producto solo corrigieron destinos de links y accesibilidad del markup.
+
+**EN:** All visible professional content remains derived from `src/data/professional/model.ts`. Claims, roles, metrics, education and languages were not changed. Product fixes only corrected link destinations and markup accessibility.
+
+## Remaining limitations / Limitaciones restantes
+**ES:** Falta Linux CI sobre el SHA final y la medición final instrumentada de performance/Lighthouse. La revisión manual con lector de pantalla no se realizó. A5 continúa sin iniciar y no hay deploy.
+
+**EN:** Linux CI on the final SHA and final instrumented performance/Lighthouse measurement remain. Manual screen-reader review was not performed. A5 remains unstarted and there was no deploy.
 
 ## Ready for A5?
+**NO** hasta completar Linux CI y registrar la evidencia final requerida.
 
-NO — A4 is PARTIAL until the remaining gates and visual/content QA are completed.
+**NO** until Linux CI is complete and the required final evidence is recorded.
