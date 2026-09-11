@@ -1,0 +1,17 @@
+---
+import Shell from '../layouts/Shell.astro';
+import { getContent } from '../data/content';
+import { routes } from '../data/routes';
+import { locales, localizedPath } from '../i18n/core';
+export async function getStaticPaths() {
+  return (await Promise.all(locales.map(async locale => {
+    const content = await getContent(locale);
+    return routes(content).map(base => {
+      const path = localizedPath(base, locale);
+      return { params: { path: path === '/' ? undefined : path.replace(/^\/+|\/+$/g, '') }, props: { path, content } };
+    });
+  }))).flat();
+}
+const { path, content } = Astro.props;
+---
+<Shell path={path} content={content} />

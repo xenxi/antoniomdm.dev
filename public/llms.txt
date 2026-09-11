@@ -1,0 +1,33 @@
+# ANTONIOMDM OS
+
+> Portfolio de Antonio Manuel Díaz Moreno, arquitecto de software e ingeniero sénior .NET.
+
+Español por defecto; inglés en /en/. El escritorio interactivo y las rutas HTML comparten datos.
+
+- [Perfil](https://antoniomdm.dev/about/)
+- [Proyectos](https://antoniomdm.dev/projects/)
+- [Platform 9¾](https://antoniomdm.dev/projects/platform934/): laboratorio multiplataforma con Flutter, webOS, Kotlin, Media3 y Jellyfin. API y agente con herramientas en desarrollo.
+- [Experiencia](https://antoniomdm.dev/experience/): Domingo Alonso Group, julio 2021–actualidad; Anexia, Vector ITC, Nokia, Alcatel-Lucent y primeros trabajos.
+- [Notas](https://antoniomdm.dev/notes/)
+- [RSS](https://antoniomdm.dev/rss.xml)
+- [CV](https://antoniomdm.dev/cv.txt)
+- [Laboratorio](https://antoniomdm.dev/lab/): vistas previas de conceptos.
+- [Arcade](https://antoniomdm.dev/arcade/): vista previa inicial, no un juego completo.
+
+Trayectoria revisada el 10 de septiembre de 2026. Estudios completados salvo el proyecto final; título no obtenido. Liderazgo técnico no implica gestión formal de personal. La reducción de pruebas de aproximadamente una hora a dos minutos es una métrica aproximada.
+
+## English
+
+Portfolio of Antonio Manuel Díaz Moreno, Software Architect and Senior .NET Engineer. Spanish is the default; English routes live under /en/. The interactive desktop and static HTML routes share data.
+
+- [Profile](https://antoniomdm.dev/en/about/)
+- [Projects](https://antoniomdm.dev/en/projects/)
+- [Platform 9¾](https://antoniomdm.dev/en/projects/platform934/): multiplatform laboratory with Flutter, webOS, Kotlin, Media3 and Jellyfin. API and tool-using agent in progress.
+- [Experience](https://antoniomdm.dev/en/experience/): Domingo Alonso Group, July 2021–present; Anexia, Vector ITC, Nokia, Alcatel-Lucent and early career.
+- [Notes](https://antoniomdm.dev/en/notes/)
+- [RSS](https://antoniomdm.dev/en/rss.xml)
+- [CV](https://antoniomdm.dev/en/cv.txt)
+- [Lab](https://antoniomdm.dev/en/lab/): concept previews.
+- [Arcade](https://antoniomdm.dev/en/arcade/): foundation preview, not a complete game.
+
+Career reviewed on 10 September 2026. Coursework completed except the final project; degree not awarded. Technical leadership does not imply formal people management. The integration-test reduction from about one hour to two minutes is approximate.
