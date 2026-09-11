@@ -5,13 +5,15 @@ import { registry } from '../os/registry';
 import Icon from './Icon';
 
 export function ExperienceContent({ data }: { data: UiData }) {
+  const { href } = useLocale();
   const byId = new Map(data.competencies.map(item => [item.id, item]));
-  return <div class="timeline">{data.professionalExperience.map(job => <details key={job.id} class="timeline-item" id={job.id} open={job.id === 'domingo-alonso'}><summary><span class="eyebrow">{job.period}</span><h2>{job.role}</h2><h3>{job.company}</h3><p>{job.summary}</p><div class="tags">{job.competencyIds.map(id => byId.get(id)).filter(Boolean).slice(0, 6).map(item => <a key={item!.id} href={`#${item!.id}`}>{item!.name}</a>)}</div></summary>{job.sections.map(section => <section key={section.id}><h4>{section.title}</h4><p>{section.content}</p></section>)}</details>)}</div>;
+  return <div class="timeline">{data.professionalExperience.map(job => <details key={job.id} class="timeline-item" id={job.id} open={job.id === 'domingo-alonso'}><summary><span class="eyebrow">{job.period}</span><h2>{job.role}</h2><h3>{job.company}</h3><p>{job.summary}</p></summary><div class="tags">{job.competencyIds.map(id => byId.get(id)).filter(Boolean).slice(0, 6).map(item => <a key={item!.id} href={href(`/profile/competencies/#${item!.id}`)}>{item!.name}</a>)}</div>{job.sections.map(section => <section key={section.id}><h4>{section.title}</h4><p>{section.content}</p></section>)}</details>)}</div>;
 }
 
 function EvidenceLinks({ ids, data, kind }: { ids: string[]; data: UiData; kind: 'experience' | 'case' | 'project' }) {
+  const { href } = useLocale();
   const labels = kind === 'experience' ? new Map(data.professionalExperience.map(x => [x.id, x.company])) : kind === 'case' ? new Map(data.architectureCases.map(x => [x.id, x.title])) : new Map(data.portfolio.projects.map(x => [x.slug, x.name]));
-  return <div class="evidence-links">{ids.map(id => labels.get(id) ? <a key={id} href={kind === 'experience' ? `#${id}` : kind === 'case' ? `/architecture/${id}/` : `/projects/${id}/`}>{labels.get(id)}</a> : null)}</div>;
+  return <div class="evidence-links">{ids.map(id => labels.get(id) ? <a key={id} href={kind === 'experience' ? href(`/experience/#${id}`) : kind === 'case' ? href('/architecture/') : href(`/projects/${id}/`)}>{labels.get(id)}</a> : null)}</div>;
 }
 
 function Metric({ metric, t }: { metric: NonNullable<UiData['achievements'][number]['metric']>; t: (v: string) => string }) {

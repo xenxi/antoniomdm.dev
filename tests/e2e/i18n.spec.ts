@@ -39,7 +39,7 @@ test('both languages publish complete static HTML, notes, feeds and CVs', async 
     const prefix = `/${locale}`;
     await page.goto(`http://127.0.0.1:4321${prefix}/experience/`);
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
-    await expect(page.locator('.timeline article')).toHaveCount(9);
+    await expect(page.locator('.timeline-item')).toHaveCount(9);
     await page.getByRole('link', { name: locale === 'es' ? 'English' : 'Español', exact: true }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', locale === 'es' ? 'en' : 'es');
     await page.goto(`http://127.0.0.1:4321${prefix}/notes/os-foundation/`);
