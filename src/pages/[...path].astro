@@ -1,0 +1,28 @@
+---
+import Shell from '../layouts/Shell.astro';
+import StaticRedirect from '../layouts/StaticRedirect.astro';
+import { getContent } from '../data/content';
+import { routes } from '../data/routes';
+import { locales, localizedPath } from '../i18n/core';
+import type { ContentData } from '../data/portfolio';
+interface Props { path: string; content: ContentData; redirectTo?: string }
+export async function getStaticPaths() {
+  const canonical = (await Promise.all(locales.map(async locale => {
+    const content = await getContent(locale);
+    return routes(content).map(base => {
+      const path = localizedPath(base, locale);
+      return { params: { path: path === '/' ? undefined : path.replace(/^\/+|\/+$/g, '') }, props: { path, content } };
+    });
+  }))).flat();
+  const content = await getContent('es');
+  const compatibility = routes(content).map(base => ({ params: { path: base === '/' ? undefined : base.replace(/^\/+|\/+$/g, '') }, props: { path: base, content, redirectTo: localizedPath(base, 'es') } }));
+  const legacy = (['es', 'en'] as const).flatMap(locale => [
+    { from: localizedPath('/about/', locale), to: localizedPath('/profile/', locale) },
+    { from: localizedPath('/lab/', locale), to: localizedPath('/ai/', locale) },
+  ]).map(({ from, to }) => ({ params: { path: from.replace(/^\/+|\/+$/g, '') }, props: { path: from, content, redirectTo: to } }));
+  const unprefixedLegacy = [{ from: '/about/', to: '/es/profile/' }, { from: '/lab/', to: '/es/ai/' }].map(({ from, to }) => ({ params: { path: from.replace(/^\/+|\/+$/g, '') }, props: { path: from, content, redirectTo: to } }));
+  return [...canonical, ...compatibility, ...legacy, ...unprefixedLegacy];
+}
+const { path, content, redirectTo } = Astro.props as Props;
+---
+{redirectTo ? <StaticRedirect target={redirectTo} /> : <Shell path={path} content={content} />}

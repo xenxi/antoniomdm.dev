@@ -1,19 +1,59 @@
-name: CI/CD
+name: ANTONIOMDM OS · verify and publish
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          channel: beta
-      - run: flutter pub get
-      - uses: bluefireteam/flutter-gh-pages@v7
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          baseHref: /
-          customArgs: --dart-define="GITHUB_TOKEN=${{ secrets.G_TOKEN }}"
+          name: browser-results
+          path: test-results/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: dist/
+          include-hidden-files: true
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: web-dist
+          path: dist
+      # Keep the original gh-pages publishing model and custom CNAME.
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
+          clean: true

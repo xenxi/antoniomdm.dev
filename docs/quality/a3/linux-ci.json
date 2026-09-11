@@ -1,0 +1,150 @@
+{
+  "conclusion": "success",
+  "headBranch": "codex/a3-linux-verification-20260911",
+  "headSha": "ae73033bae903e6978183f0068e221cc62395daa",
+  "jobs": [
+    {
+      "completedAt": "2026-09-11T13:17:20Z",
+      "conclusion": "success",
+      "databaseId": 103275675846,
+      "name": "build",
+      "startedAt": "2026-09-11T13:15:59Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-09-11T13:16:00Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-09-11T13:15:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:16:01Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@v4",
+          "number": 2,
+          "startedAt": "2026-09-11T13:16:00Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:16:02Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-node@v4",
+          "number": 3,
+          "startedAt": "2026-09-11T13:16:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:16:14Z",
+          "conclusion": "success",
+          "name": "Run npm ci",
+          "number": 4,
+          "startedAt": "2026-09-11T13:16:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:16:16Z",
+          "conclusion": "success",
+          "name": "Run npm run lint",
+          "number": 5,
+          "startedAt": "2026-09-11T13:16:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:16:23Z",
+          "conclusion": "success",
+          "name": "Run npm run typecheck",
+          "number": 6,
+          "startedAt": "2026-09-11T13:16:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:16:24Z",
+          "conclusion": "success",
+          "name": "Run npm test",
+          "number": 7,
+          "startedAt": "2026-09-11T13:16:23Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:16:28Z",
+          "conclusion": "success",
+          "name": "Run npm run build",
+          "number": 8,
+          "startedAt": "2026-09-11T13:16:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:16:49Z",
+          "conclusion": "success",
+          "name": "Run npx playwright install --with-deps chromium",
+          "number": 9,
+          "startedAt": "2026-09-11T13:16:28Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:17:14Z",
+          "conclusion": "success",
+          "name": "Run npm run test:e2e",
+          "number": 10,
+          "startedAt": "2026-09-11T13:16:49Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:17:15Z",
+          "conclusion": "success",
+          "name": "Run actions/upload-artifact@v4",
+          "number": 11,
+          "startedAt": "2026-09-11T13:17:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:17:16Z",
+          "conclusion": "success",
+          "name": "Run actions/upload-artifact@v4",
+          "number": 12,
+          "startedAt": "2026-09-11T13:17:15Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:17:18Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-node@v4",
+          "number": 23,
+          "startedAt": "2026-09-11T13:17:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:17:19Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@v4",
+          "number": 24,
+          "startedAt": "2026-09-11T13:17:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-09-11T13:17:19Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 25,
+          "startedAt": "2026-09-11T13:17:19Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/xenxi/antoniomdm.dev/actions/runs/34603321064/job/103275675846"
+    },
+    {
+      "completedAt": "2026-09-11T13:17:20Z",
+      "conclusion": "skipped",
+      "databaseId": 103276103582,
+      "name": "deploy",
+      "startedAt": "2026-09-11T13:17:20Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/xenxi/antoniomdm.dev/actions/runs/34603321064/job/103276103582"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/xenxi/antoniomdm.dev/actions/runs/34603321064"
+}

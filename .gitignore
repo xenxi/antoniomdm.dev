@@ -49,3 +49,9 @@ app.*.map.json
 .vscode/
 .vscode/launch.json
 *.env
+
+node_modules/
+dist/
+.astro/
+test-results/
+playwright-report/
