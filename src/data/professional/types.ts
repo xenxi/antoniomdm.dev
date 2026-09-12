@@ -33,6 +33,8 @@ export interface ProfessionalProfile {
   focusLine: LocalizedText;
   summary: LocalizedText;
   humanNote: LocalizedText;
+  location: LocalizedText;
+  availability: LocalizedText;
   focusAreas: string[];
   experienceIds: string[];
   competencyIds: string[];
@@ -141,7 +143,7 @@ export interface ArchitectureCaseStudy {
 
 export interface ExternalLink {
   id: string;
-  kind: 'github' | 'linkedin' | 'email' | 'phone' | 'website' | 'other';
+  kind: 'github' | 'linkedin' | 'email' | 'website' | 'other';
   label: LocalizedText;
   url?: string;
   availability: Availability;
@@ -180,13 +182,6 @@ export interface BlogPost {
   claimIds: string[];
 }
 
-export interface TerminalCommand {
-  id: string;
-  label: LocalizedText;
-  route?: string;
-  externalLinkId?: string;
-}
-
 export interface PublicProfessionalModel {
   profile: ProfessionalProfile;
   experiences: Experience[];
@@ -198,7 +193,6 @@ export interface PublicProfessionalModel {
   externalLinks: ExternalLink[];
   cvVariants: CvVariant[];
   blogPosts: BlogPost[];
-  terminalCommands: TerminalCommand[];
   claims: PublicClaim[];
 }
 

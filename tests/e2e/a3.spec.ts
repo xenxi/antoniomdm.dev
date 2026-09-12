@@ -54,8 +54,8 @@ test('A3 sections share a window, update metadata, restore history and preserve 
   await page.goBack(); await expect(page.locator('[data-profile-section]')).toHaveAttribute('data-profile-section', 'languages');
   await page.goForward(); await expect(page.locator('[data-profile-section]')).toHaveAttribute('data-profile-section', 'cv');
   await expect(page.locator('.pdf-state')).toHaveCount(2);
-  await expect(page.locator('.pdf-state a')).toHaveCount(0);
-  await expect(page.locator('.pdf-state .availability')).toHaveText(['Working on it', 'Working on it']);
+  await expect(page.locator('.pdf-state a[download]')).toHaveCount(2);
+  await expect(page.locator('.pdf-state .availability')).toHaveText(['Available', 'Available']);
   await page.screenshot({ path: `${shots}/cv-en.png` });
   await page.goto('/es/profile/competencies/?source=a3#content');
   await page.getByRole('link', { name: 'English', exact: true }).click();
@@ -83,14 +83,15 @@ test('A3 launcher opens every app and keyboard restores minimized state', async 
   await expect(page.getByRole('button', { name: 'Restore Profile', exact: true })).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('A3 preparing states, launcher focus and unavailable links are honest', async ({ page }) => {
+test('A3 approved contact and CV states are honest', async ({ page }) => {
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await page.screenshot({ path: `${shots}/desktop-en.png` });
-  await expect(page.locator('.public-shortcuts')).toContainText('LinkedIn Working on it');
-  await expect(page.locator('a[href*="linkedin"]')).toHaveCount(0);
+  await expect(page.locator('.public-shortcuts a[href*="linkedin"]')).toHaveCount(1);
+  await expect(page.locator('.public-shortcuts a[href^="mailto:"]')).toHaveCount(1);
+  await expect(page.locator('.public-shortcuts')).not.toContainText('Working on it');
   await page.keyboard.press('Alt+l');
-  await expect(page.locator('.launcher-extras')).toContainText('Download CV Working on it');
-  await expect(page.locator('.launcher-extras a[download]')).toHaveCount(0);
+  await expect(page.locator('.launcher-extras a[download]')).toHaveCount(1);
+  await expect(page.locator('.launcher-extras')).not.toContainText('Working on it');
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
   await page.screenshot({ path: `${shots}/launcher-en.png` });
   await page.keyboard.press('Escape'); await page.goto('/es/cv/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();

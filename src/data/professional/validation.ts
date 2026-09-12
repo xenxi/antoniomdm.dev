@@ -37,7 +37,7 @@ function validateUrl(url: string, path: string, errors: string[]) {
   if (url === '#' || url.trim() === '') { errors.push(`${path} uses a fake URL`); return; }
   try {
     const protocol = new URL(url).protocol;
-    if (!['https:', 'mailto:', 'tel:'].includes(protocol)) errors.push(`${path} uses unsupported protocol ${protocol}`);
+    if (!['https:', 'mailto:'].includes(protocol)) errors.push(`${path} uses unsupported protocol ${protocol}`);
   } catch { errors.push(`${path} is not a valid URL`); }
 }
 
@@ -54,7 +54,7 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
   const linkIds = ids(model.externalLinks, 'externalLinks', errors);
   const cvIds = ids(model.cvVariants, 'cvVariants', errors);
   const claimIds = ids(model.claims, 'claims', errors);
-  ids(model.aiLab, 'aiLab', errors); ids(model.blogPosts, 'blogPosts', errors); ids(model.terminalCommands, 'terminalCommands', errors);
+  ids(model.aiLab, 'aiLab', errors); ids(model.blogPosts, 'blogPosts', errors);
 
   for (const claim of model.claims) validateClaim(claim, errors);
   references(model.profile.experienceIds, experienceIds, 'profile.experienceIds', errors);
@@ -108,7 +108,6 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
   }
   for (const topic of model.aiLab) references(topic.claimIds, claimIds, `aiLab.${topic.id}.claimIds`, errors);
   for (const post of model.blogPosts) references(post.claimIds, claimIds, `blogPosts.${post.id}.claimIds`, errors);
-  for (const command of model.terminalCommands) if (command.externalLinkId) references([command.externalLinkId], linkIds, `terminalCommands.${command.id}.externalLinkId`, errors);
 
   for (const link of model.externalLinks) {
     if (link.availability === 'available') {

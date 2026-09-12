@@ -2,6 +2,9 @@ import type { Locale } from '../../i18n/core';
 import { publicProfessionalModel as model } from './model';
 import type { EditorialSection, LocalizedText } from './types';
 import { assertPublicProfessionalModel } from './validation';
+import { terminalCommands, type TerminalAction } from '../terminal';
+
+export interface TerminalIndexEntry { id: string; label: string; route?: string; url?: string; action: TerminalAction }
 
 assertPublicProfessionalModel(model);
 const localize = (value: LocalizedText, locale: Locale) => value[locale];
@@ -58,12 +61,15 @@ export function getAiLab(locale: Locale) {
   return model.aiLab.map(item => ({ ...item, title: localize(item.title, locale), summary: localize(item.summary, locale) }));
 }
 
-export function getTerminalIndex(locale: Locale) {
+export function getTerminalIndex(locale: Locale): TerminalIndexEntry[] {
   const links = new Map(getPublicLinks(locale).map(link => [link.id, link]));
-  return model.terminalCommands.flatMap(command => {
+  return terminalCommands.flatMap((command): TerminalIndexEntry[] => {
     const link = command.externalLinkId ? links.get(command.externalLinkId) : undefined;
-    if (command.externalLinkId && link?.availability !== 'available') return [];
-    return [{ id: command.id, label: localize(command.label, locale), route: command.route, url: link?.url }];
+    if (command.action === 'EXTERNAL_LINK') {
+      if (link?.availability !== 'available' || !link.url) return [];
+      return [{ id: command.id, label: localize(command.label, locale), url: link.url, action: command.action }];
+    }
+    return [{ id: command.id, label: localize(command.label, locale), route: command.route, action: command.action }];
   });
 }
 

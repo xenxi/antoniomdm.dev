@@ -426,6 +426,17 @@
   .public-shortcuts { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; font-size: .875rem; }
   .public-shortcuts > a { min-height: 44px; display: flex; align-items: center; }
   .public-shortcuts > span { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .contact-summary { font-size: .8125rem; color: var(--text-muted); margin: 10px 0 14px; }
+  .contact-app { display: flex; flex-direction: column; }
+  .contact-app .contact-summary { font-size: .9375rem; color: var(--text-muted); margin: 4px 0 0; }
+  .contact-actions { list-style: none; display: grid; gap: 10px; margin: 18px 0; padding: 0; }
+  .contact-actions li a { display: flex; flex-direction: column; gap: 2px; min-height: 44px; padding: 10px 14px; border: 1px solid var(--border); background: #22282a; color: var(--text); text-decoration: none; }
+  .contact-actions li a:hover { border-color: var(--cyan); }
+  .contact-actions strong { font-size: .9375rem; }
+  .contact-actions span { color: var(--text-muted); font-size: .8125rem; overflow-wrap: anywhere; }
+  .contact-copy { align-self: flex-start; min-height: 44px; padding: 0 16px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; }
+  .contact-copy:hover { border-color: var(--cyan); }
+  .contact-copy-status { min-height: 1.2em; color: var(--cyan); font-size: .8125rem; margin: 8px 0 0; }
   .availability { display: inline-block; color: var(--text-muted); font-size: .875rem; font-weight: 400; }
   .availability-preparing { color: var(--warning); }
   .availability-available { color: var(--cyan); }

@@ -2,8 +2,10 @@ import type { Locale } from '../i18n/core';
 import { basePath, localizedPath } from '../i18n/core';
 import { getPortfolio, type ContentData } from './portfolio';
 import { pageMetadata, routes } from './routes';
-import { getArchitectureCases, getCvVariants, getPublicLinks, getTerminalIndex, getProfile, getCompetencies, getAchievements, getExperience, getPublicClaims } from './professional';
+import { getArchitectureCases, getCvVariants, getPublicLinks, getProfile, getCompetencies, getAchievements, getExperience, getPublicClaims } from './professional';
 import { getArchitectureDiagram } from './architecture-presentation';
+import { contactInfo, contactMailto } from './contact';
+import { cvAssets, cvSupportingLine } from './cv';
 
 export function getUiData(locale: Locale, content: ContentData, path = localizedPath('/', locale)) {
   const activePath = basePath(path);
@@ -29,7 +31,10 @@ export function getUiData(locale: Locale, content: ContentData, path = localized
     }),
     publicLinks: getPublicLinks(locale),
     cvVariants: getCvVariants(locale),
-    terminalIndex: getTerminalIndex(locale),
+    contact: contactInfo,
+    contactMailto,
+    cvAssets,
+    cvSupportingLine,
     knownPaths: routes(content), metadata,
   };
 }

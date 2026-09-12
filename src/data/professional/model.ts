@@ -118,6 +118,8 @@ export const publicProfessionalModel: PublicProfessionalModel = {
     focusLine: text('.NET · Distributed Systems · Legacy Modernization · Applied AI', '.NET · Distributed Systems · Legacy Modernization · Applied AI'),
     summary: text('Software Architect y Senior .NET Engineer con más de 12 años de experiencia diseñando, desarrollando y evolucionando software. Combina arquitectura hands-on, .NET, sistemas distribuidos, modernización segura, testing, rendimiento, observabilidad y responsabilidad hasta producción.', 'Software Architect and Senior .NET Engineer with more than 12 years of experience designing, building and evolving software. Combines hands-on architecture, .NET, distributed systems, safe modernization, testing, performance, observability and responsibility through production.'),
     humanNote: text('Arquitectura conectada con la implementación, el comportamiento real del sistema y las personas que lo construyen.', 'Architecture connected to implementation, real system behavior and the people building it.'),
+    location: text('Linares (Jaén), España', 'Linares (Jaén), Spain'),
+    availability: text('Remoto', 'Remote'),
     focusAreas: ['software-architecture', 'dotnet-backend', 'distributed-systems', 'legacy-modernization', 'applied-ai'], experienceIds: experiences.map(item => item.id), competencyIds: competencies.map(item => item.id), achievementIds: ['integration-suite-feedback', 'event-summary-api-calls'], education: [text('Ingeniería Técnica en Informática de Gestión — Escuela Politécnica Superior de Córdoba. Estudios cursados salvo el proyecto final; título no obtenido.', 'Technical Engineering in Management Information Systems — Escuela Politécnica Superior de Córdoba. Coursework completed except the final project; degree not awarded.')], languages: [text('Español nativo.', 'Native Spanish.'), text('Inglés: lectura y comprensión técnica avanzadas; conversación profesional en desarrollo.', 'English: advanced technical reading and comprehension; professional spoken conversation developing.')], projectIds: ['platform934'], externalLinkIds: ['github', 'website', 'linkedin', 'email'], cvVariantIds: ['software-architect-dotnet'], claimIds: ['profile-12-years'],
   },
   experiences,
@@ -146,14 +148,17 @@ export const publicProfessionalModel: PublicProfessionalModel = {
   externalLinks: [
     { id: 'github', kind: 'github', label: text('GitHub', 'GitHub'), url: 'https://github.com/xenxi', availability: 'available', verifiedAt: '2026-09-11' },
     { id: 'website', kind: 'website', label: text('Sitio web', 'Website'), url: 'https://antoniomdm.dev', availability: 'available', verifiedAt: '2026-09-11' },
-    { id: 'linkedin', kind: 'linkedin', label: text('LinkedIn', 'LinkedIn'), availability: 'preparing' },
-    { id: 'email', kind: 'email', label: text('Correo electrónico', 'Email'), availability: 'preparing' },
+    { id: 'linkedin', kind: 'linkedin', label: text('LinkedIn', 'LinkedIn'), url: 'https://www.linkedin.com/in/antoniomanueldiazmoreno', availability: 'available', verifiedAt: '2026-09-12' },
+    { id: 'email', kind: 'email', label: text('Correo electrónico', 'Email'), url: 'mailto:antoniom.diaz.moreno@gmail.com', availability: 'available', verifiedAt: '2026-09-12' },
   ],
-  cvVariants: [{ id: 'software-architect-dotnet', title: text('Software Architect / .NET Architect', 'Software Architect / .NET Architect'), primary: true, extendedRoute: text('/es/cv/', '/en/cv/'), pdf: { es: { availability: 'preparing' }, en: { availability: 'preparing' } } }],
+  cvVariants: [{
+    id: 'software-architect-dotnet', title: text('Software Architect / .NET Architect', 'Software Architect / .NET Architect'), primary: true, extendedRoute: text('/es/cv/', '/en/cv/'),
+    pdf: {
+      es: { availability: 'available', path: '/cv/antonio-manuel-diaz-moreno-software-architect-es.pdf', filename: 'antonio-manuel-diaz-moreno-software-architect-es.pdf', mime: 'application/pdf', verifiedAt: '2026-09-12' },
+      en: { availability: 'available', path: '/cv/antonio-manuel-diaz-moreno-software-architect-en.pdf', filename: 'antonio-manuel-diaz-moreno-software-architect-en.pdf', mime: 'application/pdf', verifiedAt: '2026-09-12' },
+    },
+  }],
   blogPosts: [],
-  terminalCommands: [
-    { id: 'profile', label: text('Perfil', 'Profile'), route: '/profile/' }, { id: 'experience', label: text('Experiencia', 'Experience'), route: '/experience/' }, { id: 'architecture', label: text('Arquitectura', 'Architecture'), route: '/architecture/' }, { id: 'projects', label: text('Proyectos', 'Projects'), route: '/projects/' }, { id: 'ai', label: text('IA', 'AI'), route: '/ai-lab/' }, { id: 'contact', label: text('Contacto', 'Contact'), route: '/contact/' }, { id: 'cv', label: text('CV', 'CV'), route: '/cv/' }, { id: 'github', label: text('GitHub', 'GitHub'), externalLinkId: 'github' },
-  ],
   claims: [
     { id: 'profile-12-years', visibility: 'PUBLIC', status: 'CONFIRMED', text: text('Más de 12 años de experiencia profesional.', 'More than 12 years of professional experience.'), evidenceKind: 'professional', evidenceId: 'ev-career-chronology', reviewedAt: '2026-09-11' },
     { id: 'domingo-scope', visibility: 'CV_SAFE', status: 'CONFIRMED', text: text('Responsabilidad hands-on desde discovery y diseño hasta producción.', 'Hands-on responsibility from discovery and design through production.'), evidenceKind: 'professional', evidenceId: 'ev-domingo-scope', reviewedAt: '2026-09-11' },
