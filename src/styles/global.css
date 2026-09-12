@@ -154,6 +154,29 @@
   .filters button[aria-pressed=true] { color: #e9b56a; border-color: #a9824c; background: #3a3023; }
   .project-card { display: grid; grid-template-columns: 140px 1fr; gap: 24px; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; padding: 18px; color: var(--text); background: #151b2e; }
   .project-card:hover { border-color: var(--violet); }
+  .project-groups { display: grid; gap: 12px; }
+  .project-card-secondary { display: grid; grid-template-columns: 140px 1fr; gap: 24px; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; padding: 18px; color: var(--text); background: #151b2e; }
+  .project-card-secondary:hover { border-color: var(--violet); }
+  .project-card-secondary .project-art { display: flex; align-items: center; justify-content: center; flex-direction: column; min-height: 160px; border: 1px solid #6e5374; background: radial-gradient(circle at 50% 20%, #765b72, #31263c 80%); color: #ead6c3; }
+  .project-card-secondary .project-art span { font: 3.6rem Georgia, serif; }
+  .project-card-secondary .eyebrow { font-size: .65rem; margin-bottom: 8px; }
+  .project-card-secondary h2 { margin: 0 0 8px; }
+  .project-card-secondary p:not(.eyebrow) { color: var(--text-muted); font-size: .875rem; }
+  .project-card.project-depth-deep_case_study { border-color: #8e7047; }
+  .project-card.project-depth-small_project { grid-template-columns: 100px 1fr; }
+  .project-status { font: .72rem var(--mono); color: var(--cyan); letter-spacing: .03em; }
+  .project-detail { max-width: 920px; margin: 0 auto; }
+  .project-detail .project-status { margin-bottom: 1rem; }
+  .project-note { border-left: 2px solid var(--cyan); padding: 10px 14px; color: var(--text-muted); }
+  .project-planned { border-left: 2px solid var(--warning); padding: 12px 12px 12px 28px; background: #2a241b; }
+  .project-planned strong { color: var(--warning); font: .72rem var(--mono); }
+  .ecosystem-diagrams { border-top: 1px solid var(--border); margin-top: 2rem; padding-top: 1rem; }
+  .ecosystem-diagram { border: 1px solid #3f686b; background: #131f21; padding: 14px 16px; margin: 12px 0; }
+  .ecosystem-diagram figcaption { color: var(--text-muted); font-size: .82rem; margin-bottom: 10px; }
+  .ecosystem-diagram p { font: .78rem/1.7 var(--mono); color: var(--cyan); overflow-wrap: anywhere; margin-bottom: .35rem; }
+  .ecosystem-diagram.planned { border-color: #8e7047; background: #211d17; }
+  .ecosystem-diagram.planned figcaption strong { color: var(--warning); font: .72rem var(--mono); }
+  .commerce-diagrams { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .project-card .eyebrow { font-size: .65rem; margin-bottom: 8px; }
   .project-card h2 { margin: 0 0 8px; }
   .project-card p:not(.eyebrow) { color: var(--text-muted); font-size: .875rem; }
@@ -285,7 +308,8 @@
     .launcher-toggle { padding: 0 8px; } .launcher-toggle > span:last-child { display: none; }
     .dock-utilities { gap: 0; } .dock-utilities button { display: none; } .dock-app { padding: 0 10px; }
     .launcher { width: auto; left: 10px; right: 10px; bottom: 83px; padding: 20px; }
-    .project-card { grid-template-columns: 1fr; gap: 18px; }
+    .project-card, .project-card-secondary, .project-card.project-depth-small_project { grid-template-columns: 1fr; gap: 18px; }
+    .commerce-diagrams { grid-template-columns: 1fr; }
     .project-art { min-height: 120px; }
     .project-mark { font-size: 2.5rem; }
     .arcade-launcher h1 { font-size: 1.7rem; }

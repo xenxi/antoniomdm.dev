@@ -1,8 +1,8 @@
-import { translator, type Locale } from '../i18n/core';
-import { getAiLab, getCompetencies, getExperience, getProfile, getProjects, getPublicLinks } from './professional';
+import type { Locale } from '../i18n/core';
+import { getAiLab, getCompetencies, getExperience, getProfile, getPublicLinks } from './professional';
+import { ecosystemLabels, projects as projectRegistry, localizeProject } from './projects';
 
 export function getPortfolio(locale: Locale = 'es') {
-const t = translator(locale);
 const sourceProfile = getProfile(locale);
 const competencies = getCompetencies(locale);
 const publicLinks = getPublicLinks(locale);
@@ -18,15 +18,19 @@ const profile = {
   education: sourceProfile.education.join(' '), spokenLanguages: sourceProfile.languages.join(' '),
 };
 
-const categories = ['All projects', 'Production', 'Open Source', 'Experiments', 'Side Quests'].map(t);
-const projects = getProjects(locale).map(project => ({
-  slug: project.slug, name: project.title, category: t('Side Quests'), featured: true,
-  technologies: project.technologies,
-  description: project.summary,
-  overview: project.sections[0]?.content ?? project.summary,
-  status: project.capabilities.map(capability => `${capability.deliveryStatus === 'implemented' ? (locale === 'es' ? 'Implementado' : 'Implemented') : capability.deliveryStatus === 'in_progress' ? (locale === 'es' ? 'En desarrollo' : 'In progress') : (locale === 'es' ? 'Experimento' : 'Experiment')}: ${capability.title}.`).join(' '),
-  capabilities: project.capabilities,
-}));
+ const categories = ['All projects', 'Production', ...Object.values(ecosystemLabels).map(value => value[locale])];
+ const projects = projectRegistry.map(project => {
+   const localized = localizeProject(project, locale);
+   return {
+   ...localized,
+   category: project.ecosystem,
+   categoryLabel: ecosystemLabels[project.ecosystem][locale],
+   name: localized.publicName,
+   description: localized.summary,
+   overview: localized.engineeringStory,
+   status: project.status.join(' / '),
+   capabilities: localized.implementedCapabilities,
+ }; });
 
 const experience = getExperience(locale).map(item => ({ id: item.id, company: item.company, role: item.role, period: item.period, description: item.summary, note: item.sections.map(section => section.content).join(' ') }));
 
