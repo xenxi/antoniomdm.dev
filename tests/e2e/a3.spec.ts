@@ -65,7 +65,7 @@ test('A3 sections share a window, update metadata, restore history and preserve 
 
 test('A3 launcher opens every app and keyboard restores minimized state', async ({ page }) => {
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  for (const [path, id] of [['/profile/', 'about'], ['/architecture/', 'architecture'], ['/projects/', 'projects'], ['/ai/', 'lab'], ['/notes/', 'notes'], ['/terminal/', 'terminal'], ['/arcade/', 'arcade'], ['/contact/', 'contact'], ['/settings/', 'settings']]) {
+  for (const [path, id] of [['/profile/', 'about'], ['/architecture/', 'architecture'], ['/projects/', 'projects'], ['/ai-lab/', 'lab'], ['/notes/', 'notes'], ['/terminal/', 'terminal'], ['/arcade/', 'arcade'], ['/contact/', 'contact'], ['/settings/', 'settings']]) {
     await page.keyboard.press('Alt+l');
     await expect(page.getByRole('textbox', { name: 'Find an application' })).toBeFocused();
     await page.locator(`.launcher nav a[href="/en${path}"]`).focus(); await page.keyboard.press('Enter');

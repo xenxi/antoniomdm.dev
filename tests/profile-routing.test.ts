@@ -21,7 +21,10 @@ describe('A3 Profile document contract', () => {
   });
   it('separates Architecture, AI Lab and Contact while keeping utilities in the launcher', () => {
     expect(appForPath('/architecture/')).toBe('architecture');
+    expect(appForPath('/ai-lab/')).toBe('lab');
+    expect(appForPath('/ai-lab/platform934/')).toBe('lab');
     expect(appForPath('/ai/')).toBe('lab');
+    expect(appForPath('/lab/')).toBe('lab');
     expect(appForPath('/contact/')).toBe('contact');
     expect(desktopApplications).toHaveLength(8);
     expect(launcherApplications).toHaveLength(9);

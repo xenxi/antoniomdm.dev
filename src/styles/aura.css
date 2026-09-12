@@ -294,3 +294,123 @@
     .diagram-stages > section, .diagram-node, .relation-groups > div { background: white; border-color: #999; }
   }
 }
+
+/* A7.1: AI Lab — applied AI as bounded, engineered system behavior. */
+@layer antonios {
+  .window[data-window="lab"] { container-type: inline-size; }
+  .content-lab { padding: 0; }
+  .ai-lab { min-width: 0; overflow-wrap: anywhere; }
+  .ai-lab-landing { padding: 26px; }
+  .ai-lab-case { max-width: 900px; margin: 0 auto; padding: 24px 30px 44px; }
+  .ai-lab-case > .back-link { display: inline-flex; align-items: center; min-height: 44px; }
+  .ai-lab-hero h1, .ai-lab-case-header h1 { max-width: 22ch; margin: 6px 0 14px; font-size: clamp(1.9rem, 4.5cqi, 3rem); line-height: 1.06; letter-spacing: -.05em; }
+  .ai-lab-hero .eyebrow, .ai-lab-case-header .eyebrow { color: var(--cyan); }
+  .ai-lab-hero .lead, .ai-lab-case-header .lead { max-width: 68ch; color: var(--text-muted); }
+  .ai-lab-meta { margin: 14px 0 0; }
+  .ai-lab-label { margin: 18px 0 7px; color: var(--text-muted); font: .7rem/1.5 var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+  .ai-lab-state { display: inline-block; width: fit-content; padding: 2px 7px; border: 1px solid var(--border); color: var(--text-muted); font: .62rem/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
+  .ai-lab-state-implemented { border-color: var(--cyan); color: var(--cyan); }
+  .ai-lab-state-in_progress, .ai-lab-state-designed { border-color: var(--warning); color: var(--warning); }
+  .ai-lab-state-locked_for_publication { border-color: var(--aura-blue); color: var(--aura-blue); }
+  .ai-lab-state-historical { border-color: var(--border); color: var(--text-muted); }
+  .ai-lab-section { border-top: 1px solid var(--border); padding-top: 1.1rem; margin-top: 2.2rem; scroll-margin-top: 1rem; }
+  .ai-lab-section > h2 { margin: 0; color: var(--warning); font: 600 .8125rem/1.5 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+  .ai-lab-section-body { margin-top: .7rem; }
+  .ai-lab-section-body p { margin: 0; color: var(--text-muted); }
+  .ai-lab-case-header { padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+
+  .ai-lab-axes { margin-top: 2.4rem; }
+  .ai-lab-axes > h2, .ai-lab-capabilities > h2, .ai-lab-principles > h2, .ai-lab-boundaries > h2, .ai-lab-historical > h2 { font-size: 1.35rem; }
+  .ai-lab-axis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ai-lab-axis { position: relative; display: block; padding: 20px; border: 1px solid var(--border); border-top: 3px solid var(--warning); border-radius: 7px; background: color-mix(in srgb, var(--surface-elevated) 72%, var(--surface)); color: var(--text); }
+  .ai-lab-axis-2 { border-top-color: var(--cyan); }
+  .ai-lab-axis:hover { border-color: var(--cyan); background: var(--surface-elevated); color: var(--text); }
+  .ai-lab-axis:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  .ai-lab-axis-index { color: var(--text-muted); font: .72rem/1.4 var(--mono); letter-spacing: .08em; }
+  .ai-lab-axis h3 { margin: 8px 0 10px; font-size: 1.2rem; color: var(--text); }
+  .ai-lab-axis p { margin: 0 0 10px; color: var(--text-muted); font-size: .875rem; }
+  .ai-lab-axis-question { color: var(--cyan) !important; font: .8rem/1.6 var(--mono) !important; }
+  .ai-lab-axis small { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: .75rem; }
+  .ai-lab-open { display: inline-flex; align-items: center; min-height: 44px; color: var(--warning); font-size: .8125rem; }
+
+  .ai-lab-professional { margin-top: 2.4rem; }
+  .ai-lab-professional .eyebrow { color: var(--aura-blue); }
+  .ai-lab-feature { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 20px; border: 1px solid var(--border); border-left: 3px solid var(--aura-blue); border-radius: 7px; background: color-mix(in srgb, var(--surface-elevated) 72%, var(--surface)); color: var(--text); }
+  .ai-lab-feature:hover { border-color: var(--aura-blue); color: var(--text); }
+  .ai-lab-feature h2 { margin: 0 0 6px; font-size: 1.15rem; }
+  .ai-lab-feature p { margin: 0; color: var(--text-muted); font-size: .875rem; }
+
+  .ai-lab-historical { margin-top: 2.4rem; }
+  .ai-lab-historical .eyebrow { color: var(--text-muted); }
+  .ai-lab-history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .ai-lab-history { padding: 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+  .ai-lab-history-eyebrow { margin: 0 0 6px; color: var(--violet); font: .68rem/1.5 var(--mono); letter-spacing: .05em; }
+  .ai-lab-history h3 { margin: 0 0 8px; color: var(--text); }
+  .ai-lab-history p { color: var(--text-muted); font-size: .82rem; }
+  .ai-lab-history .tags { margin-bottom: 10px; }
+  .ai-lab-boundary-list { margin: 0; padding-left: 1rem; color: var(--text-muted); font-size: .78rem; }
+  .ai-lab-boundary-list li + li { margin-top: 3px; }
+
+  .ai-lab-principles { margin-top: 2.4rem; }
+  .ai-lab-principles > ul, .ai-lab-boundaries > ul { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .ai-lab-principles li { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+  .ai-lab-principles strong { color: var(--cyan); font-size: .875rem; }
+  .ai-lab-principles span { color: var(--text-muted); font-size: .8125rem; }
+
+  .ai-lab-boundaries { margin-top: 2.4rem; }
+  .ai-lab-boundaries li, .ai-lab-non-claims li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; border: 1px dashed var(--border); border-radius: 6px; }
+  .ai-lab-boundaries strong, .ai-lab-non-claims span { color: var(--text); font-size: .82rem; }
+  .ai-lab-boundaries span { color: var(--text-muted); font-size: .78rem; }
+  .ai-lab-non-claims { margin-top: 2.4rem; padding: 18px; border: 1px solid color-mix(in srgb, var(--aura-pink) 40%, var(--border)); border-radius: 7px; background: color-mix(in srgb, var(--aura-pink) 6%, var(--surface)); }
+  .ai-lab-non-claims h2 { margin-top: 0; font-size: 1.1rem; }
+  .ai-lab-non-claims > ul { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .ai-lab-case-boundaries { margin-top: 2.4rem; }
+  .ai-lab-case-boundaries > ul { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .ai-lab-case-boundaries li { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--border); border-left: 3px solid var(--warning); border-radius: 6px; background: var(--surface); }
+  .ai-lab-case-boundaries strong { color: var(--warning); font-size: .82rem; }
+  .ai-lab-case-boundaries span { color: var(--text-muted); font-size: .8rem; }
+
+  .ai-lab-diagram { margin: 1.6rem 0; padding: 20px; border: 1px solid var(--border); border-left: 3px solid var(--cyan); border-radius: 7px; background: #151b1d; }
+  .ai-lab-diagram > h2 { margin: 0 0 5px; font-size: 1.15rem; }
+  .ai-lab-diagram > figcaption { max-width: 74ch; margin-bottom: 16px; color: var(--text-muted); font-size: .82rem; }
+  .ai-lab-architecture { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .ai-lab-architecture-group { min-width: 0; padding: 14px; border: 1px solid var(--border); border-radius: 5px; background: var(--surface); }
+  .ai-lab-architecture-group h3 { margin: 0 0 10px; color: var(--text); font: 600 .72rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .04em; }
+  .ai-lab-nodes { margin: 0; padding: 0; list-style: none; }
+  .ai-lab-nodes li { position: relative; padding: 9px; border: 1px solid var(--border); border-radius: 4px; background: var(--surface-elevated); color: var(--text-muted); font: .72rem/1.35 var(--mono); text-align: center; }
+  .ai-lab-nodes li:not(:last-child) { margin-bottom: 18px; }
+  .ai-lab-nodes li:not(:last-child)::after { content: '↓'; position: absolute; left: 50%; top: calc(100% + 1px); color: var(--cyan); transform: translateX(-50%); }
+  .ai-lab-architecture-group[data-parallel] .ai-lab-nodes li:not(:last-child) { margin-bottom: 8px; }
+  .ai-lab-architecture-group[data-parallel] .ai-lab-nodes li:not(:last-child)::after { content: none; }
+  .ai-lab-note { margin: 10px 0 0; color: var(--warning); font: .7rem/1.4 var(--mono); }
+  .ai-lab-flow { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+  .ai-lab-flow li { position: relative; padding: 11px 14px; border: 1px solid var(--border); border-radius: 5px; background: var(--surface); }
+  .ai-lab-flow li:not(:last-child)::after { content: '↓'; position: absolute; left: 50%; top: calc(100% + 1px); color: var(--cyan); transform: translateX(-50%); }
+  .ai-lab-flow strong { display: block; color: var(--cyan); font: .8rem/1.5 var(--mono); }
+  .ai-lab-flow span { color: var(--text-muted); font-size: .8rem; }
+
+  .ai-lab-capabilities { margin-top: 2.4rem; }
+  .ai-lab-capability-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .ai-lab-capability-grid article { padding: 14px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+  .ai-lab-capability-grid h3 { margin: 0 0 6px; color: var(--cyan); font-size: .95rem; }
+  .ai-lab-capability-grid p { margin: 0; color: var(--text-muted); font-size: .8rem; }
+  .ai-lab-evidence { margin-top: 2rem; padding-top: 14px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: .8rem; }
+  .ai-lab-evidence strong { color: var(--text); }
+
+  @container (max-width: 700px) {
+    .ai-lab-axis-grid, .ai-lab-history-grid, .ai-lab-principles > ul, .ai-lab-boundaries > ul, .ai-lab-non-claims > ul, .ai-lab-case-boundaries > ul, .ai-lab-capability-grid { grid-template-columns: 1fr; }
+    .ai-lab-architecture { grid-template-columns: 1fr; }
+    .ai-lab-feature { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 719px) {
+    .content-lab { padding: 0; }
+    .ai-lab-landing { padding: 20px 17px 36px; }
+    .ai-lab-case { padding: 20px 17px 36px; }
+    .ai-lab-hero h1, .ai-lab-case-header h1 { font-size: 2rem; }
+    .ai-lab-diagram { margin-inline: -3px; padding: 15px; }
+  }
+  @media print {
+    .ai-lab-landing, .ai-lab-case { max-width: none; padding: 0; }
+    .ai-lab-diagram, .ai-lab-axis, .ai-lab-history, .ai-lab-capability-grid article, .ai-lab-principles li { background: white; border-color: #999; }
+  }
+}

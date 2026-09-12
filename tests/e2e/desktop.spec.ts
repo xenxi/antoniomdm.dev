@@ -87,7 +87,7 @@ test('static HTML, notes, CV and SEO exist without JavaScript', async ({ browser
 });
 
 test('main routes and machine-readable outputs respond', async ({ request }) => {
-  for (const path of ['/', '/es/', '/en/', '/projects/', '/es/projects/', '/en/projects/', '/projects/platform934/', '/es/experience/', '/en/notes/', '/es/architecture/', '/en/architecture/', '/es/ai/', '/en/contact/', '/lab/', '/about/', '/es/cv/', '/en/arcade/', '/es/settings/', '/en/terminal/', '/rss.xml', '/es/rss.xml', '/en/rss.xml', '/sitemap.xml', '/robots.txt', '/llms.txt', '/es/llms.txt', '/en/llms.txt', '/cv.txt', '/es/cv.txt', '/en/cv.txt', '/social.png']) {
+  for (const path of ['/', '/es/', '/en/', '/projects/', '/es/projects/', '/en/projects/', '/projects/platform934/', '/es/experience/', '/en/notes/', '/es/architecture/', '/en/architecture/', '/ai-lab/', '/en/ai-lab/', '/es/ai-lab/', '/ai-lab/platform934/', '/en/ai-lab/incident-investigation/', '/es/ai/', '/en/contact/', '/lab/', '/about/', '/es/cv/', '/en/arcade/', '/es/settings/', '/en/terminal/', '/rss.xml', '/es/rss.xml', '/en/rss.xml', '/sitemap.xml', '/robots.txt', '/llms.txt', '/es/llms.txt', '/en/llms.txt', '/cv.txt', '/es/cv.txt', '/en/cv.txt', '/social.png']) {
     const response = await request.get(path); expect(response.status(), path).toBe(200);
   }
   const sitemap = await (await request.get('/sitemap.xml')).text(); expect(sitemap).toContain('/projects/platform934/');
@@ -118,7 +118,9 @@ test('project filters, note content, lab concepts and printable CV', async ({ pa
   await page.locator('.note-card').click(); await expect(page.getByRole('heading', { name: 'One portfolio, two ways to explore' })).toBeVisible();
   await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
   await page.locator('[data-desktop-app="lab"]').click();
-  await page.getByRole('button', { name: 'Explore concept' }).first().click(); await expect(page.locator('.lab-concept')).toContainText('Supervised agents');
+  await expect(page).toHaveURL(/\/ai-lab\/$/);
+  await expect(page.locator('.ai-lab-axis')).toHaveCount(2);
+  await expect(page.locator('.ai-lab-boundaries')).toContainText('No RAG');
   await page.goto('/en/cv/?view=reading'); await expect(page.locator('html')).toHaveClass('reading');
   await page.emulateMedia({ media: 'print' }); await expect(page.locator('.taskbar')).toBeHidden();
   await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno' })).toBeVisible();
