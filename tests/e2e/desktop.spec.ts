@@ -40,11 +40,11 @@ test('route deep links and browser Back / Forward work', async ({ page }) => {
 test('Arcade engine, wallpaper and audio are deferred until explicit entry', async ({ page }) => {
   const requests: string[] = []; page.on('request', request => requests.push(request.url()));
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  expect(requests.filter(url => /\/Arcade\..*\.js|\/arcade\/world|\.mp3|flutter|\.dart/.test(url))).toEqual([]);
-  await page.locator('[data-desktop-app="arcade"]').click(); await expect(page.getByRole('heading', { name: 'ARCADE MODE' })).toBeVisible();
-  expect(requests.filter(url => /\/Arcade\..*\.js|\/arcade\/world|\.mp3/.test(url))).toEqual([]);
+  expect(requests.filter(url => /\/(?:Arcade|arcade)\..*\.(?:js|css)|\/arcade\/world|\.mp3|flutter|\.dart/.test(url))).toEqual([]);
+  await page.locator('[data-desktop-app="arcade"]').click(); await expect(page.getByRole('heading', { name: 'AntoñiOS — Career Mode' })).toBeVisible();
+  expect(requests.filter(url => /\/(?:Arcade|arcade)\..*\.(?:js|css)|\/arcade\/world|\.mp3/.test(url))).toEqual([]);
   await page.getByRole('button', { name: 'ENTER' }).click();
-  await expect(page.getByRole('region', { name: 'Arcade preview' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'AntoñiOS Career Mode' })).toBeVisible();
   expect(requests.some(url => /\/Arcade\..*\.js/.test(url))).toBe(true); expect(requests.some(url => /\.mp3/.test(url))).toBe(false);
   await page.getByRole('button', { name: 'Return to desktop' }).click(); await expect(page.locator('[data-window="arcade"]')).toBeVisible();
 });

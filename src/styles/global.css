@@ -503,3 +503,7 @@
     .profile-section .role, .focus-line, .profile-intro { color: #222; }
   }
 }
+
+.arcade-launcher .actions { justify-content: center; margin: 18px 0; }
+.arcade-launcher details { text-align: left; margin-top: 22px; }
+.arcade-launcher details li { margin: 10px 0; }

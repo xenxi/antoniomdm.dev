@@ -13,7 +13,7 @@ export function pageMetadata(path: string, content: ContentData) {
   const locale = localeForPath(path); const t = translator(locale);
   const { profile, projects } = getPortfolio(locale);
   const normalized = normalizePath(basePath(path)); const originalApp = registry[appForPath(normalized) ?? 'welcome'];
-  const routeApp = normalized === '/architecture/' ? { name: 'Architecture', description: 'Confirmed case-study structures' } : normalized === '/contact/' ? { name: 'Contact', description: 'Verified professional channels' } : undefined;
+  const routeApp = normalized === '/arcade/' ? { name: 'AntoñiOS — Career Mode', description: locale === 'es' ? 'Una carrera real convertida en una aventura RPG isométrica. Explora capítulos, resuelve misiones y consulta el CV sin jugar' : 'A real career turned into an isometric RPG adventure. Explore chapters, solve missions and view the CV without playing' } : normalized === '/architecture/' ? { name: 'Architecture', description: 'Confirmed case-study structures' } : normalized === '/contact/' ? { name: 'Contact', description: 'Verified professional channels' } : undefined;
   const app = { ...originalApp, name: t(routeApp?.name ?? originalApp.name), description: t(routeApp?.description ?? originalApp.description) };
   const project = projects.find(project => normalized === `/projects/${project.slug}/`);
   const architectureCase = getArchitectureCases(locale).find(item => normalized === `/architecture/${item.slug}/`);

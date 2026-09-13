@@ -1,0 +1,8 @@
+import { useLocale } from '../i18n/context';
+import type { UiData } from '../data/ui';
+
+// Small SSR landing. The game, mission configuration and canvas stay behind the explicit import boundary.
+export default function CareerLauncher({ enter, data }: { enter?: () => void; data: UiData }) {
+  const { locale, href, t } = useLocale();
+  return <div class="arcade-launcher"><p class="eyebrow">ANTONIOS.EXE / CAREER MODE</p><h1>AntoñiOS — Career Mode</h1><p class="lead">{locale === 'es' ? 'Tu carrera es la campaña.' : 'Your career is the campaign.'}</p><p>{locale === 'es' ? 'Un RPG isométrico: explora, resuelve bugs y aprende a ver el sistema completo. El mundo es ficción; la carrera que contiene es real.' : 'An isometric RPG: explore, solve bugs and learn to see the whole system. The world is fiction; the career within it is real.'}</p><button class="button primary no-print" onClick={enter}>{t('ENTER')} ↗</button><div class="actions"><a class="button" href={href('/cv/')}>{locale === 'es' ? 'Ver CV completo' : 'View full CV'} ↗</a><a href={href('/experience/')}>{locale === 'es' ? 'Explorar la trayectoria' : 'Explore the career'} ↗</a></div><p class="muted">{locale === 'es' ? 'Teclado y controles táctiles · guardado local · todos los capítulos disponibles.' : 'Keyboard and touch controls · local saves · every chapter available.'}</p><details><summary>{locale === 'es' ? 'La carrera real, sin necesidad de jugar' : 'The real career, no gameplay required'}</summary><ul>{data.professionalExperience.map(job => <li key={job.id}><a href={href(`/experience/#${job.id}`)}>{job.company}</a> · {job.period} · {job.role}</li>)}</ul></details></div>;
+}

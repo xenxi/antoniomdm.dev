@@ -1,10 +1,14 @@
 # AntoñiOS
 
-Español por defecto en la ruta canónica `/es/`, con inglés en `/en/`. Las rutas sin idioma son aliases estáticos de compatibilidad hacia español. **Todo texto nuevo o modificado debe estar en ambos idiomas.** Consulta [el requisito permanente](AGENTS.md), [el contrato público A2](docs/A2_PUBLIC_MODEL.md) y [la guía bilingüe](docs/BILINGUAL_CONTENT.md).
+Español por defecto sin prefijo, con inglés en `/en/`. Las rutas `/es/` son aliases estáticos de compatibilidad hacia español. **Todo texto nuevo o modificado debe estar en ambos idiomas.** Consulta [el requisito permanente](AGENTS.md), [el contrato público A2](docs/A2_PUBLIC_MODEL.md) y [la guía bilingüe](docs/BILINGUAL_CONTENT.md).
 
-Spanish is the default at the canonical `/es/` route, with English under `/en/`. Language-less routes are static compatibility aliases targeting Spanish. **Every new or modified text must be available in both languages.** See the guides above.
+Spanish is the default without a prefix, with English under `/en/`. `/es/` routes are static compatibility aliases targeting Spanish. **Every new or modified text must be available in both languages.** See the guides above.
 
-Software Architect Playground. An Astro + TypeScript + Preact portfolio with a real desktop window manager, static content routes and an explicitly loaded Arcade preview.
+Software Architect Playground. An Astro + TypeScript + Preact portfolio with a desktop window manager, static content routes and an explicitly loaded Career Mode RPG.
+
+**ES.** [Career Mode](docs/CAREER_MODE.md): nueve experiencias y un desafío final, mapas isométricos, seis familias de misiones, eventos personales, guardado local y CV siempre accesible. Entra desde `/arcade/`.
+
+**EN.** [Career Mode](docs/CAREER_MODE.md): nine experiences and a final challenge, isometric maps, six mission families, personal events, local saves and an always accessible CV. Enter from `/en/arcade/`.
 
 ```sh
 npm ci

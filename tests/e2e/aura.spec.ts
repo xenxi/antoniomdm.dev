@@ -72,7 +72,7 @@ test('Aura mobile touch taps open apps, restore windows and enter and exit Arcad
   await page.getByRole('button', { name: 'Open launcher', exact: true }).tap();
   await page.locator('.launcher nav a[href="/en/arcade/"]').tap();
   await page.getByRole('button', { name: 'ENTER' }).tap();
-  await expect(page.getByRole('region', { name: 'Arcade preview' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'AntoñiOS Career Mode' })).toBeVisible();
   await page.getByRole('button', { name: 'Return to desktop' }).tap();
   await expect(page.locator('[data-window="arcade"]')).toBeVisible();
   await context.close();

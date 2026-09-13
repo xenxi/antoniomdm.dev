@@ -4,11 +4,22 @@ import { profileSections, profileSectionForPath } from '../os/profile-sections';
 import { registry } from '../os/registry';
 import Icon from './Icon';
 import PixelAvatar from './PixelAvatar';
+import { useEffect, useRef } from 'preact/hooks';
 
 export function ExperienceContent({ data }: { data: UiData }) {
   const { href } = useLocale();
+  const timeline = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const reveal = () => {
+      const id = location.hash.slice(1);
+      const target = [...(timeline.current?.querySelectorAll<HTMLDetailsElement>('details[id]') ?? [])].find(item => item.id === id);
+      if (target) { target.open = true; target.scrollIntoView({ block: 'start' }); }
+    };
+    reveal(); window.addEventListener('hashchange', reveal);
+    return () => window.removeEventListener('hashchange', reveal);
+  }, []);
   const byId = new Map(data.competencies.map(item => [item.id, item]));
-  return <div class="timeline">{data.professionalExperience.map(job => <details key={job.id} class="timeline-item" id={job.id} open={job.id === 'domingo-alonso'}><summary><span class="eyebrow">{job.period}</span><h2>{job.role}</h2><h3>{job.company}</h3><p>{job.summary}</p></summary><div class="tags">{job.competencyIds.map(id => byId.get(id)).filter(Boolean).slice(0, 6).map(item => <a key={item!.id} href={href(`/profile/competencies/#${item!.id}`)}>{item!.name}</a>)}</div>{job.sections.map(section => <section key={section.id}><h4>{section.title}</h4><p>{section.content}</p></section>)}</details>)}</div>;
+  return <div ref={timeline} class="timeline">{data.professionalExperience.map(job => <details key={job.id} class="timeline-item" id={job.id} open={job.id === 'domingo-alonso'}><summary><span class="eyebrow">{job.period}</span><h2>{job.role}</h2><h3>{job.company}</h3><p>{job.summary}</p></summary><div class="tags">{job.competencyIds.map(id => byId.get(id)).filter(Boolean).slice(0, 6).map(item => <a key={item!.id} href={href(`/profile/competencies/#${item!.id}`)}>{item!.name}</a>)}</div>{job.sections.map(section => <section key={section.id}><h4>{section.title}</h4><p>{section.content}</p></section>)}</details>)}</div>;
 }
 
 function EvidenceLinks({ ids, data, kind }: { ids: string[]; data: UiData; kind: 'experience' | 'case' | 'project' }) {

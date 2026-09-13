@@ -104,6 +104,7 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
     const generation = ++modeGeneration.current; setMode('loading'); setNotice('');
     try {
       const module = await import('../arcade/Arcade');
+      await module.loadStyles();
       if (generation !== modeGeneration.current) return;
       setArcade(() => module.default); setMode('arcade');
     } catch { if (generation === modeGeneration.current) { setMode('desktop'); setNotice(t("Arcade could not load. Please try Enter again.")); } }
@@ -112,6 +113,7 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
   useEffect(() => {
     try { setPreferences(parsePreferences(localStorage.getItem(storageKey))); } catch { /* Storage may be disabled. */ }
     setReady(true);
+    if (path === '/arcade/' && new URLSearchParams(location.search).get('career') === 'continue') void enterArcade();
     const resize = () => {
       const rect = workspace.current?.getBoundingClientRect(); if (!rect) return;
       const size = { width: rect.width, height: rect.height }; setViewport(size); dispatch({ type: 'viewport', viewport: size });
@@ -161,7 +163,7 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
   const desktopApps = desktopApplications;
   const activePath = state.openWindows.find(win => win.id === state.activeWindowId)?.path ?? '/';
   return <div class={`os wallpaper-${preferences.wallpaper} ${preferences.effects ? '' : 'effects-off'}`} data-ready={ready} data-shell={viewport.width < 720 ? "mobile" : viewport.width < 1100 ? "tablet" : "desktop"} onClick={links} onKeyDown={keys}>
-    <div class="desktop-surface" inert={mode !== 'desktop'}>
+    <div class="desktop-surface" inert={mode !== 'desktop'} aria-hidden={mode !== 'desktop' || undefined}>
     <header class="system-bar"><a class="brand" href={href("/")}><span class="brand-symbol" aria-hidden="true"><img src="/favicon.svg" alt="" width="36" height="36" /></span><strong>Antoñi<span>OS</span></strong><small>v1.0</small></a><nav class="system-menu" aria-label={t("System menu")}><button aria-expanded={launcher} onClick={() => setLauncher(!launcher)}>{t("Apps")}</button></nav><span class="system-tagline">{t("Personal operating system")}</span><div class="system-right"><button class="system-audio" aria-label={preferences.sound ? t("Mute system audio") : t("Enable system audio")} aria-pressed={preferences.sound} onClick={() => setPreferences({ ...preferences, sound: !preferences.sound })}><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3z" />{preferences.sound ? <path d="M16 8q5 4 0 8 M19 4q8 8 0 16" /> : <path d="m16 9 6 6m0-6-6 6" />}</svg></button><nav class="language-switch" aria-label={locale === 'es' ? 'Idioma' : 'Language'}>{(['es', 'en'] as const).map(language => <a key={language} data-language={language} href={localizedPath(activePath, language)} lang={language} hrefLang={language} aria-current={locale === language ? 'page' : undefined} aria-label={language === 'es' ? 'Español' : 'English'} onClick={event => { event.currentTarget.href = localizedPath(activePath, language) + location.search + location.hash; }}>{language.toUpperCase()}</a>)}</nav><span class="system-ready" aria-label={online ? t("Network online") : t("Network offline")}><span class="status-dot" />{online ? t("ONLINE") : t("OFFLINE")}</span><time>{clock || 'AntoñiOS'}</time></div></header>
     <main id="desktop" ref={workspace} class="workspace" inert={launcher} aria-label={t("Desktop workspace")}>
       <nav inert={viewport.width < 1100 && Boolean(state.activeWindowId)} class="desktop-icons" aria-label={t("Desktop applications")}>{desktopApps.map(id => <a key={id} data-desktop-app={id} class={`desktop-icon icon-${id}`} href={href(registry[id].path)} onDblClick={() => open(registry[id].path)}><span class="icon-tile"><Icon name={id} /></span><span>{t(registry[id].name)}</span></a>)}</nav>
@@ -174,6 +176,6 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
     <div class="system-notice" role="status">{notice}</div>
     </div>
     {mode === 'loading' && <div class="arcade-loading" role="status">{t("Opening the portal…")}<button onClick={exitArcade}>{t("Cancel")}</button></div>}
-    {mode === 'arcade' && Arcade && <Arcade content={loadedContent} portfolio={data.portfolio} preferences={preferences} exit={exitArcade} navigate={value => { exitArcade(); open(value); }} />}
+    {mode === 'arcade' && Arcade && <Arcade content={loadedContent} data={data} preferences={preferences} exit={exitArcade} navigate={value => { exitArcade(); open(value); }} />}
   </div>;
 }
