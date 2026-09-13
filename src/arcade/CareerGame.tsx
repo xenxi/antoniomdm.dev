@@ -10,6 +10,7 @@ import GameHud, { hudCopy } from './GameHud';
 import GodotWorld from './GodotWorld';
 import { buildings, townCopy, townSpawn } from './town';
 import { makePixelMap, mapNearby, mapWalkable } from './pixel-map';
+import { hiringRequirements, gameSkills } from './recruitment';
 
 function Modal({ title, children, close }: { title: string; children: ComponentChildren; close: () => void }) {
   const { locale, href } = useLocale();
@@ -23,7 +24,8 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const c = (key: keyof typeof copy) => copy[key][locale];
   const [game, setGame] = useState<GameState>(newGame);
   const [screen, setScreen] = useState<'menu' | 'game' | 'paused' | 'tour'>('menu');
-  const [modal, setModal] = useState<'mission' | 'event' | 'info' | 'reset' | 'inventory' | 'jobs' | null>(null);
+  const [modal, setModal] = useState<'mission' | 'event' | 'info' | 'reset' | 'inventory' | 'jobs' | 'hiring' | null>(null);
+  const [lockedCompany, setLockedCompany] = useState('');
   const [event, setEvent] = useState<EventId | null>(null);
   const [eventPhase, setEventPhase] = useState(0);
   const [feedback, setFeedback] = useState('');
@@ -59,6 +61,8 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const eventText = event === 'wedding' || event === 'emma-born' ? personalEvents.find(item => item.id === event) : undefined;
   const pending = p.seen.find(id => !p.completedEvents.includes(id));
   const canAdvance = completed && !pending && eligibleEvents(game).length === 0 && !p.pendingPipeline;
+  const hiring = hiringRequirements(game, lockedCompany);
+  const nextTraining = hiring[0];
   useEffect(() => {
     disposed.current = false;
     try {
@@ -97,7 +101,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
     return () => window.clearTimeout(timer);
   }, [inside, loaded, screen, modal, hidden, chapter.id, p.mission, completed, p.completedEvents.length]);
   function start(id = chapters[0].id, reset = false) {
-    if (!reset && !chapterUnlocked(game, id)) { setNotice(tc('locked')); return; }
+    if (!reset && !chapterUnlocked(game, id)) { inspectHiring(id); return; }
     interruptedMission.current = false;
     setGame(value => reset ? newGame() : enterCompany(value, id)); setHasSave(true); setScreen('game'); setModal(null); setEvent(null); setFeedback(''); setNotice(reset ? tc('hint') : c('terminalHint'));
     requestAnimationFrame(() => host.current?.querySelector<HTMLElement>('.godot-world')?.focus());
@@ -110,9 +114,13 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   }
   function worldInteract(id: string) {
     if (screen !== 'game' || modal) return;
-    if (!inside) { if (chapterUnlocked(game, id)) start(id); else setNotice(tc('locked')); }
+    if (!inside) { if (chapterUnlocked(game, id)) start(id); else inspectHiring(id); }
     else if (id === 'portal') returnToTown();
     else interact(id as ObjectId);
+  }
+  function inspectHiring(id: string) {
+    if (!chapters.some(chapter => chapter.id === id)) return;
+    setLockedCompany(id); setNotice(tc('locked')); setModal('hiring');
   }
   function interact(id: ObjectId) {
     if (screen !== 'game' || modal) return;
@@ -172,7 +180,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
       {inside && <nav class="career-route" aria-label={locale === 'es' ? 'Ruta de la campaña' : 'Campaign route'}>{chapters.map((item, index) => <button key={item.id} disabled={!chapterUnlocked(game, item.id)} class={chapterCleared(game, item.id) ? 'is-complete' : ''} aria-current={item.id === chapter.id ? 'step' : undefined} onClick={() => start(item.id)}><span>{chapterCleared(game, item.id) ? '✓' : String(index + 1).padStart(2, '0')}</span><small>{item.id === 'system-recovery' ? 'System Recovery' : data.professionalExperience.find(job => job.id === item.experienceId)!.company}</small></button>)}</nav>}
       <div class="career-game-heading"><div><p class="eyebrow">{!inside ? tc('district') : last ? (locale === 'es' ? 'DESAFÍO FINAL' : 'FINAL BOSS') : `${String(chapters.indexOf(chapter)).padStart(2, '0')} / CAREER MODE`}</p><h1>{inside ? title : tc('title')}</h1><p>{inside ? `${job.period} · ${job.role}` : tc('intro')}</p></div><div class="career-actions">{inside && <button onClick={returnToTown}>{tc('outside')}</button>}<button onClick={() => { setScreen('menu'); setModal(null); setEvent(null); }}>{c('menu')}</button><button onClick={screen === 'paused' ? () => setScreen('game') : pause}>{screen === 'paused' ? c('resume') : c('pause')}</button></div></div>
       {screen === 'paused' && <div class="career-paused"><span aria-hidden="true">Ⅱ</span><h2>{c('paused')}</h2><p>{c('saved')}</p><button class="career-primary" onClick={() => setScreen('game')}>{c('resume')}</button></div>}<div class="career-play-layout" hidden={screen === 'paused'}>
-        <div class="career-stage"><div class="career-scene"><GameHud locale={locale} map={inside ? interiorMap : townMap} signs={signs} x={position.x} y={position.y} inside={inside} currentId={chapter.id} mission={mission?.title[locale]} completed={completedCount} missionProgress={p.mission} missionTotal={chapter.missions.length} onAction={hudAction} /><div class="career-stage-top"><span>{inside ? c('main') : tc('district')}</span><span>{inside ? Math.min(p.mission + 1, chapter.missions.length) : completedCount} / {inside ? chapter.missions.length : chapters.length}</span></div><GodotWorld map={map} x={position.x} y={position.y} locale={locale} active={!modal && screen === 'game'} onMove={walk} onInteract={worldInteract} onPause={pause} /></div>
+        <div class="career-stage"><div class="career-scene"><GameHud locale={locale} map={inside ? interiorMap : townMap} signs={signs} x={position.x} y={position.y} inside={inside} currentId={chapter.id} mission={mission?.title[locale]} completed={completedCount} missionProgress={p.mission} missionTotal={chapter.missions.length} onAction={hudAction} /><div class="career-stage-top"><span>{inside ? c('main') : tc('district')}</span><span>{inside ? Math.min(p.mission + 1, chapter.missions.length) : completedCount} / {inside ? chapter.missions.length : chapters.length}</span></div><GodotWorld objective={inside ? (mission ? 'terminal' : canAdvance ? 'portal' : 'team') : undefined} map={map} x={position.x} y={position.y} locale={locale} active={!modal && screen === 'game'} onMove={walk} onInteract={worldInteract} onPause={pause} /></div>
           <p class="career-controls-help">{c('controls')}</p><div class="career-world-controls"><DirectionPad locale={locale} active={!modal && screen === 'game'} onStep={(dx, dy) => walk(position.x + dx, position.y + dy)} /><button onClick={() => { const object = mapNearby(map, position.x, position.y); if (object) worldInteract(object.id); else setNotice(c('walkCloser')); }}>{c('interact')} <kbd>E</kbd></button></div>
           {inside && <details class="career-direct"><summary>{c('accessible')}</summary><div class="career-actions"><button onClick={() => interact('terminal')}>{c('workstation')}</button><button onClick={() => interact('team')}>{c('npc')}</button><button onClick={() => interact('coffee')}>{c('coffee')}</button><button onClick={() => interact('secret')}>{c('secret')}</button></div></details>}
         </div>
@@ -190,7 +198,8 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
     </>}
     <footer class="career-footer"><span>{c('simulation')}</span><div>{preferences.sound && preferences.music ? <button onClick={toggleMusic}>{music ? t('Pause music') : t('Play music')}</button> : <span>{t('Sound off · Enable sound and music in Settings')}</span>}<small>{storageNotice || c('saved')}</small></div></footer><p class="career-status" role="status">{notice}</p>
     {screen === 'game' && modal === 'inventory' && <Modal title={c('inventory')} close={() => setModal(null)}><div class="job-inventory-grid"><span>▣ {c('phone')}</span><span>◇ {c('knowledge')}</span>{game.coffee && <span>☕ {c('coffee')}</span>}{hasEvent(game, 'wedding') && <span>♢ {c('ring')}</span>}{hasEvent(game, 'emma-born') && <span>♡ {c('family')}</span>}</div><h3>{c('abilities')}</h3>{abilities.length ? <ul>{abilities.map(ability => <li key={ability.id}>{ability.name}</li>)}</ul> : <p>{c('noAbilities')}</p>}<button onClick={() => setModal(null)}>{c('close')}</button></Modal>}
-    {screen === 'game' && modal === 'jobs' && <Modal title={hudCopy.jobs[locale]} close={() => setModal(null)}>{inside && mission && <><p class="eyebrow">{hudCopy.objective[locale]}</p><h3>{mission.title[locale]}</h3><p>{mission.briefing[locale]}</p><button class="career-primary" onClick={() => { setFeedback(''); setModal('mission'); }}>{c('workstation')}</button></>}<div class="career-choices">{signs.map(sign => <button key={sign.id} disabled={!sign.unlocked} onClick={() => start(sign.id)}>{sign.complete ? '✓' : sign.unlocked ? '→' : '×'} {sign.name}</button>)}</div><button onClick={() => setModal(null)}>{c('close')}</button></Modal>}
+    {screen === 'game' && modal === 'jobs' && <Modal title={hudCopy.jobs[locale]} close={() => setModal(null)}>{inside && mission && <><p class="eyebrow">{hudCopy.objective[locale]}</p><h3>{mission.title[locale]}</h3><p>{mission.briefing[locale]}</p><button class="career-primary" onClick={() => { setFeedback(''); setModal('mission'); }}>{c('workstation')}</button></>}<div class="career-choices">{signs.map(sign => <button key={sign.id} onClick={() => start(sign.id)}>{sign.complete ? '✓' : sign.unlocked ? '→' : '×'} {sign.name}</button>)}</div><button onClick={() => setModal(null)}>{c('close')}</button></Modal>}
+    {screen === 'game' && modal === 'hiring' && <Modal title={tc('hiring')} close={() => setModal(null)}><div class="job-hiring-status"><span aria-hidden="true">▣</span><div><p class="eyebrow">{tc('requirements')}</p><h3>{signs.find(sign => sign.id === lockedCompany)?.name}</h3></div></div><p>{tc('hiringBody')}</p><p>{tc('chaptersNeeded')}: <strong>{hiring.length}</strong></p>{nextTraining && <section class="job-hiring-requirements"><p class="eyebrow">{tc('nextStep')}</p><h3>{signs.find(sign => sign.id === nextTraining.id)?.name}</h3>{nextTraining.skills.length > 0 && <><h4>{tc('skillsNeeded')}</h4><ul class="job-skill-chips">{nextTraining.skills.map(skill => <li key={skill}>{gameSkills[skill][locale]}</li>)}</ul></>}<h4>{tc('challenges')}</h4><ul class="job-hiring-checklist">{nextTraining.missions.map(m => <li key={m.id} class={m.done ? 'is-earned' : ''}><span aria-hidden="true">{m.done ? '✓' : '◇'}</span><span>{m.title[locale]}<small>{tc(m.done ? 'earned' : 'outstanding')}</small></span></li>)}{nextTraining.events > 0 && <li>◇ {tc('eventsNeeded')}: {nextTraining.events}</li>}{nextTraining.repair && <li>◇ {tc('repairNeeded')}</li>}</ul></section>}<div class="career-actions">{nextTraining && <button class="career-primary" onClick={() => start(nextTraining.id)}>{tc('continueTraining')} →</button>}<button onClick={() => setModal(null)}>{c('close')}</button></div></Modal>}
     {modal === 'reset' && <Modal title={c('start')} close={() => setModal(null)}><p>{c('reset')}</p><div class="career-actions"><button onClick={() => start(chapters[0].id, true)}>{c('confirmReset')}</button><button onClick={() => setModal(null)}>{c('cancel')}</button></div></Modal>}
     {screen === 'game' && modal === 'mission' && mission && <Modal title={mission.title[locale]} close={closeModal}><p class="eyebrow">{c(`${mission.mechanic}Label` as keyof typeof copy)}</p><p>{mission.briefing[locale]}</p>{mission.evidence && <pre><code>{mission.evidence}</code></pre>}{mission.metrics && <div class="career-metrics">{mission.metrics.map(metric => <div key={metric.label}><label>{metric.label} <strong>{metric.value}%</strong><meter min={0} max={100} value={metric.value} /></label></div>)}</div>}{mission.sequence && <><p>{c('step')} {p.sequence.length + 1} / {mission.sequence.length}</p><div class="career-flow" aria-label={c('progress')}>{p.sequence.map(id => <span key={id}>✓ {mission.choices.find(choice => choice.id === id)!.label[locale]}</span>)}</div></>}<div class={`career-choices mechanic-${mission.mechanic}`}>{mission.choices.map(choice => <button key={choice.id} data-choice={choice.id} disabled={p.sequence.includes(choice.id)} onClick={() => answer(choice.id)}>{choice.label[locale]}</button>)}</div><p class="career-feedback" role="status">{feedback}</p><button onClick={() => setModal(null)}>{c('close')}</button></Modal>}
     {screen === 'game' && modal === 'info' && <Modal title={c('journal')} close={dismissInfo}><p class="career-result">{feedback}</p><button class="career-primary" onClick={dismissInfo}>{c('returnMission')}</button></Modal>}

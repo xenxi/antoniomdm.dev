@@ -3,11 +3,12 @@ import { buildings, townCopy, townSize, townWalkable } from './town';
 import type { Locale } from '../i18n/core';
 import { copy } from './campaign';
 import { townProjection, townProject, buildingOutline } from './town-scene';
+import { sceneEffects } from './scene-effects';
 
 
 export type PixelRect = [number, number, number, number, string];
-export interface MapObject { id: string; x: number; y: number; label: string; hit?: [number, number, number, number]; hitPolygon?: number[][] }
-export interface PixelMap { art?: string; sprite?: string; spriteScale?: number; signs?: CompanySign[]; company?: string; locale?: Locale; axes?: number[]; projection?: 'isometric'; entities?: { depth: number; rects: PixelRect[] }[]; id: string; width: number; height: number; tile: number; ox: number; oy: number; rects: PixelRect[]; labels: { x: number; y: number; text: string; color: string }[]; blocked: { x: number; y: number }[]; objects: MapObject[] }
+export interface MapObject { id: string; x: number; y: number; label: string; locked?: boolean; complete?: boolean; marker?: number[]; hit?: [number, number, number, number]; hitPolygon?: number[][] }
+export interface PixelMap { effects?: ReturnType<typeof sceneEffects>; art?: string; sprite?: string; spriteScale?: number; signs?: CompanySign[]; company?: string; locale?: Locale; axes?: number[]; projection?: 'isometric'; entities?: { depth: number; rects: PixelRect[] }[]; id: string; width: number; height: number; tile: number; ox: number; oy: number; rects: PixelRect[]; labels: { x: number; y: number; text: string; color: string }[]; blocked: { x: number; y: number }[]; objects: MapObject[] }
 export interface CompanySign { id: string; name: string; unlocked: boolean; complete: boolean }
 export const playerSprite = [
   '.....hh.hh......', '....hHHhHHh.....', '...hHHLHHHHh....', '...hHHHHHHHh....',
@@ -22,6 +23,7 @@ export function makePixelMap(scenario: string, signs: CompanySign[], locale: Loc
   const town = scenario === 'town';
   const map: PixelMap = { id: scenario, width: town ? townSize.width : 11, height: town ? townSize.height : 11, tile: town ? 16 : 24, ox: town ? 0 : 108, oy: town ? 0 : 28, rects: [], labels: [], blocked: [], objects: [] };
   map.sprite = '/images/job-route/antonio-atlas.webp'; map.locale = locale;
+  map.effects = sceneEffects(town);
   const label = (x: number, y: number, text: string, color = '#91e9df') => map.labels.push({ x, y, text, color });
   if (town) {
     map.art = '/images/job-route/neon-district.webp'; map.spriteScale = .58; map.signs = signs;
@@ -29,7 +31,8 @@ export function makePixelMap(scenario: string, signs: CompanySign[], locale: Loc
     map.rects = [[0, 0, 480, 320, '#101a31']];
     map.objects = buildings.map(b => {
       const polygon = buildingOutline(b), xs = polygon.map(p => p[0]), ys = polygon.map(p => p[1]);
-      return { id: b.id, ...b.door, label: signs.find(s => s.id === b.id)?.name ?? b.id, hitPolygon: polygon, hit: [Math.min(...xs), Math.min(...ys), Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys)] };
+      const sign = signs.find(s => s.id === b.id);
+      return { id: b.id, ...b.door, label: sign?.name ?? b.id, locked: !sign?.unlocked, complete: Boolean(sign?.complete), marker: townProject(b.door.x + .5, b.door.y + .5, 25), hitPolygon: polygon, hit: [Math.min(...xs), Math.min(...ys), Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys)] };
     });
     const park = townProject(7, 11), garden = townProject(23, 12);
     label(park[0], park[1], townCopy.park[locale]); label(garden[0], garden[1], townCopy.garden[locale]);
@@ -40,7 +43,7 @@ export function makePixelMap(scenario: string, signs: CompanySign[], locale: Loc
     map.projection = 'isometric'; map.ox = 288; map.oy = 84; map.tile = 16;
     map.rects = [[0, 0, 480, 320, '#10182a']];
     const labels = { terminal: copy.workstation[locale], team: copy.npc[locale], coffee: copy.coffee[locale], secret: copy.secret[locale], portal: townCopy.outside[locale] };
-    map.objects = studioObjects.map(o => ({ ...o, hit: [...o.hit], label: labels[o.id] }));
+    map.objects = studioObjects.map(o => ({ ...o, hit: [...o.hit], marker: [o.hit[0] + o.hit[2] / 2, o.hit[1] - 4], label: labels[o.id] }));
     for (const o of map.objects) { const p = studioProject(o.x + .5, o.y + .5); label(p.x, p.y - 6, o.label); }
   }
   for (let y = 0; y < map.height; y++) for (let x = 0; x < map.width; x++) if (!(town ? townWalkable(x, y) : studioWalkable(x, y))) map.blocked.push({ x, y });

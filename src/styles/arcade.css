@@ -365,6 +365,16 @@
 .job-route .job-objective { max-width: 36%; flex: 0 1 36%; padding: 13px 17px; align-items: center; gap: 15px; }
 .job-route .job-quest-icon { display: grid; place-items: center; width: 64px; aspect-ratio: 1; flex-shrink: 0; border: 1px solid #345b70; background: linear-gradient(#0b1829, #153241); }
 .job-quest-icon svg { width: 75%; }
+.job-hiring-status { display: flex; align-items: center; gap: 16px; padding: 14px; border: 1px solid #b77e77; background: #352137; border-radius: 5px; }
+.job-hiring-status > span { font-size: 2rem; color: #ffc6a6; }
+.job-hiring-status h3, .job-hiring-status p { margin: 0; }
+.job-hiring-requirements { border: 1px solid #446176; padding: 18px; margin: 18px 0; background: #0c1a2c; }
+.job-skill-chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; }
+.job-skill-chips li { border: 1px solid #ad9370; background: #322c30; color: #ffe0aa; padding: 5px 9px; border-radius: 3px; }
+.job-hiring-checklist { display: grid; gap: 12px; list-style: none; padding: 0; }
+.job-hiring-checklist li { display: flex; gap: 10px; }
+.job-hiring-checklist small { display: block; color: #bbcadd; }
+.job-hiring-checklist .is-earned, .job-hiring-checklist .is-earned small { color: #9ee1bc; }
 .job-route .job-objective p { font-size: clamp(.55rem, .95cqw, .85rem); }
 .job-route .job-objective strong { font-size: clamp(.7rem, 1.2cqw, 1.12rem); color: #f29ee8; font-weight: 700; }
 .job-route .job-objective small { font-size: clamp(.52rem, .9cqw, .82rem); margin-top: 8px; }

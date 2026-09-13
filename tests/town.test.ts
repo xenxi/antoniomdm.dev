@@ -4,8 +4,21 @@ import { chapterUnlocked, choose, completeEvent, eligibleEvents, enterCompany, n
 import { makePixelMap, mapPath, mapWalkable, mapProject, mapTile } from '../src/arcade/pixel-map';
 import { buildings, townCopy, townSpawn } from '../src/arcade/town';
 import { readMapAction } from '../src/arcade/godot-bridge';
+import { hiringRequirements } from '../src/arcade/recruitment';
 
 describe('Open town and chronological company doors', () => {
+  it('explains real outstanding skills and distinguishes events from completed challenges', () => {
+    const initial = newGame();
+    expect(hiringRequirements(initial, 'freelance')).toEqual([]);
+    expect(hiringRequirements(initial, 'unknown')).toEqual([]);
+    expect(hiringRequirements(initial, 'xul')[0]).toMatchObject({ id: 'freelance', skills: ['bug'], events: 1 });
+    const solved = choose(initial, 'button').state;
+    expect(hiringRequirements(solved, 'xul')[0]).toMatchObject({ skills: [], events: 1, missions: [{ done: true }] });
+    const cleared = completeEvent(solved, 'freelance');
+    expect(hiringRequirements(cleared, 'xul')).toEqual([]);
+    expect(hiringRequirements(cleared, 'signlab').map(c => c.id)).toEqual(['xul']);
+    expect(makePixelMap('town', [{ id: 'freelance', name: 'Freelance', unlocked: true, complete: true }], 'en').objects.slice(0, 2)).toMatchObject([{ locked: false, complete: true }, { locked: true, complete: false }]);
+  });
   it('shares the office character and projects every saved tile onto the illustrated city', () => {
     const town = makePixelMap('town', [], 'es'), office = makePixelMap('office', [], 'es');
     expect(town.sprite).toBe(office.sprite);

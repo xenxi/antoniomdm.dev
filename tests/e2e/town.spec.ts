@@ -19,6 +19,9 @@ for (const engine of ['desktop', 'mobile']) test(`${engine}: explore town, locke
   // A future building is reachable, but approaching it cannot start a locked chapter.
   await canvas.click({ position: { x: townProject(9.5, 5.5)[0] / 480 * box.width, y: (townProject(9.5, 5.5)[1] - 5) / 320 * box.height } });
   await expect(page.locator('.career-status')).toContainText('Puerta cerrada');
+  await expect(page.getByRole('dialog')).toContainText('Aún no te contratan');
+  await expect(page.getByRole('dialog')).toContainText('Solo es cambiar un botón');
+  await page.getByRole('dialog').getByRole('button', { name: 'Cerrar', exact: true }).click();
   await expect(world).toHaveAttribute('data-map', 'town');
   await canvas.click({ position: { x: townProject(4.5, 5.5)[0] / 480 * box.width, y: (townProject(4.5, 5.5)[1] - 5) / 320 * box.height } });
   await expect(world).toHaveAttribute('data-map', 'freelance');

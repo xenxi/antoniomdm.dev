@@ -31,8 +31,11 @@ var goal = ""
 var tick = 0.0
 var cooldown = 0.0
 var facing = Vector2i.DOWN
+var atmosphere = preload("res://atmosphere.gd").new()
 
 func _ready() -> void:
+	atmosphere.z_index = 2
+	add_child(atmosphere)
 	if OS.has_feature("web"):
 		bridge = JavaScriptBridge.get_interface("careerBridge")
 		callback = JavaScriptBridge.create_callback(_receive)
@@ -58,6 +61,8 @@ func _receive(args: Array) -> void:
 		grid.fill_solid_region(grid.region, false)
 		for tile in map.blocked: grid.set_point_solid(Vector2i(tile.x, tile.y))
 	if not incoming.active or changed:
+		atmosphere.hovered = ""
+		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		route.clear()
 		goal = ""
 		queued_direction = Vector2i.ZERO
@@ -97,6 +102,7 @@ func _process(delta: float) -> void:
 			elif Input.is_physical_key_pressed(KEY_LEFT) or Input.is_physical_key_pressed(KEY_A): direction = Vector2i.LEFT
 			elif Input.is_physical_key_pressed(KEY_RIGHT) or Input.is_physical_key_pressed(KEY_D): direction = Vector2i.RIGHT
 			if direction != Vector2i.ZERO: _step(Vector2i(state.x, state.y) + direction)
+	atmosphere.present(map, state, player, camera_position, tick, delta)
 	queue_redraw()
 
 func _step(tile: Vector2i) -> void:
@@ -118,6 +124,14 @@ func _interact(id: String) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not state.active or map.is_empty(): return
+	if event is InputEventMouseMotion:
+		atmosphere.hovered = ""
+		var cursor = event.position / float(state.get("zoom", 1)) + camera_position.round()
+		for object in map.objects:
+			if _object_hit(object, cursor):
+				atmosphere.hovered = object.id
+				break
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if not atmosphere.hovered.is_empty() else Input.CURSOR_ARROW)
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode == KEY_ESCAPE: _emit({"type": "pause"})
 		elif event.physical_keycode == KEY_M: _emit({"type": "map"})
@@ -139,6 +153,18 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT: _route_to(event.position)
 	elif event is InputEventScreenTouch and event.pressed: _route_to(event.position)
 
+func _object_hit(object: Dictionary, screen: Vector2) -> bool:
+	var hit = Rect2(map.ox + object.x * map.tile, map.oy + object.y * map.tile, map.tile, map.tile)
+	if object.has("hit"): hit = Rect2(object.hit[0], object.hit[1], object.hit[2], object.hit[3])
+	var inside = hit.has_point(screen)
+	if inside and object.has("hitPolygon"):
+		var polygon = PackedVector2Array()
+		for p in object.hitPolygon: polygon.append(Vector2(p[0], p[1]))
+		inside = Geometry2D.is_point_in_polygon(screen, polygon)
+	if object.has("marker") and not object.get("locked", false):
+		inside = inside or screen.distance_to(Vector2(object.marker[0], object.marker[1])) < 8
+	return inside
+
 func _route_to(screen: Vector2) -> void:
 	screen = screen / float(state.get("zoom", 1)) + camera_position.round()
 	var tile: Vector2i
@@ -155,14 +181,7 @@ func _route_to(screen: Vector2) -> void:
 	goal = ""
 	route.clear()
 	for object in map.objects:
-		var hit = Rect2(map.ox + object.x * map.tile, map.oy + object.y * map.tile, map.tile, map.tile)
-		if object.has("hit"): hit = Rect2(object.hit[0], object.hit[1], object.hit[2], object.hit[3])
-		var inside = hit.has_point(screen)
-		if inside and object.has("hitPolygon"):
-			var polygon = PackedVector2Array()
-			for p in object.hitPolygon: polygon.append(Vector2(p[0], p[1]))
-			inside = Geometry2D.is_point_in_polygon(screen, polygon)
-		if inside:
+		if _object_hit(object, screen):
 			tile = Vector2i(object.x, object.y)
 			goal = object.id
 			break
@@ -213,6 +232,7 @@ func _camera_target() -> Vector2:
 
 func _draw() -> void:
 	if map.is_empty(): return
+	atmosphere.present(map, state, player, camera_position, tick, 0)
 	var zoom = float(state.get("zoom", 1))
 	draw_set_transform(-camera_position.round() * zoom, 0, Vector2(zoom, zoom))
 	for layer in artwork:
@@ -237,7 +257,7 @@ func _draw() -> void:
 		point = Vector2.ZERO
 		var index = ["down", "right", "up", "left"].find(direction)
 		var stride = [0, -1, 0, 1][frame]
-		var bob = frame % 2 * 0.45
+		var bob = frame % 2 * 0.45 if moving else (0.0 if state.reducedMotion else sin(tick * 1.8) * 0.18)
 		draw_texture_rect_region(sprite_texture, Rect2(point.x - 12, point.y - 43 - bob, 24, 30.5), Rect2(index * 96, 0, 96, 122))
 		draw_texture_rect_region(sprite_texture, Rect2(point.x - 12, point.y - 12.5 + stride, 12, 13.5), Rect2(index * 96, 122, 48, 54))
 		draw_texture_rect_region(sprite_texture, Rect2(point.x, point.y - 12.5 - stride, 12, 13.5), Rect2(index * 96 + 48, 122, 48, 54))
@@ -246,6 +266,3 @@ func _draw() -> void:
 	if state.chapterId == "town" and not state.reducedMotion:
 		draw_set_transform(-camera_position.round() * zoom, 0, Vector2(zoom, zoom))
 		for i in range(45): draw_rect(Rect2(floorf(fmod(i * 71 + tick * 9, 480)), floorf(fmod(i * 53 + tick * 62, 320)), 1, 3), Color("b6d3f026"))
-		for i in range(9):
-			var ripple = _project(18.5 + i % 3, 8.5 + floori(i / 3.0))
-			draw_line(ripple, ripple + Vector2(3, 1.5), Color("acdcf250"), 0.5)

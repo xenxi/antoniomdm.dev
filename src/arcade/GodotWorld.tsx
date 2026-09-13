@@ -6,6 +6,7 @@ import { rasterize } from './godot-art';
 import { avatarFrames } from './avatar';
 import { copy } from './campaign';
 import { prepareSceneArt } from './scene-art';
+import { townCopy } from './town';
 
 export const worldCopy = {
   loading: { es: 'Preparando el mundo…', en: 'Preparing the world…' },
@@ -16,7 +17,7 @@ export const worldCopy = {
   zoom: { es: 'Acercar al personaje', en: 'Follow the character' },
   overview: { es: 'Ver mapa completo', en: 'View full map' },
 };
-interface Props { map: PixelMap; x: number; y: number; locale: Locale; active: boolean; onMove: (x: number, y: number) => void; onInteract: (id: string) => void; onPause: () => void }
+interface Props { map: PixelMap; x: number; y: number; locale: Locale; active: boolean; objective?: string; onMove: (x: number, y: number) => void; onInteract: (id: string) => void; onPause: () => void }
 export default function GodotWorld(props: Props) {
   const { x, y, locale, map, active } = props;
   const frame = useRef<HTMLIFrameElement>(null), current = useRef(props); current.current = props;
@@ -48,7 +49,7 @@ export default function GodotWorld(props: Props) {
     }
     frame.current?.contentWindow?.postMessage({ channel: bridgeChannel, type: 'state', state: {
       x: p.x, y: p.y, chapterId: p.map.id, active: p.active, locale: p.locale,
-      zoom: currentZoom.current,
+      zoom: currentZoom.current, objective: p.objective ?? '',
       reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
       ...(changed ? { map: encoded.current!.data, frames: avatarFrames } : {}),
     } }, location.origin);
@@ -81,7 +82,13 @@ export default function GodotWorld(props: Props) {
     const timer = window.setTimeout(() => { if (!ready.current) setStatus(value => value === 'loading' ? 'failed' : value); }, 60000);
     return () => { clearTimeout(timer); window.removeEventListener('message', receive); };
   }, [attempt]);
-  useLayoutEffect(() => { if (ready.current) sync(); }, [x, y, locale, map, active, zoom]);
+  useLayoutEffect(() => { if (ready.current) sync(); }, [x, y, locale, map, active, zoom, props.objective]);
+  useEffect(() => {
+    const motion = matchMedia('(prefers-reduced-motion: reduce)');
+    const changed = () => { if (ready.current) sync(); };
+    motion.addEventListener('change', changed);
+    return () => motion.removeEventListener('change', changed);
+  }, []);
   return <div class="godot-world" tabIndex={0} role="group" aria-label={c('title')} data-player={`${x},${y}`} data-map={map.id} data-zoom={zoom} data-engine={status} onKeyUp={() => { held.current = null; }} onBlur={() => { held.current = null; }} onKeyDown={event => {
     if (!active || status !== 'ready') return;
     if (event.key.toLowerCase() === 'm' && (event.target === event.currentTarget || (event.target as HTMLElement).tagName === 'CANVAS')) { event.preventDefault(); setZoom(value => value === 1 ? 2 : 1); return; }
@@ -93,7 +100,7 @@ export default function GodotWorld(props: Props) {
     <div class="godot-viewport"><div key={map.id} class="world-transition" aria-hidden="true" />
       {status !== 'ready' && <div class="godot-loading"><img src={map.art ?? '/images/job-route/neon-city.webp'} alt="" /><div role="status"><span class="godot-loading-icon" aria-hidden="true">◇</span><p>{c(status === 'loading' ? 'loading' : 'failed')}</p>{status === 'failed' && <button onClick={() => { setStatus('loading'); setAttempt(value => value + 1); }}>{c('retry')}</button>}</div></div>}
       {(status === 'loading' || status === 'ready') && <iframe key={attempt} ref={frame} class={`godot-frame ${status === 'ready' ? 'is-ready' : ''}`} src={`/games/career/index.html?lang=${locale}`} title={c('title')} tabIndex={status === 'ready' && active ? 0 : -1} aria-hidden={status !== 'ready' || !active || undefined} onError={() => setStatus('failed')} />}
-      {active && status === 'ready' && mapNearby(map, x, y) && <div class="world-interaction-hint"><kbd>E</kbd><span>{copy.interact[locale]} · {mapNearby(map, x, y)!.label}</span></div>}
+      {active && status === 'ready' && mapNearby(map, x, y) && <div class="world-interaction-hint"><kbd>E</kbd><span>{mapNearby(map, x, y)!.locked ? townCopy.requirements[locale] : copy.interact[locale]} · {mapNearby(map, x, y)!.label}</span></div>}
     </div>
     <div class="godot-toolbar"><a class="godot-badge" href="/licenses/godot.txt" target="_blank" rel="noopener" aria-label={c('license')}>GODOT</a><button class="godot-zoom" disabled={status !== 'ready'} aria-pressed={zoom === 2} onClick={() => setZoom(value => value === 1 ? 2 : 1)}>{c(zoom === 1 ? 'zoom' : 'overview')}</button></div>
   </div>;
