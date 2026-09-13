@@ -1,5 +1,5 @@
 extends Node2D
-## The web campaign supplies the same original pixel artwork and collisions to both renderers.
+## The web campaign supplies artwork and collisions to the sole game renderer, Godot.
 class PixelLayer extends Node2D:
 	var texture: ImageTexture
 	var depth = -100.0
