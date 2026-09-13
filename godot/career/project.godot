@@ -1,0 +1,26 @@
+; Open this project with Godot 4.7.2. Web output is built by npm run build:godot.
+config_version=5
+
+[application]
+config/name="AntoñiOS Pixel World"
+run/main_scene="res://world.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[display]
+window/size/viewport_width=480
+window/size/viewport_height=320
+window/size/window_width_override=960
+window/size/window_height_override=640
+window/stretch/mode="canvas_items"
+
+[rendering]
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.043, 0.063, 0.11, 1)
+2d/snap/snap_2d_transforms_to_pixel=true
+
+[audio]
+driver/enable_input=false
+

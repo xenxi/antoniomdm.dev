@@ -41,7 +41,7 @@ test('Arcade engine, wallpaper and audio are deferred until explicit entry', asy
   const requests: string[] = []; page.on('request', request => requests.push(request.url()));
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   expect(requests.filter(url => /\/(?:Arcade|arcade)\..*\.(?:js|css)|\/arcade\/world|\.mp3|flutter|\.dart/.test(url))).toEqual([]);
-  await page.locator('[data-desktop-app="arcade"]').click(); await expect(page.getByRole('heading', { name: 'AntoñiOS — Career Mode' })).toBeVisible();
+  await page.locator('[data-desktop-app="arcade"]').click(); await expect(page.getByRole('heading', { name: 'JOB ROUTE »' })).toBeVisible();
   expect(requests.filter(url => /\/(?:Arcade|arcade)\..*\.(?:js|css)|\/arcade\/world|\.mp3/.test(url))).toEqual([]);
   await page.getByRole('button', { name: 'ENTER' }).click();
   await expect(page.getByRole('region', { name: 'AntoñiOS Career Mode' })).toBeVisible();

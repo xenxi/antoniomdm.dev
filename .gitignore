@@ -55,3 +55,7 @@ dist/
 .astro/
 test-results/
 playwright-report/
+
+# Reproducible Godot web export and editor cache
+godot/**/.godot/
+public/games/career/

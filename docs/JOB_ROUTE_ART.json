@@ -1,0 +1,17 @@
+{
+  "tool": "Built-in image_gen",
+  "purpose": {
+    "es": "Arte original derivado de las referencias aportadas por el usuario.",
+    "en": "Original artwork derived from references supplied by the user."
+  },
+  "assets": [
+    {
+      "file": "public/images/job-route/neon-city.webp",
+      "prompt": "Create a production game background derived from the visual style of reference image 1. Use case: stylized-concept, original pixel art game title-screen scenery. Wide 3:2 landscape, a gorgeous detailed pixel-art technology district at blue hour after rain, deep midnight navy, violet buildings, cyan neon edges, magenta signs, warm amber office windows, abundant lush potted plants, street lamps, wet reflective pavement, distant dusk skyline and a low pink sun. Foreground paved pedestrian avenue, a beautifully detailed glass-front software company lobby on the RIGHT, a park and skyline on the LEFT. Crisp intentional chunky pixel clusters, handcrafted 16-bit indie RPG art, dramatic but cozy, professional art direction matching the attached references. No people, no UI, no lettering, no typography, no logos, no Nintendo branding, no frames, no watermarks. Leave dark quiet space at the left upper half for real HTML title overlay. This is an artwork asset for an existing playable RPG, not a screenshot mockup. Preserve the beautiful storefront, foliage and city detail of the reference."
+    },
+    {
+      "file": "public/images/job-route/antonio-portrait.webp",
+      "prompt": "Create an original production pixel art RPG character portrait asset based on the male protagonist shown in both references. Single square close-up bust portrait of Antonio: short slightly wavy chestnut brown hair, neatly trimmed full brown beard, rectangular black glasses with visible warm eyes, adult software developer in his 30s, dark navy hoodie, teal inner shirt, subtle backpack straps. Friendly thoughtful expression facing three-quarter right. Detailed clean pixel clusters, rich 16-bit RPG shading with dark outlines, cyan rim light from left and soft violet rim light from right, warm skin tones, background solid deep midnight navy #0b1024. Crop shoulders at bottom, complete head visible with padding. NOT photorealistic, no smooth vector drawing, no text, no frame, no multiple portraits, no Nintendo logo. High-quality readable expressive sprite portrait, matching the visual reference. This will be rendered at 80px in game HUD and dialog."
+    }
+  ]
+}

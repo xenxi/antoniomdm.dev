@@ -6,9 +6,13 @@ Spanish is the default without a prefix, with English under `/en/`. `/es/` route
 
 Software Architect Playground. An Astro + TypeScript + Preact portfolio with a desktop window manager, static content routes and an explicitly loaded Career Mode RPG.
 
-**ES.** [Career Mode](docs/CAREER_MODE.md): nueve experiencias y un desafío final, mapas isométricos, seis familias de misiones, eventos personales, guardado local y CV siempre accesible. Entra desde `/arcade/`.
+**ES.** [Career Mode](docs/CAREER_MODE.md): nueve experiencias y un desafío final, ciudad abierta isométrica e interiores isométricos con estética de neón, seis familias de misiones, eventos personales, guardado local y CV siempre accesible. Entra desde `/arcade/`.
 
-**EN.** [Career Mode](docs/CAREER_MODE.md): nine experiences and a final challenge, isometric maps, six mission families, personal events, local saves and an always accessible CV. Enter from `/en/arcade/`.
+**EN.** [Career Mode](docs/CAREER_MODE.md): nine experiences and a final challenge, an isometric open town and neon isometric interiors, six mission families, personal events, local saves and an always accessible CV. Enter from `/en/arcade/`.
+
+**ES.** [Mundo Godot](docs/GODOT_ARCADE.md): personajes pixel art, ciudad con parques y empresas cuyas puertas se abren al completar cada etapa. Configura `GODOT_BIN` con Godot 4.7.2 y sus plantillas, y ejecuta `npm run build:godot` antes de iniciar la web. `npm run build:release` prepara la exportación completa.
+
+**EN.** [Godot world](docs/GODOT_ARCADE.md): pixel art characters, a town with parks and company doors unlocked by completing each chapter. Set `GODOT_BIN` to Godot 4.7.2 with its templates, then run `npm run build:godot` before starting the website. `npm run build:release` prepares the complete export.
 
 ```sh
 npm ci

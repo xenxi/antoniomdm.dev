@@ -83,7 +83,7 @@ describe('Playable campaign', () => {
   });
   it('validates corrupted, incompatible and unsafe saves', () => {
     for (const raw of ['bad json', '{}', 'null', JSON.stringify({ ...newGame(), version: 2 }), JSON.stringify({ ...newGame(), chapterId: '__proto__' }), ' '.repeat(60001)]) expect(parseSave(raw)).toBeNull();
-    for (const patch of [{ mission: 99 }, { x: -1 }, { x: 4, y: 3 }, { sequence: ['nope'] }, { seen: ['unknown'] }, { choices: ['unknown'] }, { completedEvents: ['wedding'] }]) expect(parseSave(JSON.stringify(updateProgress(newGame(), patch as never)))).toBeNull();
+    for (const patch of [{ mission: 99 }, { x: -1 }, { x: 3, y: 8 }, { sequence: ['nope'] }, { seen: ['unknown'] }, { choices: ['unknown'] }, { completedEvents: ['wedding'] }]) expect(parseSave(JSON.stringify(updateProgress(newGame(), patch as never)))).toBeNull();
   });
   it('enforces collisions and finds walkable paths to each interactive object in every scene', () => {
     let state = newGame(); state = updateProgress(state, { x: 4, y: 4 });

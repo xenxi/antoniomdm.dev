@@ -10,6 +10,8 @@
     "dev": "astro dev --host 127.0.0.1",
     "build": "astro build",
     "build:web": "astro build",
+    "build:godot": "node scripts/build-godot.mjs",
+    "build:release": "npm run build:godot && npm run build",
     "preview": "astro preview --host 127.0.0.1",
     "lint": "eslint .",
     "typecheck": "astro check",
