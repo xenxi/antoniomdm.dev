@@ -15,6 +15,9 @@ const text = (es: string, en: string): LocalizedText => ({ es, en });
 
 export const terminalCommands: TerminalCommandDefinition[] = [
   { id: 'help', label: text('Ayuda', 'Help'), description: text('Muestra los comandos disponibles', 'List the available commands'), action: 'OUTPUT' },
+  { id: 'mode', label: text('Modo de trabajo', 'Working mode'), description: text('Del discovery a producción', 'From discovery to production'), action: 'OUTPUT' },
+  { id: 'principles', label: text('Principios', 'Principles'), description: text('Criterios de las decisiones de arquitectura', 'Architecture decision principles'), action: 'OUTPUT' },
+  { id: 'impact', label: text('Impacto', 'Impact'), description: text('Resultados y alcance de la evidencia', 'Outcomes and evidence scope'), action: 'OUTPUT' },
   { id: 'whoami', label: text('Quién soy', 'Who I am'), description: text('Identidad profesional', 'Professional identity'), action: 'OUTPUT' },
   { id: 'profile', label: text('Perfil', 'Profile'), description: text('Abre el perfil', 'Open the profile'), action: 'NAVIGATE', route: '/profile/' },
   { id: 'experience', label: text('Experiencia', 'Experience'), description: text('Abre la trayectoria profesional', 'Open the career timeline'), action: 'NAVIGATE', route: '/experience/' },
@@ -33,6 +36,8 @@ export const terminalCommands: TerminalCommandDefinition[] = [
 ];
 
 export const terminalAliases: Record<string, string> = {
+  'cat mode.txt': 'mode',
+  'cat principles.txt': 'principles',
   about: 'profile',
   career: 'experience',
   work: 'experience',

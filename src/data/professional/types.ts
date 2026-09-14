@@ -1,3 +1,4 @@
+import type { Project as CatalogProject } from '../projects';
 import type { Locale } from '../../i18n/core';
 
 export type LocalizedText = Record<Locale, string>;
@@ -31,6 +32,8 @@ export interface ProfessionalProfile {
   shortName: string;
   headline: LocalizedText;
   focusLine: LocalizedText;
+  introduction: LocalizedText;
+  mode: LocalizedText;
   summary: LocalizedText;
   humanNote: LocalizedText;
   location: LocalizedText;
@@ -164,6 +167,8 @@ export interface ArchitectureDecision {
   competencyIds: string[];
   caseStudyIds: string[];
   technologyExamples: string[];
+  claimIds: string[];
+  achievementIds: string[];
 }
 
 export interface ExternalLink {
@@ -213,6 +218,7 @@ export interface PublicProfessionalModel {
   competencies: Competency[];
   achievements: Achievement[];
   projects: Project[];
+  projectCatalog: CatalogProject[];
   architectureCases: ArchitectureCaseStudy[];
   decisionAreas: DecisionArea[];
   representativeDecisions: ArchitectureDecision[];

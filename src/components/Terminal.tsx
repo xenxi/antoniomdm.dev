@@ -10,11 +10,9 @@ interface Props { open?: (path: string) => void; data: UiData }
 export default function Terminal({ open, data }: Props) {
   const { locale, t } = useLocale();
   const { profile } = data.portfolio;
-  const { cvSupportingLine } = data;
   const initialLines = (): TerminalLine[] => [
     { text: t('AntoñiOS [version 1.0]') },
-    { text: 'antonio@antonios:~$ whoami' },
-    { text: `${profile.role} · ${cvSupportingLine}` },
+    { text: locale === 'es' ? 'Explora decisiones, principios y resultados: mode · principles · impact' : 'Explore decisions, principles and outcomes: mode · principles · impact' },
     { text: '' },
     { text: t('Type help to explore.') },
   ];
@@ -53,11 +51,10 @@ export default function Terminal({ open, data }: Props) {
     const response: TerminalLine[] = [prompt(token)];
     if (command.action === 'OUTPUT') {
       if (command.id === 'help') response.push({ text: helpOutput() });
-      else if (command.id === 'whoami') {
-        const principles = locale === 'es' ? 'la arquitectura debe justificar su coste\nlímites distribuidos necesitan una razón\nDDD donde existe complejidad de dominio\nmedir antes de optimizar\nproducción es parte de la arquitectura' : 'architecture must justify its cost\ndistributed boundaries need a reason\nDDD where domain complexity exists\nmeasure before optimizing\nproduction is part of architecture';
-        const impact = data.achievements.map(item => `${item.title}: ${item.metric?.before ?? ''}${item.metric?.after ? ` → ${item.metric.after}` : ''} ${item.metric?.unit ?? ''}`).join('\n');
-        response.push({ text: `${profile.name} · ${profile.role}\n\n${locale === 'es' ? 'modo' : 'mode'}: hands-on · discovery → ${locale === 'es' ? 'producción' : 'production'}\n\n${locale === 'es' ? 'principios' : 'principles'}:\n${principles}\n\n${locale === 'es' ? 'impacto' : 'impact'}:\n${impact}` });
-      }
+      else if (command.id === 'whoami') response.push({ text: `${profile.name} · ${profile.role}` });
+      else if (command.id === 'mode') response.push({ text: profile.mode });
+      else if (command.id === 'principles') response.push({ text: data.representativeDecisions.map(item => `${item.number} · ${item.principle}`).join('\n') });
+      else if (command.id === 'impact') response.push({ text: data.achievements.map(item => `${item.title}\n${item.summary}\n${item.scope}`).join('\n\n') });
     } else if (command.action === 'NAVIGATE' || command.action === 'THEME' || command.action === 'ARCADE') {
       if (command.route) { open?.(command.route); response.push({ text: `${t('Opening')} ${command.id}…` }); }
     } else if (command.action === 'EXTERNAL_LINK') {

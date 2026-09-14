@@ -19,98 +19,127 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 7 0 R /Annots [10 0 R 11 0 R 12 0 R 13 0 R] >>
 endobj
 7 0 obj
-<< /Length 6422 >>
+<< /Length 5954 >>
 stream
 BT /F2 19 Tf 50.00 793.89 Td (Antonio Manuel Díaz Moreno) Tj ET
 BT /F2 11 Tf 50.00 770.89 Td (Software Architect | Senior .NET Engineer) Tj ET
-BT /F3 9.4 Tf 50.00 756.89 Td (Distributed Systems · Engineering Excellence · Applied AI) Tj ET
+BT /F3 9.4 Tf 50.00 756.89 Td (Distributed Systems · Legacy Modernization · Performance · Observability · Applied AI) Tj ET
 BT /F1 8.7 Tf 50.00 739.89 Td (Linares \(Jaén\), Spain · Remote) Tj ET
 BT /F1 8.7 Tf 50.00 728.89 Td (antoniom.diaz.moreno@gmail.com) Tj ET
 BT /F1 8.7 Tf 50.00 717.89 Td (linkedin.com/in/antoniomanueldiazmoreno) Tj ET
 BT /F1 8.7 Tf 50.00 706.89 Td (github.com/xenxi) Tj ET
 BT /F1 8.7 Tf 50.00 695.89 Td (antoniomdm.dev) Tj ET
 BT /F2 10.5 Tf 50.00 677.89 Td (PROFESSIONAL PROFILE) Tj ET
-0.6 w 0.4 0.4 0.4 RG 50 665.89 m 545.28 665.89 l S
-BT /F1 8.8 Tf 50.00 662.89 Td (Software Architect and Senior .NET Engineer with more than 12 years of experience designing, building and evolving software.) Tj ET
-BT /F1 8.8 Tf 50.00 651.63 Td (Combines hands-on architecture, .NET, distributed systems, safe modernization, testing, performance, observability and) Tj ET
-BT /F1 8.8 Tf 50.00 640.36 Td (responsibility through production.) Tj ET
+0.6 w 0.4 0.4 0.4 RG 50 673.89 m 545.28 673.89 l S
+BT /F1 8.8 Tf 50.00 662.89 Td (Hands-on Software Architect and Senior .NET Engineer with more than 12 years of professional experience. I design,) Tj ET
+BT /F1 8.8 Tf 50.00 651.63 Td (modernize and implement complex systems, following decisions from discovery and problem decomposition through testing,) Tj ET
+BT /F1 8.8 Tf 50.00 640.36 Td (delivery, observability and production diagnosis.) Tj ET
 BT /F2 10.5 Tf 50.00 622.10 Td (EXPERIENCE) Tj ET
-0.6 w 0.4 0.4 0.4 RG 50 610.10 m 545.28 610.10 l S
+0.6 w 0.4 0.4 0.4 RG 50 618.10 m 545.28 618.10 l S
 BT /F2 9.2 Tf 50.00 604.10 Td (Senior .NET Developer / Software Architect) Tj ET
 BT /F1 8.5 Tf 50.00 592.70 Td (Domingo Alonso Group) Tj ET
 BT /F1 8.5 Tf 138.34 592.70 Td (  ·  ) Tj ET
 BT /F3 8.5 Tf 150.16 592.70 Td (July 2021 - Present) Tj ET
 BT /F1 8.5 Tf 50.00 582.10 Td (Hands-on senior architecture and engineering spanning discovery and design through review, delivery, observability and production) Tj ET
 BT /F1 8.5 Tf 50.00 571.60 Td (follow-through.) Tj ET
-BT /F2 9.2 Tf 50.00 558.10 Td (Senior .NET Developer / Full Stack Engineer) Tj ET
-BT /F1 8.5 Tf 50.00 546.70 Td (Anexia Tecnologías y Consultoría) Tj ET
-BT /F1 8.5 Tf 176.13 546.70 Td (  ·  ) Tj ET
-BT /F3 8.5 Tf 187.95 546.70 Td (December 2017 - July 2021) Tj ET
-BT /F1 8.5 Tf 50.00 536.10 Td (End-to-end responsibility across applications, from requirements and functional/technical analysis through architecture, backend,) Tj ET
-BT /F1 8.5 Tf 50.00 525.60 Td (frontend, mobile, deployment and support.) Tj ET
-BT /F2 9.2 Tf 50.00 512.10 Td (.NET Developer) Tj ET
-BT /F1 8.5 Tf 50.00 500.70 Td (Vector ITC Group) Tj ET
-BT /F1 8.5 Tf 116.61 500.70 Td (  ·  ) Tj ET
-BT /F3 8.5 Tf 128.42 500.70 Td (May 2017 - December 2017) Tj ET
-BT /F1 8.5 Tf 50.00 490.10 Td (Process and reporting automation, campaign systems, and classic NLP/ML using lexical methods, Bag of Words, TF-IDF and Naive) Tj ET
-BT /F1 8.5 Tf 50.00 479.60 Td (Bayes.) Tj ET
-BT /F2 9.2 Tf 50.00 466.10 Td (.NET Developer) Tj ET
-BT /F1 8.5 Tf 50.00 454.70 Td (Nokia) Tj ET
-BT /F1 8.5 Tf 71.73 454.70 Td (  ·  ) Tj ET
-BT /F3 8.5 Tf 83.54 454.70 Td (January 2016 - May 2017) Tj ET
-BT /F1 8.5 Tf 50.00 444.10 Td (Evolution of CAD tools into a GIS-like platform for telecom network modelling, validation, costing and preliminary designs.) Tj ET
-BT /F2 9.2 Tf 50.00 430.60 Td (.NET Developer) Tj ET
-BT /F1 8.5 Tf 50.00 419.20 Td (Alcatel-Lucent Enterprise) Tj ET
-BT /F1 8.5 Tf 144.95 419.20 Td (  ·  ) Tj ET
-BT /F3 8.5 Tf 156.77 419.20 Td (September 2014 - January 2016) Tj ET
-BT /F1 8.5 Tf 50.00 408.60 Td (Automation, an internal platform and CAD integrations with engineering validation rules using .NET, C#, VB and web components.) Tj ET
-BT /F2 9.2 Tf 50.00 395.10 Td (Web Developer) Tj ET
-BT /F1 8.5 Tf 50.00 383.70 Td (Freelance) Tj ET
-BT /F1 8.5 Tf 87.79 383.70 Td (  ·  ) Tj ET
-BT /F3 8.5 Tf 99.61 383.70 Td (June 2013 - October 2014) Tj ET
-BT /F1 8.5 Tf 50.00 373.10 Td (Web layout and development for clients, delivering public-facing websites.) Tj ET
-BT /F2 9.2 Tf 50.00 359.60 Td (Systems Technician Intern) Tj ET
-BT /F1 8.5 Tf 50.00 348.20 Td (La Salle) Tj ET
-BT /F1 8.5 Tf 80.71 348.20 Td (  ·  ) Tj ET
-BT /F3 8.5 Tf 92.53 348.20 Td (October 2013 - February 2014) Tj ET
-BT /F1 8.5 Tf 50.00 337.60 Td (Systems installation and maintenance, with basic Windows Server work.) Tj ET
-BT /F2 9.2 Tf 50.00 324.10 Td (Android Developer Intern) Tj ET
-BT /F1 8.5 Tf 50.00 312.70 Td (Signlab Nuevas Tecnologías) Tj ET
-BT /F1 8.5 Tf 157.71 312.70 Td (  ·  ) Tj ET
-BT /F3 8.5 Tf 169.53 312.70 Td (January 2013 - April 2013) Tj ET
-BT /F1 8.5 Tf 50.00 302.10 Td (Android applications for museum-related experiences and interactive image components.) Tj ET
-BT /F2 9.2 Tf 50.00 288.60 Td (Android Developer Intern) Tj ET
-BT /F1 8.5 Tf 50.00 277.20 Td (XUL Comunicación Social) Tj ET
-BT /F1 8.5 Tf 148.25 277.20 Td (  ·  ) Tj ET
-BT /F3 8.5 Tf 160.07 277.20 Td (October 2012 - December 2012) Tj ET
-BT /F1 8.5 Tf 50.00 266.60 Td (Early Android application development and reusable mobile components.) Tj ET
-BT /F2 10.5 Tf 50.00 249.10 Td (COMPETENCIES) Tj ET
-0.6 w 0.4 0.4 0.4 RG 50 237.10 m 545.28 237.10 l S
-BT /F1 8.7 Tf 50.00 234.10 Td (Software Architecture · .NET / C# Backend · Functional / Technical Analysis · Problem Decomposition / Solution Shaping ·) Tj ET
-BT /F1 8.7 Tf 50.00 222.96 Td (Legacy Modernization · Testing / Quality Engineering · Technical Leadership · End-to-end Ownership · Distributed Systems ·) Tj ET
-BT /F1 8.7 Tf 50.00 211.83 Td (Event-driven Architecture · Performance Engineering · SQL / Data Architecture · Observability / Production Diagnostics · Azure) Tj ET
-BT /F1 8.7 Tf 50.00 200.69 Td (Application Platform / CI-CD · Full Stack / Frontend · Mobile / Multiplatform · Applied AI · Agentic Engineering · Agentic Product) Tj ET
-BT /F1 8.7 Tf 50.00 189.55 Td (Architecture) Tj ET
-BT /F2 10.5 Tf 50.00 171.42 Td (CONFIRMED ACHIEVEMENTS) Tj ET
-0.6 w 0.4 0.4 0.4 RG 50 159.42 m 545.28 159.42 l S
-BT /F1 8.5 Tf 50.00 156.42 Td (Integration-suite feedback: The largest integration suite changed from approximately 60 minutes to approximately 2 minutes.) Tj ET
-BT /F1 8.5 Tf 50.00 145.92 Td (Fewer synchronous calls per event: Summary events removed approximately 1-2 synchronous API calls per relevant event.) Tj ET
-BT /F2 10.5 Tf 50.00 128.42 Td (EDUCATION) Tj ET
-0.6 w 0.4 0.4 0.4 RG 50 116.42 m 545.28 116.42 l S
-BT /F1 8.7 Tf 50.00 113.42 Td (Technical Engineering in Management Information Systems - Escuela Politécnica Superior de Córdoba. Coursework completed) Tj ET
-BT /F1 8.7 Tf 50.00 102.28 Td (except the final project; degree not awarded.) Tj ET
-BT /F2 10.5 Tf 50.00 84.15 Td (LANGUAGES) Tj ET
-0.6 w 0.4 0.4 0.4 RG 50 72.15 m 545.28 72.15 l S
-BT /F1 8.7 Tf 50.00 69.15 Td (Native Spanish.) Tj ET
+BT /F1 8.5 Tf 50.00 561.10 Td (.NET/C# services, distributed systems, relational data, testing, Azure, observability, safe modernization and influence-based) Tj ET
+BT /F1 8.5 Tf 50.00 550.60 Td (technical leadership.) Tj ET
+BT /F1 8.5 Tf 50.00 540.10 Td (Requirements pre-analysis, problem decomposition and collaborative comparison of alternatives. Architecture guidance, ADRs,) Tj ET
+BT /F1 8.5 Tf 50.00 529.60 Td (mentoring and design/code review in a multidisciplinary team of around 10 people.) Tj ET
+BT /F1 8.5 Tf 50.00 519.10 Td (Azure App Service, Functions, SQL, Storage and Key Vault; pipelines with tests, Sonar and multiple environments. Blue-green) Tj ET
+BT /F1 8.5 Tf 50.00 508.60 Td (deployment and controlled final promotion, followed by OpenTelemetry/Application Insights and SQL diagnosis.) Tj ET
+BT /F1 8.5 Tf 50.00 498.10 Td (Supervised agent engineering workflows and incident diagnosis through orchestration of telemetry, knowledge, code and reporting.) Tj ET
+BT /F2 9.2 Tf 50.00 484.60 Td (Senior .NET Developer / Full Stack Engineer) Tj ET
+BT /F1 8.5 Tf 50.00 473.20 Td (Anexia Tecnologías y Consultoría) Tj ET
+BT /F1 8.5 Tf 176.13 473.20 Td (  ·  ) Tj ET
+BT /F3 8.5 Tf 187.95 473.20 Td (December 2017 - July 2021) Tj ET
+BT /F1 8.5 Tf 50.00 462.60 Td (End-to-end responsibility across applications, from requirements and functional/technical analysis through architecture, backend,) Tj ET
+BT /F1 8.5 Tf 50.00 452.10 Td (frontend, mobile, deployment and support.) Tj ET
+BT /F1 8.5 Tf 50.00 441.60 Td (.NET and Angular solutions, production Flutter Android/iOS applications, and real-estate predictive models using ML.NET and) Tj ET
+BT /F1 8.5 Tf 50.00 431.10 Td (PostgreSQL.) Tj ET
+BT /F2 9.2 Tf 50.00 417.60 Td (.NET Developer) Tj ET
+BT /F1 8.5 Tf 50.00 406.20 Td (Vector ITC Group) Tj ET
+BT /F1 8.5 Tf 116.61 406.20 Td (  ·  ) Tj ET
+BT /F3 8.5 Tf 128.42 406.20 Td (May 2017 - December 2017) Tj ET
+BT /F1 8.5 Tf 50.00 395.60 Td (Process and reporting automation, campaign systems, and classic NLP/ML using lexical methods, Bag of Words, TF-IDF and Naive) Tj ET
+BT /F1 8.5 Tf 50.00 385.10 Td (Bayes.) Tj ET
+BT /F2 9.2 Tf 50.00 371.60 Td (.NET Developer) Tj ET
+BT /F1 8.5 Tf 50.00 360.20 Td (Nokia) Tj ET
+BT /F1 8.5 Tf 71.73 360.20 Td (  ·  ) Tj ET
+BT /F3 8.5 Tf 83.54 360.20 Td (January 2016 - May 2017) Tj ET
+BT /F1 8.5 Tf 50.00 349.60 Td (Evolution of CAD tools into a GIS-like platform for telecom network modelling, validation, costing and preliminary designs.) Tj ET
+BT /F2 9.2 Tf 50.00 336.10 Td (.NET Developer) Tj ET
+BT /F1 8.5 Tf 50.00 324.70 Td (Alcatel-Lucent Enterprise) Tj ET
+BT /F1 8.5 Tf 144.95 324.70 Td (  ·  ) Tj ET
+BT /F3 8.5 Tf 156.77 324.70 Td (September 2014 - January 2016) Tj ET
+BT /F1 8.5 Tf 50.00 314.10 Td (Automation, an internal platform and CAD integrations with engineering validation rules using .NET, C#, VB and web components.) Tj ET
+BT /F2 9.2 Tf 50.00 300.60 Td (Web Developer) Tj ET
+BT /F1 8.5 Tf 50.00 289.20 Td (Freelance) Tj ET
+BT /F1 8.5 Tf 87.79 289.20 Td (  ·  ) Tj ET
+BT /F3 8.5 Tf 99.61 289.20 Td (June 2013 - October 2014) Tj ET
+BT /F1 8.5 Tf 50.00 278.60 Td (Web layout and development for clients, delivering public-facing websites.) Tj ET
+BT /F2 9.2 Tf 50.00 265.10 Td (Systems Technician Intern) Tj ET
+BT /F1 8.5 Tf 50.00 253.70 Td (La Salle) Tj ET
+BT /F1 8.5 Tf 80.71 253.70 Td (  ·  ) Tj ET
+BT /F3 8.5 Tf 92.53 253.70 Td (October 2013 - February 2014) Tj ET
+BT /F1 8.5 Tf 50.00 243.10 Td (Systems installation and maintenance, with basic Windows Server work.) Tj ET
+BT /F2 9.2 Tf 50.00 229.60 Td (Android Developer Intern) Tj ET
+BT /F1 8.5 Tf 50.00 218.20 Td (Signlab Nuevas Tecnologías) Tj ET
+BT /F1 8.5 Tf 157.71 218.20 Td (  ·  ) Tj ET
+BT /F3 8.5 Tf 169.53 218.20 Td (January 2013 - April 2013) Tj ET
+BT /F1 8.5 Tf 50.00 207.60 Td (Android applications for museum-related experiences and interactive image components.) Tj ET
+BT /F2 9.2 Tf 50.00 194.10 Td (Android Developer Intern) Tj ET
+BT /F1 8.5 Tf 50.00 182.70 Td (XUL Comunicación Social) Tj ET
+BT /F1 8.5 Tf 148.25 182.70 Td (  ·  ) Tj ET
+BT /F3 8.5 Tf 160.07 182.70 Td (October 2012 - December 2012) Tj ET
+BT /F1 8.5 Tf 50.00 172.10 Td (Early Android application development and reusable mobile components.) Tj ET
+BT /F1 8 Tf 288 28 Td (1 / 2) Tj ET
 endstream
 endobj
 8 0 obj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 9 0 R >>
 endobj
 9 0 obj
-<< /Length 138 >>
+<< /Length 3843 >>
 stream
-BT /F1 8.7 Tf 50.00 793.89 Td (English: advanced technical reading and comprehension; professional spoken conversation developing.) Tj ET
+BT /F2 10.5 Tf 50.00 786.89 Td (COMPETENCIES) Tj ET
+0.6 w 0.4 0.4 0.4 RG 50 782.89 m 545.28 782.89 l S
+BT /F1 8.7 Tf 50.00 771.89 Td (Software Architecture · .NET / C# Backend · Functional / Technical Analysis · Problem Decomposition / Solution Shaping ·) Tj ET
+BT /F1 8.7 Tf 50.00 760.75 Td (Legacy Modernization · Testing / Quality Engineering · Technical Leadership · End-to-end Ownership · Distributed Systems ·) Tj ET
+BT /F1 8.7 Tf 50.00 749.62 Td (Event-driven Architecture · Performance Engineering · SQL / Data Architecture · Observability / Production Diagnostics · Azure) Tj ET
+BT /F1 8.7 Tf 50.00 738.48 Td (Application Platform / CI-CD · Full Stack / Frontend · Mobile / Multiplatform · Applied AI · Agentic Engineering · Agentic Product) Tj ET
+BT /F1 8.7 Tf 50.00 727.35 Td (Architecture) Tj ET
+BT /F2 10.5 Tf 50.00 709.21 Td (CONFIRMED ACHIEVEMENTS) Tj ET
+0.6 w 0.4 0.4 0.4 RG 50 705.21 m 545.28 705.21 l S
+BT /F1 8.5 Tf 50.00 694.21 Td (Integration-suite feedback: The largest integration suite changed from approximately 60 minutes to approximately 2 minutes.) Tj ET
+BT /F1 8.5 Tf 50.00 683.71 Td (Domingo Alonso Group · largest integration suite; cumulative shared-infrastructure improvement.) Tj ET
+BT /F1 8.5 Tf 50.00 673.21 Td (Fewer synchronous calls per event: Summary events removed approximately 1-2 synchronous API calls per relevant event.) Tj ET
+BT /F1 8.5 Tf 50.00 662.71 Td (Affected integrations and relevant events.) Tj ET
+BT /F1 8.5 Tf 50.00 652.21 Td (Reads isolated from transactional data: The read representation reduced pressure and blocking on operational data; exact state) Tj ET
+BT /F1 8.5 Tf 50.00 641.71 Td (stays at the authoritative source. Domingo Alonso Group · catalogue and filters; qualitative outcome.) Tj ET
+BT /F1 8.5 Tf 50.00 631.21 Td (Modernization with a safe fallback: Progressive accessory-pricing extraction retained legacy behaviour as a stable fallback.) Tj ET
+BT /F1 8.5 Tf 50.00 620.71 Td (Domingo Alonso Group · anonymized pricing area; qualitative outcome.) Tj ET
+BT /F2 10.5 Tf 50.00 603.21 Td (ARCHITECTURE DECISIONS) Tj ET
+0.6 w 0.4 0.4 0.4 RG 50 599.21 m 545.28 599.21 l S
+BT /F1 8.8 Tf 50.00 588.21 Td (Remove an unnecessary service: Challenge the microservice and return responsibility to the boundary that could own it more) Tj ET
+BT /F1 8.8 Tf 50.00 576.21 Td (simply.) Tj ET
+BT /F1 8.8 Tf 50.00 564.21 Td (DDD only where domain complexity exists: Simplify and accept controlled infrastructure coupling when it better fits the) Tj ET
+BT /F1 8.8 Tf 50.00 552.21 Td (problem.) Tj ET
+BT /F1 8.8 Tf 50.00 540.21 Td (Modernization is risk management: Use Golden Master, seams, old/new coexistence, Strangler, toggles and rollback) Tj ET
+BT /F1 8.8 Tf 50.00 528.21 Td (proportionally.) Tj ET
+BT /F2 10.5 Tf 50.00 509.21 Td (PERSONAL ENGINEERING LAB) Tj ET
+0.6 w 0.4 0.4 0.4 RG 50 505.21 m 545.28 505.21 l S
+BT /F1 8.5 Tf 50.00 494.21 Td (Platform934 - Explore a complete media product and measure its behaviour on real TV hardware.) Tj ET
+BT /F1 8.5 Tf 50.00 483.71 Td (Flutter favoured reuse; Kotlin and Media3 require a dedicated client in exchange for control over focus, lifecycle and playback.) Tj ET
+BT /F2 10.5 Tf 50.00 466.21 Td (EDUCATION) Tj ET
+0.6 w 0.4 0.4 0.4 RG 50 462.21 m 545.28 462.21 l S
+BT /F1 8.7 Tf 50.00 451.21 Td (Technical Engineering in Management Information Systems - Escuela Politécnica Superior de Córdoba. Coursework completed) Tj ET
+BT /F1 8.7 Tf 50.00 440.07 Td (except the final project; degree not awarded.) Tj ET
+BT /F2 10.5 Tf 50.00 421.94 Td (LANGUAGES) Tj ET
+0.6 w 0.4 0.4 0.4 RG 50 417.94 m 545.28 417.94 l S
+BT /F1 8.7 Tf 50.00 406.94 Td (Native Spanish.) Tj ET
+BT /F1 8.7 Tf 50.00 395.80 Td (English: advanced technical reading and comprehension; professional spoken conversation developing.) Tj ET
+BT /F1 8 Tf 288 28 Td (2 / 2) Tj ET
 endstream
 endobj
 10 0 obj
@@ -126,7 +155,7 @@ endobj
 << /Type /Annot /Subtype /Link /Rect [50.00 693.89 114.31 704.59] /Border [0 0 0] /A << /S /URI /URI (https://antoniomdm.dev) >> >>
 endobj
 14 0 obj
-<< /Title (CV - Antonio Manuel Díaz Moreno - Software Architect | Senior .NET Engineer) /Author (Antonio Manuel Díaz Moreno) /Subject (Distributed Systems · Engineering Excellence · Applied AI) /Creator (Anto\361iOS) /Producer (Anto\361iOS) /CreationDate (D:20260912212750Z) >>
+<< /Title (CV - Antonio Manuel Díaz Moreno - Software Architect | Senior .NET Engineer) /Author (Antonio Manuel Díaz Moreno) /Subject (Distributed Systems · Legacy Modernization · Performance · Observability · Applied AI) /Creator (Anto\361iOS) /Producer (Anto\361iOS) /CreationDate (D:20260914072326Z) >>
 endobj
 xref
 0 15
@@ -138,15 +167,15 @@ xref
 0000000326 00000 n 
 0000000431 00000 n 
 0000000621 00000 n 
-0000007094 00000 n 
-0000007246 00000 n 
-0000007434 00000 n 
-0000007597 00000 n 
-0000007774 00000 n 
-0000007924 00000 n 
-0000008072 00000 n 
+0000006626 00000 n 
+0000006778 00000 n 
+0000010672 00000 n 
+0000010835 00000 n 
+0000011012 00000 n 
+0000011162 00000 n 
+0000011310 00000 n 
 trailer
 << /Size 15 /Root 1 0 R /Info 14 0 R >>
 startxref
-8366
+11632
 %%EOF

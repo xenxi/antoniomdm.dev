@@ -1,0 +1,47 @@
+[
+  {
+    "route": "/",
+    "date": "2026-09-14T07:18:45.594Z",
+    "mode": "mobile / default simulated throttling / local production preview",
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 1956,
+    "cls": 0,
+    "totalBlockingTimeMs": 0,
+    "transferBytes": 128191
+  },
+  {
+    "route": "/architecture/",
+    "date": "2026-09-14T07:18:52.051Z",
+    "mode": "mobile / default simulated throttling / local production preview",
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 1968,
+    "cls": 0,
+    "totalBlockingTimeMs": 0,
+    "transferBytes": 131214
+  },
+  {
+    "route": "/en/profile/",
+    "date": "2026-09-14T07:18:58.242Z",
+    "mode": "mobile / default simulated throttling / local production preview",
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 1955,
+    "cls": 0,
+    "totalBlockingTimeMs": 0,
+    "transferBytes": 127382
+  }
+]

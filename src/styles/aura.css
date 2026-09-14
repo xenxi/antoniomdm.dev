@@ -336,6 +336,15 @@
   .decision-footer { justify-content: flex-start; }
   .decision-footer span { padding: 3px 6px; border: 1px solid var(--border); border-radius: 3px; color: var(--text-muted); font: .61rem/1.3 var(--mono); }
   .decision-footer a { margin-left: auto; color: var(--cyan); font-size: .72rem; }
+  .decision-detail > summary { padding: 10px 0; color: var(--cyan); cursor: pointer; font-size: .82rem; }
+  .decision-signals { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; font-size: .72rem; color: var(--text-muted); }
+  .decision-signals span + span::before { content: '· '; }
+  .decision-grid { align-items: start; }
+  .decision-area-links a { min-height: 24px; }
+  .impact-grid .evidence-links { margin: 8px 0; }
+  .impact-grid .metric { font-size: .78rem; }
+  .career-evidence { margin: 14px 0; }
+  .career-evidence article { padding: 8px 0; border-bottom: 1px solid var(--border); }
   .deep-dive-cases { margin-top: 34px; }
   .deep-dive-cases .architecture-card { min-height: 0; }
   .deep-dive-cases .architecture-card h3 { margin: 0 0 8px; font-size: 1.15rem; line-height: 1.25; }

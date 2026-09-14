@@ -24,7 +24,7 @@ export function getUiData(locale: Locale, content: ContentData, path = localized
       ...getPublicClaims(locale).filter(claim => claim.id === 'profile-12-years').map(claim => ({ id: 'experience', label: 'Experience', value: claim.text })),
       { id: 'core', label: 'Core', value: competency('dotnet-backend') },
       { id: 'focus', label: 'Focus', value: [competency('software-architecture'), competency('distributed-systems'), competency('legacy-modernization')].join(' · ') },
-      { id: 'mode', label: 'Mode', value: locale === 'es' ? 'Hands-on · Discovery → Producción' : 'Hands-on · Discovery → Production' },
+      { id: 'mode', label: 'Mode', value: localizedProfile.mode },
     ],
     overviewSkills: getCompetencies(locale).flatMap(item => item.skills).filter(skill => ['.NET', 'C#', 'ASP.NET Core', 'EF', 'Dapper', 'SQL Server', 'Azure SQL', 'PostgreSQL', 'React', 'TypeScript', 'Flutter', 'Kotlin'].includes(skill)),
     competencies: getCompetencies(locale),
@@ -41,7 +41,7 @@ export function getUiData(locale: Locale, content: ContentData, path = localized
     contact: contactInfo,
     contactMailto,
     cvAssets,
-    cvSupportingLine,
+    cvSupportingLine: cvSupportingLine[locale],
     knownPaths: routes(content), metadata,
   };
 }

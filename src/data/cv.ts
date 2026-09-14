@@ -13,7 +13,7 @@ export interface CvAsset {
   status: 'APPROVED';
 }
 
-export const cvSupportingLine = 'Distributed Systems · Engineering Excellence · Applied AI';
+export const cvSupportingLine = publicProfessionalModel.profile.focusLine;
 
 const variant = publicProfessionalModel.cvVariants.find(item => item.primary);
 if (!variant) throw new Error('Missing primary CV variant');

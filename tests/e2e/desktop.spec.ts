@@ -109,9 +109,9 @@ test('desktop and project route accessibility', async ({ page }) => {
 
 test('project filters, note content, lab concepts and printable CV', async ({ page }) => {
   await page.goto('/en/projects/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  await page.getByRole('button', { name: 'Production', exact: true }).click();
-  await expect(page.getByRole('heading', { name: "Room for what's next." })).toBeVisible();
-  await page.getByRole('button', { name: 'View all projects' }).click();
+  await page.getByRole('button', { name: 'Media Engineering', exact: true }).click();
+  await expect(page.locator('.project-groups h2')).toHaveCount(4);
+  await page.getByRole('button', { name: 'All projects', exact: true }).click();
   await page.getByRole('link', { name: /FEATURED.*Platform/ }).click();
   await expect(page).toHaveURL(/\/projects\/platform934\/$/);
   await page.locator('[data-desktop-app="notes"]').click();

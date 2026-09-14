@@ -1,6 +1,7 @@
 import type { Locale } from '../i18n/core';
 import { getAiLab, getCompetencies, getExperience, getProfile, getPublicLinks } from './professional';
-import { ecosystemLabels, projects as projectRegistry, localizeProject } from './projects';
+import { ecosystemLabels, localizeProject } from './projects';
+import { publicProfessionalModel } from './professional';
 
 export function getPortfolio(locale: Locale = 'es') {
 const sourceProfile = getProfile(locale);
@@ -10,6 +11,8 @@ const profile = {
   name: sourceProfile.name,
   shortName: sourceProfile.shortName,
   role: sourceProfile.headline,
+  introduction: sourceProfile.introduction,
+  mode: sourceProfile.mode,
   focusLine: sourceProfile.focusLine,
   statement: sourceProfile.summary,
   github: publicLinks.find(link => link.id === 'github' && link.availability === 'available')?.url ?? '',
@@ -18,8 +21,8 @@ const profile = {
   education: sourceProfile.education.join(' '), spokenLanguages: sourceProfile.languages.join(' '),
 };
 
- const categories = ['All projects', 'Production', ...Object.values(ecosystemLabels).map(value => value[locale])];
- const projects = projectRegistry.map(project => {
+ const categories = [locale === 'es' ? 'Todos los proyectos' : 'All projects', ...Object.values(ecosystemLabels).map(value => value[locale])];
+ const projects = publicProfessionalModel.projectCatalog.map(project => {
    const localized = localizeProject(project, locale);
    return {
    ...localized,
@@ -28,7 +31,7 @@ const profile = {
    name: localized.publicName,
    description: localized.summary,
    overview: localized.engineeringStory,
-   status: project.status.join(' / '),
+   status: localized.status.join(' / '),
    capabilities: localized.implementedCapabilities,
  }; });
 

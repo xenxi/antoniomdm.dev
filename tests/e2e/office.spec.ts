@@ -19,9 +19,13 @@ for (const locale of ['es', 'en']) test(`detailed Godot office ${locale}: art, n
   await canvas.focus(); await canvas.press('i');
   await expect(page.getByRole('dialog')).toContainText(locale === 'es' ? 'Inventario' : 'Inventory');
   await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.locator('.godot-frame')).not.toHaveAttribute('aria-hidden', 'true');
   await canvas.focus(); await canvas.press('j');
   await expect(page.getByRole('dialog')).toContainText(locale === 'es' ? 'Trabajos' : 'Jobs');
   await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.locator('.godot-frame')).not.toHaveAttribute('aria-hidden', 'true');
   await canvas.focus(); await canvas.press('o');
   await expect(page.locator('.career-paused')).toBeVisible();
   await page.locator('.career-paused button').click();

@@ -1,3 +1,4 @@
+import { publicProfessionalModel } from './professional/model';
 import type { Locale } from '../i18n/core';
 
 export type Localized = { es: string; en: string };
@@ -296,20 +297,14 @@ const professional: AiLabCase = {
   origin: 'PROFESSIONAL',
   title: text('Investigación asistida de incidencias', 'AI-assisted incident investigation'),
   eyebrow: text('CASO PROFESIONAL / ANONIMIZADO', 'PROFESSIONAL CASE / ANONYMIZED'),
-  summary: text(
-    'Un flujo de ingeniería supervisado que orquesta telemetría, conocimiento documentado e inspección de código para diagnosticar, informar y comunicar.',
-    'A supervised engineering workflow that orchestrates telemetry, documented knowledge and code inspection to diagnose, report and communicate.',
-  ),
+  summary: publicProfessionalModel.architectureCases.find(item => item.id === 'incident-diagnosis-agent')!.summary,
   lead: text(
     'Investigación asistida de incidencias. Un flujo de ingeniería supervisado parte de un traceId y orquesta telemetría y contexto operativo, conocimiento documentado e inspección de código para sintetizar un diagnóstico, preparar un informe y comunicarlo. La IA asiste la investigación; las herramientas y el contexto están acotados; la salida se revisa y la persona conserva el criterio de ingeniería. No hay remediación autónoma en producción y no se exponen sistemas, identificadores ni datos concretos del empleador.',
     'AI-assisted incident investigation. A supervised engineering workflow starts from a traceId and orchestrates telemetry and operational context, documented knowledge and code inspection to synthesise a diagnosis, prepare a report and communicate it. AI assists the investigation; tools and context are bounded; the output is reviewed and the human retains engineering judgment. There is no autonomous production remediation, and no employer systems, identifiers or concrete data are exposed.',
   ),
   status: 'LOCKED_FOR_PUBLICATION',
-  statusLabel: text('PUBLICABLE / ANONIMIZADO', 'LOCKED FOR PUBLICATION / ANONYMIZED'),
-  problem: text(
-    'Investigar incidencias reales exige reunir contexto disperso entre telemetría, conocimiento documentado y código, bajo presión de tiempo y sin perder el criterio de ingeniería.',
-    'Investigating real incidents requires gathering context spread across telemetry, documented knowledge and code, under time pressure and without losing engineering judgment.',
-  ),
+  statusLabel: text('EXPERIENCIA PROFESIONAL / ANONIMIZADA', 'PROFESSIONAL EXPERIENCE / ANONYMIZED'),
+  problem: publicProfessionalModel.architectureCases.find(item => item.id === 'incident-diagnosis-agent')!.problem.content!,
   flow: {
     title: text('Flujo de investigación', 'Investigation flow'),
     caption: text('Flujo conceptual, sin topología específica del empleador.', 'Conceptual flow, without employer-specific topology.'),

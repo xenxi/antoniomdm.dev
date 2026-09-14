@@ -49,6 +49,12 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
   const competencyIds = ids(model.competencies, 'competencies', errors);
   const achievementIds = ids(model.achievements, 'achievements', errors);
   const projectIds = ids(model.projects, 'projects', errors);
+  const catalogIds = ids(model.projectCatalog, 'projectCatalog', errors);
+  references([...catalogIds], projectIds, 'projectCatalog', errors);
+  for (const project of model.projectCatalog) {
+    references(project.competencyIds, competencyIds, `projectCatalog.${project.id}.competencyIds`, errors);
+    references(project.relations.map(item => item.target), catalogIds, `projectCatalog.${project.id}.relations`, errors);
+  }
   const caseIds = ids(model.architectureCases, 'architectureCases', errors);
   const decisionIds = ids(model.representativeDecisions, 'representativeDecisions', errors);
   ids(model.decisionAreas, 'decisionAreas', errors);
@@ -110,6 +116,11 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
   }
   for (const area of model.decisionAreas) references(area.decisionIds, decisionIds, `decisionAreas.${area.id}.decisionIds`, errors);
   for (const decision of model.representativeDecisions) {
+    if (!decision.claimIds.length) errors.push(`representativeDecisions.${decision.id} needs claim evidence`);
+    references(decision.claimIds, claimIds, `representativeDecisions.${decision.id}.claimIds`, errors);
+    references(decision.achievementIds, achievementIds, `representativeDecisions.${decision.id}.achievementIds`, errors);
+    const evidence = model.claims.filter(claim => decision.claimIds.includes(claim.id));
+    if (decision.evidenceKind !== 'personal' && evidence.some(claim => claim.evidenceKind !== 'professional')) errors.push(`representativeDecisions.${decision.id} cannot use personal evidence as professional evidence`);
     references(decision.experienceIds, experienceIds, `representativeDecisions.${decision.id}.experienceIds`, errors);
     references(decision.competencyIds, competencyIds, `representativeDecisions.${decision.id}.competencyIds`, errors);
     references(decision.caseStudyIds, caseIds, `representativeDecisions.${decision.id}.caseStudyIds`, errors);

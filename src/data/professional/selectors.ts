@@ -16,7 +16,7 @@ const period = (start: string, end: string | null, locale: Locale) => {
 
 export function getProfile(locale: Locale) {
   const value = model.profile;
-  return { ...value, headline: localize(value.headline, locale), focusLine: localize(value.focusLine, locale), summary: localize(value.summary, locale), humanNote: localize(value.humanNote, locale), education: value.education.map(item => localize(item, locale)), languages: value.languages.map(item => localize(item, locale)) };
+  return { ...value, headline: localize(value.headline, locale), introduction: localize(value.introduction, locale), mode: localize(value.mode, locale), focusLine: localize(value.focusLine, locale), summary: localize(value.summary, locale), humanNote: localize(value.humanNote, locale), education: value.education.map(item => localize(item, locale)), languages: value.languages.map(item => localize(item, locale)) };
 }
 
 export function getExperience(locale: Locale) {

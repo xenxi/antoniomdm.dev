@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { mkdir } from 'node:fs/promises';
 
 test.use({ reducedMotion: 'reduce' });
-const screenshotDirectory = 'docs/quality/a6/screenshots/a6';
+const screenshotDirectory = 'test-results/a6';
 const route = (locale: 'es' | 'en') => `${locale === 'en' ? '/en' : ''}/projects/platform934/`;
 
 async function ready(page: Page, locale: 'es' | 'en') {

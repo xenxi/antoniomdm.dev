@@ -1,0 +1,2 @@
+# Preserve generated PDFs byte-for-byte on Windows and Linux.
+*.pdf binary

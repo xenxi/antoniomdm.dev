@@ -7,7 +7,7 @@ const entries: [AppId, string, string, string][] = [
   ['lab', 'AI Lab', '/ai-lab/', 'Applied AI, clearly scoped'], ['about', 'Profile', '/profile/', 'The person behind the system'],
   ['cv', 'CV', '/cv/', 'A printable profile'], ['terminal', 'Terminal', '/terminal/', 'A different way to navigate'],
   ['settings', 'Settings', '/settings/', 'Make yourself at home'], ['arcade', 'Arcade', '/arcade/', 'Same person. Different reality.'],
-  ['architecture', 'Architecture', '/architecture/', 'Confirmed case-study structures'], ['contact', 'Contact', '/contact/', 'Verified professional channels'],
+  ['architecture', 'Architecture', '/architecture/', 'Engineering decisions from discovery to production'], ['contact', 'Contact', '/contact/', 'Verified professional channels'],
 ];
 export const applications: ApplicationDefinition[] = entries.map(([id,name,path,description], index) => ({
   id, name, path, description, icon: id, component: id,

@@ -17,7 +17,7 @@ for (const [width, height] of [[320, 740], [390, 844], [768, 1024], [820, 1180],
     await expect(page.locator('[data-profile-section="overview"]')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno', exact: true })).toBeVisible();
     await expect(page.locator('.role')).toHaveText('Software Architect | Senior .NET Engineer');
-    await expect(page.locator('.focus-line')).toContainText('.NET · Sistemas distribuidos · Modernización legacy · IA aplicada');
+    await expect(page.locator('.focus-line')).toContainText('Sistemas distribuidos · Modernización legacy · Rendimiento · Observabilidad · IA aplicada');
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);
     expect(requests.filter(url => /\/Arcade\.|\/arcade\/|\.(mp3|wav|ogg)$/.test(url))).toEqual([]);
     const win = (await page.locator('[data-window="about"]').boundingBox())!;

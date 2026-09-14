@@ -5,7 +5,7 @@ import { getArchitectureCases } from '../../src/data/professional';
 
 test.use({ reducedMotion: 'reduce' });
 
-const screenshotDirectory = 'docs/quality/a5/screenshots/a5';
+const screenshotDirectory = 'test-results/a5';
 const ids = ['vehicle-read-model', 'testing-infrastructure', 'event-summaries', 'legacy-modernization', 'service-boundaries-and-ddd', 'incident-diagnosis-agent'] as const;
 const route = (locale: 'es' | 'en', id?: string) => `${locale === 'en' ? '/en' : ''}/architecture/${id ? `${id}/` : ''}`;
 

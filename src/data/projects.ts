@@ -16,6 +16,8 @@ export interface LocalizedProjectContent {
   plannedCapabilities: Localized[];
   nonClaims: Localized[];
   demonstration: Localized;
+  purpose?: Localized;
+  tradeoff?: Localized;
 }
 export interface Project {
   id: ProjectId; slug: string; publicName: Localized; status: ProjectStatus[]; ecosystem: ProjectEcosystem; depth: ProjectDepth;
@@ -78,6 +80,19 @@ export const projects: Project[] = [
   },
 ];
 
+const labReasoning: Record<ProjectId, { purpose: Localized; tradeoff: Localized }> = {
+  'platform934': { purpose: text('Explorar un producto multimedia completo y medir su comportamiento en hardware TV real.', 'Explore a complete media product and measure its behaviour on real TV hardware.'), tradeoff: text('Flutter favorecía la reutilización; Kotlin y Media3 exigen mantener un cliente específico a cambio de control sobre foco, ciclo de vida y reproducción.', 'Flutter favoured reuse; Kotlin and Media3 require a dedicated client in exchange for control over focus, lifecycle and playback.') },
+  'platform934-api': { purpose: text('Añadir capacidades conversacionales sin entregar la verdad del catálogo ni la autoridad del dispositivo al LLM.', 'Add conversational capabilities while keeping catalogue truth and device authority outside the LLM.'), tradeoff: text('Los servicios deterministas, contratos tipados y herramientas permitidas añaden trabajo explícito de integración; limitan lo que el agente puede hacer y permiten validarlo.', 'Deterministic services, typed contracts and allowed tools add explicit integration work; they limit what the agent can do and make validation possible.') },
+  'stream-optimizer': { purpose: text('Automatizar trabajo repetitivo sobre la biblioteca multimedia.', 'Automate repetitive media-library work.'), tradeoff: text('Separar n8n de FFmpeg implica mantener el contrato y los fallos del worker; permite aislar la orquestación del procesamiento pesado.', 'Separating n8n from FFmpeg requires maintaining the worker contract and failure handling; it isolates orchestration from heavy processing.') },
+  'devagon-alley': { purpose: text('Distribuir y actualizar aplicaciones propias fuera de un catálogo público.', 'Distribute and update first-party applications outside a public catalogue.'), tradeoff: text('Una distribución privada reduce alcance de producto, pero obliga a mantener acceso, versiones y compatibilidad de las actualizaciones.', 'Private distribution narrows product scope but requires maintaining access, versions and update compatibility.') },
+  'luna-tartas': { purpose: text('Entregar un catálogo comercial ligero con publicación controlada y poco coste de operación.', 'Deliver a lightweight commercial catalogue with controlled publishing and low operational overhead.'), tradeoff: text('Static-first reduce infraestructura en runtime; los cambios de catálogo pasan por validación y un nuevo build.', 'Static-first reduces runtime infrastructure; catalogue changes require validation and a new build.') },
+  'koso': { purpose: text('Explorar catálogo, producto físico personalizado y fabricación 3D con una arquitectura proporcional.', 'Explore catalogues, customized physical products and 3D manufacturing with proportionate architecture.'), tradeoff: text('Una tienda estática mantiene bajo el coste operativo, a cambio de no asumir capacidades dinámicas de comercio que el producto todavía no necesita.', 'A static storefront keeps operational cost low without taking on dynamic commerce capabilities the product does not yet need.') },
+  'luna-studio': { purpose: text('Editar catálogo y recursos desde una aplicación, conservando Git como fuente para la web estática.', 'Edit catalogue and assets through an application while retaining Git as the static site source.'), tradeoff: text('Un backoffice específico exige mantenimiento y compatibilidad con el formato editorial; conserva la sencillez operativa de la tienda y pospone la generalización multi-tienda.', 'A dedicated backoffice requires maintenance and editorial-format compatibility; it preserves storefront simplicity and postpones multi-store generalization.') },
+  'antonios': { purpose: text('Hacer explorable una trayectoria profesional mediante una interfaz propia, accesible y bilingüe.', 'Make a professional career explorable through a distinctive, accessible bilingual interface.'), tradeoff: text('El escritorio y Arcade añaden estado e interacción; el HTML estático y la vista de lectura mantienen acceso directo al contenido.', 'Desktop and Arcade add state and interaction; static HTML and reading mode keep content directly accessible.') },
+  'bio-cli': { purpose: text('Probar una tarjeta profesional distribuible dentro del entorno de trabajo del desarrollador.', 'Explore a distributable professional card within the developer working environment.'), tradeoff: text('El formato CLI es pequeño y concreto; su audiencia y capacidad de presentación son más limitadas que las de la web.', 'The CLI format is small and focused; its audience and presentation capabilities are narrower than the website.') },
+};
+for (const project of projects) Object.assign(project.content, labReasoning[project.id]);
+
 export const ecosystemLabels: Record<ProjectEcosystem, Localized> = {
   MEDIA_ENGINEERING: text('Media Engineering', 'Media Engineering'),
   COMMERCE_PRODUCT_ENGINEERING: text('Comercio / Product Engineering', 'Commerce / Product Engineering'),
@@ -90,6 +105,7 @@ export const depthLabels: Record<ProjectDepth, Localized> = { DEEP_CASE_STUDY: t
 export const localizeProject = (project: Project, locale: Locale) => ({
   ...project,
   publicName: project.publicName[locale], ecosystem: ecosystemLabels[project.ecosystem][locale], status: project.status.map(status => statusLabels[status][locale]), depth: depthLabels[project.depth][locale],
+  purpose: project.content.purpose![locale], tradeoff: project.content.tradeoff![locale],
   summary: project.content.summary[locale], engineeringStory: project.content.engineeringStory[locale], implementedCapabilities: project.content.implementedCapabilities.map(item => item[locale]), plannedCapabilities: project.content.plannedCapabilities.map(item => item[locale]), nonClaims: project.content.nonClaims.map(item => item[locale]), demonstration: project.content.demonstration[locale],
   technologies: project.technologies.map(item => item.name), links: project.links.map(link => ({ ...link, label: link.label[locale] })),
 });

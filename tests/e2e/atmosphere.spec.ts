@@ -55,10 +55,18 @@ for (const locale of ['es', 'en']) test(`hiring requirements ${locale}: inspect 
   const canvas = page.frameLocator('.godot-frame').locator('canvas'), box = (await canvas.boundingBox())!;
   await canvas.click({ position: { x: 174 / 480 * box.width, y: 142 / 320 * box.height } });
   await expect(dialog).toContainText(locale === 'es' ? 'Solo es cambiar un botón' : 'Just change one button');
+  // Inspect earned mission progress while the required event is still pending.
+  // Freeze its timer explicitly instead of racing the 200ms event trigger.
+  const clockStart = new Date('2026-09-14T00:00:00Z');
+  await page.clock.install({ time: clockStart });
+  await page.clock.pauseAt(new Date(clockStart.getTime() + 1000));
   await dialog.locator('[data-choice="button"]').click();
+  await page.clock.runFor(150);
   await dialog.getByRole('button').last().click();
   await page.locator('.job-shortcuts button').filter({ hasText: locale === 'es' ? 'Trabajos' : 'Jobs' }).click();
+  await page.clock.runFor(150);
   await dialog.getByRole('button', { name: /XUL/ }).click();
+  await page.clock.runFor(150);
   await expect(dialog).toContainText(locale === 'es' ? 'Demostrado' : 'Demonstrated');
   await expect(dialog).not.toContainText(locale === 'es' ? 'Habilidades por demostrar' : 'Skills to demonstrate');
 });

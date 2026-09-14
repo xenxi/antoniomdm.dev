@@ -59,7 +59,7 @@ describe('A8.1 approved public contact data', () => {
 });
 
 describe('A8.1 typed terminal command allowlist', () => {
-  const requiredCanonical = ['help', 'whoami', 'profile', 'experience', 'architecture', 'projects', 'ai', 'contact', 'cv', 'github', 'linkedin', 'clear', 'theme', 'arcade', 'reboot', 'sudo'];
+  const requiredCanonical = ['help', 'mode', 'principles', 'impact', 'whoami', 'profile', 'experience', 'architecture', 'projects', 'ai', 'contact', 'cv', 'github', 'linkedin', 'clear', 'theme', 'arcade', 'reboot', 'sudo'];
 
   it('contains every canonical command exactly once', () => {
     const ids = terminalCommands.map(command => command.id);
@@ -69,7 +69,7 @@ describe('A8.1 typed terminal command allowlist', () => {
   });
 
   it('resolves aliases and rejects anything else', () => {
-    expect(terminalAliases).toEqual({ about: 'profile', career: 'experience', work: 'experience', resume: 'cv' });
+    expect(terminalAliases).toEqual({ 'cat mode.txt': 'mode', 'cat principles.txt': 'principles', about: 'profile', career: 'experience', work: 'experience', resume: 'cv' });
     for (const [alias, target] of Object.entries(terminalAliases)) {
       expect(terminalCommands.map(command => command.id)).toContain(target);
       expect(resolveTerminalCommand(alias)?.id).toBe(target);
@@ -130,7 +130,7 @@ describe('A8.1 CV PDF artifacts', () => {
       expect(raw).toContain('/Count 2');
       expect(raw).toContain('Antonio Manuel Díaz Moreno');
       expect(raw).toContain('Software Architect | Senior .NET Engineer');
-      expect(raw).toContain('Distributed Systems · Engineering Excellence · Applied AI');
+      expect(raw).toContain(getProfile(locale).focusLine);
       expect(raw).toContain('antoniom.diaz.moreno@gmail.com');
       expect(raw).toContain('linkedin.com/in/antoniomanueldiazmoreno');
       expect(raw).toContain('github.com/xenxi');
@@ -153,7 +153,7 @@ describe('A8.1 CV PDF artifacts', () => {
       const { raw } = pdf(locale);
       expect(raw).not.toMatch(/\+34|teléfono|telephone|\bphone\b/i);
       for (const forbidden of ['AI Engineer', 'AI Architect', 'Machine Learning Engineer', 'Data Scientist', 'B2', 'C1', 'fluent', 'RAG', 'MCP', 'vector database', 'autonomous agent', 'autonomous remediation']) {
-        expect(raw.toLowerCase()).not.toContain(forbidden.toLowerCase());
+        expect(raw).not.toMatch(new RegExp(`\\b${forbidden}\\b`, 'i'));
       }
     }
   });

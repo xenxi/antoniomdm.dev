@@ -150,7 +150,7 @@ test('A4 no-JS routes expose professional HTML in both locales', async ({ browse
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   for (const locale of ['es', 'en'] as const) {
-    for (const [section, expected] of [['experience', 9], ['competencies', 19], ['achievements', 2], ['education', 1], ['languages', 1]] as const) {
+    for (const [section, expected] of [['experience', 9], ['competencies', 19], ['achievements', 4], ['education', 1], ['languages', 1]] as const) {
       await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${routes[locale][section]}`);
       await expect(page.locator('.profile-section h1').first()).toBeVisible();
       if (section === 'experience') await expect(page.locator('.timeline-item')).toHaveCount(expected);
