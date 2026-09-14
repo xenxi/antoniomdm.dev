@@ -1,4 +1,4 @@
-export type AppId = 'welcome' | 'projects' | 'experience' | 'notes' | 'lab' | 'about' | 'background' | 'cv' | 'terminal' | 'settings' | 'arcade' | 'architecture' | 'contact';
+export type AppId = 'welcome' | 'projects' | 'experience' | 'notes' | 'lab' | 'about' | 'background' | 'terminal' | 'settings' | 'arcade' | 'architecture' | 'contact';
 export interface Rect { x: number; y: number; width: number; height: number }
 export interface Size { width: number; height: number }
 export interface WindowDefinition {

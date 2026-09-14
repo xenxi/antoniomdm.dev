@@ -3,8 +3,6 @@ import AxeBuilder from '@axe-core/playwright';
 
 test.use({ reducedMotion: 'reduce' });
 
-const PDF_ES = '/cv/antonio-manuel-diaz-moreno-software-architect-es.pdf';
-const PDF_EN = '/cv/antonio-manuel-diaz-moreno-software-architect-en.pdf';
 const EMAIL = 'antoniom.diaz.moreno@gmail.com';
 const LINKEDIN = 'https://www.linkedin.com/in/antoniomanueldiazmoreno';
 const GITHUB = 'https://github.com/xenxi';
@@ -48,8 +46,8 @@ test('A8 Profile keeps approved contact links active without phone', async ({ pa
 test('A8 Terminal routes every canonical command and alias through the window manager', async ({ page }) => {
   const cases = [
     ['profile', '/en/profile/', 'about'], ['experience', '/en/experience/', 'about'], ['architecture', '/en/architecture/', 'architecture'],
-    ['projects', '/en/projects/', 'projects'], ['ai', '/en/ai-lab/', 'lab'], ['contact', '/en/contact/', 'contact'], ['cv', '/en/cv/', 'about'],
-    ['about', '/en/profile/', 'about'], ['career', '/en/experience/', 'about'], ['work', '/en/experience/', 'about'], ['resume', '/en/cv/', 'about'],
+    ['projects', '/en/projects/', 'projects'], ['ai', '/en/ai-lab/', 'lab'], ['contact', '/en/contact/', 'contact'],
+    ['about', '/en/profile/', 'about'], ['career', '/en/experience/', 'about'], ['work', '/en/experience/', 'about'],
   ] as const;
   for (const [token, path, id] of cases) {
     await page.goto('/en/terminal/');
@@ -142,23 +140,30 @@ test('A8 Terminal hostile input cannot execute or navigate', async ({ page }) =>
   await expect(page.locator('[data-window="about"]')).toHaveCount(0);
 });
 
-test('A8 CV surfaces active ES/EN PDF, printable and TXT actions', async ({ page, request }) => {
-  await page.goto('/en/cv/');
-  await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  const cv = page.locator('[data-window="about"]');
-  await expect(cv.locator(`.pdf-state a[download][href="${PDF_EN}"]`)).toHaveCount(1);
-  await expect(cv.locator(`.pdf-state a[download][href="${PDF_ES}"]`)).toHaveCount(1);
-  await expect(cv.locator('.extended-cv a[href="/es/cv.txt"]')).toHaveCount(1);
-  await expect(cv.locator('.extended-cv a[href="/en/cv.txt"]')).toHaveCount(1);
-  await expect(cv.getByRole('button', { name: /Print \/ Save PDF/ })).toBeVisible();
-  for (const path of [PDF_ES, PDF_EN, '/es/cv.txt', '/en/cv.txt']) {
-    const response = await request.get(path);
-    expect(response.status(), path).toBe(200);
+test('A8 Languages surfaces grounded ES/EN capabilities and no fabricated levels', async ({ page }) => {
+  for (const [locale, reading, comprehension, conversation] of [
+    ['es', 'Lectura técnica', 'Comprensión técnica', 'Conversación profesional'],
+    ['en', 'Technical reading', 'Technical comprehension', 'Professional conversation'],
+  ] as const) {
+    await page.goto(`/${locale === 'en' ? 'en/' : ''}profile/languages/`);
+    await expect(page.locator('[data-ready="true"]')).toBeVisible();
+    const languages = page.locator('[data-window="about"]');
+    await expect(languages.locator('.language-card')).toHaveCount(2);
+    await expect(languages.locator('.language-card-spanish')).toContainText(locale === 'es' ? 'Español' : 'Spanish');
+    await expect(languages.locator('.language-card-spanish')).toContainText(locale === 'es' ? 'Nativo' : 'Native');
+    const english = languages.locator('.language-card-english');
+    await expect(english).toContainText(reading);
+    await expect(english).toContainText(comprehension);
+    await expect(english).toContainText(conversation);
+    await expect(english.locator('.language-capability.is-advanced')).toHaveCount(2);
+    await expect(english.locator('.language-capability.is-developing')).toHaveCount(1);
+    await expect(english).toContainText(locale === 'es' ? 'Avanzada' : 'Advanced');
+    await expect(english).toContainText(locale === 'es' ? 'En desarrollo' : 'In development');
+    await expect(languages).not.toContainText(/B1|B2|C1|C2|fluent|fluido|bilingüe|bilingual/i);
   }
-  expect((await request.get(PDF_EN)).headers()['content-type']).toContain('pdf');
 });
 
-test('A8 professional access works without JavaScript for Contact and CV', async ({ browser, baseURL }) => {
+test('A8 professional access works without JavaScript for Contact and Languages', async ({ browser, baseURL }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
   const page = await context.newPage();
   await page.goto('/en/contact/');
@@ -167,16 +172,16 @@ test('A8 professional access works without JavaScript for Contact and CV', async
   await expect(page.locator(`a[href="${GITHUB}"]`)).toHaveCount(1);
   await expect(page.locator(`a[href="${WEBSITE}"]`)).toHaveCount(1);
   await expect(page.locator('.contact-summary')).toContainText('Linares (Jaén), Spain · Remote');
-  await page.goto('/en/cv/');
-  await expect(page.locator(`a[download][href="${PDF_EN}"]`)).toBeVisible();
-  await expect(page.locator('a[download][href="/en/cv.txt"]')).toBeVisible();
+  await page.goto('/en/profile/languages/');
+  await expect(page.locator('.language-card-english')).toContainText('Advanced');
+  await expect(page.locator('.language-card')).toHaveCount(2);
   await context.close();
 });
 
 for (const [width, height] of [[1440, 900], [768, 1024], [390, 844]] as const) {
-  test(`A8 Contact and CV avoid horizontal overflow at ${width}x${height}`, async ({ page }) => {
+  test(`A8 Contact, Languages and Terminal avoid horizontal overflow at ${width}x${height}`, async ({ page }) => {
     await page.setViewportSize({ width, height });
-    for (const path of ['/es/contact/', '/es/cv/', '/en/terminal/']) {
+    for (const path of ['/es/contact/', '/es/profile/languages/', '/en/terminal/']) {
       await page.goto(path);
       await expect(page.locator('[data-ready="true"]')).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth), path).toBe(width);
@@ -184,8 +189,8 @@ for (const [width, height] of [[1440, 900], [768, 1024], [390, 844]] as const) {
   });
 }
 
-test('A8 Contact, Terminal and CV have no serious or critical accessibility violations', async ({ page }) => {
-  for (const path of ['/es/contact/', '/en/contact/', '/en/terminal/', '/en/cv/']) {
+test('A8 Contact, Terminal and Languages have no serious or critical accessibility violations', async ({ page }) => {
+  for (const path of ['/es/contact/', '/en/contact/', '/en/terminal/', '/en/profile/languages/']) {
     await page.goto(path);
     await expect(page.locator('[data-ready="true"]')).toBeVisible();
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
@@ -193,13 +198,13 @@ test('A8 Contact, Terminal and CV have no serious or critical accessibility viol
   }
 });
 
-test('A8 production preview has no console errors, failed requests or broken PDF URLs', async ({ page }) => {
+test('A8 production preview has no console errors or failed requests', async ({ page }) => {
   const consoleErrors: string[] = [];
   const failed: string[] = [];
   page.on('console', message => { if (message.type() === 'error') consoleErrors.push(message.text()); });
   page.on('requestfailed', request => { if (!request.failure()?.errorText.includes('ERR_ABORTED')) failed.push(request.url()); });
   page.on('response', response => { if (response.status() >= 400) failed.push(`${response.status()} ${response.url()}`); });
-  for (const path of ['/es/contact/', '/en/contact/', '/en/terminal/', '/en/cv/', '/en/profile/']) {
+  for (const path of ['/es/contact/', '/en/contact/', '/en/terminal/', '/en/profile/languages/', '/en/profile/']) {
     await page.goto(path);
     await expect(page.locator('[data-ready="true"]')).toBeVisible();
   }
@@ -213,7 +218,7 @@ test('A8 production preview has no console errors, failed requests or broken PDF
 });
 
 test('A8 privacy scan keeps telephone and private data out of public web output', async ({ page }) => {
-  for (const path of ['/es/contact/', '/es/profile/', '/en/terminal/', '/es/cv/']) {
+  for (const path of ['/es/contact/', '/es/profile/', '/en/terminal/', '/es/profile/languages/']) {
     await page.goto(path);
     await expect(page.locator('[data-ready="true"]')).toBeVisible();
     const html = await page.content();

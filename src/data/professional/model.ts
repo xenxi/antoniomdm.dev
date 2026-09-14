@@ -176,7 +176,14 @@ export const publicProfessionalModel: PublicProfessionalModel = {
     },
     location: text('Linares (Jaén), España', 'Linares (Jaén), Spain'),
     availability: text('Remoto', 'Remote'),
-    focusAreas: ['software-architecture', 'dotnet-backend', 'distributed-systems', 'legacy-modernization', 'applied-ai'], experienceIds: experiences.map(item => item.id), competencyIds: competencies.map(item => item.id), achievementIds: ['integration-suite-feedback', 'event-summary-api-calls'], education: [text('Ingeniería Técnica en Informática de Gestión — Escuela Politécnica Superior de Córdoba. Estudios cursados salvo el proyecto final; título no obtenido.', 'Technical Engineering in Management Information Systems — Escuela Politécnica Superior de Córdoba. Coursework completed except the final project; degree not awarded.')], languages: [text('Español nativo.', 'Native Spanish.'), text('Inglés: lectura y comprensión técnica avanzadas; conversación profesional en desarrollo.', 'English: advanced technical reading and comprehension; professional spoken conversation developing.')], projectIds: projectCatalog.map(item => item.id), externalLinkIds: ['github', 'website', 'linkedin', 'email'], cvVariantIds: ['software-architect-dotnet'], claimIds: ['profile-12-years'],
+    focusAreas: ['software-architecture', 'dotnet-backend', 'distributed-systems', 'legacy-modernization', 'applied-ai'], experienceIds: experiences.map(item => item.id), competencyIds: competencies.map(item => item.id), achievementIds: ['integration-suite-feedback', 'event-summary-api-calls'], education: [text('Ingeniería Técnica en Informática de Gestión — Escuela Politécnica Superior de Córdoba. Estudios cursados salvo el proyecto final; título no obtenido.', 'Technical Engineering in Management Information Systems — Escuela Politécnica Superior de Córdoba. Coursework completed except the final project; degree not awarded.')], languages: [
+      { id: 'spanish', name: text('Español', 'Spanish'), native: true, summary: text('Comunicación profesional y técnica sin barreras.', 'Professional and technical communication without barriers.'), capabilities: [] },
+      { id: 'english', name: text('Inglés', 'English'), native: false, summary: text('Trabajo con documentación técnica, APIs, RFCs, issues, documentación de frameworks y recursos técnicos en inglés de forma habitual.', 'I regularly work with technical documentation, APIs, RFCs, issues, framework docs and technical resources in English.'), capabilities: [
+        { id: 'technical-reading', label: text('Lectura técnica', 'Technical reading'), level: text('Avanzada', 'Advanced'), state: 'advanced' },
+        { id: 'technical-comprehension', label: text('Comprensión técnica', 'Technical comprehension'), level: text('Avanzada', 'Advanced'), state: 'advanced' },
+        { id: 'professional-conversation', label: text('Conversación profesional', 'Professional conversation'), level: text('En desarrollo', 'In development'), state: 'developing' },
+      ] },
+    ], projectIds: projectCatalog.map(item => item.id), externalLinkIds: ['github', 'website', 'linkedin', 'email'], claimIds: ['profile-12-years'],
   },
   experiences,
   competencies,
@@ -208,13 +215,6 @@ export const publicProfessionalModel: PublicProfessionalModel = {
     { id: 'linkedin', kind: 'linkedin', label: text('LinkedIn', 'LinkedIn'), url: 'https://www.linkedin.com/in/antoniomanueldiazmoreno', availability: 'available', verifiedAt: '2026-09-12' },
     { id: 'email', kind: 'email', label: text('Correo electrónico', 'Email'), url: 'mailto:antoniom.diaz.moreno@gmail.com', availability: 'available', verifiedAt: '2026-09-12' },
   ],
-  cvVariants: [{
-    id: 'software-architect-dotnet', title: text('Software Architect / .NET Architect', 'Software Architect / .NET Architect'), primary: true, extendedRoute: text('/es/cv/', '/en/cv/'),
-    pdf: {
-      es: { availability: 'available', path: '/cv/antonio-manuel-diaz-moreno-software-architect-es.pdf', filename: 'antonio-manuel-diaz-moreno-software-architect-es.pdf', mime: 'application/pdf', verifiedAt: '2026-09-12' },
-      en: { availability: 'available', path: '/cv/antonio-manuel-diaz-moreno-software-architect-en.pdf', filename: 'antonio-manuel-diaz-moreno-software-architect-en.pdf', mime: 'application/pdf', verifiedAt: '2026-09-12' },
-    },
-  }],
   blogPosts: [],
   claims: [
     ...projectCatalog.map(item => ({ id: `project-${item.id}`, visibility: 'CV_SAFE' as const, status: 'CONFIRMED' as const, text: item.content.summary, evidenceKind: 'personal' as const, evidenceId: `ev-project-${item.id}`, reviewedAt: '2026-09-14' })),

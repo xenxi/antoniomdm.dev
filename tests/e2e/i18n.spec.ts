@@ -25,17 +25,16 @@ test('Spanish default, language switching, navigation and reading view', async (
   await page.getByRole('link', { name: 'Español', exact: true }).click();
   await expect(page).toHaveURL(/\/projects\/platform934\/$/);
   await expect(page.getByRole('heading', { name: 'Decisiones y trade-offs' })).toBeVisible();
-  await page.goto('/cv/?view=reading');
+  await page.goto('/profile/languages/?view=reading');
   await page.getByRole('link', { name: 'English', exact: true }).click();
-  await expect(page).toHaveURL(/\/en\/cv\/\?view=reading$/);
+  await expect(page).toHaveURL(/\/en\/profile\/languages\/\?view=reading$/);
   await expect(page.locator('html')).toHaveClass('reading');
-  await expect(page.getByRole('link', { name: 'Exit reading view' })).toHaveAttribute('href', '/en/cv/');
-  await expect(page.getByRole('link', { name: 'Text CV — English' })).toHaveAttribute('href', '/en/cv.txt');
+  await expect(page.getByRole('link', { name: 'Exit reading view' })).toHaveAttribute('href', '/en/profile/languages/');
   await page.getByRole('link', { name: 'Español', exact: true }).click();
-  await expect(page).toHaveURL(/\/cv\/\?view=reading$/);
-  await expect(page.getByRole('link', { name: 'Salir de la vista de lectura' })).toHaveAttribute('href', '/cv/');
+  await expect(page).toHaveURL(/\/profile\/languages\/\?view=reading$/);
+  await expect(page.getByRole('link', { name: 'Salir de la vista de lectura' })).toHaveAttribute('href', '/profile/languages/');
   await page.getByRole('link', { name: 'Salir de la vista de lectura' }).click();
-  await expect(page).toHaveURL(/\/cv\/$/);
+  await expect(page).toHaveURL(/\/profile\/languages\/$/);
 });
 
 test('both languages publish complete static HTML, notes, feeds and CVs', async ({ browser, request }) => {

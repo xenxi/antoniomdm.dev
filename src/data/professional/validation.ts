@@ -60,9 +60,10 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
   ids(model.decisionAreas, 'decisionAreas', errors);
   const caseSlugs = new Set<string>();
   const linkIds = ids(model.externalLinks, 'externalLinks', errors);
-  const cvIds = ids(model.cvVariants, 'cvVariants', errors);
   const claimIds = ids(model.claims, 'claims', errors);
   ids(model.aiLab, 'aiLab', errors); ids(model.blogPosts, 'blogPosts', errors);
+
+  for (const language of model.profile.languages) ids(language.capabilities, `profile.languages.${language.id}.capabilities`, errors);
 
   for (const claim of model.claims) validateClaim(claim, errors);
   references(model.profile.experienceIds, experienceIds, 'profile.experienceIds', errors);
@@ -70,7 +71,6 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
   references(model.profile.achievementIds, achievementIds, 'profile.achievementIds', errors);
   references(model.profile.projectIds, projectIds, 'profile.projectIds', errors);
   references(model.profile.externalLinkIds, linkIds, 'profile.externalLinkIds', errors);
-  references(model.profile.cvVariantIds, cvIds, 'profile.cvVariantIds', errors);
   references(model.profile.claimIds, claimIds, 'profile.claimIds', errors);
 
   for (const experience of model.experiences) {
@@ -133,12 +133,6 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
       if (!link.url) errors.push(`externalLinks.${link.id} is available without a URL`);
       else validateUrl(link.url, `externalLinks.${link.id}.url`, errors);
     } else if (link.url !== undefined) errors.push(`externalLinks.${link.id} is ${link.availability} but has a URL`);
-  }
-  for (const variant of model.cvVariants) for (const locale of ['es', 'en'] as const) {
-    const asset = variant.pdf[locale]; const path = `cvVariants.${variant.id}.pdf.${locale}`;
-    if (asset.availability === 'available') {
-      if (!asset.path || !asset.filename || !asset.mime || !asset.verifiedAt) errors.push(`${path} is available without a complete verified asset`);
-    } else if (asset.path || asset.filename || asset.mime || asset.verifiedAt) errors.push(`${path} is ${asset.availability} but contains asset fields`);
   }
   return errors;
 }

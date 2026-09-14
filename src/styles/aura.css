@@ -22,7 +22,7 @@
   .brand-symbol { display: grid; place-items: center; padding: 0; flex-shrink: 0; }
   .brand-symbol img, .launcher-glyph img { display: block; width: 36px; height: 36px; object-fit: contain; }
   .brand strong { font-family: var(--font); letter-spacing: -.03em; }
-  .brand strong span { color: var(--aura-pink); }
+  .brand strong .antonios-brand-accent { color: var(--aura-pink); }
   .system-tagline { border: 0; padding: 0; }
   .system-menu { display: flex; gap: 8px; margin-right: auto; }
   .system-menu button { background: transparent; border-color: transparent; color: var(--text-muted); min-height: 44px; }
@@ -68,6 +68,31 @@
   .profile-tabs a { padding: 10px 9px; font-size: .75rem; }
   .profile-tabs a[aria-current] { color: var(--text); border-color: var(--violet); box-shadow: 0 3px 8px -4px var(--violet); }
   .profile-section { padding: 24px; }
+  .languages-app { max-width: 880px; }
+  .languages-heading { margin-bottom: 18px; }
+  .languages-heading h1 { margin: 0 0 6px; }
+  .languages-heading p { margin: 0; max-width: 58ch; color: var(--text-muted); font-size: .875rem; line-height: 1.6; }
+  .language-cards { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: 14px; align-items: start; }
+  .language-card { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: 18px; border: 1px solid var(--border); border-radius: 9px; background: linear-gradient(135deg, var(--surface), color-mix(in srgb, var(--aura-blue) 3%, var(--surface))); transition: border-color var(--motion), box-shadow var(--motion); }
+  .language-card:hover, .language-card:focus-within { border-color: color-mix(in srgb, var(--violet) 62%, var(--border)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--violet) 24%, transparent), 0 12px 30px -20px var(--violet); }
+  .language-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .language-card h2 { margin: 0; font-family: var(--mono); font-size: 1rem; letter-spacing: .02em; }
+  .language-badge { flex: 0 0 auto; padding: 4px 7px; border: 1px solid currentColor; border-radius: 3px; font: .6rem/1 var(--mono); letter-spacing: .13em; text-transform: uppercase; }
+  .language-badge-native { color: var(--cyan); }
+  .language-capabilities { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .language-capability { display: grid; grid-template-columns: 17px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 5px; background: var(--background); }
+  .language-capability-label { font-size: .8rem; }
+  .language-capability-level { white-space: nowrap; padding: 4px 6px; border: 1px solid var(--border); border-radius: 3px; font: .6rem/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+  .language-capability-icon { width: 16px; height: 16px; }
+  .language-capability.is-advanced .language-capability-icon { color: var(--cyan); }
+  .language-capability.is-advanced .language-capability-level { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 50%, var(--border)); background: color-mix(in srgb, var(--cyan) 8%, transparent); }
+  .language-capability.is-developing .language-capability-icon { color: var(--warning); }
+  .language-capability.is-developing .language-capability-level { color: var(--warning); border-color: color-mix(in srgb, var(--warning) 55%, var(--border)); background: color-mix(in srgb, var(--warning) 9%, transparent); }
+  .language-summary { margin: 0; color: var(--text-muted); font-size: .78rem; line-height: 1.65; }
+  .language-card-spanish .language-summary { color: var(--text); }
+  .languages-terminal { margin: 18px 0 0; color: var(--text-muted); font: .68rem/1.6 var(--mono); letter-spacing: .04em; opacity: .8; }
+  .languages-terminal > span { margin-right: 6px; color: var(--violet); }
+  .languages-terminal b { color: var(--cyan); font-weight: 600; }
   .profile-overview { display: grid; grid-template-columns: minmax(0, 1fr) 180px; gap: 20px; }
   .profile-main { min-width: 0; position: relative; }
   .profile-loaded { margin-bottom: 12px; letter-spacing: .02em; font-size: .7rem; }
@@ -104,7 +129,6 @@
   .professional-actions a:nth-child(n+3) .app-icon { display: none; }
   .profile-main .public-shortcuts { gap: 10px; font-size: .75rem; }
   .profile-main .public-shortcuts > a, .profile-main .public-shortcuts > span { border: 1px solid var(--border); padding: 7px 10px; border-radius: 5px; min-height: 44px; }
-  .profile-main .availability { font-size: .7rem; }
   .system-profile, .profile-stack, .profile-editorial { background: linear-gradient(135deg, var(--surface), color-mix(in srgb, var(--aura-blue) 3%, var(--surface))); border: 1px solid var(--border); border-radius: 9px; padding: 17px; margin: 0; min-width: 0; }
   .system-profile h2 { color: var(--cyan); font: .75rem var(--mono); margin: 0 0 22px; }
   .system-profile { align-self: start; }
@@ -165,7 +189,7 @@
   .personal-window article em { color: var(--aura-blue); }
   .personal-window article .personal-interests { margin: 22px 0 0; padding-top: 17px; border-top: 1px dashed var(--border); }
   .tags span { background: var(--surface-elevated); border-color: var(--border); color: var(--text-muted); font-size: .68rem; padding: 3px 7px; }
-  .project-card, .lab-concept, .pdf-state { background: var(--surface-elevated); }
+  .project-card, .lab-concept { background: var(--surface-elevated); }
   .content-projects { padding: 20px; }
   .content-projects > h1 { font-size: 1.6rem; }
   .content-projects > .eyebrow { margin-bottom: 8px; font-size: .65rem; color: var(--cyan); }
@@ -213,7 +237,7 @@
   .effects-off .os::before, .effects-off::before { display: none; }
   .effects-off .taskbar { backdrop-filter: none; }
   @media (min-width: 1100px) { .window[data-window="about"] { container-type: inline-size; } }
-  @container (max-width: 650px) { .profile-overview { grid-template-columns: 1fr; } .system-profile dl { display: flex; gap: 20px; flex-wrap: wrap; } .system-profile dl > div { border: 0; } .pixel-portrait { max-width: 180px; } }
+  @container (max-width: 650px) { .profile-overview { grid-template-columns: 1fr; } .language-cards { grid-template-columns: 1fr; } .system-profile dl { display: flex; gap: 20px; flex-wrap: wrap; } .system-profile dl > div { border: 0; } .pixel-portrait { max-width: 180px; } }
   @media (max-width: 1099px) { .system-tagline, .system-ready, .dock-time { display: none; } .profile-overview { grid-template-columns: minmax(0, 1fr) 185px; } .profile-copy h1 { font-size: 2.4rem; } .pixel-portrait { max-width: 220px; } .desktop-icons { grid-auto-flow: column; grid-template-rows: repeat(5, 95px); } }
   @media (max-width: 719px) {
     :root { --bar-height: 50px; --dock-height: 78px; }
@@ -225,6 +249,7 @@
     .window-content.content-about { padding: 0; }
     .profile-tabs { padding: 4px 8px 0; }
     .profile-tabs a { font-size: .75rem; padding: 8px; }
+    .language-cards { grid-template-columns: 1fr; }
     .profile-section { padding: 20px 18px; }
     .profile-overview { grid-template-columns: 1fr; gap: 16px; }
     .profile-copy h1 { font-size: 2rem; }
@@ -518,4 +543,32 @@
     .ai-lab-landing, .ai-lab-case { max-width: none; padding: 0; }
     .ai-lab-diagram, .ai-lab-axis, .ai-lab-history, .ai-lab-capability-grid article, .ai-lab-principles li { background: white; border-color: #999; }
   }
+}
+
+/* Desktop system overlays: the status widget and the keyboard hint share these tokens. */
+@layer aura {
+  .system-panel { position: absolute; z-index: 6; display: flex; align-items: flex-start; gap: 10px; padding: 10px 13px; color: var(--aura-text); background: linear-gradient(150deg, color-mix(in srgb, var(--aura-surface) 88%, transparent), color-mix(in srgb, var(--aura-desktop) 74%, transparent)); border: 1px solid color-mix(in srgb, var(--aura-purple) 42%, var(--border-default)); border-radius: 8px; box-shadow: 0 10px 30px #0006, inset 0 1px color-mix(in srgb, var(--aura-purple) 14%, transparent); backdrop-filter: blur(6px); }
+  .pixel-invader { width: 24px; height: 18px; flex: 0 0 auto; margin-top: 1px; color: var(--aura-pink); fill: currentColor; image-rendering: pixelated; filter: drop-shadow(0 0 6px color-mix(in srgb, var(--aura-pink) 45%, transparent)); }
+  .system-panel-body { display: flex; flex-direction: column; min-width: 0; }
+  .desktop-status { right: 22px; bottom: 14px; max-width: 264px; }
+  .desktop-status .system-panel-title { color: var(--aura-text); font: 700 .82rem/1.3 var(--mono); letter-spacing: .05em; text-shadow: 0 1px 0 #0009; }
+  .desktop-status .system-panel-subtitle { color: var(--aura-text-muted); font-size: .72rem; line-height: 1.4; }
+  .desktop-status .system-panel-meta { display: flex; align-items: center; gap: 6px; margin-top: 7px; padding-top: 6px; border-top: 1px dashed color-mix(in srgb, var(--aura-purple) 34%, transparent); color: var(--aura-cyan); font: .6rem/1.3 var(--mono); letter-spacing: .06em; }
+  .desktop-status .status-dot { width: 6px; height: 6px; margin: 0; border-radius: 1px; background: var(--aura-cyan); box-shadow: 0 0 7px var(--aura-cyan); }
+  .desktop-hint { left: 140px; bottom: 14px; max-width: 460px; flex-direction: column; gap: 5px; padding: 10px 13px; opacity: 1; }
+  .desktop-hint .system-panel-command { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--aura-text); font: .78rem/1.4 var(--mono); }
+  .desktop-hint .terminal-prompt { color: var(--aura-cyan); font-weight: 700; letter-spacing: -.02em; }
+  .desktop-hint kbd { padding: 1px 6px; border: 1px solid color-mix(in srgb, var(--aura-purple) 48%, var(--border-default)); border-bottom-width: 2px; border-radius: 4px; background: color-mix(in srgb, var(--aura-desktop) 72%, transparent); color: var(--aura-text); font: .62rem/1.5 var(--mono); letter-spacing: .04em; }
+  .desktop-hint .system-panel-help { display: block; color: var(--aura-text-muted); font: .62rem/1.5 var(--mono); letter-spacing: .02em; }
+  .antonios-brand { color: inherit; }
+  .antonios-brand-base { color: inherit; }
+  .antonios-brand-accent { color: var(--aura-pink); }
+  :focus-visible { outline: 2px solid var(--aura-cyan); outline-offset: 2px; }
+  [data-spatial-focus] { outline: 2px solid var(--aura-cyan); outline-offset: 2px; box-shadow: 0 0 12px color-mix(in srgb, var(--aura-cyan) 42%, transparent); }
+  .effects-off .system-panel { backdrop-filter: none; }
+  .reading .desktop-status, .reading .desktop-hint { display: none; }
+  @media (max-width: 1099px) { .desktop-status, .desktop-hint { display: none; } }
+  @media (max-height: 650px) { .desktop-hint { display: none; } }
+  @media (max-height: 420px) { .desktop-status { display: none; } }
+  @media print { .system-panel { display: none !important; } }
 }

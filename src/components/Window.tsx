@@ -5,6 +5,7 @@ import type { Rect, Size, WindowAction, WindowInstance } from '../os/types';
 import { registry } from '../os/registry';
 import { clampRect } from '../os/window-manager';
 import Icon from './Icon';
+import AntoniosBrand from './AntoniosBrand';
 
 interface Props { instance: WindowInstance; active: boolean; zIndex: number; viewport: Size; dispatch: (action: WindowAction) => void; children: ComponentChildren }
 export default function Window({ instance: win, active, zIndex, viewport, dispatch, children }: Props) {
@@ -57,7 +58,7 @@ export default function Window({ instance: win, active, zIndex, viewport, dispat
       <div class="window-controls"><button title={`${t("Minimize")} ${app.name}`} aria-label={`${t("Minimize")} ${t(app.name)}`} onClick={() => dispatch({ type: 'minimize', id: win.id })}>−</button>{app.maximizable && <button title={`${maximized ? t("Restore size of") : t("Maximize")} ${app.name}`} aria-label={`${maximized ? t("Restore size of") : t("Maximize")} ${t(app.name)}`} onClick={() => dispatch({ type: 'maximize', id: win.id })}>{maximized ? '❐' : '□'}</button>}<button title={`${t("Close")} ${app.name}`} class="close-control" aria-label={`${t("Close")} ${t(app.name)}`} onClick={() => dispatch({ type: 'close', id: win.id })}>×</button></div>
     </header>
     <div class={`window-content content-${win.id}`}>{children}</div>
-    <footer class="window-status"><span>{t(app.description)}</span><span>AntoñiOS</span></footer>
+    <footer class="window-status"><span>{t(app.description)}</span><span class="window-brand"><AntoniosBrand /></span></footer>
     {app.resizable && !maximized && ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw'].map(edge => <div key={edge} aria-hidden="true" class={`resize-handle resize-${edge}`} onPointerDown={event => start(event, edge)} />)}
   </section>;
 }

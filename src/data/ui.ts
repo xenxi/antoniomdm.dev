@@ -2,10 +2,9 @@ import type { Locale } from '../i18n/core';
 import { basePath, localizedPath } from '../i18n/core';
 import { getPortfolio, type ContentData } from './portfolio';
 import { pageMetadata, routes } from './routes';
-import { getArchitectureCases, getCvVariants, getPublicLinks, getProfile, getCompetencies, getAchievements, getExperience, getPublicClaims, getDecisionAreas, getRepresentativeDecisions } from './professional';
+import { getArchitectureCases, getPublicLinks, getProfile, getCompetencies, getAchievements, getExperience, getPublicClaims, getDecisionAreas, getRepresentativeDecisions } from './professional';
 import { getArchitectureDiagram } from './architecture-presentation';
 import { contactInfo, contactMailto } from './contact';
-import { cvAssets, cvSupportingLine } from './cv';
 
 export function getUiData(locale: Locale, content: ContentData, path = localizedPath('/', locale)) {
   const activePath = basePath(path);
@@ -29,7 +28,6 @@ export function getUiData(locale: Locale, content: ContentData, path = localized
     overviewSkills: getCompetencies(locale).flatMap(item => item.skills).filter(skill => ['.NET', 'C#', 'ASP.NET Core', 'EF', 'Dapper', 'SQL Server', 'Azure SQL', 'PostgreSQL', 'React', 'TypeScript', 'Flutter', 'Kotlin'].includes(skill)),
     competencies: getCompetencies(locale),
     achievements: getAchievements(locale),
-    pdfs: (['es', 'en'] as const).map(language => ({ language, ...getCvVariants(language).find(variant => variant.primary)!.pdf })),
     architectureCases: getArchitectureCases(locale).map(item => {
       const selected = activePath === `/architecture/${item.slug}/`;
       return { ...item, sections: selected ? item.sections : [], diagram: selected ? getArchitectureDiagram(item.id, locale) : undefined };
@@ -37,11 +35,8 @@ export function getUiData(locale: Locale, content: ContentData, path = localized
     decisionAreas: getDecisionAreas(locale),
     representativeDecisions: getRepresentativeDecisions(locale),
     publicLinks: getPublicLinks(locale),
-    cvVariants: getCvVariants(locale),
     contact: contactInfo,
     contactMailto,
-    cvAssets,
-    cvSupportingLine: cvSupportingLine[locale],
     knownPaths: routes(content), metadata,
   };
 }

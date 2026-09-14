@@ -25,7 +25,6 @@ export const terminalCommands: TerminalCommandDefinition[] = [
   { id: 'projects', label: text('Proyectos', 'Projects'), description: text('Abre los proyectos', 'Open the projects'), action: 'NAVIGATE', route: '/projects/' },
   { id: 'ai', label: text('IA', 'AI'), description: text('Abre el laboratorio de IA', 'Open the AI Lab'), action: 'NAVIGATE', route: '/ai-lab/' },
   { id: 'contact', label: text('Contacto', 'Contact'), description: text('Abre los canales profesionales', 'Open the professional channels'), action: 'NAVIGATE', route: '/contact/' },
-  { id: 'cv', label: text('CV', 'CV'), description: text('Abre el CV', 'Open the CV'), action: 'NAVIGATE', route: '/cv/' },
   { id: 'github', label: text('GitHub', 'GitHub'), description: text('Muestra el perfil de GitHub', 'Show the GitHub profile'), action: 'EXTERNAL_LINK', externalLinkId: 'github' },
   { id: 'linkedin', label: text('LinkedIn', 'LinkedIn'), description: text('Muestra el perfil de LinkedIn', 'Show the LinkedIn profile'), action: 'EXTERNAL_LINK', externalLinkId: 'linkedin' },
   { id: 'clear', label: text('Limpiar', 'Clear'), description: text('Limpia la salida del terminal', 'Clear the terminal output'), action: 'CLEAR' },
@@ -41,7 +40,6 @@ export const terminalAliases: Record<string, string> = {
   about: 'profile',
   career: 'experience',
   work: 'experience',
-  resume: 'cv',
 };
 
 export function resolveTerminalCommand(input: string): TerminalCommandDefinition | undefined {

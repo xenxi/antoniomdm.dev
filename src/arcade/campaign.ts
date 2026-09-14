@@ -131,7 +131,7 @@ export const copy = {
   intro: text('Una ciudad a color, parques y una empresa por etapa. Recorre sus calles y abre nuevas puertas a medida que avanzas por el CV.', 'A colorful town, parks and a company for every chapter. Walk its streets and unlock new doors as you progress through the CV.'),
   premise: text('El mundo es ficción. La carrera que contiene no.', 'The world is fiction. The career within it is real.'),
   simulation: text('Misiones, diálogos y métricas son simulaciones, no resultados históricos ni valoraciones profesionales.', 'Missions, dialogue and metrics are simulations, not historical results or professional ratings.'),
-  start: text('Nueva partida', 'New game'), continue: text('Continuar', 'Continue'), tour: text('Tour de 30 segundos', '30-second tour'), cv: text('Ver CV completo', 'View full CV'), exit: text('← Volver al escritorio', '← Return to desktop'),
+  start: text('Nueva partida', 'New game'), continue: text('Continuar', 'Continue'), tour: text('Tour de 30 segundos', '30-second tour'), profile: text('Ver perfil completo', 'View full profile'), exit: text('← Volver al escritorio', '← Return to desktop'),
   chapters: text('Empresas de la ciudad', 'Town companies'), independent: text('Explora libremente; completa cada etapa para abrir la siguiente empresa.', 'Explore freely; finish each chapter to unlock the next company.'),
   prologue: text('Prólogo · después volvemos a los comienzos', 'Prologue · then back to the beginnings'),
   play: text('Jugar capítulo', 'Play chapter'), menu: text('Menú', 'Menu'), pause: text('Pausar', 'Pause'), paused: text('En pausa', 'Paused'), resume: text('Volver al juego', 'Resume game'),

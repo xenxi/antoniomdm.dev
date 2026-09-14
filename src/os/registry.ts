@@ -6,7 +6,7 @@ const entries: [AppId, string, string, string][] = [
   ['experience', 'Experience', '/experience/', 'The career timeline'], ['notes', 'Blog', '/notes/', 'Ideas and build logs'],
   ['lab', 'AI Lab', '/ai-lab/', 'Applied AI, clearly scoped'], ['about', 'Profile', '/profile/', 'The person behind the system'],
   ['background', 'Background processes', '/background-processes/', 'Personal processes still running'],
-  ['cv', 'CV', '/cv/', 'A printable profile'], ['terminal', 'Terminal', '/terminal/', 'A different way to navigate'],
+  ['terminal', 'Terminal', '/terminal/', 'A different way to navigate'],
   ['settings', 'Settings', '/settings/', 'Make yourself at home'], ['arcade', 'Arcade', '/arcade/', 'Same person. Different reality.'],
   ['architecture', 'Architecture', '/architecture/', 'Engineering decisions from discovery to production'], ['contact', 'Contact', '/contact/', 'Verified professional channels'],
 ];

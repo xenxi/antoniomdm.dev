@@ -31,14 +31,6 @@ function EvidenceLinks({ ids, data, kind }: { ids: string[]; data: UiData; kind:
 function Metric({ metric, t }: { metric: NonNullable<UiData['achievements'][number]['metric']>; t: (v: string) => string }) {
   return <div class="metric"><strong>{metric.before ?? metric.range}</strong>{metric.after && <><span aria-hidden="true">↓</span><strong>{metric.after}</strong></>}<span>{metric.unit}</span><small>{metric.approximate ? t('Approximate') : ''}{metric.derivation ? ` · ${t('Derived')}` : ''}</small></div>;
 }
-export function ProfileContent({ data, brief = false }: { data: UiData; brief?: boolean }) {
-  const { profile } = data.portfolio;
-  return <><h1>{profile.name}</h1><p class="role">{profile.role}</p><p class="focus-line">{profile.focusLine}</p><p class="profile-intro">{brief ? `${profile.introduction}` : profile.statement}</p></>;
-}
-export function Availability({ value }: { value: string }) {
-  const { t } = useLocale();
-  return <span class={`availability availability-${value}`}>{value === 'available' ? t('Available') : value === 'preparing' ? t('Working on it') : t('Unavailable')}</span>;
-}
 export function PublicShortcuts({ data }: { data: UiData }) {
   const { t } = useLocale();
   return <div class="public-shortcuts">
@@ -48,11 +40,7 @@ export function PublicShortcuts({ data }: { data: UiData }) {
     <a href={data.contact.website} target="_blank" rel="noreferrer">{t('Website')} ↗</a>
   </div>;
 }
-export function PdfStates({ data }: { data: UiData }) {
-  const { locale, t } = useLocale();
-  const languageName = (language: 'es' | 'en') => locale === 'es' ? (language === 'es' ? 'Español' : 'Inglés') : (language === 'es' ? 'Spanish' : 'English');
-  return <div class="pdf-states">{data.pdfs.map(pdf => <div key={pdf.language} class="pdf-state"><Icon name="cv" /><div><strong>PDF · {languageName(pdf.language)}</strong><Availability value={pdf.availability} /></div>{pdf.availability === 'available' && pdf.path && <a download href={pdf.path} aria-label={`${t('Download CV')} — ${languageName(pdf.language)} — PDF`}>{t('Download CV')} — {languageName(pdf.language)} — PDF</a>}</div>)}</div>;
-}
+
 
 function RichText({ value }: { value: string }) {
   const parts = value.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
@@ -88,6 +76,42 @@ export function BackgroundProcesses({ data }: { data: UiData }) {
   return <div class="background-processes-app"><div class="personal-window-status"><span>{t('Personal processes currently running')}</span><PersonalProcessSprites /></div><article tabIndex={0} aria-label={t('Personal background story')}>{note.paragraphs.map((paragraph, index) => <p key={index}><RichText value={paragraph} /></p>)}<InterestTokens interests={note.interests} /></article></div>;
 }
 
+function LanguageCapabilityIcon({ name }: { name: string }) {
+  const paths: Record<string, string> = {
+    'technical-reading': 'M8 4C6.1 2.8 3.4 3 1.5 3.7v8.1C3.4 11.1 6.1 11 8 12.2 9.9 11 12.6 11.1 14.5 10.4V2.3C12.6 3 9.9 2.8 8 4Z M8 4v8.2',
+    'technical-comprehension': 'M4 2h5l3 3v9H4z M9 2v3h3 M6.5 8h5 M6.5 11h3',
+    'professional-conversation': 'M3 3h10v7H8l-3 3v-3H3z M5.6 6.5h.01 M8 6.5h.01 M10.4 6.5h.01',
+  };
+  return <svg class="language-capability-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d={paths[name] ?? paths['technical-reading']} /></svg>;
+}
+
+export function LanguagesContent({ title, languages }: { title: string; languages: UiData['portfolio']['profile']['languages'] }) {
+  const { t } = useLocale();
+  return <section class="languages-app" aria-labelledby="languages-title">
+    <header class="languages-heading">
+      <h1 id="languages-title">{title}</h1>
+      <p>{t('Communication, documentation and the occasional uncontrolled exception.')}</p>
+    </header>
+    <div class="language-cards">
+      {languages.map(language => <article key={language.id} class={`language-card language-card-${language.id}`}>
+        <header class="language-card-heading">
+          <h2>{language.name}</h2>
+          {language.native && <span class="language-badge language-badge-native">{t('Native')}</span>}
+        </header>
+        {language.capabilities.length > 0 && <ul class="language-capabilities">
+          {language.capabilities.map(capability => <li key={capability.id} class={`language-capability is-${capability.state}`}>
+            <LanguageCapabilityIcon name={capability.id} />
+            <span class="language-capability-label">{capability.label}</span>
+            <span class="language-capability-level">{capability.level}</span>
+          </li>)}
+        </ul>}
+        <p class="language-summary">{language.summary}</p>
+      </article>)}
+    </div>
+    <p class="languages-terminal"><span aria-hidden="true">&gt;_</span> technical_english.exe <b>{t('RUNNING')}</b></p>
+  </section>;
+}
+
 export default function Profile({ path, data }: { path: string; data: UiData }) {
   const { locale, t, href } = useLocale();
   const section = profileSectionForPath(path);
@@ -100,7 +124,7 @@ export default function Profile({ path, data }: { path: string; data: UiData }) 
         <p class="eyebrow profile-loaded"><span class="status-dot" />{t('PROFILE.EXE / ONLINE')}</p>
         <div class="profile-copy"><h1 aria-label={profile.name}><span>{profile.shortName.split(' ')[0]}</span><span>{profile.shortName.split(' ').slice(1).join(' ')}<i aria-hidden="true">_</i></span></h1><p class="role">{profile.role}</p><p class="focus-line">{profile.focusLine}</p><p class="profile-intro">{profile.statement.split('. ')[0]}.</p></div>
         <PixelAvatar />
-        <nav class="professional-actions" aria-label={t('Professional access')}>{(['experience', 'projects', 'architecture', 'cv', 'contact'] as const).map((id, index) => <a key={id} class={index === 0 ? 'action-primary' : ''} href={href(registry[id].path)}><Icon name={id} /><span>{t(registry[id].name)}</span><span aria-hidden="true">↗</span></a>)}</nav>
+        <nav class="professional-actions" aria-label={t('Professional access')}>{(['experience', 'projects', 'architecture', 'contact'] as const).map((id, index) => <a key={id} class={index === 0 ? 'action-primary' : ''} href={href(registry[id].path)}><Icon name={id} /><span>{t(registry[id].name)}</span><span aria-hidden="true">↗</span></a>)}</nav>
         <p class="contact-summary">{data.contact.location[locale]} · {data.contact.availability[locale]}</p>
         <PublicShortcuts data={data} />
         </div><aside class="system-profile" aria-label={t('System profile')}><h2>SYSTEM.SYS</h2><dl>
@@ -111,8 +135,8 @@ export default function Profile({ path, data }: { path: string; data: UiData }) 
       </> : section.id === 'experience' ? <><p class="eyebrow">{t('CAREER / EXPERIENCE')}</p><h1>{t('The journey so far.')}</h1><ExperienceContent data={data} /></>
       : section.id === 'competencies' ? <><h1>{t(section.name)}</h1><div class="competency-list">{data.competencies.map(item => <article id={item.id} key={item.id}><h2>{item.name}</h2><p class="classification">{item.classification} · {item.recency}</p>{item.summary && <p>{item.summary}</p>}<div class="tags">{item.skills.map(skill => <span key={skill}>{skill}</span>)}</div><h3>{t('Evidence')}</h3><EvidenceLinks ids={item.experienceIds} data={data} kind="experience" /><EvidenceLinks ids={item.caseStudyIds} data={data} kind="case" /><EvidenceLinks ids={item.projectIds} data={data} kind="project" /></article>)}</div></>
       : section.id === 'achievements' ? <><h1>{t(section.name)}</h1><div class="achievement-list">{data.achievements.map(item => <article id={item.id} key={item.id}><h2>{item.title}</h2><p class="lead">{item.summary}</p><p class="muted">{item.scope}</p>{item.metric && <Metric metric={item.metric} t={t} />}<h3>{t('Evidence')}</h3><EvidenceLinks ids={item.experienceIds} data={data} kind="experience" /><EvidenceLinks ids={item.caseStudyIds} data={data} kind="case" /></article>)}</div></>
-      : section.id === 'languages' ? <><h1>{t(section.name)}</h1><p>{profile.spokenLanguages}</p></>
-      : <article class="cv-content"><p class="eyebrow">{t('CURRICULUM / PROFILE EXTRACT')}</p><h1>{t('CV')}</h1><div class="extended-cv"><strong>{t('Extended CV')}</strong><Availability value="available" /><a href={href('/cv/?view=reading')}>{t('Reading view ↗')}</a>{data.cvAssets.filter(asset => asset.format === 'txt').map(asset => <a key={asset.id} download href={asset.publicPath}>{asset.label[locale]}</a>)}</div><PdfStates data={data} /><div class="cv-body"><ProfileContent data={data} /><h2>{t('Experience')}</h2><ExperienceContent data={data} /><h2>{t('Education')}</h2><p>{profile.education}</p><h2>{t('Languages')}</h2><p>{profile.spokenLanguages}</p><button class="no-print" onClick={() => window.print()}>{t('Print / Save PDF')}</button></div></article>}
+      : section.id === 'languages' ? <LanguagesContent title={t(section.name)} languages={profile.languages} />
+      : null}
     </div>
   </div>;
 }

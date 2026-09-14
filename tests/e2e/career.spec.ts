@@ -140,7 +140,7 @@ test('tour ends at thirty seconds without changing save progress', async ({ page
   expect(await page.evaluate(() => localStorage.getItem('antonios:career:v1'))).toBeNull();
 });
 
-test('static Spanish and English launchers expose the real career and CV without JavaScript', async ({ browser }) => {
+test('static Spanish and English launchers expose the real career and profile without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false }); const page = await context.newPage();
   for (const prefix of ['', '/en']) {
     await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${prefix}/arcade/`);
@@ -148,8 +148,8 @@ test('static Spanish and English launchers expose the real career and CV without
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://antoniomdm.dev${prefix}/arcade/`);
     const launcher = page.locator('.arcade-launcher'); await launcher.locator('summary').click();
     await expect(launcher.locator('li')).toHaveCount(9);
-    await launcher.getByRole('link', { name: prefix ? 'View full CV' : 'Ver CV completo' }).click();
-    await expect(page).toHaveURL(new RegExp(`${prefix}/cv/$`));
+    await launcher.getByRole('link', { name: prefix ? 'View full profile' : 'Ver perfil completo' }).click();
+    await expect(page).toHaveURL(new RegExp(`${prefix}/profile/$`));
   }
   await context.close();
 });

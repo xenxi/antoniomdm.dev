@@ -3,8 +3,8 @@ import AxeBuilder from '@axe-core/playwright';
 import { mkdir } from 'node:fs/promises';
 
 test.use({ reducedMotion: 'reduce' });
-const sections = ['/profile/', '/experience/', '/profile/competencies/', '/profile/achievements/', '/profile/languages/', '/cv/'];
-const ids = ['overview', 'experience', 'competencies', 'achievements', 'languages', 'cv'];
+const sections = ['/profile/', '/experience/', '/profile/competencies/', '/profile/achievements/', '/profile/languages/'];
+const ids = ['overview', 'experience', 'competencies', 'achievements', 'languages'];
 const shots = 'test-results/a3';
 
 for (const [width, height] of [[320, 740], [390, 844], [768, 1024], [820, 1180], [1100, 800], [1280, 800], [1440, 1000], [1920, 1080]]) {
@@ -51,12 +51,12 @@ test('A3 sections share a window, update metadata, restore history and preserve 
     await expect(page.locator('[data-profile-section]')).toHaveAttribute('data-profile-section', ids[i]);
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://antoniomdm.dev/en${sections[i]}`);
   }
-  await page.goBack(); await expect(page.locator('[data-profile-section]')).toHaveAttribute('data-profile-section', 'languages');
-  await page.goForward(); await expect(page.locator('[data-profile-section]')).toHaveAttribute('data-profile-section', 'cv');
-  await expect(page.locator('.pdf-state')).toHaveCount(2);
-  await expect(page.locator('.pdf-state a[download]')).toHaveCount(2);
-  await expect(page.locator('.pdf-state .availability')).toHaveText(['Available', 'Available']);
-  await page.screenshot({ path: `${shots}/cv-en.png` });
+  await page.goBack(); await expect(page.locator('[data-profile-section]')).toHaveAttribute('data-profile-section', 'achievements');
+  await page.goForward(); await expect(page.locator('[data-profile-section]')).toHaveAttribute('data-profile-section', 'languages');
+  await expect(page.locator('.language-card')).toHaveCount(2);
+  await expect(page.getByRole('heading', { name: 'Languages', exact: true })).toBeVisible();
+  await expect(page.locator('.language-card-english')).toContainText('Technical reading');
+  await page.screenshot({ path: `${shots}/languages-en.png` });
   await page.goto('/es/profile/competencies/?source=a3#content');
   await page.getByRole('link', { name: 'English', exact: true }).click();
   await expect(page).toHaveURL('/en/profile/competencies/?source=a3#content');
@@ -83,19 +83,20 @@ test('A3 launcher opens every app and keyboard restores minimized state', async 
   await expect(page.getByRole('button', { name: 'Restore Profile', exact: true })).toHaveAttribute('aria-pressed', 'true');
 });
 
-test('A3 approved contact and CV states are honest', async ({ page }) => {
+test('A3 approved contact states are honest', async ({ page }) => {
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await page.screenshot({ path: `${shots}/desktop-en.png` });
   await expect(page.locator('.public-shortcuts a[href*="linkedin"]')).toHaveCount(1);
   await expect(page.locator('.public-shortcuts a[href^="mailto:"]')).toHaveCount(1);
   await expect(page.locator('.public-shortcuts')).not.toContainText('Working on it');
   await page.keyboard.press('Alt+l');
-  await expect(page.locator('.launcher-extras a[download]')).toHaveCount(1);
+  await expect(page.locator('.launcher-extras a[href*="linkedin"]')).toHaveCount(1);
+  await expect(page.locator('.launcher-extras a[download]')).toHaveCount(0);
   await expect(page.locator('.launcher-extras')).not.toContainText('Working on it');
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
   await page.screenshot({ path: `${shots}/launcher-en.png` });
-  await page.keyboard.press('Escape'); await page.goto('/es/cv/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  await page.screenshot({ path: `${shots}/cv-es.png` });
+  await page.keyboard.press('Escape'); await page.goto('/es/profile/languages/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
+  await page.screenshot({ path: `${shots}/languages-es.png` });
   await page.goto('/es/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await page.keyboard.press('Alt+l'); await expect(page.locator('.launcher')).toBeVisible();
   await page.screenshot({ path: `${shots}/launcher-es.png` });
@@ -163,8 +164,9 @@ for (const scale of [2, 4]) test(`A3 ${scale * 100}% zoom equivalent reflow`, as
   await page.setViewportSize({ width: 1280 / scale, height: 800 / scale });
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(1280 / scale);
-  await page.locator('.professional-actions a[href="/en/cv/"]').click();
-  await expect(page.locator('.pdf-state')).toHaveCount(2);
+  await page.goto('/en/profile/languages/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
+  await expect(page.locator('.language-card')).toHaveCount(2);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(1280 / scale);
   await page.getByRole('button', { name: 'Open launcher', exact: true }).click();
   await page.locator('.launcher nav a[href="/en/contact/"]').click();
   await expect(page.locator('[data-window="contact"]')).toBeVisible();

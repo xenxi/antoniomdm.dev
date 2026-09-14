@@ -4,17 +4,16 @@ import ts from 'typescript';
 import { basePath, localizedPath, localeForPath, translator } from '../src/i18n/core';
 import { spanish } from '../src/i18n/es';
 import { getPortfolio } from '../src/data/portfolio';
-import { cvResponse } from '../src/data/downloads';
 
 describe('bilingual publishing contract', () => {
   it('defaults to Spanish and preserves deep paths and reading queries', () => {
     expect(localeForPath('/')).toBe('es');
     expect(localeForPath('/en/projects/platform934/')).toBe('en');
-    expect(localizedPath('/cv/?view=reading', 'en')).toBe('/en/cv/?view=reading');
+    expect(localizedPath('/profile/languages/?view=reading', 'en')).toBe('/en/profile/languages/?view=reading');
     expect(localizedPath('/en/notes/os-foundation/', 'es')).toBe('/notes/os-foundation/');
     expect(localizedPath('/es/projects/?source=legacy#overview', 'es')).toBe('/projects/?source=legacy#overview');
     expect(basePath('/en/')).toBe('/');
-    expect(localizedPath('/en/cv.txt', 'en')).toBe('/en/cv.txt');
+    expect(localizedPath('/en/profile/languages/', 'en')).toBe('/en/profile/languages/');
   });
   it('requires a Spanish translation for every explicit interface translation key', () => {
     const paths = ['src/components', 'src/arcade', 'src/data'];
@@ -32,7 +31,7 @@ describe('bilingual publishing contract', () => {
     }
     expect(missing).toEqual([]);
   });
-  it('shares career evidence between languages and includes it in downloadable CVs', async () => {
+  it('shares career evidence between languages and localizes language capabilities', () => {
     const es = getPortfolio('es'); const en = getPortfolio('en');
     expect(es.experience.map(job => job.id)).toEqual(en.experience.map(job => job.id));
     expect(es.experience).toHaveLength(9);
@@ -40,12 +39,10 @@ describe('bilingual publishing contract', () => {
     expect(en.experience[0].period).toContain('Present');
     expect(es.profile.education).toContain('título no obtenido');
     expect(en.profile.education).toContain('degree not awarded');
-    for (const locale of ['es', 'en'] as const) {
-      const data = getPortfolio(locale); const cv = await cvResponse(locale).text();
-      for (const job of data.experience) expect(cv).toContain(job.description);
-      expect(cv).toContain(data.profile.education);
-      expect(cv).toContain(data.profile.spokenLanguages);
-    }
+    expect(es.profile.languages.find(language => language.id === 'spanish')).toMatchObject({ name: 'Español', native: true });
+    expect(en.profile.languages.find(language => language.id === 'spanish')).toMatchObject({ name: 'Spanish', native: true });
+    expect(es.profile.languages.find(language => language.id === 'english')?.capabilities.map(capability => capability.level)).toEqual(['Avanzada', 'Avanzada', 'En desarrollo']);
+    expect(en.profile.languages.find(language => language.id === 'english')?.capabilities.map(capability => capability.level)).toEqual(['Advanced', 'Advanced', 'In development']);
     expect(translator('es')('Experience')).toBe('Experiencia');
   });
 });

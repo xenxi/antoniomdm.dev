@@ -4,7 +4,6 @@ export const profileSections = [
   { id: 'competencies', name: 'Competencies', path: '/profile/competencies/' },
   { id: 'achievements', name: 'Achievements', path: '/profile/achievements/' },
   { id: 'languages', name: 'Languages', path: '/profile/languages/' },
-  { id: 'cv', name: 'CV', path: '/cv/' },
 ] as const;
 export function profileSectionForPath(path: string) {
   return profileSections.find(section => section.path === path) ?? profileSections[0];

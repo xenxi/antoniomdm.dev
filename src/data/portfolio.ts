@@ -17,8 +17,7 @@ const profile = {
   statement: sourceProfile.summary,
   github: publicLinks.find(link => link.id === 'github' && link.availability === 'available')?.url ?? '',
   skills: sourceProfile.focusAreas.map(id => competencies.find(item => item.id === id)?.name).filter((value): value is string => Boolean(value)),
-  languages: [...new Set(competencies.flatMap(item => item.skills))],
-  education: sourceProfile.education.join(' '), spokenLanguages: sourceProfile.languages.join(' '),
+  education: sourceProfile.education.join(' '), languages: sourceProfile.languages,
 };
 
  const categories = [locale === 'es' ? 'Todos los proyectos' : 'All projects', ...Object.values(ecosystemLabels).map(value => value[locale])];

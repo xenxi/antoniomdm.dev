@@ -13,7 +13,6 @@ import AiLab from './AiLab';
 import Contact from './Contact';
 import Terminal from './Terminal';
 import CareerLauncher from './CareerLauncher';
-export { ProfileContent, ExperienceContent } from './Profile';
 
 interface Props { id: AppId; path: string; content: ContentData; data: UiData; enterArcade?: () => void; preferences?: Preferences; setPreferences?: (value: Preferences) => void; reset?: () => void; open?: (path: string) => void }
 export default function AppContent(props: Props) {
@@ -21,7 +20,7 @@ export default function AppContent(props: Props) {
   const { projects, categories } = props.data.portfolio;
   const { id, path, content, data } = props;
   const [category, setCategory] = useState<string>(t("All projects"));
-  if (['about', 'welcome', 'experience', 'cv'].includes(id)) return <Profile path={path} data={data} />;
+  if (['about', 'welcome', 'experience'].includes(id)) return <Profile path={path} data={data} />;
   if (id === 'background') return <BackgroundProcesses data={data} />;
   if (id === 'projects') {
     const selected = projects.find(project => path === `/projects/${project.slug}/`);

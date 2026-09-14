@@ -2,18 +2,21 @@ import { useLocale } from '../i18n/context';
 import { LocaleContext } from '../i18n/context';
 import { basePath, localeForPath, localizedPath } from '../i18n/core';
 import { useEffect, useLayoutEffect, useReducer, useRef, useState } from 'preact/hooks';
-import type { ComponentType, TargetedMouseEvent, TargetedKeyboardEvent } from 'preact';
+import type { ComponentType, TargetedMouseEvent } from 'preact';
 import type { ContentData } from '../data/portfolio';
 import type { UiData } from '../data/ui';
 import { launcherApplications as applications, desktopApplications, appForPath, normalizePath, registry } from '../os/registry';
 import { initialState, windowReducer } from '../os/window-manager';
 import { defaults, parsePreferences, storageKey, type Preferences } from '../os/preferences';
+import { directionFromKey, isTypingTarget, navigateSpatial } from '../os/spatial-navigation';
 import type { Size, WindowAction } from '../os/types';
 import type { ArcadeProps } from '../arcade/contract';
 import AppContent from './AppContent';
 import Window from './Window';
 import Icon from './Icon';
-import { PublicShortcuts, Availability } from './Profile';
+import AntoniosBrand from './AntoniosBrand';
+import { DesktopHint, DesktopStatus } from './DesktopPanels';
+import { PublicShortcuts } from './Profile';
 
 const initialViewport = { width: 1440, height: 850 };
 export default function Desktop({ path, content, data }: { path: string; content: ContentData; data: UiData }) {
@@ -51,7 +54,10 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
   const workspace = useRef<HTMLDivElement>(null);
   const launcherButton = useRef<HTMLButtonElement>(null);
   const searchInput = useRef<HTMLInputElement>(null);
+  const osRoot = useRef<HTMLDivElement>(null);
   const viewportRef = useRef(viewport); viewportRef.current = viewport;
+  const launcherRef = useRef(launcher); launcherRef.current = launcher;
+  const modeRef = useRef(mode); modeRef.current = mode;
   const initialLayout = useRef(true);
   const audioContext = useRef<AudioContext | null>(null);
   const modeGeneration = useRef(0);
@@ -156,22 +162,49 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
     if (url.origin === location.origin && !url.search && !url.hash && knownPath(next)) { event.preventDefault(); open(next); }
   }
   function reset() { dispatch({ type: 'reset' }); dispatch({ type: 'open', id: 'about', viewport }); setPreferences({ ...defaults }); syncUrl('/'); setNotice(t("Desktop and preferences reset.")); }
-  function keys(event: TargetedKeyboardEvent<HTMLElement>) {
-    if (event.key === 'Escape' && launcher) { event.stopPropagation(); setLauncher(false); launcherButton.current?.focus(); }
-    if (event.altKey && event.key.toLowerCase() === 'l') { event.preventDefault(); setLauncher(value => !value); }
-  }
+  function closeLauncher() { setLauncher(false); launcherButton.current?.focus(); }
+  function toggleLauncher() { const next = !launcherRef.current; setLauncher(next); if (!next) launcherButton.current?.focus(); }
+  useEffect(() => {
+    const root = osRoot.current; if (!root) return;
+    function onKeyDown(event: KeyboardEvent) {
+      if (modeRef.current !== 'desktop') return;
+      if (event.key === 'Escape' && launcherRef.current) { event.preventDefault(); event.stopPropagation(); closeLauncher(); return; }
+      if (event.altKey && event.key.toLowerCase() === 'l') { event.preventDefault(); toggleLauncher(); return; }
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); toggleLauncher(); return; }
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      const direction = directionFromKey(event.key);
+      if (direction) {
+        const typing = isTypingTarget(event.target);
+        const inLauncher = typing && Boolean(root!.querySelector('.launcher'));
+        const textEditing = direction === 'left' || direction === 'right';
+        if ((!typing || (inLauncher && !textEditing)) && navigateSpatial(root!, direction)) event.preventDefault();
+        return;
+      }
+      if (isTypingTarget(event.target)) return;
+      if (event.key === ' ') {
+        const anchor = (event.target as HTMLElement | null)?.closest?.('a[href]');
+        if (anchor instanceof HTMLElement) { event.preventDefault(); anchor.click(); }
+      }
+    }
+    function onFocusIn(event: FocusEvent) {
+      root!.querySelectorAll('[data-spatial-focus]').forEach(element => { if (element !== event.target) element.removeAttribute('data-spatial-focus'); });
+    }
+    root.addEventListener('keydown', onKeyDown, true);
+    root.addEventListener('focusin', onFocusIn);
+    return () => { root.removeEventListener('keydown', onKeyDown, true); root.removeEventListener('focusin', onFocusIn); };
+  }, []);
   const desktopApps = desktopApplications;
   const activePath = state.openWindows.find(win => win.id === state.activeWindowId)?.path ?? '/';
-  return <div class={`os wallpaper-${preferences.wallpaper} ${preferences.effects ? '' : 'effects-off'}`} data-ready={ready} data-shell={viewport.width < 720 ? "mobile" : viewport.width < 1100 ? "tablet" : "desktop"} onClick={links} onKeyDown={keys}>
+  return <div ref={osRoot} class={`os wallpaper-${preferences.wallpaper} ${preferences.effects ? '' : 'effects-off'}`} data-ready={ready} data-shell={viewport.width < 720 ? "mobile" : viewport.width < 1100 ? "tablet" : "desktop"} onClick={links}>
     <div class="desktop-surface" inert={mode !== 'desktop'} aria-hidden={mode !== 'desktop' || undefined}>
-    <header class="system-bar"><a class="brand" href={href("/")}><span class="brand-symbol" aria-hidden="true"><img src="/images/identity/antonios-logo.webp" alt="" width="36" height="36" /></span><strong>Antoñ<span>iOS</span></strong><small>v1.0</small></a><nav class="system-menu" aria-label={t("System menu")}><button aria-expanded={launcher} onClick={() => setLauncher(!launcher)}>{t("Apps")}</button></nav><span class="system-tagline">{t("Personal operating system")}</span><div class="system-right"><button class="system-audio" aria-label={preferences.sound ? t("Mute system audio") : t("Enable system audio")} aria-pressed={preferences.sound} onClick={() => setPreferences({ ...preferences, sound: !preferences.sound })}><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3z" />{preferences.sound ? <path d="M16 8q5 4 0 8 M19 4q8 8 0 16" /> : <path d="m16 9 6 6m0-6-6 6" />}</svg></button><nav class="language-switch" aria-label={locale === 'es' ? 'Idioma' : 'Language'}>{(['es', 'en'] as const).map(language => <a key={language} data-language={language} href={localizedPath(activePath, language)} lang={language} hrefLang={language} aria-current={locale === language ? 'page' : undefined} aria-label={language === 'es' ? 'Español' : 'English'} onClick={event => { event.currentTarget.href = localizedPath(activePath, language) + location.search + location.hash; }}>{language.toUpperCase()}</a>)}</nav><span class="system-ready" aria-label={online ? t("Network online") : t("Network offline")}><span class="status-dot" />{online ? t("ONLINE") : t("OFFLINE")}</span><time>{clock || 'AntoñiOS'}</time></div></header>
+    <header class="system-bar"><a class="brand" href={href("/")}><span class="brand-symbol" aria-hidden="true"><img src="/images/identity/antonios-logo.webp" alt="" width="36" height="36" /></span><strong><AntoniosBrand /></strong><small>v1.0</small></a><nav class="system-menu" aria-label={t("System menu")}><button aria-expanded={launcher} onClick={() => setLauncher(!launcher)}>{t("Apps")}</button></nav><span class="system-tagline">{t("Personal operating system")}</span><div class="system-right"><button class="system-audio" aria-label={preferences.sound ? t("Mute system audio") : t("Enable system audio")} aria-pressed={preferences.sound} onClick={() => setPreferences({ ...preferences, sound: !preferences.sound })}><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 9h4l5-4v14l-5-4H3z" />{preferences.sound ? <path d="M16 8q5 4 0 8 M19 4q8 8 0 16" /> : <path d="m16 9 6 6m0-6-6 6" />}</svg></button><nav class="language-switch" aria-label={locale === 'es' ? 'Idioma' : 'Language'}>{(['es', 'en'] as const).map(language => <a key={language} data-language={language} href={localizedPath(activePath, language)} lang={language} hrefLang={language} aria-current={locale === language ? 'page' : undefined} aria-label={language === 'es' ? 'Español' : 'English'} onClick={event => { event.currentTarget.href = localizedPath(activePath, language) + location.search + location.hash; }}>{language.toUpperCase()}</a>)}</nav><span class="system-ready" aria-label={online ? t("Network online") : t("Network offline")}><span class="status-dot" />{online ? t("ONLINE") : t("OFFLINE")}</span><time>{clock || 'AntoñiOS'}</time></div></header>
     <main id="desktop" ref={workspace} class="workspace" inert={launcher} aria-label={t("Desktop workspace")}>
       <nav inert={viewport.width < 1100 && Boolean(state.activeWindowId)} class="desktop-icons" aria-label={t("Desktop applications")}>{desktopApps.map(id => <a key={id} data-desktop-app={id} class={`desktop-icon icon-${id}`} href={href(registry[id].path)} onDblClick={() => open(registry[id].path)}><span class="icon-tile"><Icon name={id} /></span><span>{t(registry[id].name)}</span></a>)}</nav>
-      <div hidden={Boolean(state.activeWindowId)} class="desktop-signature" aria-hidden="true"><p>AntoñiOS</p><span>{t("Architecture, in practice.")}</span><small>{t("PERSONAL OPERATING SYSTEM")}</small></div>
-      <aside class="desktop-hint"><span class="keycap">↵</span> {t("Open an app. Make yourself at home.")}<br /><small>{t("Alt + arrows: move · Alt + Shift + arrows: resize · Esc: minimize")}</small></aside>
+      <DesktopHint />
+      <DesktopStatus />
       {state.openWindows.map(win => <Window key={win.id} instance={win} active={state.activeWindowId === win.id} zIndex={10 + state.zOrder.indexOf(win.id)} viewport={viewport} dispatch={act}><AppContent id={registry[win.id].component} path={win.path} content={loadedContent} data={data} open={open} preferences={preferences} setPreferences={setPreferences} reset={reset} enterArcade={enterArcade} /></Window>)}
     </main>
-    {launcher && <><button class="launcher-dismiss" aria-label={t("Close launcher")} onClick={() => setLauncher(false)} /><section class="launcher" role="region" aria-label={t("Application launcher")}><div class="launcher-heading"><strong>AntoñiOS / {t("Apps")}</strong><button aria-label={t("Close launcher panel")} onClick={() => { setLauncher(false); launcherButton.current?.focus(); }}>×</button></div><label class="launcher-search"><span>⌕</span><input ref={searchInput} aria-label={t("Find an application")} placeholder={t("Find an application…")} value={search} onInput={event => setSearch(event.currentTarget.value)} /></label><nav aria-label={t("All applications")}>{applications.filter(app => `${t(app.name)} ${t(app.description)}`.toLowerCase().includes(search.toLowerCase())).map(app => <a key={app.id} href={href(app.path)}><Icon name={app.id} /><span><strong>{t(app.name)}</strong><small>{t(app.description)}</small></span><span>↗</span></a>)}</nav>{!applications.some(app => `${t(app.name)} ${t(app.description)}`.toLowerCase().includes(search.toLowerCase())) && <p>{t("No matching applications.")}</p>}<div class="launcher-extras"><a href={href("/cv/")}><Icon name="cv" />{t("CV")}</a>{data.pdfs.find(pdf => pdf.language === locale)?.availability === "available" ? <a download href={data.pdfs.find(pdf => pdf.language === locale)?.path}>{t("Download CV")}</a> : <span>{t("Download CV")} <Availability value={data.pdfs.find(pdf => pdf.language === locale)?.availability ?? "unavailable"} /></span>}<PublicShortcuts data={data} /></div><small class="muted">AntoñiOS / {locale === 'es' ? 'EDICIÓN PERSONAL' : 'PERSONAL EDITION'}</small></section></>}
+    {launcher && <><button class="launcher-dismiss" aria-label={t("Close launcher")} onClick={() => setLauncher(false)} /><section class="launcher" role="region" aria-label={t("Application launcher")}><div class="launcher-heading"><strong><AntoniosBrand /> / {t("Apps")}</strong><button aria-label={t("Close launcher panel")} onClick={() => { setLauncher(false); launcherButton.current?.focus(); }}>×</button></div><label class="launcher-search"><span>⌕</span><input ref={searchInput} aria-label={t("Find an application")} placeholder={t("Find an application…")} value={search} onInput={event => setSearch(event.currentTarget.value)} /></label><nav aria-label={t("All applications")}>{applications.filter(app => `${t(app.name)} ${t(app.description)}`.toLowerCase().includes(search.toLowerCase())).map(app => <a key={app.id} href={href(app.path)}><Icon name={app.id} /><span><strong>{t(app.name)}</strong><small>{t(app.description)}</small></span><span>↗</span></a>)}</nav>{!applications.some(app => `${t(app.name)} ${t(app.description)}`.toLowerCase().includes(search.toLowerCase())) && <p>{t("No matching applications.")}</p>}<div class="launcher-extras"><PublicShortcuts data={data} /></div><small class="muted"><AntoniosBrand /> / {locale === 'es' ? 'EDICIÓN PERSONAL' : 'PERSONAL EDITION'}</small></section></>}
     <footer class="taskbar"><button ref={launcherButton} class={`launcher-toggle ${launcher ? 'selected' : ''}`} aria-label={t("Open launcher")} aria-expanded={launcher} onClick={() => setLauncher(!launcher)}><span class="launcher-glyph" aria-hidden="true"><img src="/images/identity/antonios-logo.webp" alt="" width="36" height="36" /></span><span>{t("Apps")}</span></button><a class="dock-pin" aria-label={t("Open Profile")} title={t("Open Profile")} href={href("/profile/")}><Icon name="about" /></a><span class="dock-divider" /><nav class="dock-apps" aria-label={t("Running applications")}>{state.openWindows.map(win => <button key={win.id} class={`dock-app ${state.activeWindowId === win.id ? 'selected' : ''} ${win.state === 'minimized' ? 'is-minimized' : ''}`} aria-label={`${t("Restore")} ${t(registry[win.id].name)}`} aria-pressed={state.activeWindowId === win.id} title={`${t(registry[win.id].name)}${win.state === 'minimized' ? t(" (minimized)") : ''}`} onClick={() => { act({ type: 'restore', id: win.id }); }}><Icon name={win.id} /><span>{t(registry[win.id].name)}</span><i /></button>)}</nav><div class="dock-utilities"><a aria-label={t("Open Arcade")} title={t("Open Arcade")} href={href("/arcade/")}><Icon name="arcade" /></a><button aria-label={preferences.sound ? t("Mute sound") : t("Enable sound")} aria-pressed={preferences.sound} onClick={() => setPreferences({ ...preferences, sound: !preferences.sound })}>{preferences.sound ? '♪' : '♪̸'}</button><a aria-label={t("Open Settings")} href={href("/settings/")}><Icon name="settings" /></a><a class="reading-link" href={href(`${state.openWindows.find(win => win.id === state.activeWindowId)?.path ?? '/'}?view=reading`)}>{t("Reading view ↗")}</a><time class="dock-time">{clock || "AntoñiOS"}</time></div></footer>
     <div class="system-notice" role="status">{notice}</div>
     </div>

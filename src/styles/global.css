@@ -55,7 +55,7 @@
   .brand-symbol { font: 700 1.6rem var(--mono); letter-spacing: -.25em; padding-right: .25em; color: var(--cyan); }
   .brand-symbol span { color: var(--violet); }
   .brand strong { font: 600 .85rem var(--mono); letter-spacing: .05em; }
-  .brand strong span, .brand small { color: var(--text-muted); }
+  .brand strong .antonios-brand-accent, .brand small { color: var(--text-muted); }
   .brand small { font-family: var(--mono); font-size: .75rem; padding: .05rem .4rem; border: 1px solid var(--border); border-radius: 4px; }
   .system-tagline { color: var(--text-muted); font-size: .8rem; margin-right: auto; padding-left: 18px; border-left: 1px solid var(--border); }
   .system-right { display: flex; gap: 28px; align-items: center; font: .75rem var(--mono); color: var(--text-muted); }
@@ -362,7 +362,7 @@
   .arcade-launcher > .app-icon { filter: none; }
   .wallpaper-midnight { background: #0d1011; }
   .brand-symbol { font-size: 1.25rem; letter-spacing: -.12em; color: var(--text-muted); }
-  .brand-symbol span, .brand strong span { color: var(--warning); }
+  .brand-symbol span, .brand strong .antonios-brand-accent { color: var(--warning); }
   .brand strong { font-size: 1rem; letter-spacing: -.03em; }
   .brand small { display: none; }
   .system-ready { font-size: .75rem; }
@@ -446,16 +446,6 @@
   .contact-copy { align-self: flex-start; min-height: 44px; padding: 0 16px; border: 1px solid var(--border); background: transparent; color: var(--text); cursor: pointer; }
   .contact-copy:hover { border-color: var(--cyan); }
   .contact-copy-status { min-height: 1.2em; color: var(--cyan); font-size: .8125rem; margin: 8px 0 0; }
-  .availability { display: inline-block; color: var(--text-muted); font-size: .875rem; font-weight: 400; }
-  .availability-preparing { color: var(--warning); }
-  .availability-available { color: var(--cyan); }
-  .pdf-states { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 18px 0 28px; }
-  .pdf-state { display: flex; gap: 16px; align-items: center; padding: 18px; border: 1px solid var(--border); background: #22282a; }
-  .pdf-state .app-icon { color: var(--warning); }
-  .pdf-state strong, .pdf-state .availability { display: block; }
-  .extended-cv { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; }
-  .extended-cv a { font-size: .875rem; min-height: 44px; display: flex; align-items: center; }
-  .cv-body { border-top: 1px solid var(--border); padding-top: 24px; }
   .competency-list article, .achievement-list article { border-bottom: 1px solid var(--border); padding-bottom: 22px; }
   .tags span { font-size: .8125rem; }
   @media (min-width: 720px) and (max-width: 1099px) {
@@ -485,7 +475,6 @@
     .professional-actions { display: grid; grid-template-columns: 1fr 1fr; }
     .professional-actions a { gap: 7px; padding: 10px; }
     .professional-actions a > span:last-child { margin-left: auto; }
-    .pdf-states { grid-template-columns: 1fr; }
     .taskbar { left: 0; right: 0; bottom: 0; height: 68px; border-radius: 0; padding: 6px; }
     .dock-app { padding: 0 10px; }
     .dock-utilities { gap: 0; }
@@ -507,7 +496,7 @@
     .launcher-dismiss { position: fixed; inset: 0; }
   }
   @media print {
-    .profile-tabs, .pdf-states, .extended-cv, .profile-loaded { display: none; }
+    .profile-tabs, .profile-loaded { display: none; }
     .profile-section { padding: 0; }
     .profile-section .role, .focus-line, .profile-intro { color: #222; }
   }

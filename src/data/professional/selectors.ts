@@ -16,7 +16,7 @@ const period = (start: string, end: string | null, locale: Locale) => {
 
 export function getProfile(locale: Locale) {
   const value = model.profile;
-  return { ...value, headline: localize(value.headline, locale), introduction: localize(value.introduction, locale), mode: localize(value.mode, locale), focusLine: localize(value.focusLine, locale), summary: localize(value.summary, locale), humanNote: { teaser: localize(value.humanNote.teaser, locale), paragraphs: value.humanNote.paragraphs.map(item => localize(item, locale)), interests: value.humanNote.interests.map(item => localize(item, locale)) }, education: value.education.map(item => localize(item, locale)), languages: value.languages.map(item => localize(item, locale)) };
+  return { ...value, headline: localize(value.headline, locale), introduction: localize(value.introduction, locale), mode: localize(value.mode, locale), focusLine: localize(value.focusLine, locale), summary: localize(value.summary, locale), humanNote: { teaser: localize(value.humanNote.teaser, locale), paragraphs: value.humanNote.paragraphs.map(item => localize(item, locale)), interests: value.humanNote.interests.map(item => localize(item, locale)) }, education: value.education.map(item => localize(item, locale)), languages: value.languages.map(language => ({ ...language, name: localize(language.name, locale), summary: localize(language.summary, locale), capabilities: language.capabilities.map(capability => ({ ...capability, label: localize(capability.label, locale), level: localize(capability.level, locale) })) })) };
 }
 
 export function getExperience(locale: Locale) {
@@ -62,10 +62,6 @@ export function getRepresentativeDecisions(locale: Locale) {
 
 export function getPublicLinks(locale: Locale) {
   return model.externalLinks.map(item => ({ ...item, label: localize(item.label, locale) }));
-}
-
-export function getCvVariants(locale: Locale) {
-  return model.cvVariants.map(item => ({ ...item, title: localize(item.title, locale), extendedRoute: localize(item.extendedRoute, locale), pdf: item.pdf[locale] }));
 }
 
 export function getAiLab(locale: Locale) {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getArchitectureCases, getCvVariants, getExperience, getProfile, getProjects, getPublicLinks, getTerminalIndex, publicProfessionalModel, validatePublicProfessionalModel, type ProfessionalModelCandidate } from '../src/data/professional';
+import { getArchitectureCases, getExperience, getProfile, getProjects, getPublicLinks, getTerminalIndex, publicProfessionalModel, validatePublicProfessionalModel, type ProfessionalModelCandidate } from '../src/data/professional';
 
 const candidate = (): ProfessionalModelCandidate => structuredClone(publicProfessionalModel);
 
@@ -44,16 +44,14 @@ describe('public professional model', () => {
     expect(validatePublicProfessionalModel(value).join('\n')).toContain('implemented but references an IN_PROGRESS claim');
   });
 
-  it('rejects fake preparing links and incomplete available CV assets', () => {
+  it('rejects fake preparing links', () => {
     const value = candidate(); value.externalLinks.find(link => link.id === 'github')!.url = '#';
     value.externalLinks.find(link => link.id === 'linkedin')!.availability = 'preparing';
     delete value.externalLinks.find(link => link.id === 'website')!.url;
-    value.cvVariants[0].pdf.es = { availability: 'available' };
     const errors = validatePublicProfessionalModel(value).join('\n');
     expect(errors).toContain('externalLinks.github.url uses a fake URL');
     expect(errors).toContain('linkedin is preparing but has a URL');
     expect(errors).toContain('externalLinks.website is available without a URL');
-    expect(errors).toContain('available without a complete verified asset');
   });
 
   it('rejects missing locales, duplicate ids and broken relations', () => {
@@ -121,7 +119,9 @@ describe('public professional model', () => {
   it('keeps availability and delivery status explicit after A8.1 approval', () => {
     const linkedin = getPublicLinks('es').find(link => link.id === 'linkedin'); expect(linkedin).toMatchObject({ availability: 'available', url: 'https://www.linkedin.com/in/antoniomanueldiazmoreno' });
     const email = getPublicLinks('en').find(link => link.id === 'email'); expect(email).toMatchObject({ availability: 'available', url: 'mailto:antoniom.diaz.moreno@gmail.com' });
-    expect(getCvVariants('en')[0].pdf).toMatchObject({ availability: 'available', path: '/cv/antonio-manuel-diaz-moreno-software-architect-en.pdf' });
+    expect(getProfile('en').languages.find(language => language.id === 'english')?.capabilities.map(capability => [capability.id, capability.level])).toEqual([
+      ['technical-reading', 'Advanced'], ['technical-comprehension', 'Advanced'], ['professional-conversation', 'In development'],
+    ]);
     expect(getProjects('en')[0].capabilities.find(item => item.id === 'tool-calling-agent')?.deliveryStatus).toBe('implemented');
     expect(getTerminalIndex('en').find(item => item.id === 'github')?.url).toBe('https://github.com/xenxi');
     expect(getTerminalIndex('en').find(item => item.id === 'linkedin')?.url).toBe('https://www.linkedin.com/in/antoniomanueldiazmoreno');

@@ -79,17 +79,17 @@ test('mobile apps fill the workspace and switch from dock', async ({ page }) => 
   await page.screenshot({ path: 'test-results/mobile.png', fullPage: true });
 });
 
-test('static HTML, notes, CV and SEO exist without JavaScript', async ({ browser }) => {
+test('static HTML, notes and SEO exist without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false }); const page = await context.newPage();
   await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/projects/platform934/`); await expect(page.locator('h1', { hasText: 'Platform934' })).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://antoniomdm.dev/en/projects/platform934/');
   await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/notes/os-foundation/`); await expect(page.getByRole('heading', { name: 'One portfolio, two ways to explore' })).toBeVisible();
-  await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/cv/`); await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno' })).toBeVisible();
+  await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/profile/languages/`); await expect(page.getByRole('heading', { name: 'Languages', exact: true })).toBeVisible();
   await context.close();
 });
 
 test('main routes and machine-readable outputs respond', async ({ request }) => {
-  for (const path of ['/', '/es/', '/en/', '/projects/', '/es/projects/', '/en/projects/', '/projects/platform934/', '/es/experience/', '/en/notes/', '/es/architecture/', '/en/architecture/', '/ai-lab/', '/en/ai-lab/', '/es/ai-lab/', '/ai-lab/platform934/', '/en/ai-lab/incident-investigation/', '/es/ai/', '/en/contact/', '/lab/', '/about/', '/es/cv/', '/en/arcade/', '/es/settings/', '/en/terminal/', '/rss.xml', '/es/rss.xml', '/en/rss.xml', '/sitemap.xml', '/robots.txt', '/llms.txt', '/es/llms.txt', '/en/llms.txt', '/cv.txt', '/es/cv.txt', '/en/cv.txt', '/social.png']) {
+  for (const path of ['/', '/es/', '/en/', '/projects/', '/es/projects/', '/en/projects/', '/projects/platform934/', '/es/experience/', '/en/notes/', '/es/architecture/', '/en/architecture/', '/ai-lab/', '/en/ai-lab/', '/es/ai-lab/', '/ai-lab/platform934/', '/en/ai-lab/incident-investigation/', '/es/ai/', '/en/contact/', '/lab/', '/about/', '/es/profile/languages/', '/en/arcade/', '/es/settings/', '/en/terminal/', '/rss.xml', '/es/rss.xml', '/en/rss.xml', '/sitemap.xml', '/robots.txt', '/llms.txt', '/es/llms.txt', '/en/llms.txt', '/social.png']) {
     const response = await request.get(path); expect(response.status(), path).toBe(200);
   }
   const sitemap = await (await request.get('/sitemap.xml')).text(); expect(sitemap).toContain('/projects/platform934/');
@@ -109,7 +109,7 @@ test('desktop and project route accessibility', async ({ page }) => {
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
 });
 
-test('project filters, note content, lab concepts and printable CV', async ({ page }) => {
+test('project filters, note content, lab concepts and languages reading view', async ({ page }) => {
   await page.goto('/en/projects/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await page.getByRole('button', { name: 'Media Engineering', exact: true }).click();
   await expect(page.locator('.project-groups h2')).toHaveCount(4);
@@ -123,13 +123,13 @@ test('project filters, note content, lab concepts and printable CV', async ({ pa
   await expect(page).toHaveURL(/\/ai-lab\/$/);
   await expect(page.locator('.ai-lab-axis')).toHaveCount(2);
   await expect(page.locator('.ai-lab-boundaries')).toContainText('No RAG');
-  await page.goto('/en/cv/?view=reading'); await expect(page.locator('html')).toHaveClass('reading');
+  await page.goto('/en/profile/languages/?view=reading'); await expect(page.locator('html')).toHaveClass('reading');
   await expect(page.getByRole('link', { name: 'Exit reading view' })).toBeVisible();
-  await page.getByRole('link', { name: 'Exit reading view' }).click(); await expect(page).toHaveURL(/\/en\/cv\/$/);
+  await page.getByRole('link', { name: 'Exit reading view' }).click(); await expect(page).toHaveURL(/\/en\/profile\/languages\/$/);
   await expect(page.locator('html')).not.toHaveClass('reading');
-  await page.goto('/en/cv/?view=reading'); await expect(page.locator('html')).toHaveClass('reading');
+  await page.goto('/en/profile/languages/?view=reading'); await expect(page.locator('html')).toHaveClass('reading');
   await page.emulateMedia({ media: 'print' }); await expect(page.locator('.taskbar')).toBeHidden();
-  await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Languages', exact: true })).toBeVisible();
 });
 
 test('audio requires an explicit Play and stops on Arcade exit', async ({ page }) => {

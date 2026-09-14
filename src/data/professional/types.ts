@@ -26,6 +26,20 @@ export interface ClaimCandidate extends Omit<PublicClaim, 'visibility' | 'status
   status: PublicStatus | RejectedStatus;
 }
 
+export interface LanguageCapability {
+  id: string;
+  label: LocalizedText;
+  level: LocalizedText;
+  state: 'advanced' | 'developing';
+}
+export interface SpokenLanguage {
+  id: 'spanish' | 'english';
+  name: LocalizedText;
+  native: boolean;
+  summary: LocalizedText;
+  capabilities: LanguageCapability[];
+}
+
 export interface ProfessionalProfile {
   id: string;
   name: string;
@@ -47,10 +61,9 @@ export interface ProfessionalProfile {
   competencyIds: string[];
   achievementIds: string[];
   education: LocalizedText[];
-  languages: LocalizedText[];
+  languages: SpokenLanguage[];
   projectIds: string[];
   externalLinkIds: string[];
-  cvVariantIds: string[];
   claimIds: string[];
 }
 
@@ -183,21 +196,6 @@ export interface ExternalLink {
   availability: Availability;
   verifiedAt?: string;
 }
-export interface AssetAvailability {
-  availability: Availability;
-  path?: string;
-  filename?: string;
-  mime?: string;
-  verifiedAt?: string;
-}
-export interface CvVariant {
-  id: string;
-  title: LocalizedText;
-  primary: boolean;
-  extendedRoute: LocalizedText;
-  pdf: Record<Locale, AssetAvailability>;
-}
-
 export interface AiLabTopic {
   id: string;
   title: LocalizedText;
@@ -228,7 +226,6 @@ export interface PublicProfessionalModel {
   representativeDecisions: ArchitectureDecision[];
   aiLab: AiLabTopic[];
   externalLinks: ExternalLink[];
-  cvVariants: CvVariant[];
   blogPosts: BlogPost[];
   claims: PublicClaim[];
 }
