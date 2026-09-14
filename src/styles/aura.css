@@ -15,12 +15,12 @@
     --shadow: var(--shadow-window); --glow: var(--glow-window); --radius-lg: 12px; --bar-height: 50px; --dock-height: 96px;
     --pixel-hair: #28212e; --pixel-hair-highlight: #40304d; --pixel-skin: #e7ae77; --pixel-skin-shadow: #bd7f60;
   }
-  .os { background: radial-gradient(ellipse at 18% 30%, color-mix(in srgb, var(--violet) 7%, transparent), transparent 52%), radial-gradient(ellipse at 86% 65%, color-mix(in srgb, var(--cyan) 4%, transparent), transparent 45%), var(--background); }
+  .os { background: linear-gradient(90deg, rgb(10 11 24 / .66), rgb(10 11 24 / .18) 56%, rgb(10 11 24 / .42)), url('/wallpaper.webp') center / cover no-repeat, var(--background); }
   .os::before { content: ''; position: absolute; inset: 0; pointer-events: none; opacity: .22; background-image: radial-gradient(var(--violet) .7px, transparent .7px); background-size: 53px 53px; mask-image: linear-gradient(transparent, black 30%, transparent); }
-  .wallpaper-midnight { background: var(--background); }
+  .wallpaper-midnight { background: linear-gradient(90deg, rgb(4 7 20 / .52), rgb(4 7 20 / .14) 56%, rgb(4 7 20 / .34)), url('/wallpaper-midnight.webp') center / cover no-repeat, var(--background); }
   .system-bar { background: color-mix(in srgb, var(--background) 92%, transparent); border-color: var(--border); }
   .brand-symbol { display: grid; place-items: center; padding: 0; flex-shrink: 0; }
-  .brand-symbol img, .launcher-glyph img { display: block; width: 36px; height: 36px; }
+  .brand-symbol img, .launcher-glyph img { display: block; width: 36px; height: 36px; object-fit: contain; }
   .brand strong { font-family: var(--font); letter-spacing: -.03em; }
   .brand strong span { color: var(--aura-pink); }
   .system-tagline { border: 0; padding: 0; }
@@ -80,7 +80,7 @@
   .profile-copy .focus-line { font-size: .72rem; max-width: 39ch; line-height: 1.8; margin-bottom: 12px; }
   .profile-copy .profile-intro { max-width: 31ch; font-size: .8rem; line-height: 1.65; margin-bottom: 16px; }
   .pixel-portrait { position: absolute; right: -8px; top: 10px; width: 48%; max-width: 245px; margin: 0; }
-  .pixel-portrait svg { width: 100%; height: auto; display: block; filter: drop-shadow(0 8px 22px color-mix(in srgb, var(--violet) 8%, transparent)); }
+  .pixel-portrait img { width: 100%; height: auto; display: block; filter: drop-shadow(0 8px 22px color-mix(in srgb, var(--violet) 8%, transparent)); }
   .machine-badge { display: block; width: 112px; margin-left: auto; font: .55rem/1.5 var(--mono); letter-spacing: .07em; padding: 7px 8px; border: 1px solid var(--violet); color: var(--violet); clip-path: polygon(4% 0, 100% 0, 100% 85%, 28% 85%, 20% 100%, 20% 85%, 0 85%, 0 8%); padding-bottom: 16px; }
   .pixel-portrait figcaption { text-align: right; color: var(--text-muted); font: .5rem/1.5 var(--mono); letter-spacing: .07em; }
   .pixel-shadow, .pixel-glasses { fill: var(--background); }

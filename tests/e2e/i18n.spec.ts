@@ -29,7 +29,13 @@ test('Spanish default, language switching, navigation and reading view', async (
   await page.getByRole('link', { name: 'English', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/cv\/\?view=reading$/);
   await expect(page.locator('html')).toHaveClass('reading');
+  await expect(page.getByRole('link', { name: 'Exit reading view' })).toHaveAttribute('href', '/en/cv/');
   await expect(page.getByRole('link', { name: 'Text CV — English' })).toHaveAttribute('href', '/en/cv.txt');
+  await page.getByRole('link', { name: 'Español', exact: true }).click();
+  await expect(page).toHaveURL(/\/cv\/\?view=reading$/);
+  await expect(page.getByRole('link', { name: 'Salir de la vista de lectura' })).toHaveAttribute('href', '/cv/');
+  await page.getByRole('link', { name: 'Salir de la vista de lectura' }).click();
+  await expect(page).toHaveURL(/\/cv\/$/);
 });
 
 test('both languages publish complete static HTML, notes, feeds and CVs', async ({ browser, request }) => {

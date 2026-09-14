@@ -330,6 +330,10 @@
   .reading .window-content { overflow: visible; }
   .reading .desktop-icons { display: flex; flex-wrap: wrap; position: relative; top: 0; left: 0; padding: 20px; justify-content: center; }
   .reading .window-controls, .reading .resize-handle, .reading .taskbar, .reading .desktop-hint, .reading .desktop-signature { display: none; }
+  .reading-exit { display: none; }
+  .reading .reading-exit { display: inline-flex; position: fixed; top: calc(var(--bar-height) + 12px); right: 24px; z-index: 200; align-items: center; gap: 6px; padding: .5rem .75rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-elevated); color: var(--text); font-size: .8rem; }
+  .reading .reading-exit::before { content: '←'; color: var(--cyan); }
+  .reading .reading-exit:hover { border-color: var(--cyan); color: var(--text); }
   @media print {
     :root { color-scheme: light; --text: #111; --text-muted: #333; --surface: #fff; --cyan: #174b54; --violet: #47345e; --border: #bbb; }
     body, .os { background: white !important; color: black; }

@@ -11,10 +11,10 @@ for (const locale of ['es', 'en']) for (const width of [1440, 1280, 1024, 768, 3
     const profile = page.locator('[data-window="about"]');
     await expect(profile).toHaveClass(/active/);
     await expect(page.locator('[data-window]')).toHaveCount(width >= 1280 ? 3 : 1);
-    await expect(page.locator('.pixel-portrait svg')).toHaveAccessibleName(locale === 'es'
-      ? 'Avatar pixel original: desarrollador con pelo oscuro y gafas rectangulares'
-      : 'Original pixel avatar: developer with dark hair and rectangular glasses');
-    await expect(profile.locator('img')).toHaveCount(0);
+    await expect(page.locator('.pixel-portrait img')).toHaveAccessibleName(locale === 'es'
+      ? 'Retrato pixel: desarrollador con gafas y jersey azul trabajando con un portátil'
+      : 'Pixel portrait: developer with glasses and a blue sweater working at a laptop');
+    await expect(profile.locator('img')).toHaveCount(1);
     await expect(profile.locator('.profile-loaded')).toHaveText(locale === 'es' ? 'PERFIL.EXE / EN LÍNEA' : 'PROFILE.EXE / ONLINE');
     await expect(profile.locator('.system-profile')).not.toContainText(/Remoto|Remote|España|Spain/);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(width);

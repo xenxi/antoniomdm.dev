@@ -40,6 +40,7 @@ test('route deep links and browser Back / Forward work', async ({ page }) => {
 test('Arcade engine, wallpaper and audio are deferred until explicit entry', async ({ page }) => {
   const requests: string[] = []; page.on('request', request => requests.push(request.url()));
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
+  expect(await page.locator('.os').evaluate(element => getComputedStyle(element).backgroundImage)).toContain('wallpaper.webp');
   expect(requests.filter(url => /\/(?:Arcade|arcade)\..*\.(?:js|css)|\/arcade\/world|\.mp3|flutter|\.dart/.test(url))).toEqual([]);
   await page.locator('[data-desktop-app="arcade"]').click(); await expect(page.getByRole('heading', { name: 'JOB ROUTE »' })).toBeVisible();
   expect(requests.filter(url => /\/(?:Arcade|arcade)\..*\.(?:js|css)|\/arcade\/world|\.mp3/.test(url))).toEqual([]);
@@ -60,6 +61,7 @@ test('keyboard navigation, terminal and settings persistence', async ({ page }) 
   await page.keyboard.press('Escape'); await expect(win).toBeHidden();
   await page.getByRole('link', { name: 'Open Settings', exact: true }).click();
   await page.getByRole('radio', { name: 'Midnight' }).check();
+  expect(await page.locator('.os').evaluate(element => getComputedStyle(element).backgroundImage)).toContain('wallpaper-midnight.webp');
   await page.getByRole('checkbox', { name: 'Enable sound', exact: true }).check(); await page.reload();
   await expect(page.getByRole('radio', { name: 'Midnight' })).toBeChecked();
   await expect(page.getByRole('checkbox', { name: 'Enable sound', exact: true })).toBeChecked();
@@ -121,6 +123,10 @@ test('project filters, note content, lab concepts and printable CV', async ({ pa
   await expect(page).toHaveURL(/\/ai-lab\/$/);
   await expect(page.locator('.ai-lab-axis')).toHaveCount(2);
   await expect(page.locator('.ai-lab-boundaries')).toContainText('No RAG');
+  await page.goto('/en/cv/?view=reading'); await expect(page.locator('html')).toHaveClass('reading');
+  await expect(page.getByRole('link', { name: 'Exit reading view' })).toBeVisible();
+  await page.getByRole('link', { name: 'Exit reading view' }).click(); await expect(page).toHaveURL(/\/en\/cv\/$/);
+  await expect(page.locator('html')).not.toHaveClass('reading');
   await page.goto('/en/cv/?view=reading'); await expect(page.locator('html')).toHaveClass('reading');
   await page.emulateMedia({ media: 'print' }); await expect(page.locator('.taskbar')).toBeHidden();
   await expect(page.getByRole('heading', { name: 'Antonio Manuel Díaz Moreno' })).toBeVisible();

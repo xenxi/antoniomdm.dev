@@ -48,6 +48,7 @@ const initialContent = { notes: content.notes.map(note => ({ ...note, html: base
   </head>
   <body>
     <a class="skip-link" href="#desktop">{t('Skip to desktop content')}</a>
+    <a class="reading-exit no-print" href={localizedPath(path, locale)}>{t('Exit reading view')}</a>
     <Desktop path={path} content={initialContent} data={uiData} client:load />
   </body>
 </html>
