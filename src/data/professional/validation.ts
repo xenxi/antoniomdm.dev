@@ -50,6 +50,8 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
   const achievementIds = ids(model.achievements, 'achievements', errors);
   const projectIds = ids(model.projects, 'projects', errors);
   const caseIds = ids(model.architectureCases, 'architectureCases', errors);
+  const decisionIds = ids(model.representativeDecisions, 'representativeDecisions', errors);
+  ids(model.decisionAreas, 'decisionAreas', errors);
   const caseSlugs = new Set<string>();
   const linkIds = ids(model.externalLinks, 'externalLinks', errors);
   const cvIds = ids(model.cvVariants, 'cvVariants', errors);
@@ -105,6 +107,12 @@ export function validatePublicProfessionalModel(model: ProfessionalModelCandidat
       if (section.status === 'published') requireLocalized(section.content, `architectureCases.${item.id}.${key}.content`, errors);
       if (section.status === 'pending_editorial' && section.content !== undefined) errors.push(`architectureCases.${item.id}.${key} is pending_editorial but contains public content`);
     }
+  }
+  for (const area of model.decisionAreas) references(area.decisionIds, decisionIds, `decisionAreas.${area.id}.decisionIds`, errors);
+  for (const decision of model.representativeDecisions) {
+    references(decision.experienceIds, experienceIds, `representativeDecisions.${decision.id}.experienceIds`, errors);
+    references(decision.competencyIds, competencyIds, `representativeDecisions.${decision.id}.competencyIds`, errors);
+    references(decision.caseStudyIds, caseIds, `representativeDecisions.${decision.id}.caseStudyIds`, errors);
   }
   for (const topic of model.aiLab) references(topic.claimIds, claimIds, `aiLab.${topic.id}.claimIds`, errors);
   for (const post of model.blogPosts) references(post.claimIds, claimIds, `blogPosts.${post.id}.claimIds`, errors);

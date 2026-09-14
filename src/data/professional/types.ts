@@ -141,6 +141,31 @@ export interface ArchitectureCaseStudy {
   achievementIds: string[];
 }
 
+export type DecisionEvidenceKind = 'professional' | 'personal' | 'recurring-pattern';
+
+export interface DecisionArea {
+  id: string;
+  title: LocalizedText;
+  summary: LocalizedText;
+  decisionIds: string[];
+}
+
+export interface ArchitectureDecision {
+  id: string;
+  number: string;
+  title: LocalizedText;
+  summary: LocalizedText;
+  problem: LocalizedText;
+  decision: LocalizedText;
+  principle: LocalizedText;
+  evidence: LocalizedText;
+  evidenceKind: DecisionEvidenceKind;
+  experienceIds: string[];
+  competencyIds: string[];
+  caseStudyIds: string[];
+  technologyExamples: string[];
+}
+
 export interface ExternalLink {
   id: string;
   kind: 'github' | 'linkedin' | 'email' | 'website' | 'other';
@@ -189,6 +214,8 @@ export interface PublicProfessionalModel {
   achievements: Achievement[];
   projects: Project[];
   architectureCases: ArchitectureCaseStudy[];
+  decisionAreas: DecisionArea[];
+  representativeDecisions: ArchitectureDecision[];
   aiLab: AiLabTopic[];
   externalLinks: ExternalLink[];
   cvVariants: CvVariant[];

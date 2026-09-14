@@ -165,6 +165,11 @@
   .project-card.project-depth-deep_case_study { border-color: #8e7047; }
   .project-card.project-depth-small_project { grid-template-columns: 100px 1fr; }
   .project-status { font: .72rem var(--mono); color: var(--cyan); letter-spacing: .03em; }
+  .project-hierarchy { display: grid; grid-template-columns: auto auto auto; align-items: center; gap: 10px; margin: 18px 0; padding: 13px 15px; border: 1px solid var(--border); border-left: 3px solid var(--warning); border-radius: 6px; background: color-mix(in srgb, var(--surface) 80%, transparent); font: .72rem/1.4 var(--mono); }
+  .project-hierarchy strong:first-child { color: var(--cyan); }
+  .project-hierarchy strong:last-of-type { color: var(--warning); }
+  .project-hierarchy span { color: var(--text-muted); }
+  .project-hierarchy small { grid-column: 1 / -1; color: var(--text-muted); }
   .project-detail { max-width: 920px; margin: 0 auto; }
   .project-detail .project-status { margin-bottom: 1rem; }
   .project-note { border-left: 2px solid var(--cyan); padding: 10px 14px; color: var(--text-muted); }

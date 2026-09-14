@@ -18,7 +18,7 @@ const projectNames = [
 test('A6.6 Projects landing exposes the locked portfolio and ecosystem filters', async ({ page }) => {
   await page.goto('/en/projects/');
   await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  await expect(page.getByRole('heading', { name: "Things I've built." })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Personal Engineering Labs' })).toBeVisible();
   await expect(page.locator('.project-card, .project-card-secondary')).toHaveCount(9);
   await page.getByRole('button', { name: 'Media Engineering', exact: true }).click();
   await expect(page.locator('.project-card, .project-card-secondary')).toHaveCount(4);
@@ -110,7 +110,7 @@ test('A6.6 project navigation preserves detail routes and browser history', asyn
   await expect(page.locator('h1')).toHaveText('Stream Optimizer');
   await page.goBack();
   await expect(page).toHaveURL(/\/en\/projects\/$/);
-  await expect(page.locator('h1')).toHaveText("Things I've built.");
+  await expect(page.locator('h1')).toHaveText('Personal Engineering Labs');
   await page.goForward();
   await expect(page.locator('h1')).toHaveText('Stream Optimizer');
 });
@@ -132,7 +132,7 @@ test('A6.6 projects remain discoverable and representative details work without 
   for (const route of ['/en/projects/platform934-api/', '/en/projects/stream-optimizer/', '/en/projects/luna-studio/', '/en/projects/koso/']) {
     await page.goto(route);
     await expect(page.locator('h1')).toBeVisible();
-    await expect(page.locator('.project-detail')).toContainText(/Engineering story|Engineeringgeschichte/i);
+    await expect(page.locator('.project-detail')).toContainText(/Architectural decision|Decisión arquitectónica/i);
     await expect(page.locator('.project-detail .project-status')).toBeVisible();
   }
   await context.close();

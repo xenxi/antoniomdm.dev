@@ -81,7 +81,7 @@ test('canonical locale routes and Spanish compatibility documents preserve route
   await page.getByRole('link', { name: 'English', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/projects\/platform934\/\?source=legacy#overview$/);
   await page.goto('/es/architecture/');
-  await expect(page.getByRole('heading', { name: 'Decisiones de ingeniería, bajo restricciones.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'La arquitectura es una secuencia continua de decisiones.' })).toBeVisible();
   await page.goto('/en/architecture/');
-  await expect(page.getByRole('heading', { name: 'Engineering decisions, under constraints.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Architecture is a continuous sequence of decisions.' })).toBeVisible();
 });

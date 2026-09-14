@@ -53,7 +53,11 @@ export default function Terminal({ open, data }: Props) {
     const response: TerminalLine[] = [prompt(token)];
     if (command.action === 'OUTPUT') {
       if (command.id === 'help') response.push({ text: helpOutput() });
-      else if (command.id === 'whoami') response.push({ text: `${profile.name} · ${profile.role} · ${cvSupportingLine}` });
+      else if (command.id === 'whoami') {
+        const principles = locale === 'es' ? 'la arquitectura debe justificar su coste\nlímites distribuidos necesitan una razón\nDDD donde existe complejidad de dominio\nmedir antes de optimizar\nproducción es parte de la arquitectura' : 'architecture must justify its cost\ndistributed boundaries need a reason\nDDD where domain complexity exists\nmeasure before optimizing\nproduction is part of architecture';
+        const impact = data.achievements.map(item => `${item.title}: ${item.metric?.before ?? ''}${item.metric?.after ? ` → ${item.metric.after}` : ''} ${item.metric?.unit ?? ''}`).join('\n');
+        response.push({ text: `${profile.name} · ${profile.role}\n\n${locale === 'es' ? 'modo' : 'mode'}: hands-on · discovery → ${locale === 'es' ? 'producción' : 'production'}\n\n${locale === 'es' ? 'principios' : 'principles'}:\n${principles}\n\n${locale === 'es' ? 'impacto' : 'impact'}:\n${impact}` });
+      }
     } else if (command.action === 'NAVIGATE' || command.action === 'THEME' || command.action === 'ARCADE') {
       if (command.route) { open?.(command.route); response.push({ text: `${t('Opening')} ${command.id}…` }); }
     } else if (command.action === 'EXTERNAL_LINK') {

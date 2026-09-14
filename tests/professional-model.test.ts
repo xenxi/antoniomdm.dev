@@ -66,11 +66,11 @@ describe('public professional model', () => {
     expect(validatePublicProfessionalModel(candidate())).toEqual([]);
   });
 
-  it('keeps the four locked A5 ids, unique slugs and exact relations', () => {
+  it('keeps the original cases, adds the new deep dives and preserves exact A5 relations', () => {
     const cases = publicProfessionalModel.architectureCases;
-    expect(cases.map(item => item.id)).toEqual(['vehicle-read-model', 'testing-infrastructure', 'event-summaries', 'legacy-modernization']);
-    expect(new Set(cases.map(item => item.slug)).size).toBe(4);
-    expect(cases.map(item => [item.id, item.experienceIds, item.competencyIds, item.achievementIds])).toEqual([
+    expect(cases.map(item => item.id)).toEqual(['vehicle-read-model', 'testing-infrastructure', 'event-summaries', 'legacy-modernization', 'service-boundaries-and-ddd', 'incident-diagnosis-agent']);
+    expect(new Set(cases.map(item => item.slug)).size).toBe(6);
+    expect(cases.slice(0, 4).map(item => [item.id, item.experienceIds, item.competencyIds, item.achievementIds])).toEqual([
       ['vehicle-read-model', ['domingo-alonso'], ['software-architecture', 'performance-engineering', 'sql-data-architecture'], []],
       ['testing-infrastructure', ['domingo-alonso'], ['testing-quality'], ['integration-suite-feedback']],
       ['event-summaries', ['domingo-alonso'], ['distributed-systems', 'event-driven-architecture'], ['event-summary-api-calls']],
@@ -89,7 +89,9 @@ describe('public professional model', () => {
         expect(section).toMatchObject({ status: 'published' });
         expect(section.content?.es.trim()).not.toBe(''); expect(section.content?.en.trim()).not.toBe('');
       }
-      expect(item.options).toEqual({ status: 'pending_editorial' });
+      if (item.options.status === 'published') {
+        expect(item.options.content?.es.trim()).not.toBe(''); expect(item.options.content?.en.trim()).not.toBe('');
+      } else expect(item.options).toEqual({ status: 'pending_editorial' });
     }
   });
 

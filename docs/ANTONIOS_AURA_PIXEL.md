@@ -96,8 +96,8 @@ ES: Sin pendientes del rediseño. LinkedIn y PDF siguen en preparación según e
 
 EN: No remaining redesign tasks. LinkedIn and PDF remain in preparation according to their previous state; no destinations were invented. Verified with Chromium, viewport emulation and an explicit touch tap test; no manual validation on physical devices or Safari/Firefox. No dependencies, remote fonts, video, WebGL or canvas loops were added. Long content remains scrollable inside windows.
 
-## Ajuste de marca [A] / [A] brand refinement
+## Ajuste de marca [Ñ] / [Ñ] brand refinement
 
-ES: Favicon, cabecera, dock y portátil del avatar comparten el mismo SVG `[A]` con corchetes cian y letra violeta. Verificación: lint, tipos, 31 pruebas unitarias, build y 12 pruebas E2E de composición ES/EN, navegación y touch aprobadas.
+ES: Favicon, cabecera, dock y portátil del avatar comparten el mismo SVG `[Ñ]` con corchetes cian, eñe violeta y tilde pixelada. La cabecera destaca `iOS` con un color rosa propio. Verificación: lint, tipos, 31 pruebas unitarias, build y 12 pruebas E2E de composición ES/EN, navegación y touch aprobadas.
 
-EN: Favicon, header, dock and avatar laptop share the same `[A]` SVG with cyan brackets and a purple letter. Validation: lint, types, 31 unit tests, build and 12 E2E tests for ES/EN composition, navigation and touch passed.
+EN: Favicon, header, dock and avatar laptop share the same `[Ñ]` SVG with cyan brackets, a purple eñe and a pixel tilde. The header highlights `iOS` with its own pink accent. Validation: lint, types, 31 unit tests, build and 12 E2E tests for ES/EN composition, navigation and touch passed.

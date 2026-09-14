@@ -6,7 +6,7 @@ import { getArchitectureCases } from '../../src/data/professional';
 test.use({ reducedMotion: 'reduce' });
 
 const screenshotDirectory = 'docs/quality/a5/screenshots/a5';
-const ids = ['vehicle-read-model', 'testing-infrastructure', 'event-summaries', 'legacy-modernization'] as const;
+const ids = ['vehicle-read-model', 'testing-infrastructure', 'event-summaries', 'legacy-modernization', 'service-boundaries-and-ddd', 'incident-diagnosis-agent'] as const;
 const route = (locale: 'es' | 'en', id?: string) => `${locale === 'en' ? '/en' : ''}/architecture/${id ? `${id}/` : ''}`;
 
 async function ready(page: Page, path: string) {
@@ -16,13 +16,13 @@ async function ready(page: Page, path: string) {
 }
 
 for (const locale of ['es', 'en'] as const) {
-  test(`A5 architecture index opens in ${locale} with exactly four cases`, async ({ page }) => {
+  test(`A5 architecture index opens in ${locale} with the complete decision map`, async ({ page }) => {
     await ready(page, route(locale));
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
-    await expect(page.locator('.architecture-card')).toHaveCount(4);
+    await expect(page.locator('.architecture-card')).toHaveCount(6);
     const expected = getArchitectureCases(locale);
-    await expect(page.locator('.architecture-card h2')).toHaveText(expected.map(item => item.title));
-    await expect(page.locator('.architecture-index')).toContainText(locale === 'es' ? 'No son tutoriales' : 'They are not tutorials');
+    await expect(page.locator('.architecture-card h3')).toHaveText(expected.map(item => item.title));
+    await expect(page.locator('.architecture-index')).toContainText(locale === 'es' ? 'La arquitectura es una secuencia continua de decisiones.' : 'Architecture is a continuous sequence of decisions.');
   });
 
   for (const id of ids) {
@@ -121,7 +121,7 @@ test('A5 no-JS routes expose every index and case in both locales', async ({ bro
   const base = `http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}`;
   for (const locale of ['es', 'en'] as const) {
     await page.goto(`${base}${route(locale)}`);
-    await expect(page.locator('.architecture-card')).toHaveCount(4);
+    await expect(page.locator('.architecture-card')).toHaveCount(6);
     for (const id of ids) {
       await page.goto(`${base}${route(locale, id)}`);
       await expect(page.locator('[data-architecture-case]')).toHaveAttribute('data-architecture-case', id);

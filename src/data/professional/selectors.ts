@@ -49,6 +49,17 @@ export function getArchitectureCases(locale: Locale) {
   }));
 }
 
+export function getDecisionAreas(locale: Locale) {
+  return model.decisionAreas.map(item => ({ ...item, title: localize(item.title, locale), summary: localize(item.summary, locale) }));
+}
+
+export function getRepresentativeDecisions(locale: Locale) {
+  return model.representativeDecisions.map(item => ({
+    ...item,
+    title: localize(item.title, locale), summary: localize(item.summary, locale), problem: localize(item.problem, locale), decision: localize(item.decision, locale), principle: localize(item.principle, locale), evidence: localize(item.evidence, locale),
+  }));
+}
+
 export function getPublicLinks(locale: Locale) {
   return model.externalLinks.map(item => ({ ...item, label: localize(item.label, locale) }));
 }
