@@ -18,6 +18,10 @@ test('Godot ambience animates water, pauses gameplay and obeys live reduced-moti
   // Read actual rendered pixels: the pond must change while the player stands still.
   const first = await fountain(); await page.waitForTimeout(350);
   expect((await fountain()).equals(first)).toBe(false);
+  // Closed shutters stay fixed while the rest of the scene animates.
+  const shutter = () => page.screenshot({ clip: { x: box.x + 216 / 480 * box.width, y: box.y + 78 / 320 * box.height, width: 6 / 480 * box.width, height: 9 / 320 * box.height } });
+  const closed = await shutter(); await page.waitForTimeout(350);
+  expect((await shutter()).equals(closed)).toBe(true);
   await page.getByRole('button', { name: 'Pausar', exact: true }).click();
   await expect(world).toBeHidden();
   await page.keyboard.press('ArrowRight');

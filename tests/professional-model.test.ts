@@ -16,6 +16,18 @@ describe('public professional model', () => {
     ]);
   });
 
+  it('keeps the personal note centralized, bilingual and structurally equivalent', () => {
+    const es = getProfile('es').humanNote;
+    const en = getProfile('en').humanNote;
+    expect(es.teaser).toBe('Cuando cierro el IDE, normalmente solo significa que voy a empezar a trastear con otra cosa.');
+    expect(es.paragraphs).toHaveLength(6);
+    expect(es.paragraphs[2]).toContain('*El problema de los tres cuerpos*');
+    expect(es.paragraphs[5]).toContain('**crear cosas, aprender, imaginar y no hacerse demasiado mayor por el camino.**');
+    expect(es.interests.join(' · ')).toBe('Guitarra · libros raros · familia · impresión 3D · proyectos innecesariamente necesarios · aprender por puro vicio · manquear sin complejos');
+    expect(en.paragraphs).toHaveLength(es.paragraphs.length);
+    expect(en.interests).toHaveLength(es.interests.length);
+  });
+
   it.each(['PRIVATE', 'INTERVIEW_ONLY'] as const)('rejects %s visibility', visibility => {
     const value = candidate(); value.claims[0].visibility = visibility;
     expect(validatePublicProfessionalModel(value).join('\n')).toContain(`forbidden visibility ${visibility}`);

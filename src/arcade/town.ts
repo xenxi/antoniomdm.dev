@@ -20,7 +20,7 @@ export const townCopy = {
   earned: text('Demostrado', 'Demonstrated'),
   outstanding: text('Pendiente', 'Outstanding'),
   available: text('Puerta abierta', 'Door open'),
-  hint: text('Camina hasta una puerta y pulsa E, o toca un edificio para acercarte. Empieza por el estudio freelance, al noroeste.', 'Walk to a door and press E, or tap a building to approach it. Start at the freelance studio in the northwest.'),
+  hint: text('Camina hasta una puerta y pulsa E, o toca un edificio para acercarte. Empieza por la casa freelance, con tejado de tejas, al noroeste.', 'Walk to a door and press E, or tap a building to approach it. Start at the freelance home, with its tiled roof, in the northwest.'),
   park: text('Parque del primer commit', 'First Commit Park'),
   garden: text('Jardín de las ideas', 'Garden of Ideas'),
   unlocked: text('Etapa completada. Vuelve a la ciudad: la siguiente puerta ya está abierta.', 'Chapter complete. Return to town: the next door is now open.'),

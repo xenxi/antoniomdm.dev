@@ -11,6 +11,7 @@ import GodotWorld from './GodotWorld';
 import { buildings, townCopy, townSpawn } from './town';
 import { makePixelMap, mapNearby, mapWalkable } from './pixel-map';
 import { hiringRequirements, gameSkills } from './recruitment';
+import { WorldAudio, type WorldSound } from './world-audio';
 
 function Modal({ title, children, close }: { title: string; children: ComponentChildren; close: () => void }) {
   const { locale, href } = useLocale();
@@ -38,6 +39,23 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const [hidden, setHidden] = useState(false);
   const host = useRef<HTMLElement>(null);
   const audio = useRef<HTMLAudioElement | null>(null);
+  const effects = useRef<WorldAudio | null>(null);
+  const [foley, setFoley] = useState(true);
+  function worldSound(kind: WorldSound) {
+    if (!preferences.sound || !foley || hidden || screen === 'paused') return;
+    const player = effects.current ??= new WorldAudio();
+    player.setEnabled(true); player.play(kind);
+  }
+  function unlockEffects() {
+    if (!preferences.sound || !foley) return;
+    const player = effects.current ??= new WorldAudio();
+    player.setEnabled(true); player.unlock();
+  }
+  useEffect(() => {
+    effects.current?.setEnabled(preferences.sound && foley && !hidden && screen !== 'paused');
+    if (screen !== 'game' || hidden) effects.current?.stop();
+  }, [preferences.sound, foley, hidden, screen]);
+  useEffect(() => () => effects.current?.dispose(), []);
   const disposed = useRef(false);
   const interruptedMission = useRef(false);
   const current = useRef(game); current.current = game;
@@ -81,10 +99,10 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   }, [game, loaded, hasSave]);
   useEffect(() => {
     if (audio.current) {
-      if (screen === 'paused' || hidden || eventText || !music) audio.current.pause();
+      if (screen === 'paused' || hidden || eventText || !music || !preferences.sound || !preferences.music) audio.current.pause();
       else if (music) void audio.current.play().catch(() => { if (!disposed.current) { setMusic(false); setNotice(t('Music could not play. You can still explore.')); } });
     }
-  }, [screen, hidden, music, eventText?.id]);
+  }, [screen, hidden, music, eventText?.id, preferences.sound, preferences.music]);
   useEffect(() => {
     if (screen !== 'tour' || hidden) return;
     const timer = window.setInterval(() => setTourSeconds(value => Math.min(30, value + 1)), 1000);
@@ -101,12 +119,15 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
     return () => window.clearTimeout(timer);
   }, [inside, loaded, screen, modal, hidden, chapter.id, p.mission, completed, p.completedEvents.length]);
   function start(id = chapters[0].id, reset = false) {
+    unlockEffects();
     if (!reset && !chapterUnlocked(game, id)) { inspectHiring(id); return; }
+    if (!reset) worldSound('open');
     interruptedMission.current = false;
     setGame(value => reset ? newGame() : enterCompany(value, id)); setHasSave(true); setScreen('game'); setModal(null); setEvent(null); setFeedback(''); setNotice(reset ? tc('hint') : c('terminalHint'));
     requestAnimationFrame(() => host.current?.querySelector<HTMLElement>('.godot-world')?.focus());
   }
   function returnToTown() {
+    worldSound('close');
     const building = buildings.find(b => b.id === chapter.id)!;
     setGame(value => ({ ...value, world: { x: building.door.x, y: building.door.y + 1, inside: false } }));
     setModal(null); setEvent(null); setNotice(tc('hint'));
@@ -120,6 +141,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   }
   function inspectHiring(id: string) {
     if (!chapters.some(chapter => chapter.id === id)) return;
+    worldSound('locked');
     setLockedCompany(id); setNotice(tc('locked')); setModal('hiring');
   }
   function interact(id: ObjectId) {
@@ -132,6 +154,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   function walk(x: number, y: number) {
     if (screen !== 'game' || modal) return;
     if (Math.abs(x - position.x) + Math.abs(y - position.y) !== 1 || !mapWalkable(map, x, y)) return;
+    worldSound(inside ? 'step-inside' : 'step-outside');
     setGame(value => inside ? updateProgress(value, { x, y }) : { ...value, world: { x, y, inside: false } });
   }
   function answer(id: string) {
@@ -161,7 +184,8 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const closeModal = () => { if (modal === 'event') pause(); else setModal(null); };
   const nextChapter = chapters[chapters.findIndex(item => item.id === chapter.id) + 1];
   const title = last ? 'AntoñiOS System Recovery' : job.company;
-  return <section ref={host} class={`arcade-world career-world job-route ${screen === 'game' || screen === 'paused' ? 'is-playing' : 'is-menu'}`} tabIndex={-1} aria-label="AntoñiOS Career Mode" onKeyDown={e => {
+  return <section ref={host} class={`arcade-world career-world job-route ${screen === 'game' || screen === 'paused' ? 'is-playing' : 'is-menu'}`} tabIndex={-1} aria-label="AntoñiOS Career Mode" onPointerDown={unlockEffects} onKeyDown={e => {
+    unlockEffects();
     if (screen === 'game' && !modal && ['i', 'j', 'o'].includes(e.key.toLowerCase()) && !['INPUT', 'TEXTAREA', 'BUTTON', 'A'].includes((e.target as HTMLElement).tagName)) { e.preventDefault(); hudAction(e.key.toUpperCase()); }
     if (e.key === 'Escape' && !modal) { e.preventDefault(); e.stopPropagation(); if (screen === 'game') pause(); else if (screen === 'paused') setScreen('game'); else exit(); }
   }}>
@@ -196,7 +220,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
       </div>
       <div class="career-inventory"><strong>{c('inventory')}</strong><span>▣ {c('phone')}</span><span>◇ {c('knowledge')}</span>{game.coffee && <button onClick={() => { setFeedback(c('coffeeLine')); setModal('info'); }}>☕ {c('coffee')}</button>}{hasEvent(game, 'wedding') && <span>♢ {c('ring')}</span>}{hasEvent(game, 'emma-born') && <span>♡ {c('family')}</span>}</div>
     </>}
-    <footer class="career-footer"><span>{c('simulation')}</span><div>{preferences.sound && preferences.music ? <button onClick={toggleMusic}>{music ? t('Pause music') : t('Play music')}</button> : <span>{t('Sound off · Enable sound and music in Settings')}</span>}<small>{storageNotice || c('saved')}</small></div></footer><p class="career-status" role="status">{notice}</p>
+    <footer class="career-footer"><span>{c('simulation')}</span><div>{preferences.sound && <button aria-pressed={foley} onClick={() => { effects.current?.stop(); setFoley(value => !value); }}>{locale === 'es' ? `Pasos y puertas: ${foley ? 'activados' : 'desactivados'}` : `Footsteps and doors: ${foley ? 'on' : 'off'}`}</button>}{preferences.sound && preferences.music ? <button onClick={toggleMusic}>{music ? t('Pause music') : t('Play music')}</button> : <span>{preferences.sound ? (locale === 'es' ? 'Música desactivada en Ajustes' : 'Music disabled in Settings') : (locale === 'es' ? 'Activa el sonido en Ajustes para oír pasos y puertas' : 'Enable sound in Settings to hear footsteps and doors')}</span>}<small>{storageNotice || c('saved')}</small></div></footer><p class="career-status" role="status">{notice}</p>
     {screen === 'game' && modal === 'inventory' && <Modal title={c('inventory')} close={() => setModal(null)}><div class="job-inventory-grid"><span>▣ {c('phone')}</span><span>◇ {c('knowledge')}</span>{game.coffee && <span>☕ {c('coffee')}</span>}{hasEvent(game, 'wedding') && <span>♢ {c('ring')}</span>}{hasEvent(game, 'emma-born') && <span>♡ {c('family')}</span>}</div><h3>{c('abilities')}</h3>{abilities.length ? <ul>{abilities.map(ability => <li key={ability.id}>{ability.name}</li>)}</ul> : <p>{c('noAbilities')}</p>}<button onClick={() => setModal(null)}>{c('close')}</button></Modal>}
     {screen === 'game' && modal === 'jobs' && <Modal title={hudCopy.jobs[locale]} close={() => setModal(null)}>{inside && mission && <><p class="eyebrow">{hudCopy.objective[locale]}</p><h3>{mission.title[locale]}</h3><p>{mission.briefing[locale]}</p><button class="career-primary" onClick={() => { setFeedback(''); setModal('mission'); }}>{c('workstation')}</button></>}<div class="career-choices">{signs.map(sign => <button key={sign.id} onClick={() => start(sign.id)}>{sign.complete ? '✓' : sign.unlocked ? '→' : '×'} {sign.name}</button>)}</div><button onClick={() => setModal(null)}>{c('close')}</button></Modal>}
     {screen === 'game' && modal === 'hiring' && <Modal title={tc('hiring')} close={() => setModal(null)}><div class="job-hiring-status"><span aria-hidden="true">▣</span><div><p class="eyebrow">{tc('requirements')}</p><h3>{signs.find(sign => sign.id === lockedCompany)?.name}</h3></div></div><p>{tc('hiringBody')}</p><p>{tc('chaptersNeeded')}: <strong>{hiring.length}</strong></p>{nextTraining && <section class="job-hiring-requirements"><p class="eyebrow">{tc('nextStep')}</p><h3>{signs.find(sign => sign.id === nextTraining.id)?.name}</h3>{nextTraining.skills.length > 0 && <><h4>{tc('skillsNeeded')}</h4><ul class="job-skill-chips">{nextTraining.skills.map(skill => <li key={skill}>{gameSkills[skill][locale]}</li>)}</ul></>}<h4>{tc('challenges')}</h4><ul class="job-hiring-checklist">{nextTraining.missions.map(m => <li key={m.id} class={m.done ? 'is-earned' : ''}><span aria-hidden="true">{m.done ? '✓' : '◇'}</span><span>{m.title[locale]}<small>{tc(m.done ? 'earned' : 'outstanding')}</small></span></li>)}{nextTraining.events > 0 && <li>◇ {tc('eventsNeeded')}: {nextTraining.events}</li>}{nextTraining.repair && <li>◇ {tc('repairNeeded')}</li>}</ul></section>}<div class="career-actions">{nextTraining && <button class="career-primary" onClick={() => start(nextTraining.id)}>{tc('continueTraining')} →</button>}<button onClick={() => setModal(null)}>{c('close')}</button></div></Modal>}

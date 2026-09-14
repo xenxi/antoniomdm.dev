@@ -1,7 +1,8 @@
 import type { PixelMap } from './pixel-map';
 import { officeForeground, sceneImage } from './scene-art';
 import { buildings } from './town';
-import { townForeground, townProject } from './town-scene';
+import { townForeground } from './town-scene';
+import { companyArt, companyLogo } from './company-art';
 
 const cachedArt = new WeakMap<PixelMap, { detailed: boolean; background: HTMLCanvasElement; sprite?: HTMLCanvasElement; entities: { depth: number; canvas: HTMLCanvasElement; bounds?: number[] }[] }>();
 export function rasterize(map: PixelMap) {
@@ -24,18 +25,22 @@ export function rasterize(map: PixelMap) {
     art.background = canvas();
     const ctx = art.background.getContext('2d')!; ctx.scale(3.2, 3.2); ctx.drawImage(plate, 0, 0, 480, 320);
     if (map.id === 'town') {
-      for (const [i, b] of buildings.entries()) {
-        const sign = map.signs?.find(s => s.id === b.id), p = townProject(b.x + .25, b.y + b.height, 20);
+      for (const b of buildings) {
+        const style = companyArt[b.id], p = style.sign;
         ctx.save(); ctx.translate(p[0], p[1]); ctx.transform(1, .5, 0, 1, 0, 0);
-        ctx.fillStyle = '#07172aed'; ctx.fillRect(-.5, -3.5, 32, 5.3);
-        ctx.font = 'bold 3px monospace'; ctx.fillStyle = sign?.complete ? '#a0ffe2' : sign?.unlocked ? '#e6fff6' : '#c7caee';
-        const name = sign?.name ?? b.id;
-        ctx.fillText(`${String(i + 1).padStart(2, '0')} ${name}`, 0, 0, 31);
+        const home = b.id === 'freelance';
+        ctx.fillStyle = home ? '#523829' : ['signlab', 'la-salle'].includes(b.id) ? style.color : '#f5f4f0'; ctx.fillRect(0, 0, home ? 10 : 28, home ? 3.8 : 7);
+        ctx.fillStyle = style.color; ctx.fillRect(0, home ? 3.8 : 7, home ? 10 : 28, .65);
+        const logoUrl = companyLogo(b.id), logo = logoUrl ? sceneImage(logoUrl) : undefined;
+        if (logo) {
+          const scale = Math.min(25 / logo.width, 5.3 / logo.height);
+          const w = logo.width * scale, h = logo.height * scale;
+          ctx.drawImage(logo, (28 - w) / 2, (7 - h) / 2, w, h);
+        } else {
+          ctx.font = `bold ${home ? 1.8 : 2.6}px monospace`; ctx.fillStyle = home ? '#ffe4b8' : '#333b48';
+          ctx.fillText(home ? (map.locale === 'es' ? 'CASA' : 'HOME') : 'SYSTEM RECOVERY', 1, home ? 2.7 : 4.6, home ? 8 : 26);
+        }
         ctx.restore();
-        const door = townProject(b.door.x + .5, b.door.y + .5);
-        ctx.save(); ctx.translate(door[0], door[1]); ctx.transform(1, .5, -1, .5, 0, 0);
-        ctx.strokeStyle = sign?.complete ? '#93f5c7' : sign?.unlocked ? '#7df0e4' : '#8a84b2';
-        ctx.lineWidth = .6; ctx.strokeRect(-3, -3, 6, 6); ctx.restore();
       }
     } else {
     // Branding is real localized text, never baked into the scenery.

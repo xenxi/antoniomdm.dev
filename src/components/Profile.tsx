@@ -53,6 +53,41 @@ export function PdfStates({ data }: { data: UiData }) {
   const languageName = (language: 'es' | 'en') => locale === 'es' ? (language === 'es' ? 'Español' : 'Inglés') : (language === 'es' ? 'Spanish' : 'English');
   return <div class="pdf-states">{data.pdfs.map(pdf => <div key={pdf.language} class="pdf-state"><Icon name="cv" /><div><strong>PDF · {languageName(pdf.language)}</strong><Availability value={pdf.availability} /></div>{pdf.availability === 'available' && pdf.path && <a download href={pdf.path} aria-label={`${t('Download CV')} — ${languageName(pdf.language)} — PDF`}>{t('Download CV')} — {languageName(pdf.language)} — PDF</a>}</div>)}</div>;
 }
+
+function RichText({ value }: { value: string }) {
+  const parts = value.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+  return <>{parts.map((part, index) => part.startsWith('**') && part.endsWith('**') ? <strong key={index}>{part.slice(2, -2)}</strong> : part.startsWith('*') && part.endsWith('*') ? <em key={index}>{part.slice(1, -1)}</em> : part)}</>;
+}
+
+function PersonalProcessSprites() {
+  return <div class="personal-processes" aria-hidden="true">
+    <svg viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M9 1h3v2h-1v2H9v2H7v6H5v2H2v-2H1v-3h1V8h3v1h2V5h2zM3 10v3h2v-3z" /></svg>
+    <svg viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M1 3h6v1h2V3h6v10H9v1H7v-1H1zm2 2v6h4V5zm6 0v6h4V5z" /></svg>
+    <svg viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M5 1h6v2h2v2h2v8h-2v2H3v-2H1V5h2V3h2zm0 2v2h6V3zM3 7v5h10V7h-2v2H5V7zm3 3v3h4v-3z" /></svg>
+    <svg viewBox="0 0 16 16" shape-rendering="crispEdges"><path d="M3 2h3v3H3zm7 0h3v3h-3zM1 7h7v2h1V7h6v7h-3v-4h-2v4H6v-4H4v4H1z" /></svg>
+  </div>;
+}
+
+function InterestTokens({ interests }: { interests: string[] }) {
+  return <div class="personal-interests">{interests.map(interest => <span key={interest}><i aria-hidden="true" />{interest}</span>)}</div>;
+}
+
+function PersonalNote({ note }: { note: UiData['humanNote'] }) {
+  const { t, href } = useLocale();
+  return <section class="profile-editorial" aria-labelledby="personal-note-title">
+      <div class="personal-note-heading"><h2 id="personal-note-title">{t('Beyond the role')}</h2><PersonalProcessSprites /></div>
+      <p>{note.teaser}</p>
+      <InterestTokens interests={note.interests} />
+      <a class="personal-note-cta" href={href('/background-processes/')}>{t('View my background processes')} <span aria-hidden="true">→</span></a>
+    </section>;
+}
+
+export function BackgroundProcesses({ data }: { data: UiData }) {
+  const { t } = useLocale();
+  const note = data.humanNote;
+  return <div class="background-processes-app"><div class="personal-window-status"><span>{t('Personal processes currently running')}</span><PersonalProcessSprites /></div><article tabIndex={0} aria-label={t('Personal background story')}>{note.paragraphs.map((paragraph, index) => <p key={index}><RichText value={paragraph} /></p>)}<InterestTokens interests={note.interests} /></article></div>;
+}
+
 export default function Profile({ path, data }: { path: string; data: UiData }) {
   const { locale, t, href } = useLocale();
   const section = profileSectionForPath(path);
@@ -72,11 +107,10 @@ export default function Profile({ path, data }: { path: string; data: UiData }) 
           {data.systemFacts.map(fact => <div key={fact.id}><dt><Icon name={fact.id === 'experience' ? 'experience' : 'architecture'} />{t(fact.label)}</dt><dd>{fact.value}</dd></div>)}
         </dl></aside>
          <div class="profile-bottom"><section class="profile-impact" aria-labelledby="profile-impact-title"><div><p class="eyebrow">{t('IMPACT / EVIDENCE')}</p><h2 id="profile-impact-title">{t('Results that show the work.')}</h2></div><div class="impact-grid">{data.achievements.map(item => <article key={item.id}><h3>{item.title}</h3><p>{item.summary}</p><p class="muted">{item.scope}</p><EvidenceLinks ids={item.caseStudyIds} data={data} kind="case" />{item.metric && <Metric metric={item.metric} t={t} />}</article>)}</div></section><section class="profile-stack"><h2>{t('Tech stack')}</h2><div class="tags">{data.overviewSkills.map(skill => <span key={skill}>{skill}</span>)}</div><a href={href('/profile/competencies/')}>{t('View full stack')} <span aria-hidden="true">→</span></a></section>
-        <section class="profile-editorial"><h2>{t('Beyond the role')}</h2><svg class="pixel-invader" viewBox="0 0 13 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 0h1v1h1v1h5V1h1V0h1v2h-1v1h2v2h1v3h-1V6h-1v3H8V8H5v1H2V6H1v2H0V5h1V3h2V2H2z M3 4v2h2V4z M8 4v2h2V4z" fill-rule="evenodd" /></svg><p>{data.humanNote}</p><a href={href('/contact/')}>{t('Professional channels')} <span aria-hidden="true">→</span></a></section></div></div>
+        <PersonalNote note={data.humanNote} /></div></div>
       </> : section.id === 'experience' ? <><p class="eyebrow">{t('CAREER / EXPERIENCE')}</p><h1>{t('The journey so far.')}</h1><ExperienceContent data={data} /></>
       : section.id === 'competencies' ? <><h1>{t(section.name)}</h1><div class="competency-list">{data.competencies.map(item => <article id={item.id} key={item.id}><h2>{item.name}</h2><p class="classification">{item.classification} · {item.recency}</p>{item.summary && <p>{item.summary}</p>}<div class="tags">{item.skills.map(skill => <span key={skill}>{skill}</span>)}</div><h3>{t('Evidence')}</h3><EvidenceLinks ids={item.experienceIds} data={data} kind="experience" /><EvidenceLinks ids={item.caseStudyIds} data={data} kind="case" /><EvidenceLinks ids={item.projectIds} data={data} kind="project" /></article>)}</div></>
       : section.id === 'achievements' ? <><h1>{t(section.name)}</h1><div class="achievement-list">{data.achievements.map(item => <article id={item.id} key={item.id}><h2>{item.title}</h2><p class="lead">{item.summary}</p><p class="muted">{item.scope}</p>{item.metric && <Metric metric={item.metric} t={t} />}<h3>{t('Evidence')}</h3><EvidenceLinks ids={item.experienceIds} data={data} kind="experience" /><EvidenceLinks ids={item.caseStudyIds} data={data} kind="case" /></article>)}</div></>
-      : section.id === 'education' ? <><h1>{t(section.name)}</h1><p>{profile.education}</p></>
       : section.id === 'languages' ? <><h1>{t(section.name)}</h1><p>{profile.spokenLanguages}</p></>
       : <article class="cv-content"><p class="eyebrow">{t('CURRICULUM / PROFILE EXTRACT')}</p><h1>{t('CV')}</h1><div class="extended-cv"><strong>{t('Extended CV')}</strong><Availability value="available" /><a href={href('/cv/?view=reading')}>{t('Reading view ↗')}</a>{data.cvAssets.filter(asset => asset.format === 'txt').map(asset => <a key={asset.id} download href={asset.publicPath}>{asset.label[locale]}</a>)}</div><PdfStates data={data} /><div class="cv-body"><ProfileContent data={data} /><h2>{t('Experience')}</h2><ExperienceContent data={data} /><h2>{t('Education')}</h2><p>{profile.education}</p><h2>{t('Languages')}</h2><p>{profile.spokenLanguages}</p><button class="no-print" onClick={() => window.print()}>{t('Print / Save PDF')}</button></div></article>}
     </div>

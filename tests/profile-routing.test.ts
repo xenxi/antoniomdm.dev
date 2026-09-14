@@ -26,8 +26,9 @@ describe('A3 Profile document contract', () => {
     expect(appForPath('/ai/')).toBe('lab');
     expect(appForPath('/lab/')).toBe('lab');
     expect(appForPath('/contact/')).toBe('contact');
-    expect(desktopApplications).toHaveLength(8);
-    expect(launcherApplications).toHaveLength(9);
+    expect(appForPath('/background-processes/')).toBe('background');
+    expect(desktopApplications).toHaveLength(9);
+    expect(launcherApplications).toHaveLength(10);
     for (const app of launcherApplications) {
       expect(spanish[app.name]).toBeTruthy();
       expect(translator('es')(app.description)).toBeTruthy();

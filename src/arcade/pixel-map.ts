@@ -4,10 +4,11 @@ import type { Locale } from '../i18n/core';
 import { copy } from './campaign';
 import { townProjection, townProject, buildingOutline } from './town-scene';
 import { sceneEffects } from './scene-effects';
+import { companyArt } from './company-art';
 
 
 export type PixelRect = [number, number, number, number, string];
-export interface MapObject { id: string; x: number; y: number; label: string; locked?: boolean; complete?: boolean; marker?: number[]; hit?: [number, number, number, number]; hitPolygon?: number[][] }
+export interface MapObject { id: string; x: number; y: number; label: string; locked?: boolean; complete?: boolean; marker?: number[]; entrance?: { anchor: number[]; width: number; height: number; color: string }; hit?: [number, number, number, number]; hitPolygon?: number[][] }
 export interface PixelMap { effects?: ReturnType<typeof sceneEffects>; art?: string; sprite?: string; spriteScale?: number; signs?: CompanySign[]; company?: string; locale?: Locale; axes?: number[]; projection?: 'isometric'; entities?: { depth: number; rects: PixelRect[] }[]; id: string; width: number; height: number; tile: number; ox: number; oy: number; rects: PixelRect[]; labels: { x: number; y: number; text: string; color: string }[]; blocked: { x: number; y: number }[]; objects: MapObject[] }
 export interface CompanySign { id: string; name: string; unlocked: boolean; complete: boolean }
 export const playerSprite = [
@@ -26,13 +27,14 @@ export function makePixelMap(scenario: string, signs: CompanySign[], locale: Loc
   map.effects = sceneEffects(town);
   const label = (x: number, y: number, text: string, color = '#91e9df') => map.labels.push({ x, y, text, color });
   if (town) {
-    map.art = '/images/job-route/neon-district.webp'; map.spriteScale = .58; map.signs = signs;
+    map.art = '/images/job-route/company-district.webp'; map.spriteScale = .58; map.signs = signs;
     map.projection = 'isometric'; Object.assign(map, townProjection);
     map.rects = [[0, 0, 480, 320, '#101a31']];
     map.objects = buildings.map(b => {
       const polygon = buildingOutline(b), xs = polygon.map(p => p[0]), ys = polygon.map(p => p[1]);
       const sign = signs.find(s => s.id === b.id);
-      return { id: b.id, ...b.door, label: sign?.name ?? b.id, locked: !sign?.unlocked, complete: Boolean(sign?.complete), marker: townProject(b.door.x + .5, b.door.y + .5, 25), hitPolygon: polygon, hit: [Math.min(...xs), Math.min(...ys), Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys)] };
+      const art = companyArt[b.id];
+      return { id: b.id, ...b.door, label: sign?.name ?? b.id, locked: !sign?.unlocked, complete: Boolean(sign?.complete), entrance: { anchor: art.door, width: art.width, height: art.height, color: art.color }, marker: [art.door[0], art.door[1] - art.height - 8], hitPolygon: polygon, hit: [Math.min(...xs), Math.min(...ys), Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys)] };
     });
     const park = townProject(7, 11), garden = townProject(23, 12);
     label(park[0], park[1], townCopy.park[locale]); label(garden[0], garden[1], townCopy.garden[locale]);

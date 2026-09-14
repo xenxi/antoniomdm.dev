@@ -5,6 +5,7 @@ const entries: [AppId, string, string, string][] = [
   ['welcome', 'Welcome', '/', 'Start here'], ['projects', 'Projects', '/projects/', 'Selected work'],
   ['experience', 'Experience', '/experience/', 'The career timeline'], ['notes', 'Blog', '/notes/', 'Ideas and build logs'],
   ['lab', 'AI Lab', '/ai-lab/', 'Applied AI, clearly scoped'], ['about', 'Profile', '/profile/', 'The person behind the system'],
+  ['background', 'Background processes', '/background-processes/', 'Personal processes still running'],
   ['cv', 'CV', '/cv/', 'A printable profile'], ['terminal', 'Terminal', '/terminal/', 'A different way to navigate'],
   ['settings', 'Settings', '/settings/', 'Make yourself at home'], ['arcade', 'Arcade', '/arcade/', 'Same person. Different reality.'],
   ['architecture', 'Architecture', '/architecture/', 'Engineering decisions from discovery to production'], ['contact', 'Contact', '/contact/', 'Verified professional channels'],
@@ -24,5 +25,5 @@ export function appForPath(path: string): AppId | undefined {
   if (clean === '/ai-lab/' || clean.startsWith('/ai-lab/') || clean === '/ai/' || clean === '/lab/') return 'lab';
   return applications.find(app => app.path !== '/' && (clean === app.path || ((app.id === 'projects' || app.id === 'notes' || app.id === 'architecture') && clean.startsWith(app.path))))?.id;
 }
-export const desktopApplications: AppId[] = ['about', 'architecture', 'projects', 'lab', 'notes', 'terminal', 'arcade', 'contact'];
+export const desktopApplications: AppId[] = ['about', 'background', 'architecture', 'projects', 'lab', 'notes', 'terminal', 'arcade', 'contact'];
 export const launcherApplications = [...desktopApplications, 'settings' as const].map(id => registry[id]);

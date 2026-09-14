@@ -64,5 +64,5 @@ describe('WindowManager', () => {
 });
 describe('Preferences', () => {
   it('defaults audio off and tolerates unavailable or corrupt storage', () => { expect(parsePreferences(null)).toEqual(defaults); expect(parsePreferences('{broken')).toEqual(defaults); expect(parsePreferences('null')).toEqual(defaults); });
-  it('validates persisted types and discards unrelated fields', () => { expect(parsePreferences('{"sound":"true","wallpaper":"other","injected":1}')).toEqual(defaults); expect(parsePreferences('{"sound":true,"wallpaper":"midnight"}')).toEqual({ ...defaults, sound: true, wallpaper: 'midnight' }); });
+  it('validates persisted types and discards unrelated fields', () => { expect(parsePreferences('{"sound":"true","wallpaper":"other","injected":1}')).toEqual(defaults); expect(parsePreferences('{"sound":true,"wallpaper":"midnight"}')).toEqual({ ...defaults, sound: true, wallpaper: 'midnight' }); expect(parsePreferences('{"sound":false}').sound).toBe(false); });
 });

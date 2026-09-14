@@ -5,7 +5,7 @@ import type { UiData } from '../data/ui';
 import type { AppId } from '../os/types';
 import type { Preferences } from '../os/preferences';
 import Icon from './Icon';
-import Profile from './Profile';
+import Profile, { BackgroundProcesses } from './Profile';
 import ProjectThumbnail from './ProjectThumbnail';
 import Architecture from './Architecture';
 import Platform934 from './Platform934';
@@ -22,6 +22,7 @@ export default function AppContent(props: Props) {
   const { id, path, content, data } = props;
   const [category, setCategory] = useState<string>(t("All projects"));
   if (['about', 'welcome', 'experience', 'cv'].includes(id)) return <Profile path={path} data={data} />;
+  if (id === 'background') return <BackgroundProcesses data={data} />;
   if (id === 'projects') {
     const selected = projects.find(project => path === `/projects/${project.slug}/`);
     if (selected?.slug === 'platform934') return <Platform934 data={data} />;

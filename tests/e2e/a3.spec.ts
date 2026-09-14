@@ -3,8 +3,8 @@ import AxeBuilder from '@axe-core/playwright';
 import { mkdir } from 'node:fs/promises';
 
 test.use({ reducedMotion: 'reduce' });
-const sections = ['/profile/', '/experience/', '/profile/competencies/', '/profile/achievements/', '/profile/education/', '/profile/languages/', '/cv/'];
-const ids = ['overview', 'experience', 'competencies', 'achievements', 'education', 'languages', 'cv'];
+const sections = ['/profile/', '/experience/', '/profile/competencies/', '/profile/achievements/', '/profile/languages/', '/cv/'];
+const ids = ['overview', 'experience', 'competencies', 'achievements', 'languages', 'cv'];
 const shots = 'test-results/a3';
 
 for (const [width, height] of [[320, 740], [390, 844], [768, 1024], [820, 1180], [1100, 800], [1280, 800], [1440, 1000], [1920, 1080]]) {
@@ -65,7 +65,7 @@ test('A3 sections share a window, update metadata, restore history and preserve 
 
 test('A3 launcher opens every app and keyboard restores minimized state', async ({ page }) => {
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  for (const [path, id] of [['/profile/', 'about'], ['/architecture/', 'architecture'], ['/projects/', 'projects'], ['/ai-lab/', 'lab'], ['/notes/', 'notes'], ['/terminal/', 'terminal'], ['/arcade/', 'arcade'], ['/contact/', 'contact'], ['/settings/', 'settings']]) {
+  for (const [path, id] of [['/profile/', 'about'], ['/background-processes/', 'background'], ['/architecture/', 'architecture'], ['/projects/', 'projects'], ['/ai-lab/', 'lab'], ['/notes/', 'notes'], ['/terminal/', 'terminal'], ['/arcade/', 'arcade'], ['/contact/', 'contact'], ['/settings/', 'settings']]) {
     await page.keyboard.press('Alt+l');
     await expect(page.getByRole('textbox', { name: 'Find an application' })).toBeFocused();
     await page.locator(`.launcher nav a[href="/en${path}"]`).focus(); await page.keyboard.press('Enter');
@@ -99,6 +99,22 @@ test('A3 approved contact and CV states are honest', async ({ page }) => {
   await page.goto('/es/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await page.keyboard.press('Alt+l'); await expect(page.locator('.launcher')).toBeVisible();
   await page.screenshot({ path: `${shots}/launcher-es.png` });
+});
+
+for (const [locale, label, closing] of [
+  ['es', 'Ver mis procesos en segundo plano', 'crear cosas, aprender, imaginar y no hacerse demasiado mayor por el camino.'],
+  ['en', 'View my background processes', 'making things, learning, imagining and not growing too old along the way.'],
+] as const) test(`A3 personal background processes open, scroll and close by keyboard in ${locale}`, async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(locale === 'es' ? '/es/' : '/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
+  const trigger = page.getByRole('link', { name: label });
+  await trigger.scrollIntoViewIfNeeded(); await trigger.focus(); await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(locale === 'es' ? '/background-processes/' : '/en/background-processes/');
+  const app = page.locator('[data-window="background"]');
+  await expect(app).toBeVisible(); await expect(app).toContainText(closing);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
+  expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
+  await page.keyboard.press('Escape'); await expect(app).toBeHidden();
 });
 
 test('A3 a deferred article failure keeps a real reading link and can be retried', async ({ page }) => {

@@ -35,7 +35,11 @@ export interface ProfessionalProfile {
   introduction: LocalizedText;
   mode: LocalizedText;
   summary: LocalizedText;
-  humanNote: LocalizedText;
+  humanNote: {
+    teaser: LocalizedText;
+    paragraphs: LocalizedText[];
+    interests: LocalizedText[];
+  };
   location: LocalizedText;
   availability: LocalizedText;
   focusAreas: string[];

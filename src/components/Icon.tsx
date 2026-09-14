@@ -8,6 +8,7 @@ const paths: Record<AppId, string> = {
   notes: 'M5 3h11l4 4v14H5z M16 3v5h4 M8 12h9 M8 16h7',
   lab: 'M9 3h6 M10 3v7l-6 9v2h16v-2l-6-9V3 M7 15h10 M10 18h1 M14 17h1',
   about: 'M9 3h6v2h2v7h-2v2H9v-2H7V5h2z M4 22v-4h3v-2h10v2h3v4',
+  background: 'M4 4h7v6H4z M13 4h7v6h-7z M4 13h7v7H4z M13 13h7v7h-7z M6 7h3 M15 7h3 M6 16h3 M15 16h3',
   cv: 'M5 3h14v18H5z M8 7h3v3H8z M14 7h2 M14 10h2 M8 14h8 M8 18h8',
   terminal: 'M3 4h18v16H3z M7 9l4 3-4 3 M13 15h4',
   settings: 'M9 3h6v3h3v3h3v6h-3v3h-3v3H9v-3H6v-3H3V9h3V6h3z M9 9h6v6H9z',

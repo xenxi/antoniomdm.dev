@@ -7,8 +7,8 @@ test.use({ reducedMotion: 'reduce' });
 
 const screenshots = 'test-results/a4';
 const routes = {
-  es: { experience: '/experience/', competencies: '/profile/competencies/', achievements: '/profile/achievements/', education: '/profile/education/', languages: '/profile/languages/' },
-  en: { experience: '/en/experience/', competencies: '/en/profile/competencies/', achievements: '/en/profile/achievements/', education: '/en/profile/education/', languages: '/en/profile/languages/' },
+  es: { experience: '/experience/', competencies: '/profile/competencies/', achievements: '/profile/achievements/', languages: '/profile/languages/' },
+  en: { experience: '/en/experience/', competencies: '/en/profile/competencies/', achievements: '/en/profile/achievements/', languages: '/en/profile/languages/' },
 } as const;
 
 async function ready(page: Page, path: string) {
@@ -115,11 +115,8 @@ for (const locale of ['es', 'en'] as const) {
   });
 }
 
-test('A4 education and languages preserve source boundaries in both locales', async ({ page }) => {
+test('A4 languages preserve source boundaries in both locales', async ({ page }) => {
   for (const locale of ['es', 'en'] as const) {
-    await ready(page, routes[locale].education);
-    await expect(page.locator('.profile-section')).toContainText(locale === 'es' ? 'título no obtenido' : 'degree not awarded');
-    await expect(page.locator('.profile-section')).not.toContainText(/Titulado|Graduado|Grado obtenido|Bachelor's degree|Graduated|Engineering degree awarded/);
     await ready(page, routes[locale].languages);
     await expect(page.locator('.profile-section')).toContainText(locale === 'es' ? 'Español nativo' : 'Native Spanish');
     await expect(page.locator('.profile-section')).not.toContainText(/\b(?:B1|B2|C1|C2|CEFR|Fluent)\b/);
@@ -150,7 +147,7 @@ test('A4 no-JS routes expose professional HTML in both locales', async ({ browse
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   for (const locale of ['es', 'en'] as const) {
-    for (const [section, expected] of [['experience', 9], ['competencies', 19], ['achievements', 4], ['education', 1], ['languages', 1]] as const) {
+    for (const [section, expected] of [['experience', 9], ['competencies', 19], ['achievements', 4], ['languages', 1]] as const) {
       await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${routes[locale][section]}`);
       await expect(page.locator('.profile-section h1').first()).toBeVisible();
       if (section === 'experience') await expect(page.locator('.timeline-item')).toHaveCount(expected);

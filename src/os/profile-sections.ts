@@ -3,7 +3,6 @@ export const profileSections = [
   { id: 'experience', name: 'Experience', path: '/experience/' },
   { id: 'competencies', name: 'Competencies', path: '/profile/competencies/' },
   { id: 'achievements', name: 'Achievements', path: '/profile/achievements/' },
-  { id: 'education', name: 'Education', path: '/profile/education/' },
   { id: 'languages', name: 'Languages', path: '/profile/languages/' },
   { id: 'cv', name: 'CV', path: '/cv/' },
 ] as const;

@@ -22,7 +22,7 @@ describe('Open town and chronological company doors', () => {
   it('shares the office character and projects every saved tile onto the illustrated city', () => {
     const town = makePixelMap('town', [], 'es'), office = makePixelMap('office', [], 'es');
     expect(town.sprite).toBe(office.sprite);
-    expect(town.art).toBe('/images/job-route/neon-district.webp');
+    expect(town.art).toBe('/images/job-route/company-district.webp');
     expect(town.projection).toBe('isometric');
     for (let x = 0; x < town.width; x++) for (let y = 0; y < town.height; y++) {
       const p = mapProject(town, x + .5, y + .5);

@@ -1,15 +1,15 @@
 import { buildings } from './town';
-import { townProject } from './town-scene';
+import { companyArt } from './company-art';
 
 // Coordinates are in the 480 × 320 artwork space, independent of camera zoom.
 export function sceneEffects(town: boolean) {
   return town ? {
     fountains: [[284, 167, 13], [301, 176, 12], [314, 184, 9]],
-    lights: buildings.map(b => {
-      const a = townProject(b.x + .4, b.y + b.height, 17);
-      return [...a, a[0] + 29, a[1] + 14.5];
+    lights: buildings.filter(b => b.id !== 'freelance').map(b => {
+      const a = companyArt[b.id].sign;
+      return [a[0], a[1] + 7.7, a[0] + 28, a[1] + 21.7, companyArt[b.id].color];
     }),
-    fans: [[177, 28], [225, 47], [277, 74], [325, 102], [372, 130], [78, 83], [125, 110], [174, 140], [224, 167], [273, 194]],
+    fans: [],
     steam: [], screens: [],
   } : {
     fountains: [], fans: [],

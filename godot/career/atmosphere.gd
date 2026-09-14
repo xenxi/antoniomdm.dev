@@ -53,7 +53,7 @@ func _fountain(f: Array, index: int) -> void:
 	_glow_line(base, base - Vector2(0, height * 0.8), Color("7cecff"), 0.7)
 
 func _marker(center: Vector2, kind: String, near: bool, phase: float) -> void:
-	var float_y = sin(elapsed * 2.6 + phase) * 1.4 if kind == "quest" else sin(elapsed * 1.7 + phase) * 0.5
+	var float_y = 0.0 if scene.id == "town" else (sin(elapsed * 2.6 + phase) * 1.4 if kind == "quest" else sin(elapsed * 1.7 + phase) * 0.5)
 	var p = center + Vector2(0, float_y)
 	var color = Color("ffd77b") if kind == "quest" else Color("78e4dc")
 	if kind == "complete": color = Color("91ecad")
@@ -73,30 +73,41 @@ func _marker(center: Vector2, kind: String, near: bool, phase: float) -> void:
 	if near: draw_line(p + Vector2(0, size + 2), p + Vector2(0, size + 4), color, 0.7)
 
 func _door(object: Dictionary) -> void:
-	var marker = Vector2(object.marker[0], object.marker[1])
-	var bottom = marker + Vector2(0, 21.5)
+	if not object.has("entrance"): return
+	var entrance = object.entrance
+	var bottom = Vector2(entrance.anchor[0], entrance.anchor[1])
+	var width = float(entrance.width)
+	var height = float(entrance.height)
 	var locked = object.get("locked", false)
+	var tint = Color(entrance.color)
+	# Fixed facade coordinates. Only the leaves move, within the door frame.
+	draw_set_transform(bottom, 0, Vector2.ONE)
+	var frame = PackedVector2Array([Vector2(-width / 2, -width / 4), Vector2(width / 2, width / 4), Vector2(width / 2, width / 4 - height), Vector2(-width / 2, -width / 4 - height)])
 	if locked:
-		# Closed metal shutter follows the entrance's isometric facade.
-		var shutter = PackedVector2Array([bottom + Vector2(-5.5, -2.75), bottom + Vector2(5.5, 2.75), bottom + Vector2(5.5, -14.25), bottom + Vector2(-5.5, -19.75)])
-		draw_colored_polygon(shutter, Color("182738f5"))
-		for i in range(9):
-			var left = bottom + Vector2(-5.5, -3.5 - i * 1.8)
-			draw_line(left, left + Vector2(11, 5.5), Color("658099a0"), 0.5)
-		var p = bottom + Vector2(0, -9)
-		draw_rect(Rect2(p - Vector2(3, 3), Vector2(6, 7)), Color("081422"))
-		draw_arc(p + Vector2(0, -0.8), 1.3, PI, TAU, 12, Color("ecaa98"), 0.65)
-		draw_rect(Rect2(p + Vector2(-1.8, -0.5), Vector2(3.6, 2.6)), Color("ecaa98"))
-		draw_line(bottom + Vector2(-5.5, -2.5), bottom + Vector2(5.5, 3), Color("ee9b87"), 0.55)
+		draw_colored_polygon(frame, Color("152234"))
+		for i in range(1, int(height / 2)):
+			var left = Vector2(-width / 2 + 0.5, -width / 4 - i * 2)
+			draw_line(left, left + Vector2(width - 1, (width - 1) / 2), Color("46556b"), 0.4)
+		# A small fixed latch, on the facade plane; no floating padlock card.
+		var p = Vector2(0, -height * 0.45)
+		draw_arc(p + Vector2(0, -0.8), 0.9, PI, TAU, 10, Color("e7c19a"), 0.5)
+		draw_rect(Rect2(p + Vector2(-1.2, -0.8), Vector2(2.4, 2.1)), Color("e7c19a"))
 	else:
 		var opening = float(openings.get(object.id, 0))
-		for side in [-1, 1]:
-			var offset = side * (2.5 + opening * 3.0)
-			var a = bottom + Vector2(offset, offset * 0.5)
-			_glow_line(a, a - Vector2(0, 16), Color("8aeee4"), 0.8)
-		_ellipse(bottom + Vector2(0, 2), 4.5 + opening, Color("79ece799"))
-	if hovered == object.id:
-		_glow_line(bottom + Vector2(-6, -3), bottom + Vector2(6, 3), Color("ffc99b") if locked else Color("a0fff0"), 1.8)
+		# Leave the painted domestic door intact; glass office leaves stay in-frame.
+		if object.id != "freelance":
+			draw_colored_polygon(frame, Color("102632b0"))
+			for side in [-1, 1]:
+				var outer = side * width / 2
+				var inner = side * width / 2 * opening
+				var leaf = PackedVector2Array([Vector2(outer, outer / 2), Vector2(inner, inner / 2), Vector2(inner, inner / 2 - height), Vector2(outer, outer / 2 - height)])
+				if opening < 0.99: draw_colored_polygon(leaf, Color("a0d5db45"))
+				draw_line(Vector2(inner, inner / 2), Vector2(inner, inner / 2 - height), Color("bbd5d7"), 0.4)
+	frame.append(frame[0])
+	draw_polyline(frame, Color("70675c") if object.id == "freelance" else Color("607185"), 0.55)
+	var threshold = Color("d1a482") if locked else tint.lightened(0.3)
+	draw_line(Vector2(-width / 2, -width / 4), Vector2(width / 2, width / 4), threshold, 0.6 if hovered != object.id else 1.0)
+	draw_set_transform(Vector2.ZERO)
 
 func _draw() -> void:
 	if scene.is_empty(): return
@@ -104,7 +115,7 @@ func _draw() -> void:
 	for i in range(effects.get("lights", []).size()):
 		var line = effects.lights[i]
 		var strength = 0.55 + 0.28 * sin(elapsed * 1.15 + i * 2.7)
-		_glow_line(Vector2(line[0], line[1]), Vector2(line[2], line[3]), Color("73edea") if i % 3 else Color("e091fc"), strength)
+		_glow_line(Vector2(line[0], line[1]), Vector2(line[2], line[3]), (Color(line[4]) if line.size() > 4 else Color("73edea")), strength)
 	for i in range(effects.get("fountains", []).size()): _fountain(effects.fountains[i], i)
 	for f in effects.get("fans", []):
 		var p = Vector2(f[0], f[1])
