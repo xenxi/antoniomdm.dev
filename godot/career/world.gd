@@ -3,6 +3,7 @@ extends Node2D
 class PixelLayer extends Node2D:
 	var texture: ImageTexture
 	var depth = -100.0
+	var motion: Array = []
 	var bounds = Rect2(0, 0, 480, 320)
 	func load_art(data: String, region: Array = []) -> void:
 		if region.size() == 4: bounds = Rect2(region[0], region[1], region[2], region[3])
@@ -222,6 +223,7 @@ func _rebuild_art() -> void:
 		var layer = PixelLayer.new()
 		layer.load_art(entity.image, entity.get("bounds", []))
 		layer.depth = entity.depth
+		layer.motion = entity.get("motion", [])
 		add_child(layer)
 		artwork.append(layer)
 
@@ -237,6 +239,8 @@ func _draw() -> void:
 	draw_set_transform(-camera_position.round() * zoom, 0, Vector2(zoom, zoom))
 	for layer in artwork:
 		layer.position = -camera_position.round() * zoom
+		if layer.motion.size() == 3 and not state.reducedMotion:
+			layer.position += Vector2(layer.motion[0], layer.motion[1]) * sin(tick * layer.motion[2]) * zoom
 		layer.scale = Vector2(zoom, zoom)
 		layer.z_index = -2 if layer.depth == -100 else (1 if layer.depth > player.x + player.y + 1 else -1)
 	for tile in route:

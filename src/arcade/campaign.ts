@@ -1,3 +1,4 @@
+import { extraMissions } from './quest-content';
 import type { LocalizedText } from '../data/professional/types';
 
 export const text = (es: string, en: string): LocalizedText => ({ es, en });
@@ -5,10 +6,12 @@ export type Mechanic = 'bug' | 'trace' | 'bottleneck' | 'routing' | 'priority' |
 export interface Choice { id: string; label: LocalizedText; feedback: LocalizedText; accepted?: boolean }
 export interface Mission {
   id: string; mechanic: Mechanic; title: LocalizedText; briefing: LocalizedText;
+  target?: string; seconds?: number; challenge?: 'snake';
   evidence?: string; metrics?: { label: string; value: number }[]; sequence?: string[]; choices: Choice[];
 }
 const choice = (id: string, es: string, en: string, feedbackEs: string, feedbackEn: string, accepted = false): Choice => ({ id, label: text(es, en), feedback: text(feedbackEs, feedbackEn), accepted });
 export const missions: Mission[] = [
+  ...extraMissions,
   { id: 'button', mechanic: 'bug', title: text('Solo es cambiar un botón', 'Just change one button'), briefing: text('El cliente no puede enviar el formulario. Inspecciona el HTML y selecciona la línea que lo bloquea.', 'The client cannot submit the form. Inspect the HTML and select the line that blocks it.'), evidence: '<form>\n  <input name="message" required />\n  <button type="button">OK</button>\n</form>', choices: [
     choice('input', '<input required />', '<input required />', 'El campo obligatorio es intencional. Mira cómo se envía el formulario.', 'The required field is intentional. Look at how the form submits.'),
     choice('button', '<button type="button"> → type="submit"', '<button type="button"> → type="submit"', 'El formulario ya se envía. El cliente añade: «Y ya que estamos…».', 'The form submits now. The client adds: “While you are at it…”', true),
@@ -94,15 +97,15 @@ export interface Chapter { id: string; experienceId: string; scenario: 'bedroom'
 // Opening flash-forward: the freelance room introduces the controls, then the career resumes chronologically.
 // Professional labels, dates and competencies MUST be resolved from the public model by experienceId.
 export const chapters: Chapter[] = [
-  { id: 'freelance', experienceId: 'freelance', scenario: 'bedroom', missions: ['button'] },
-  { id: 'xul', experienceId: 'xul', scenario: 'office', missions: ['mobile'] },
-  { id: 'signlab', experienceId: 'signlab', scenario: 'office', missions: ['image'] },
-  { id: 'la-salle', experienceId: 'la-salle', scenario: 'office', missions: ['systems'] },
-  { id: 'alcatel-lucent', experienceId: 'alcatel-lucent', scenario: 'network', missions: ['validation'] },
-  { id: 'nokia', experienceId: 'nokia', scenario: 'network', missions: ['network'] },
-  { id: 'vector-itc', experienceId: 'vector-itc', scenario: 'office', missions: ['pipeline'] },
-  { id: 'anexia', experienceId: 'anexia', scenario: 'city', missions: ['application'] },
-  { id: 'domingo-alonso', experienceId: 'domingo-alonso', scenario: 'city', missions: ['distributed', 'architecture'] },
+  { id: 'freelance', experienceId: 'freelance', scenario: 'bedroom', missions: ['button', 'responsive', 'layout-a11y', 'client-handoff'] },
+  { id: 'xul', experienceId: 'xul', scenario: 'office', missions: ['mobile', 'xul-learn', 'xul-lifecycle', 'xul-review'] },
+  { id: 'signlab', experienceId: 'signlab', scenario: 'office', missions: ['image', 'signlab-coordinates', 'signlab-overlap', 'signlab-delivery'] },
+  { id: 'la-salle', experienceId: 'la-salle', scenario: 'office', missions: ['systems', 'school-permissions', 'school-backup', 'school-inventory'] },
+  { id: 'alcatel-lucent', experienceId: 'alcatel-lucent', scenario: 'network', missions: ['validation', 'alcatel-desk', 'alcatel-statue', 'alcatel-platform'] },
+  { id: 'nokia', experienceId: 'nokia', scenario: 'network', missions: ['network', 'nokia-connectivity', 'nokia-snake', 'nokia-geometry'] },
+  { id: 'vector-itc', experienceId: 'vector-itc', scenario: 'office', missions: ['pipeline', 'vector-report', 'vector-nlp', 'vector-workflow'] },
+  { id: 'anexia', experienceId: 'anexia', scenario: 'city', missions: ['application', 'anexia-requirements', 'anexia-mobile', 'anexia-valuation'] },
+  { id: 'domingo-alonso', experienceId: 'domingo-alonso', scenario: 'city', missions: ['distributed', 'architecture', 'dag-tests', 'dag-ai'] },
   { id: 'system-recovery', experienceId: 'domingo-alonso', scenario: 'city', missions: ['observe', 'distributed', 'application', 'prioritize', 'contain', 'fix', 'verify'] },
 ];
 export const missionById = Object.fromEntries(missions.map(mission => [mission.id, mission]));
@@ -114,6 +117,16 @@ export const personalEvents: PersonalEvent[] = [
 ];
 
 export const copy = {
+  campaignMode: text('Campaña · explora la ciudad', 'Campaign · explore the town'),
+  quickMode: text('Arcade · misión rápida', 'Arcade · quick mission'),
+  quickIntro: text('Elige cualquier misión y entra directamente al reto. Tu campaña conserva su progreso.', 'Choose any mission and jump straight into the challenge. Your campaign keeps its progress.'),
+  selectCompany: text('Elegir escenario', 'Choose a setting'),
+  selectMission: text('Elegir misión', 'Choose a mission'),
+  launchMission: text('Jugar esta misión', 'Play this mission'),
+  quickDone: text('¡Misión superada!', 'Mission cleared!'),
+  quickAgain: text('Repetir misión', 'Replay mission'),
+  quickNext: text('Siguiente misión', 'Next mission'),
+  quickBack: text('Volver al selector', 'Back to mission select'),
   subtitle: text('Tu carrera es la campaña.', 'Your career is the campaign.'),
   intro: text('Una ciudad a color, parques y una empresa por etapa. Recorre sus calles y abre nuevas puertas a medida que avanzas por el CV.', 'A colorful town, parks and a company for every chapter. Walk its streets and unlock new doors as you progress through the CV.'),
   premise: text('El mundo es ficción. La carrera que contiene no.', 'The world is fiction. The career within it is real.'),
@@ -127,11 +140,11 @@ export const copy = {
   map: text('Mapa de ciudad visto desde arriba. Usa las flechas para caminar y E junto a puertas, personas u objetos.', 'Top-down town map. Use arrows to walk and E near doors, people or objects.'),
   move: text('Movimiento', 'Movement'), up: text('Caminar al norte', 'Walk north'), down: text('Caminar al sur', 'Walk south'), left: text('Caminar al oeste', 'Walk west'), right: text('Caminar al este', 'Walk east'), interact: text('Interactuar', 'Interact'),
   accessible: text('Interacción directa accesible', 'Accessible direct interaction'), workstation: text('Abrir misión del terminal', 'Open terminal mission'), npc: text('Hablar con el equipo', 'Talk to the team'), coffee: text('Tomar café', 'Have coffee'), secret: text('Examinar caja negra', 'Inspect black box'),
-  walkCloser: text('Acércate al terminal, al equipo, al café o a la caja negra.', 'Move closer to the terminal, team, coffee or black box.'),
+  walkCloser: text('Acércate al objeto marcado en el plano y pulsa E.', 'Approach the object marked on the map and press E.'),
   npcLine: text('EQUIPO · «Comprueba una hipótesis cada vez. Y avisa si necesitas cobertura».', 'TEAM · “Test one hypothesis at a time. And let us know if you need cover.”'),
   coffeeLine: text('Café adquirido. +1 taza, ninguna habilidad profesional inventada.', 'Coffee acquired. +1 cup, no invented professional skills.'),
   secretLine: text('THE INTERNET · No dejar caer. Parece una caja sorprendentemente pequeña.', 'THE INTERNET · Do not drop. It looks surprisingly small.'),
-  terminalHint: text('Tu misión te espera en el terminal iluminado.', 'Your mission awaits at the illuminated terminal.'),
+  terminalHint: text('Consulta el objetivo marcado en el plano: cada misión tiene su lugar.', 'Check the marked objective on the map: every mission has its own location.'),
   main: text('Misión principal', 'Main quest'), step: text('Paso', 'Step'), complete: text('Etapa completada', 'Level complete'), next: text('Siguiente capítulo', 'Next chapter'), experience: text('Ver experiencia completa', 'View full experience'),
   abilities: text('Competencias descubiertas', 'Abilities discovered'), noAbilities: text('Explora el perfil completo para conocer la trayectoria.', 'Explore the full profile to discover the career.'),
   journal: text('Diario de campaña', 'Campaign journal'), inventory: text('Inventario', 'Inventory'), achievements: text('Logros del juego', 'Game achievements'), progress: text('Capítulos completados', 'Completed chapters'),

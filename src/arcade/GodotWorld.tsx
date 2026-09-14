@@ -17,7 +17,7 @@ export const worldCopy = {
   zoom: { es: 'Acercar al personaje', en: 'Follow the character' },
   overview: { es: 'Ver mapa completo', en: 'View full map' },
 };
-interface Props { map: PixelMap; x: number; y: number; locale: Locale; active: boolean; objective?: string; onMove: (x: number, y: number) => void; onInteract: (id: string) => void; onPause: () => void }
+interface Props { onReady?: () => void; map: PixelMap; x: number; y: number; locale: Locale; active: boolean; objective?: string; onMove: (x: number, y: number) => void; onInteract: (id: string) => void; onPause: () => void }
 export default function GodotWorld(props: Props) {
   const { x, y, locale, map, active } = props;
   const frame = useRef<HTMLIFrameElement>(null), current = useRef(props); current.current = props;
@@ -45,7 +45,7 @@ export default function GodotWorld(props: Props) {
     const p = current.current, changed = lastMap.current !== p.map;
     if (changed && encoded.current?.map !== p.map) {
       const art = rasterize(p.map);
-      encoded.current = { map: p.map, data: { ...p.map, rects: [], labels: [], image: art.background.toDataURL('image/png').split(',')[1], spriteImage: art.sprite?.toDataURL('image/png').split(',')[1], entities: art.entities.map(e => ({ depth: e.depth, bounds: e.bounds, image: e.canvas.toDataURL('image/png').split(',')[1] })) } };
+      encoded.current = { map: p.map, data: { ...p.map, rects: [], labels: [], image: art.background.toDataURL('image/png').split(',')[1], spriteImage: art.sprite?.toDataURL('image/png').split(',')[1], entities: art.entities.map(e => ({ depth: e.depth, bounds: e.bounds, motion: e.motion ?? [], image: e.canvas.toDataURL('image/png').split(',')[1] })) } };
     }
     frame.current?.contentWindow?.postMessage({ channel: bridgeChannel, type: 'state', state: {
       x: p.x, y: p.y, chapterId: p.map.id, active: p.active, locale: p.locale,
@@ -62,7 +62,7 @@ export default function GodotWorld(props: Props) {
       if (event.data.type === 'ready') {
         void prepareSceneArt(current.current.map).then(() => {
           if (event.source !== frame.current?.contentWindow) return;
-          ready.current = true; encoded.current = null; lastMap.current = null; sync(); setStatus('ready'); clearTimeout(timer);
+          ready.current = true; encoded.current = null; lastMap.current = null; sync(); setStatus('ready'); current.current.onReady?.(); clearTimeout(timer);
         }).catch(() => { if (event.source === frame.current?.contentWindow) { ready.current = false; setStatus('failed'); clearTimeout(timer); } });
         return;
       }

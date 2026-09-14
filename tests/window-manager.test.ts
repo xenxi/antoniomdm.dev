@@ -63,6 +63,6 @@ describe('WindowManager', () => {
   it('maps legacy blog and rejects unknown routes', () => { expect(appForPath('/blog/')).toBe('notes'); expect(appForPath('/missing/')).toBeUndefined(); });
 });
 describe('Preferences', () => {
-  it('defaults audio off and tolerates unavailable or corrupt storage', () => { expect(parsePreferences(null)).toEqual(defaults); expect(parsePreferences('{broken')).toEqual(defaults); expect(parsePreferences('null')).toEqual(defaults); });
+  it('defaults arcade music on and preserves explicit mute preferences', () => { expect(defaults.music).toBe(true); expect(parsePreferences('{"music":false}').music).toBe(false); expect(parsePreferences('{"sound":false}').sound).toBe(false); expect(parsePreferences(null)).toEqual(defaults); expect(parsePreferences('{broken')).toEqual(defaults); expect(parsePreferences('null')).toEqual(defaults); });
   it('validates persisted types and discards unrelated fields', () => { expect(parsePreferences('{"sound":"true","wallpaper":"other","injected":1}')).toEqual(defaults); expect(parsePreferences('{"sound":true,"wallpaper":"midnight"}')).toEqual({ ...defaults, sound: true, wallpaper: 'midnight' }); expect(parsePreferences('{"sound":false}').sound).toBe(false); });
 });

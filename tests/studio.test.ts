@@ -24,7 +24,7 @@ describe('Illustrated Godot office', () => {
   it('migrates old floor coordinates while preserving progress and rejects invalid new positions', () => {
     const old = { ...updateProgress(choose(newGame(), 'button').state, { x: 9, y: 1 }), layout: undefined };
     const migrated = parseSave(JSON.stringify(old))!;
-    expect(migrated.layout).toBe(2);
+    expect(migrated.layout).toBe(3);
     expect(migrated.chapters.freelance).toMatchObject({ x: 4, y: 7, mission: 1 });
     const current = updateProgress(newGame(), { x: 0, y: 2 });
     expect(parseSave(JSON.stringify(current))?.chapters.freelance).toMatchObject({ x: 0, y: 2 });

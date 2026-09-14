@@ -1,13 +1,23 @@
 import { chapters, freelanceChapterIds, missionById, personalEvents } from './campaign';
 import { townSpawn, townWalkable } from './town';
+import { makeCompanyMap } from './company-scenes';
+import { mapWalkable } from './pixel-map';
+import { sideQuests } from './quest-content';
+import { validSnake, type SnakeState } from './snake';
 import { studioWalkable } from './studio-layout';
 
 export const saveKey = 'antonios:career:v1';
 export type EventId = 'freelance' | 'incident' | 'wedding' | 'emma-born' | 'friday' | 'family';
-export interface Progress { mission: number; sequence: string[]; x: number; y: number; seen: EventId[]; completedEvents: EventId[]; pendingPipeline: boolean; choices: string[] }
-export interface GameState { version: 1; layout?: 2; chapterId: string; chapters: Record<string, Progress>; coffee: boolean; secret: boolean; world?: { x: number; y: number; inside: boolean }; cleared?: string[] }
-export const freshProgress = (): Progress => ({ mission: 0, sequence: [], x: 4, y: 7, seen: [], completedEvents: [], pendingPipeline: false, choices: [] });
-export const newGame = (): GameState => ({ version: 1, layout: 2, chapterId: chapters[0].id, chapters: { [chapters[0].id]: freshProgress() }, coffee: false, secret: false, world: { ...townSpawn, inside: false } });
+export interface Progress { side?: string[]; energy?: number; remaining?: number; snake?: SnakeState; mission: number; sequence: string[]; x: number; y: number; seen: EventId[]; completedEvents: EventId[]; pendingPipeline: boolean; choices: string[] }
+export interface GameState { version: 1; layout?: 2 | 3; timed?: boolean; chapterId: string; chapters: Record<string, Progress>; coffee: boolean; secret: boolean; world?: { x: number; y: number; inside: boolean }; cleared?: string[] }
+export const freshProgress = (): Progress => ({ mission: 0, sequence: [], x: 4, y: 7, seen: [], completedEvents: [], pendingPipeline: false, choices: [], side: [], energy: 100 });
+export const newGame = (): GameState => ({ version: 1, layout: 3, chapterId: chapters[0].id, chapters: { [chapters[0].id]: freshProgress() }, coffee: false, secret: false, world: { ...townSpawn, inside: false } });
+// Standalone runs never grant campaign unlocks or write to the campaign save.
+export function newQuickMission(missionId: string, chapterId?: string): GameState | null {
+  const chapter = chapters.find(chapter => (!chapterId || chapter.id === chapterId) && chapter.missions.includes(missionId));
+  if (!chapter) return null;
+  return { ...newGame(), chapterId: chapter.id, chapters: { [chapter.id]: { ...freshProgress(), mission: chapter.missions.indexOf(missionId) } }, world: { ...townSpawn, inside: true } };
+}
 export function getProgress(state: GameState) { return state.chapters[state.chapterId] ?? freshProgress(); }
 export function selectChapter(state: GameState, chapterId: string): GameState {
   if (!chapters.some(chapter => chapter.id === chapterId)) return state;
@@ -19,11 +29,11 @@ export function choose(state: GameState, choiceId: string): { state: GameState; 
   const progress = getProgress(state); const chapter = chapters.find(chapter => chapter.id === state.chapterId)!;
   const mission = missionById[chapter.missions[progress.mission]];
   const choice = mission?.choices.find(choice => choice.id === choiceId);
-  if (!choice) return { state, accepted: false, completed: false };
+  if (!choice || (state.timed !== false && progress.remaining === 0) || (mission.challenge === 'snake' && progress.snake?.score !== 4)) return { state, accepted: false, completed: false };
   const accepted = mission.sequence ? mission.sequence[progress.sequence.length] === choiceId : Boolean(choice.accepted);
   if (!accepted) return { state, accepted: false, completed: false, feedback: choiceId };
   const sequence = [...progress.sequence, choiceId]; const completed = !mission.sequence || sequence.length === mission.sequence.length;
-  return { state: updateProgress(state, { sequence: completed ? [] : sequence, mission: progress.mission + (completed ? 1 : 0), choices: [...progress.choices, `${mission.id}:${choiceId}`] }), accepted: true, completed, feedback: choiceId };
+  return { state: updateProgress(state, { sequence: completed ? [] : sequence, mission: progress.mission + (completed ? 1 : 0), choices: [...progress.choices, `${mission.id}:${choiceId}`], ...(completed ? { remaining: undefined, snake: undefined, energy: Math.max(0, (progress.energy ?? 100) - 10) } : {}) }), accepted: true, completed, feedback: choiceId };
 }
 export function hasEvent(state: GameState, event: EventId) { return Object.values(state.chapters).some(progress => progress.completedEvents.includes(event)); }
 export function eligibleEvents(state: GameState): EventId[] {
@@ -56,7 +66,7 @@ export function enterCompany(state: GameState, id: string): GameState {
 export function replayChapter(state: GameState): GameState {
   if (!chapterCleared(state, state.chapterId)) return state;
   const p = getProgress(state);
-  return updateProgress({ ...state, cleared: [...new Set([...(state.cleared ?? []), state.chapterId])] }, { ...freshProgress(), seen: p.seen, completedEvents: p.completedEvents });
+  return updateProgress({ ...state, cleared: [...new Set([...(state.cleared ?? []), state.chapterId])] }, { ...freshProgress(), remaining: undefined, snake: undefined, seen: p.seen, completedEvents: p.completedEvents });
 }
 
 const events: EventId[] = ['freelance', 'incident', 'wedding', 'emma-born', 'friday', 'family'];
@@ -65,8 +75,9 @@ export function parseSave(value: string | null): GameState | null {
   try {
     const saved = JSON.parse(value);
     if (saved?.version !== 1 || !chapters.some(chapter => chapter.id === saved.chapterId) || !saved.chapters || typeof saved.chapters !== 'object' || Array.isArray(saved.chapters) || typeof saved.coffee !== 'boolean' || typeof saved.secret !== 'boolean') return null;
-    if (saved.layout !== undefined && saved.layout !== 2) return null;
-    const result: GameState = { version: 1, layout: 2, chapterId: saved.chapterId, chapters: {}, coffee: saved.coffee, secret: saved.secret };
+    if (saved.layout !== undefined && saved.layout !== 2 && saved.layout !== 3) return null;
+    const result: GameState = { version: 1, layout: 3, chapterId: saved.chapterId, chapters: {}, coffee: saved.coffee, secret: saved.secret };
+    if (saved.timed !== undefined) { if (typeof saved.timed !== 'boolean') return null; result.timed = saved.timed; }
     if (saved.world !== undefined) {
       if (!saved.world || !townWalkable(saved.world.x, saved.world.y) || typeof saved.world.inside !== 'boolean') return null;
       result.world = { x: saved.world.x, y: saved.world.y, inside: saved.world.inside };
@@ -77,13 +88,27 @@ export function parseSave(value: string | null): GameState | null {
     }
     for (const [id, raw] of Object.entries(saved.chapters)) {
       const chapter = chapters.find(chapter => chapter.id === id); const p = raw as Progress;
-      if (!chapter || !p || !Number.isInteger(p.mission) || p.mission < 0 || p.mission > chapter.missions.length || !(saved.layout === 2 ? studioWalkable(p.x, p.y) : isWalkable(p.x, p.y, chapter.scenario)) || typeof p.pendingPipeline !== 'boolean') return null;
+      if (!chapter || !p || !Number.isInteger(p.mission) || p.mission < 0 || p.mission > chapter.missions.length || !(saved.layout === 3 ? mapWalkable(makeCompanyMap(id, 'es', id), p.x, p.y) : saved.layout === 2 ? studioWalkable(p.x, p.y) : isWalkable(p.x, p.y, chapter.scenario)) || typeof p.pendingPipeline !== 'boolean') return null;
       if (![p.seen, p.completedEvents, p.sequence, p.choices].every(Array.isArray)) return null;
       if (p.seen.some(id => !events.includes(id)) || p.completedEvents.some(id => !p.seen.includes(id)) || p.choices.length > 100) return null;
       const sequence = missionById[chapter.missions[p.mission]]?.sequence ?? [];
       if (p.sequence.length >= Math.max(1, sequence.length) || p.sequence.some((id, i) => id !== sequence[i])) return null;
       if (p.choices.some(value => typeof value !== 'string' || !chapter.missions.some(id => missionById[id].choices.some(choice => `${id}:${choice.id}` === value)))) return null;
-      result.chapters[id] = { mission: p.mission, sequence: [...p.sequence], x: studioWalkable(p.x, p.y) ? p.x : 4, y: studioWalkable(p.x, p.y) ? p.y : 7, seen: [...new Set(p.seen)], completedEvents: [...new Set(p.completedEvents)], pendingPipeline: p.pendingPipeline, choices: [...p.choices] };
+      if (p.side !== undefined && (!Array.isArray(p.side) || p.side.some(q => !sideQuests.some(s => s.chapter === id && s.id === q)))) return null;
+      if (p.energy !== undefined && (!Number.isFinite(p.energy) || p.energy < 0 || p.energy > 100)) return null;
+      if (p.remaining !== undefined && (!Number.isInteger(p.remaining) || p.remaining < 0 || p.remaining > (missionById[chapter.missions[p.mission]]?.seconds ?? 90))) return null;
+      if (p.snake !== undefined && (!validSnake(p.snake) || missionById[chapter.missions[p.mission]]?.challenge !== 'snake')) return null;
+      const sameLayout = saved.layout === 3;
+      result.chapters[id] = { mission: p.mission, sequence: [...p.sequence], x: sameLayout ? p.x : 4, y: sameLayout ? p.y : 7, seen: [...new Set(p.seen)], completedEvents: [...new Set(p.completedEvents)], pendingPipeline: p.pendingPipeline, choices: [...p.choices], side: [...new Set(p.side ?? [])], energy: p.energy ?? 100, ...(p.remaining !== undefined ? { remaining: p.remaining } : {}), ...(p.snake ? { snake: p.snake } : {}) };
+    }
+    if (saved.layout !== 3) {
+      const currentIndex = chapters.findIndex(c => c.id === saved.chapterId);
+      const previouslyCompleted = chapters.filter(chapter => {
+        const progress = result.chapters[chapter.id];
+        const oldMissionCount = chapter.id === 'system-recovery' ? 7 : chapter.id === 'domingo-alonso' ? 2 : 1;
+        return progress && progress.mission >= oldMissionCount && !progress.pendingPipeline && !progress.seen.some(event => !progress.completedEvents.includes(event)) && eligibleEvents(selectChapter(result, chapter.id)).length === 0;
+      }).map(chapter => chapter.id);
+      result.cleared = [...new Set([...(result.cleared ?? []), ...chapters.slice(0, currentIndex).map(c => c.id), ...previouslyCompleted])];
     }
     if (!result.chapters[result.chapterId]) return null;
     return result;

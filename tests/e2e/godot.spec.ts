@@ -1,6 +1,7 @@
 import { townProject } from '../../src/arcade/town-scene';
 import { test, expect } from '@playwright/test';
-import { unlockBefore } from './career-fixture';
+import { chapters, missionById } from '../../src/arcade/campaign';
+import { unlockBefore, clickCompanyObject } from './career-fixture';
 import AxeBuilder from '@axe-core/playwright';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
@@ -25,12 +26,17 @@ for (const locale of ['es', 'en']) test(`Godot ${locale}: real WASM, walking, mi
   await canvas.focus(); await canvas.press('ArrowUp');
   await expect(world).toHaveAttribute('data-player', '4,6');
   const box = (await canvas.boundingBox())!;
-  await canvas.click({ position: { x: 170 / 480 * box.width, y: 174 / 320 * box.height } });
+  await clickCompanyObject(page, 'xul', 'terminal');
   await expect(page.getByRole('dialog')).toContainText(locale === 'es' ? 'El primer bug' : 'The first bug');
   await page.locator('[data-choice="loop"]').click();
   await page.getByRole('dialog').getByRole('button').last().click();
+  for (const id of chapters.find(c => c.id === 'xul')!.missions.slice(1)) {
+    await page.locator('.career-quest-panel').getByRole('button', { name: locale === 'es' ? 'Abrir misión del terminal' : 'Open terminal mission' }).click();
+    await page.locator('[data-choice="' + missionById[id].choices.find(c => c.accepted)!.id + '"]').click();
+    await page.getByRole('dialog').getByRole('button').last().click();
+  }
   await expect(page.locator('.godot-portal')).toHaveClass(/is-open/);
-  await canvas.click({ position: { x: 270 / 480 * box.width, y: 80 / 320 * box.height } });
+  await clickCompanyObject(page, 'xul', 'portal');
   await expect(world).toHaveAttribute('data-map', 'town');
   await canvas.click({ position: { x: townProject(14.5, 5.5)[0] / 480 * box.width, y: (townProject(14.5, 5.5)[1] - 5) / 320 * box.height } });
   await expect(page.locator('.career-game-heading h1')).toContainText('Signlab', { timeout: 10000 });
@@ -78,8 +84,8 @@ test.describe('Godot on a touch screen', () => {
     await page.getByRole('button', { name: 'Caminar al norte', exact: true }).tap();
     await expect(world).toHaveAttribute('data-player', '4,6');
     await canvas.scrollIntoViewIfNeeded();
-    const box = (await canvas.boundingBox())!;
-    await canvas.tap({ position: { x: 170 / 480 * box.width, y: 174 / 320 * box.height } });
+
+    await clickCompanyObject(page, 'freelance', 'terminal', false, true);
     await expect(page.getByRole('dialog')).toContainText('Solo es cambiar un botón');
     await page.getByRole('button', { name: 'Cerrar', exact: true }).tap();
     await expect(world).toHaveAttribute('data-player', '3,7');

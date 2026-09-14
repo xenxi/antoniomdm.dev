@@ -1,3 +1,4 @@
+import { finishSnake } from './campaign-fixture';
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { chapters, missions, missionById, copy, personalEvents, freelanceChapterIds } from '../src/arcade/campaign';
@@ -50,6 +51,7 @@ describe('Playable campaign', () => {
       expect(isComplete(state)).toBe(false);
       for (const id of chapter.missions) {
         const mission = missionById[id];
+        if (mission.challenge === 'snake') state = finishSnake(state);
         for (const answer of mission.sequence ?? [mission.choices.find(choice => choice.accepted)!.id]) {
           const result = choose(state, answer); expect(result.accepted, `${chapter.id}/${id}/${answer}`).toBe(true); state = result.state;
         }

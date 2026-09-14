@@ -395,6 +395,56 @@
 .job-route .career-quest-panel { margin: 18px 0 0; padding: 22px; }
 .job-route .town-directory { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .job-route .career-controls-help { font-size: .65rem; }
+.job-route .job-objective .job-play-status { display: flex; justify-content: space-between; gap: 12px; color: #bee5c7; border-top: 1px solid #41596b; padding-top: 5px; }
+.job-play-status .is-expired { color: #ffc0b7; }
+.chapter-setting { border-left: 3px solid #9ae1d5; padding-left: 16px; margin-bottom: 20px; }
+.chapter-setting > p { max-width: 75ch; }
+.quest-resources { display: flex; flex-wrap: wrap; gap: 16px 28px; align-items: center; padding: 16px; margin: 18px 0; background: #102139; border: 1px solid #476073; border-radius: 8px; }
+.quest-resources label { color: #e0ede9; font-size: .82rem; }
+.quest-resources label strong { margin-left: 10px; }
+.quest-resources meter { display: block; width: 180px; max-width: 100%; height: 12px; margin-top: 6px; }
+.quest-timing-toggle { display: flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; }
+.quest-timing-toggle input { width: 18px; height: 18px; accent-color: #9ae1d5; }
+.quest-clock { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; flex: 1; min-width: 180px; }
+.quest-clock > span { font: 700 1.3rem monospace; color: #d4efd3; min-width: 4ch; }
+.quest-clock > progress { width: min(230px, 55%); }
+.career-mode-switch { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 20px; }
+.job-route .career-mode-switch button { flex: 1; min-height: 64px; border: 1px solid #637487; background: #15253c; color: #d5e1ec; }
+.job-route .career-mode-switch button[aria-pressed="true"] { background: #254844; color: #d8fff0; border-color: #9ee8c5; box-shadow: inset 0 -3px #9ee8c5; }
+.career-mission-select { display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; padding: clamp(18px, 4vw, 40px); background: linear-gradient(130deg, #1e3249, #142137 70%); border: 1px solid #5a7485; border-radius: 12px; }
+.career-mission-select h2 { font-size: 1.5rem; }
+.career-mission-select label { display: grid; gap: 8px; margin: 24px 0 14px; color: #cfdfed; }
+.career-mission-select select { width: 100%; min-height: 48px; padding: 10px 12px; background: #0f2034; color: #eff9f6; border: 1px solid #8ca2b5; border-radius: 6px; font: inherit; }
+.quick-mission-list { display: grid; gap: 8px; }
+.job-route .quick-mission-list button { display: flex; gap: 14px; text-align: left; align-items: center; min-height: 58px; }
+.job-route .quick-mission-list button[aria-pressed="true"] { border-color: #a4e4ce; color: #e5fff5; background: #284c4e; }
+.quick-mission-list span { color: #ecd3a3; font-family: monospace; }
+.career-mission-select aside { align-self: start; position: sticky; top: 20px; border: 1px solid #647586; border-radius: 8px; padding: 26px; background: radial-gradient(ellipse at top right, #524061, #14283c 75%); }
+.career-mission-select aside h3 { color: #f4e3c3; font-size: 1.7rem; line-height: 1.25; }
+.quick-duration { color: #b7e7d8; margin: 28px 0; }
+@media (max-width: 700px) { .career-mission-select { grid-template-columns: 1fr; gap: 18px; } .career-mission-select aside { position: static; padding: 18px; } .career-mode-switch button { flex-basis: 100%; } }
+.quest-clock.is-expired > span { color: #ffc1bb; }
+.quest-clock > p { flex-basis: 100%; }
+.chapter-missions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); list-style: none; gap: 8px; padding: 0; margin: 24px 0; }
+.chapter-missions li { display: flex; gap: 12px; padding: 14px; border: 1px solid #415467; border-radius: 6px; color: #d0dae7; background: #13243a; font-size: .85rem; }
+.chapter-missions li > span:first-child { color: #a9becf; font-family: monospace; }
+.chapter-missions li.is-current { border-color: #9ae1d5; background: #203b46; color: #f4f4e5; }
+.chapter-missions li.is-done { color: #b8e3c1; }
+.chapter-missions small { display: block; color: #b4c6d5; font-size: .7rem; margin-top: 6px; }
+.chapter-sidequests { border: 1px solid #536779; padding: 16px; margin: 20px 0; border-radius: 8px; }
+.chapter-sidequests summary { color: #f3d1a0; cursor: pointer; min-height: 30px; }
+.job-route .chapter-sidequests button { display: block; text-align: left; width: 100%; margin-top: 8px; padding: 12px; font-size: .8rem; min-height: 44px; }
+.chapter-sidequests button small { margin-left: 10px; }
+.career-quest-panel > small { display: block; margin: 8px 0; color: #b4c6d5; }
+.mission-timer { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 14px 0; }
+.mission-timer > span { font: 700 1.2rem monospace; color: #bce8d3; }
+.snake-quest { padding: 16px; border: 1px solid #6b7c6f; background: #192b30; border-radius: 10px; margin: 16px 0; }
+.snake-quest [role="group"] { width: min(260px, 100%); margin: 0 auto; border: 8px solid #637364; border-radius: 8px; }
+.snake-quest svg { display: block; width: 100%; }
+.snake-controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.snake-controls button { min-width: 48px; min-height: 48px; font-size: 1.3rem; }
+.snake-quest :focus-visible { outline: 3px solid #f6d796; outline-offset: 4px; }
+@media (max-width: 560px) { .chapter-missions { grid-template-columns: 1fr; } .quest-resources { gap: 10px; padding: 12px; } .quest-clock { flex-basis: 100%; } }
 .job-route .career-world-controls { padding: 4px 14px 14px; }
 .job-route .career-dpad button { min-width: 40px; min-height: 36px; }
 .job-route .career-dpad { grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(2, 36px); }

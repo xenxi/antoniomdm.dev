@@ -1,3 +1,4 @@
+import { clickCompanyObject } from './career-fixture';
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -56,8 +57,8 @@ for (const locale of ['es', 'en']) test(`hiring requirements ${locale}: inspect 
   await dialog.getByRole('button', { name: locale === 'es' ? 'Continuar mi preparación' : 'Continue my preparation', exact: false }).click();
   await expect(world).toHaveAttribute('data-map', 'freelance');
   // The glowing exclamation is clickable, not merely decoration.
-  const canvas = page.frameLocator('.godot-frame').locator('canvas'), box = (await canvas.boundingBox())!;
-  await canvas.click({ position: { x: 174 / 480 * box.width, y: 142 / 320 * box.height } });
+
+  await clickCompanyObject(page, 'freelance', 'terminal', true);
   await expect(dialog).toContainText(locale === 'es' ? 'Solo es cambiar un botón' : 'Just change one button');
   // Inspect earned mission progress while the required event is still pending.
   // Freeze its timer explicitly instead of racing the 200ms event trigger.
@@ -72,5 +73,6 @@ for (const locale of ['es', 'en']) test(`hiring requirements ${locale}: inspect 
   await dialog.getByRole('button', { name: /XUL/ }).click();
   await page.clock.runFor(150);
   await expect(dialog).toContainText(locale === 'es' ? 'Demostrado' : 'Demonstrated');
-  await expect(dialog).not.toContainText(locale === 'es' ? 'Habilidades por demostrar' : 'Skills to demonstrate');
+  await expect(dialog).toContainText(locale === 'es' ? 'Habilidades por demostrar' : 'Skills to demonstrate');
+  await expect(dialog).toContainText(locale === 'es' ? 'Maquetación contra reloj' : 'Layout against the clock');
 });

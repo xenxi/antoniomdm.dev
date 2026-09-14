@@ -1,3 +1,5 @@
+import { makeCompanyMap } from '../../src/arcade/company-scenes';
+import { snakeRoute } from '../campaign-fixture';
 import { test, expect, type Page } from '@playwright/test';
 import { unlockBefore } from './career-fixture';
 import AxeBuilder from '@axe-core/playwright';
@@ -55,6 +57,11 @@ test('keyboard movement, collision, touch controls, save and language continuati
   await page.locator('.career-quest-panel').getByRole('button', { name: 'Abrir misión del terminal' }).click();
   await page.locator('[data-choice="button"]').click();
   await page.getByRole('button', { name: 'Volver a la misión' }).click();
+  for (const id of chapters[0].missions.slice(1)) {
+    await page.locator('.career-quest-panel').getByRole('button', { name: 'Abrir misión del terminal' }).click();
+    await page.locator('[data-choice="' + missionById[id].choices.find(c => c.accepted)!.id + '"]').click();
+    await page.getByRole('button', { name: 'Volver a la misión' }).click();
+  }
   await expect(page.getByRole('dialog')).toContainText('Cliente freelance');
   await page.getByRole('button', { name: 'Aceptar', exact: true }).click();
   await page.getByRole('button', { name: 'Restaurar la URL pública verificada' }).click();
@@ -71,7 +78,8 @@ test('tapping an elevated terminal sprite walks to it and opens its mission', as
   await page.locator('[data-chapter="signlab"]').click();
   await expect(page.locator('.godot-world')).toHaveAttribute('data-engine', 'ready', { timeout: 60000 });
   const map = page.frameLocator('.godot-frame').locator('canvas'); const box = (await map.boundingBox())!;
-  await map.click({ position: { x: 170 / 480 * box.width, y: 174 / 320 * box.height } });
+  const hit = makeCompanyMap('signlab', 'en', 'Signlab').objects.find(o => o.id === 'terminal')!.hit!;
+  await map.click({ position: { x: (hit[0] + hit[2] / 2) / 480 * box.width, y: (hit[1] + hit[3] / 2) / 320 * box.height } });
   await expect(page.getByRole('dialog')).toContainText('Connect the interaction');
   await expect(page.locator('.godot-world')).not.toHaveAttribute('data-player', '4,7');
 });
@@ -84,6 +92,7 @@ test('all chapters, personal unlocks and the seven-phase boss are playable end t
     for (const id of chapter.missions) {
       await page.locator('.career-quest-panel').getByRole('button', { name: 'Open terminal mission' }).click();
       const mission = missionById[id];
+      if (mission.challenge === 'snake') for (const [dx, dy, count] of snakeRoute) for (let i = 0; i < count; i++) await page.locator('.snake-controls').getByRole('button', { name: dx === 1 ? 'Right' : dx === -1 ? 'Left' : dy === 1 ? 'Down' : 'Up', exact: true }).click();
       for (const choice of mission.sequence ?? [mission.choices.find(choice => choice.accepted)!.id]) await page.locator(`[data-choice="${choice}"]`).click();
       await dismiss(page);
     }

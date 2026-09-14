@@ -1,15 +1,19 @@
+import { companyScenes, paintCompanyScene } from './company-scenes';
+import { npcAsset, furnitureAsset } from './npc-art';
 import type { PixelMap } from './pixel-map';
 import { officeForeground, sceneImage } from './scene-art';
 import { buildings } from './town';
 import { townForeground } from './town-scene';
 import { companyArt, companyLogo } from './company-art';
 
-const cachedArt = new WeakMap<PixelMap, { detailed: boolean; background: HTMLCanvasElement; sprite?: HTMLCanvasElement; entities: { depth: number; canvas: HTMLCanvasElement; bounds?: number[] }[] }>();
+const cachedArt = new WeakMap<PixelMap, { detailed: boolean; background: HTMLCanvasElement; sprite?: HTMLCanvasElement; entities: { depth: number; canvas: HTMLCanvasElement; bounds?: number[]; motion?: number[] }[] }>();
+const cachedAssets = new WeakMap<PixelMap, number>();
 export function rasterize(map: PixelMap) {
   const plate = map.art ? sceneImage(map.art) : undefined;
   const sprite = map.sprite ? sceneImage(map.sprite) : undefined;
   let art = cachedArt.get(map);
-  if (art && art.detailed === Boolean(plate) && Boolean(art.sprite) === Boolean(sprite)) return art;
+  const loadedAssets = map.scene ? companyScenes[map.id].furniture.flatMap(item => [npcAsset(item, map.id), furnitureAsset(item)]).filter(url => url && sceneImage(url)).length : 0;
+  if (art && cachedAssets.get(map) === loadedAssets && art.detailed === Boolean(plate) && Boolean(art.sprite) === Boolean(sprite)) return art;
   const paint = (rects: PixelMap['rects'], labels: PixelMap['labels'] = []) => {
     const canvas = document.createElement('canvas'); canvas.width = 480; canvas.height = 320;
     const ctx = canvas.getContext('2d')!;
@@ -61,6 +65,7 @@ export function rasterize(map: PixelMap) {
       return { depth: entity.depth, canvas: c, bounds: [left, top, c.width / 3.2, c.height / 3.2] };
     });
   }
+  if (map.scene) art = paintCompanyScene(map);
   if (sprite) { art.sprite = document.createElement('canvas'); art.sprite.width = sprite.width; art.sprite.height = sprite.height; art.sprite.getContext('2d')!.drawImage(sprite, 0, 0); }
-  cachedArt.set(map, art); return art;
+  cachedArt.set(map, art); cachedAssets.set(map, loadedAssets); return art;
 }

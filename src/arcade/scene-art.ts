@@ -1,11 +1,13 @@
 import type { PixelMap } from './pixel-map';
 import { companyLogo } from './company-art';
+import { companyScenes } from './company-scenes';
+import { npcAsset, furnitureAsset } from './npc-art';
 
 const images = new Map<string, HTMLImageElement>();
 const pending = new Map<string, Promise<void>>();
 export const sceneImage = (url: string) => images.get(url);
 export function prepareSceneArt(map: PixelMap) {
-  return Promise.all([map.art, map.sprite, ...(map.id === 'town' ? (map.signs ?? []).map(sign => companyLogo(sign.id)) : [])].filter((url): url is string => Boolean(url)).map(url => {
+  return Promise.all([map.art, map.sprite, ...(map.scene ? companyScenes[map.id].furniture.flatMap(item => [npcAsset(item, map.id), furnitureAsset(item)]) : []), ...(map.id === 'town' ? (map.signs ?? []).map(sign => companyLogo(sign.id)) : [])].filter((url): url is string => Boolean(url)).map(url => {
     if (!pending.has(url)) pending.set(url, new Promise<void>((resolve, reject) => {
       const img = new Image();
       img.onload = () => { images.set(url, img); resolve(); };

@@ -1,3 +1,4 @@
+import { finishSnake } from './campaign-fixture';
 import { describe, expect, it } from 'vitest';
 import { chapters, missionById } from '../src/arcade/campaign';
 import { chapterUnlocked, choose, completeEvent, eligibleEvents, enterCompany, newGame, parseSave, replayChapter, selectChapter, updateProgress } from '../src/arcade/engine';
@@ -11,9 +12,10 @@ describe('Open town and chronological company doors', () => {
     const initial = newGame();
     expect(hiringRequirements(initial, 'freelance')).toEqual([]);
     expect(hiringRequirements(initial, 'unknown')).toEqual([]);
-    expect(hiringRequirements(initial, 'xul')[0]).toMatchObject({ id: 'freelance', skills: ['bug'], events: 1 });
-    const solved = choose(initial, 'button').state;
-    expect(hiringRequirements(solved, 'xul')[0]).toMatchObject({ skills: [], events: 1, missions: [{ done: true }] });
+    expect(hiringRequirements(initial, 'xul')[0]).toMatchObject({ id: 'freelance', skills: ['bug', 'priority'], events: 1 });
+    let solved = initial;
+    for (const id of chapters[0].missions) solved = choose(solved, missionById[id].choices.find(c => c.accepted)!.id).state;
+    expect(hiringRequirements(solved, 'xul')[0]).toMatchObject({ skills: [], events: 1, missions: chapters[0].missions.map(() => ({ done: true })) });
     const cleared = completeEvent(solved, 'freelance');
     expect(hiringRequirements(cleared, 'xul')).toEqual([]);
     expect(hiringRequirements(cleared, 'signlab').map(c => c.id)).toEqual(['xul']);
@@ -51,6 +53,7 @@ describe('Open town and chronological company doors', () => {
       state = enterCompany(state, chapter.id);
       for (const id of chapter.missions) {
         const mission = missionById[id];
+        if (mission.challenge === 'snake') state = finishSnake(state);
         for (const id of mission.sequence ?? [mission.choices.find(c => c.accepted)!.id]) state = choose(state, id).state;
       }
       if (next && eligibleEvents(state).length) expect(chapterUnlocked(state, next.id)).toBe(false);
