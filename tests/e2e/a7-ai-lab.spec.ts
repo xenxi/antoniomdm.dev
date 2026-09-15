@@ -18,18 +18,16 @@ for (const locale of ['es', 'en'] as const) {
   test(`A7 AI Lab landing ${locale} presents both axes and the locked hierarchy`, async ({ page }) => {
     await ready(page, route(locale));
     await expect(page.locator('html')).toHaveAttribute('lang', locale);
-    await expect(page.locator('h1')).toHaveText(locale === 'es' ? 'IA aplicada con límites claros.' : 'Applied AI with explicit boundaries.');
+    await expect(page.locator('h1')).toHaveText(locale === 'es' ? 'Quería probar una cosa.' : 'I wanted to try something.');
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://antoniomdm.dev${route(locale)}`);
     await expect(page.locator('.ai-lab-axis')).toHaveCount(2);
     await expect(page.locator('.ai-lab-axis').first()).toContainText(locale === 'es' ? 'IA de producto' : 'Product AI');
     await expect(page.locator('.ai-lab-axis').nth(1)).toContainText(locale === 'es' ? 'Ingeniería agéntica' : 'Agentic Engineering');
-    await expect(page.locator('.ai-lab-feature')).toContainText(locale === 'es' ? 'Investigación asistida de incidencias' : 'AI-assisted incident investigation');
+    await expect(page.locator('.ai-lab-axis').first().locator('.ai-lab-related-link')).toContainText('Platform934 API');
+    await expect(page.locator('.ai-lab-axis').nth(1).locator('.ai-lab-related-link')).toContainText('AntoñiOS');
+    await expect(page.locator('.ai-lab-professional')).toContainText(locale === 'es' ? 'Investigación asistida de incidencias' : 'AI-assisted incident investigation');
     await expect(page.locator('.ai-lab-history')).toHaveCount(2);
-    await expect(page.locator('.ai-lab-historical')).toContainText(locale === 'es' ? 'Antes de los LLM' : 'Before LLMs');
-    await expect(page.locator('.ai-lab-principles li')).toHaveCount(7);
-    await expect(page.locator('.ai-lab-boundaries')).toContainText(locale === 'es' ? 'Sin RAG' : 'No RAG');
-    await expect(page.locator('.ai-lab-boundaries')).toContainText(locale === 'es' ? 'Sin MCP' : 'No MCP');
-    await expect(page.locator('.ai-lab-boundaries')).toContainText(locale === 'es' ? 'Sin desarrollo autónomo' : 'No autonomous software development');
+    await expect(page.locator('.ai-lab-historical')).toContainText(locale === 'es' ? 'Antes de que todo tuviera un chatbot' : 'Before everything had a chatbot');
   });
 
   for (const slug of detailSlugs) {
@@ -57,9 +55,11 @@ test('A7 Platform934 deep AI case exposes the bounded product AI architecture', 
   await expect(page.locator('.ai-lab-capability-grid')).toContainText('Recommendations');
   await expect(page.locator('#taste')).toContainText('not a trained recommendation model');
   await expect(page.locator('#playback')).toContainText('not autonomous or backend-started playback');
-  await expect(page.locator('.ai-lab-non-claims')).toContainText('No RAG');
-  await expect(page.locator('.ai-lab-non-claims')).toContainText('No MCP');
-  await expect(page.locator('.ai-lab-non-claims')).toContainText(/No autonomous agent/);
+  await expect(page.locator('.ai-lab-gallery img')).toHaveCount(1);
+  await expect(page.locator('.ai-lab-related')).toContainText('View the Platform934 API project');
+  await expect(page.locator('.ai-lab-non-claims')).toContainText('RAG');
+  await expect(page.locator('.ai-lab-non-claims')).toContainText('MCP');
+  await expect(page.locator('.ai-lab-non-claims')).toContainText(/not autonomous/);
   await expect(page.locator('text=Semantic Kernel').first()).toBeVisible();
 });
 
@@ -68,7 +68,7 @@ test('A7 professional incident case stays anonymized and provider/framework-neut
   await expect(page.locator('.ai-lab-flow li')).toHaveCount(7);
   await expect(page.locator('.ai-lab-flow')).toContainText('traceId');
   await expect(page.locator('.ai-lab-flow')).toContainText('Communication / human decision');
-  await expect(page.locator('.ai-lab-case')).toContainText('supervised engineering workflow');
+  await expect(page.locator('.ai-lab-case')).toContainText('supervised engineering flow');
   await expect(page.locator('.ai-lab-case')).toContainText('no autonomous production remediation');
   const body = await page.locator('.ai-lab-case').innerText();
   expect(body).not.toMatch(/Semantic Kernel|LiteLLM|LangChain|LangGraph|AutoGen|OpenAI/);
@@ -98,7 +98,7 @@ test('A7 AI Lab opens as an app, reopens after closing and restores history', as
   await expect(win).toHaveCount(0);
   await page.locator('[data-desktop-app="lab"]').dblclick();
   await expect(win).toBeVisible();
-  await page.locator('.ai-lab-axis').first().click();
+  await page.locator('.ai-lab-axis').first().locator('.ai-lab-open').click();
   await expect(page).toHaveURL(/\/en\/ai-lab\/platform934\/$/);
   await expect(page.locator('.ai-lab-case-header h1')).toHaveText(expected('en', 'platform934').title);
   await page.goBack(); await expect(page).toHaveURL(/\/en\/ai-lab\/$/);
@@ -116,7 +116,7 @@ test('A7 AI Lab switches locale while keeping the page', async ({ page }) => {
 
 test('A7 AI Lab is keyboard operable with visible focus', async ({ page }) => {
   await ready(page, route('en'));
-  const axis = page.locator('.ai-lab-axis').first();
+  const axis = page.locator('.ai-lab-axis').first().locator('.ai-lab-open');
   await axis.focus(); await expect(axis).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page).toHaveURL(/\/en\/ai-lab\/platform934\/$/);
@@ -151,7 +151,7 @@ test('A7 AI Lab exposes core content without JavaScript', async ({ browser }) =>
   for (const locale of ['es', 'en'] as const) {
     await page.goto(`${base}${route(locale)}`);
     await expect(page.locator('[data-ai-lab]')).toBeVisible();
-    await expect(page.locator('h1')).toHaveText(locale === 'es' ? 'IA aplicada con límites claros.' : 'Applied AI with explicit boundaries.');
+    await expect(page.locator('h1')).toHaveText(locale === 'es' ? 'Quería probar una cosa.' : 'I wanted to try something.');
     await expect(page.locator('.ai-lab-axis')).toHaveCount(2);
     await expect(page.locator('.ai-lab-history')).toHaveCount(2);
     for (const slug of detailSlugs) {

@@ -122,7 +122,7 @@ test('project filters, note content, lab concepts and languages reading view', a
   await page.locator('[data-desktop-app="lab"]').click();
   await expect(page).toHaveURL(/\/ai-lab\/$/);
   await expect(page.locator('.ai-lab-axis')).toHaveCount(2);
-  await expect(page.locator('.ai-lab-boundaries')).toContainText('No RAG');
+  await expect(page.locator('.ai-lab-axis').first().locator('.ai-lab-related-link')).toContainText('Platform934 API');
   await page.goto('/en/profile/languages/?view=reading'); await expect(page.locator('html')).toHaveClass('reading');
   await expect(page.getByRole('link', { name: 'Exit reading view' })).toBeVisible();
   await page.getByRole('link', { name: 'Exit reading view' }).click(); await expect(page).toHaveURL(/\/en\/profile\/languages\/$/);

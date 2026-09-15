@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { aiLabAxes, aiLabBoundaries, aiLabCases, aiLabPrinciples, getAiLabCase, getAiLabCases, validateAiLabModel } from '../src/data/aiLab';
+import { aiLabAxes, aiLabCases, aiLabLanding, getAiLabCase, getAiLabCases, validateAiLabModel } from '../src/data/aiLab';
 
 function strings(value: unknown, out: string[] = []): string[] {
   if (typeof value === 'string') { out.push(value); return out; }
@@ -45,7 +45,8 @@ describe('A7.1 AI Lab model', () => {
     expect(platform.technologies).toEqual(expect.arrayContaining(['Semantic Kernel', 'LiteLLM', '.NET']));
     expect(platform.status).toBe('IMPLEMENTED');
     expect(platform.capabilities.some(capability => capability.title === 'Gated notify_playback')).toBe(true);
-    expect(platform.evidence).toContain('Personal Platform934 API project');
+    expect(platform.related?.some(link => link.href === '/projects/platform934-api/')).toBe(true);
+    expect(platform.media).toHaveLength(1);
   });
 
   it('keeps the professional case anonymized and framework/provider-neutral', () => {
@@ -96,19 +97,30 @@ describe('A7.1 AI Lab model', () => {
     expect(serialized).not.toMatch(/AI Engineer|AI Architect|Machine Learning Engineer|Data Scientist/i);
   });
 
-  it('exposes the two axes, principles and boundary chips bilingually', () => {
+  it('exposes the two axes bilingually with a related project link', () => {
     expect(aiLabAxes.map(item => item.id)).toEqual(['product-ai', 'agentic-engineering']);
-    expect(aiLabPrinciples).toHaveLength(7);
-    expect(aiLabBoundaries.map(item => item.id)).toContain('no-autonomous-remediation');
-    for (const value of [...aiLabAxes, ...aiLabPrinciples, ...aiLabBoundaries]) {
-      for (const field of Object.values(value)) if (field && typeof field === 'object' && 'es' in field) { expect((field as { es: string }).es.trim()).not.toBe(''); expect((field as { en: string }).en.trim()).not.toBe(''); }
+    for (const axis of aiLabAxes) {
+      for (const field of [axis.title, axis.hook, axis.detail, axis.relatedLabel]) {
+        expect(field.es.trim()).not.toBe('');
+        expect(field.en.trim()).not.toBe('');
+      }
+      expect(axis.caseHref).toMatch(/^\/ai-lab\//);
+      expect(axis.relatedHref).toMatch(/^\/projects\//);
     }
+  });
+
+  it('speaks in first person instead of interview-style validation language', () => {
+    expect(serialized).not.toMatch(/¿Cómo diseña Antonio|¿Cómo usa Antonio|How does Antonio|Evidencia principal|Primary evidence|Dos ejes, una misma disciplina|Two axes, one discipline|Qué demuestra|What it demonstrates/i);
+    expect(aiLabLanding.title.en).toBe('I wanted to try something.');
+    expect(aiLabLanding.title.es).toBe('Quería probar una cosa.');
+    expect(aiLabAxes.every(axis => !/Antonio/i.test(axis.hook.en))).toBe(true);
+    expect(serialized).not.toMatch(/Evidencia|Evidence:/);
   });
 
   it('localizes every case deterministically in both locales', () => {
     expect(getAiLabCases('es').map(item => item.id)).toEqual(getAiLabCases('en').map(item => item.id));
     expect(getAiLabCase('es', 'platform934')?.title).toContain('Platform934');
     expect(getAiLabCase('en', 'incident-investigation')?.title).toBe('AI-assisted incident investigation');
-    expect(getAiLabCase('es', 'agentic-engineering')?.title).toBe('Ingeniería agéntica con gates y evidencia');
+    expect(getAiLabCase('es', 'agentic-engineering')?.title).toBe('Ingeniería agéntica: delegar trabajo sin delegar el criterio');
   });
 });

@@ -436,6 +436,8 @@
   .ai-lab-hero h1, .ai-lab-case-header h1 { max-width: 22ch; margin: 6px 0 14px; font-size: clamp(1.9rem, 4.5cqi, 3rem); line-height: 1.06; letter-spacing: -.05em; }
   .ai-lab-hero .eyebrow, .ai-lab-case-header .eyebrow { color: var(--cyan); }
   .ai-lab-hero .lead, .ai-lab-case-header .lead { max-width: 68ch; color: var(--text-muted); }
+  .ai-lab-intro { max-width: 70ch; color: var(--text-muted); }
+  .ai-lab-intro p { margin: .75rem 0 0; }
   .ai-lab-meta { margin: 14px 0 0; }
   .ai-lab-label { margin: 18px 0 7px; color: var(--text-muted); font: .7rem/1.5 var(--mono); text-transform: uppercase; letter-spacing: .06em; }
   .ai-lab-state { display: inline-block; width: fit-content; padding: 2px 7px; border: 1px solid var(--border); color: var(--text-muted); font: .62rem/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
@@ -450,30 +452,35 @@
   .ai-lab-case-header { padding-bottom: 24px; border-bottom: 1px solid var(--border); }
 
   .ai-lab-axes { margin-top: 2.4rem; }
-  .ai-lab-axes > h2, .ai-lab-capabilities > h2, .ai-lab-principles > h2, .ai-lab-boundaries > h2, .ai-lab-historical > h2 { font-size: 1.35rem; }
-  .ai-lab-axis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .ai-lab-axis { position: relative; display: block; padding: 20px; border: 1px solid var(--border); border-top: 3px solid var(--warning); border-radius: 7px; background: color-mix(in srgb, var(--surface-elevated) 72%, var(--surface)); color: var(--text); }
-  .ai-lab-axis-2 { border-top-color: var(--cyan); }
-  .ai-lab-axis:hover { border-color: var(--cyan); background: var(--surface-elevated); color: var(--text); }
-  .ai-lab-axis:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+  .ai-lab-axes > h2, .ai-lab-capabilities > h2, .ai-lab-historical > h2 { font-size: 1.35rem; }
+  .ai-lab-axis-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
+  .ai-lab-axis { position: relative; display: flex; flex-direction: column; max-width: 72ch; padding: 22px 0; border-bottom: 1px solid var(--border); color: var(--text); }
   .ai-lab-axis-index { color: var(--text-muted); font: .72rem/1.4 var(--mono); letter-spacing: .08em; }
   .ai-lab-axis h3 { margin: 8px 0 10px; font-size: 1.2rem; color: var(--text); }
   .ai-lab-axis p { margin: 0 0 10px; color: var(--text-muted); font-size: .875rem; }
-  .ai-lab-axis-question { color: var(--cyan) !important; font: .8rem/1.6 var(--mono) !important; }
-  .ai-lab-axis small { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: .75rem; }
+  .ai-lab-axis-hook { color: var(--cyan) !important; font: .8rem/1.6 var(--mono) !important; }
+  .ai-lab-axis-closing { color: var(--text) !important; }
+  .ai-lab-axis-actions { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: auto; padding-top: 6px; }
   .ai-lab-open { display: inline-flex; align-items: center; min-height: 44px; color: var(--warning); font-size: .8125rem; }
+  .ai-lab-related-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-muted); font-size: .8125rem; }
+  .ai-lab-open:focus-visible, .ai-lab-related-link:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 
   .ai-lab-professional { margin-top: 2.4rem; }
-  .ai-lab-professional .eyebrow { color: var(--aura-blue); }
+  .ai-lab-professional { max-width: 72ch; border-top: 1px solid var(--border); padding-top: 1.6rem; }
+  .ai-lab-professional > h2 { color: var(--aura-blue); }
+  .ai-lab-professional > h3 { margin-top: 1.7rem; }
+  .ai-lab-professional > p { color: var(--text-muted); }
+  .ai-lab-professional-closing { color: var(--text) !important; }
   .ai-lab-feature { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 20px; border: 1px solid var(--border); border-left: 3px solid var(--aura-blue); border-radius: 7px; background: color-mix(in srgb, var(--surface-elevated) 72%, var(--surface)); color: var(--text); }
   .ai-lab-feature:hover { border-color: var(--aura-blue); color: var(--text); }
   .ai-lab-feature h2 { margin: 0 0 6px; font-size: 1.15rem; }
   .ai-lab-feature p { margin: 0; color: var(--text-muted); font-size: .875rem; }
 
-  .ai-lab-historical { margin-top: 2.4rem; }
+  .ai-lab-historical { margin-top: 2.8rem; border-top: 1px solid var(--border); padding-top: 1.6rem; }
   .ai-lab-historical .eyebrow { color: var(--text-muted); }
-  .ai-lab-history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
-  .ai-lab-history { padding: 16px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
+  .ai-lab-historical-intro { max-width: 72ch; color: var(--text-muted); }
+  .ai-lab-history-grid { display: grid; grid-template-columns: 1fr; gap: 0; max-width: 72ch; margin-top: 20px; }
+  .ai-lab-history { padding: 22px 0; border-top: 1px solid var(--border); }
   .ai-lab-history-eyebrow { margin: 0 0 6px; color: var(--violet); font: .68rem/1.5 var(--mono); letter-spacing: .05em; }
   .ai-lab-history h3 { margin: 0 0 8px; color: var(--text); }
   .ai-lab-history p { color: var(--text-muted); font-size: .82rem; }
@@ -481,24 +488,21 @@
   .ai-lab-boundary-list { margin: 0; padding-left: 1rem; color: var(--text-muted); font-size: .78rem; }
   .ai-lab-boundary-list li + li { margin-top: 3px; }
 
-  .ai-lab-principles { margin-top: 2.4rem; }
-  .ai-lab-principles > ul, .ai-lab-boundaries > ul { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
-  .ai-lab-principles li { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
-  .ai-lab-principles strong { color: var(--cyan); font-size: .875rem; }
-  .ai-lab-principles span { color: var(--text-muted); font-size: .8125rem; }
+  .ai-lab-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; clear: both; margin: 24px 0; }
+  .ai-lab-gallery figure { min-width: 0; margin: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--background); }
+  .ai-lab-gallery figure:first-child { grid-column: 1 / -1; }
+  .ai-lab-gallery a { display: block; }
+  .ai-lab-gallery img { display: block; width: 100%; height: auto; }
+  .ai-lab-gallery figcaption { padding: 10px 14px; font: .75rem/1.5 var(--mono); color: var(--text-muted); border-top: 1px solid var(--border); }
+  .ai-lab-gallery a:focus-visible { outline: 2px solid var(--cyan); outline-offset: -3px; }
 
-  .ai-lab-boundaries { margin-top: 2.4rem; }
-  .ai-lab-boundaries li, .ai-lab-non-claims li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; border: 1px dashed var(--border); border-radius: 6px; }
-  .ai-lab-boundaries strong, .ai-lab-non-claims span { color: var(--text); font-size: .82rem; }
-  .ai-lab-boundaries span { color: var(--text-muted); font-size: .78rem; }
+  .ai-lab-related { margin-top: 2rem; }
+
   .ai-lab-non-claims { margin-top: 2.4rem; padding: 18px; border: 1px solid color-mix(in srgb, var(--aura-pink) 40%, var(--border)); border-radius: 7px; background: color-mix(in srgb, var(--aura-pink) 6%, var(--surface)); }
   .ai-lab-non-claims h2 { margin-top: 0; font-size: 1.1rem; }
-  .ai-lab-non-claims > ul { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
-  .ai-lab-case-boundaries { margin-top: 2.4rem; }
-  .ai-lab-case-boundaries > ul { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
-  .ai-lab-case-boundaries li { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 1px solid var(--border); border-left: 3px solid var(--warning); border-radius: 6px; background: var(--surface); }
-  .ai-lab-case-boundaries strong { color: var(--warning); font-size: .82rem; }
-  .ai-lab-case-boundaries span { color: var(--text-muted); font-size: .8rem; }
+  .ai-lab-non-claims > ul { display: grid; grid-template-columns: 1fr; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .ai-lab-non-claims li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; border: 1px dashed var(--border); border-radius: 6px; }
+  .ai-lab-non-claims span { color: var(--text); font-size: .82rem; }
 
   .ai-lab-diagram { margin: 1.6rem 0; padding: 20px; border: 1px solid var(--border); border-left: 3px solid var(--cyan); border-radius: 7px; background: #151b1d; }
   .ai-lab-diagram > h2 { margin: 0 0 5px; font-size: 1.15rem; }
@@ -524,11 +528,8 @@
   .ai-lab-capability-grid article { padding: 14px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); }
   .ai-lab-capability-grid h3 { margin: 0 0 6px; color: var(--cyan); font-size: .95rem; }
   .ai-lab-capability-grid p { margin: 0; color: var(--text-muted); font-size: .8rem; }
-  .ai-lab-evidence { margin-top: 2rem; padding-top: 14px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: .8rem; }
-  .ai-lab-evidence strong { color: var(--text); }
-
   @container (max-width: 700px) {
-    .ai-lab-axis-grid, .ai-lab-history-grid, .ai-lab-principles > ul, .ai-lab-boundaries > ul, .ai-lab-non-claims > ul, .ai-lab-case-boundaries > ul, .ai-lab-capability-grid { grid-template-columns: 1fr; }
+    .ai-lab-axis-grid, .ai-lab-history-grid, .ai-lab-gallery, .ai-lab-non-claims > ul, .ai-lab-capability-grid { grid-template-columns: 1fr; }
     .ai-lab-architecture { grid-template-columns: 1fr; }
     .ai-lab-feature { flex-direction: column; align-items: flex-start; }
   }
@@ -541,7 +542,7 @@
   }
   @media print {
     .ai-lab-landing, .ai-lab-case { max-width: none; padding: 0; }
-    .ai-lab-diagram, .ai-lab-axis, .ai-lab-history, .ai-lab-capability-grid article, .ai-lab-principles li { background: white; border-color: #999; }
+    .ai-lab-diagram, .ai-lab-axis, .ai-lab-history, .ai-lab-capability-grid article, .ai-lab-gallery figure { background: white; border-color: #999; }
   }
 }
 
