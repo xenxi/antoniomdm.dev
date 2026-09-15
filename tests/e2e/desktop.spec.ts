@@ -37,7 +37,7 @@ test('route deep links and browser Back / Forward work', async ({ page }) => {
   await page.goForward(); await expect(page.locator('[data-window="notes"]')).toHaveClass(/active/);
 });
 
-test('Arcade engine, wallpaper and audio are deferred until explicit entry', async ({ page }) => {
+test('Arcade engine and audio are deferred until explicit entry', async ({ page }) => {
   const requests: string[] = []; page.on('request', request => requests.push(request.url()));
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   expect(await page.locator('.os').evaluate(element => getComputedStyle(element).backgroundImage)).toContain('wallpaper.webp');
@@ -46,7 +46,9 @@ test('Arcade engine, wallpaper and audio are deferred until explicit entry', asy
   expect(requests.filter(url => /\/(?:Arcade|arcade)\..*\.(?:js|css)|\/arcade\/world|\.mp3/.test(url))).toEqual([]);
   await page.getByRole('button', { name: 'ENTER' }).click();
   await expect(page.getByRole('region', { name: 'AntoñiOS Career Mode' })).toBeVisible();
-  expect(requests.some(url => /\/Arcade\..*\.js/.test(url))).toBe(true); expect(requests.some(url => /\.mp3/.test(url))).toBe(false);
+  expect(requests.some(url => /\/Arcade\..*\.js/.test(url))).toBe(true);
+  await expect(page.getByRole('button', { name: 'Pause music', exact: true })).toBeVisible();
+  expect(requests.some(url => /\.mp3/.test(url))).toBe(true);
   await page.getByRole('button', { name: 'Return to desktop' }).click(); await expect(page.locator('[data-window="arcade"]')).toBeVisible();
 });
 
@@ -132,15 +134,16 @@ test('project filters, note content, lab concepts and languages reading view', a
   await expect(page.getByRole('heading', { name: 'Languages', exact: true })).toBeVisible();
 });
 
-test('audio requires an explicit Play and stops on Arcade exit', async ({ page }) => {
+test('audio starts on explicit Arcade entry, can be paused and stops on exit', async ({ page }) => {
   const audioRequests: string[] = []; page.on('request', request => { if (request.url().endsWith('.mp3')) audioRequests.push(request.url()); });
   await page.goto('/en/settings/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await page.getByRole('checkbox', { name: 'Enable sound', exact: true }).check();
   await page.getByRole('checkbox', { name: 'Arcade music', exact: true }).check();
   await page.locator('[data-desktop-app="arcade"]').click(); await page.getByRole('button', { name: 'ENTER' }).click();
-  await expect(page.getByRole('button', { name: 'Play music', exact: true })).toBeVisible(); expect(audioRequests).toHaveLength(0);
-  await page.getByRole('button', { name: 'Play music', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Pause music', exact: true })).toBeVisible(); expect(audioRequests.length).toBeGreaterThan(0);
+  await expect(page.getByRole('button', { name: 'Pause music', exact: true })).toBeVisible();
+  await expect.poll(() => audioRequests.length).toBeGreaterThan(0);
+  await page.getByRole('button', { name: 'Pause music', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Play music', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Return to desktop' }).click(); await expect(page.locator('.arcade-world')).toHaveCount(0);
 });
 

@@ -21,6 +21,7 @@ test('clock pauses, expires, can be disabled and survives the language switch', 
   await page.getByRole('button', { name: 'Resume game', exact: true }).last().click();
   await expect(page.locator('.quest-clock > span')).toHaveText(before!);
   await page.locator('.career-quest-panel').getByRole('button', { name: 'Open terminal mission' }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
   await page.clock.runFor(6000);
   await expect(page.locator('[data-choice="responsive-1"]')).toBeDisabled();
   await expect(page.locator('.quest-resources meter')).toHaveAttribute('value', '85');
@@ -64,6 +65,11 @@ test('every company renders its own world with four listed missions', async ({ p
     await expect(page.locator('.godot-world')).toHaveAttribute('data-map', chapter.id);
     await expect(page.locator('.chapter-missions li')).toHaveCount(chapter.missions.length);
     await page.locator('.career-scene').screenshot({ path: `test-results/company-${chapter.id}.png` });
+    const dialog = page.getByRole('dialog');
+    if (await dialog.isVisible()) {
+      const close = dialog.getByRole('button', { name: /^(?:Close|Return to mission)$/ });
+      if (await close.count()) await close.first().click();
+    }
     await page.getByRole('button', { name: 'Menu', exact: true }).click();
   }
 });

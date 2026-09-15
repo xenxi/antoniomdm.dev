@@ -24,7 +24,7 @@ for (const locale of ['es', 'en']) for (const width of [1440, 1280, 1024, 768, 3
         const side = (await page.locator(`[data-window="${id}"]`).boundingBox())!;
         expect(side.x).toBeGreaterThan(main.x + main.width);
       }
-      await expect(page.locator('.project-thumbnail')).toBeVisible();
+      await expect(page.locator('[data-window="projects"] .project-card').first()).toBeVisible();
     }
     expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
     await page.screenshot({ path: `test-results/aura/${locale}-${width}.png`, fullPage: true });
@@ -55,8 +55,8 @@ test('Aura side apps keep real focus, dock state and terminal commands across re
   await expect(page.locator('.system-ready')).toHaveAccessibleName('Network offline');
   await context.setOffline(false);
   await expect(page.locator('.system-ready')).toHaveAccessibleName('Network online');
-  await page.getByRole('button', { name: 'Enable system audio', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Mute sound', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: 'Mute system audio', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Enable system audio', exact: true })).toHaveAttribute('aria-pressed', 'false');
 });
 
 test('Aura mobile touch taps open apps, restore windows and enter and exit Arcade', async ({ browser, baseURL }) => {

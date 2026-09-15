@@ -118,7 +118,9 @@ for (const locale of ['es', 'en'] as const) {
 test('A4 languages preserve source boundaries in both locales', async ({ page }) => {
   for (const locale of ['es', 'en'] as const) {
     await ready(page, routes[locale].languages);
-    await expect(page.locator('.profile-section')).toContainText(locale === 'es' ? 'Español nativo' : 'Native Spanish');
+    const spanish = page.locator('.language-card-spanish');
+    await expect(spanish.getByRole('heading')).toHaveText(locale === 'es' ? 'Español' : 'Spanish');
+    await expect(spanish.locator('.language-badge-native')).toHaveText(locale === 'es' ? 'Nativo' : 'Native');
     await expect(page.locator('.profile-section')).not.toContainText(/\b(?:B1|B2|C1|C2|CEFR|Fluent)\b/);
   }
 });

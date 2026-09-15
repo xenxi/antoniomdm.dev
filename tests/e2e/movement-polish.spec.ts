@@ -62,6 +62,7 @@ test('releasing an older touch does not cancel the new direction', async ({ page
   const a = { id: 1, x: east!.x + east!.width / 2, y: east!.y + east!.height / 2 }, b = { id: 2, x: south!.x + south!.width / 2, y: south!.y + south!.height / 2 };
   await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [a] });
   await expect(page.locator('.direction-right')).toHaveClass(/is-held/);
+  await expect.poll(async () => Number((await world.getAttribute('data-player'))!.split(',')[0])).toBeGreaterThan(4);
   await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [a, b] });
   await expect(page.locator('.direction-down')).toHaveClass(/is-held/);
   await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [a] });
