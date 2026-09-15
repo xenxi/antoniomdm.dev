@@ -37,7 +37,7 @@ test('Spanish default, language switching, navigation and reading view', async (
   await expect(page).toHaveURL(/\/profile\/languages\/$/);
 });
 
-test('both languages publish complete static HTML, notes, feeds and CVs', async ({ browser, request }) => {
+test('both languages publish complete static HTML, notes, feeds and arcade launchers', async ({ browser, request }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   for (const locale of ['es', 'en']) {
@@ -49,8 +49,10 @@ test('both languages publish complete static HTML, notes, feeds and CVs', async 
     await expect(page.locator('html')).toHaveAttribute('lang', locale === 'es' ? 'en' : 'es');
     await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${prefix}/notes/os-foundation/`);
     await expect(page.getByRole('heading', { name: locale === 'es' ? 'Un portfolio, dos formas de explorar' : 'One portfolio, two ways to explore' })).toBeVisible();
-    const cv = await (await request.get(`${prefix}/cv.txt`)).text();
-    expect(cv).toContain(locale === 'es' ? 'título no obtenido' : 'degree not awarded');
+    // CV downloads were removed; verify the current static Arcade entry instead.
+    await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${prefix}/arcade/`);
+    await expect(page.locator('.arcade-launcher')).toContainText(locale === 'es' ? 'misión rápida directa' : 'direct quick mission');
+    await expect(page.locator('.arcade-launcher').getByRole('link', { name: locale === 'es' ? 'Explorar la trayectoria ↗' : 'Explore the career ↗' })).toHaveAttribute('href', `${prefix}/experience/`);
     const rss = await (await request.get(`${prefix}/rss.xml`)).text();
     expect(rss).toContain(`<language>${locale}</language>`);
     expect(rss).toContain(`${prefix}/notes/os-foundation/`);

@@ -2,7 +2,8 @@ import { buildings } from './town';
 import { companyArt } from './company-art';
 
 // Coordinates are in the 480 × 320 artwork space, independent of camera zoom.
-export function sceneEffects(town: boolean) {
+export interface SceneEffects { fountains: number[][]; lights: [number, number, number, number, string?][]; fans: number[][]; steam: number[][]; screens: number[][] }
+export function sceneEffects(town: boolean): SceneEffects {
   return town ? {
     fountains: [[284, 167, 13], [301, 176, 12], [314, 184, 9]],
     lights: buildings.filter(b => b.id !== 'freelance').map(b => {

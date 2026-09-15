@@ -10,7 +10,7 @@ export interface PlatformItem { title: Localized; body?: Localized; status?: Pla
 
 export const platform934 = {
   title: text('Platform934', 'Platform934'),
-  eyebrow: text('PROYECTO PERSONAL / LABORATORIO DE INGENIERÍA', 'PERSONAL PROJECT / ENGINEERING LAB'),
+  eyebrow: text('PROYECTO PERSONAL / MULTIMEDIA', 'PERSONAL PROJECT / MEDIA'),
   summary: text(
     'Plataforma multimedia multicliente construida sobre Jellyfin para explorar producto, arquitectura, rendimiento, TV nativa y agentes conversacionales.',
     'A multi-client media platform built on Jellyfin to explore product engineering, architecture, performance, native TV and conversational agents.',

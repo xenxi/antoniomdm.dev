@@ -4,6 +4,7 @@ import { pageMetadata } from '../data/routes';
 import type { ContentData } from '../data/portfolio';
 import '../styles/global.css';
 import '../styles/aura.css';
+import '../styles/projects.css';
 import { basePath, localeForPath, localizedPath, translator } from '../i18n/core';
 import { getUiData } from '../data/ui';
 interface Props { path: string; content: ContentData }
@@ -44,7 +45,7 @@ const initialContent = { notes: content.notes.map(note => ({ ...note, html: base
     {meta.note?.updated && <meta property="article:modified_time" content={meta.note.updated} />}
     <script is:inline type="application/ld+json" set:html={JSON.stringify(meta.schema).replace(/</g, '\u003c')} />
     <script is:inline>if (new URLSearchParams(location.search).get('view') === 'reading') document.documentElement.classList.add('reading');</script>
-    <noscript><style>.window-controls,.taskbar,.resize-handle,.desktop-hint,.window-status,.no-print{display:none!important}.os,.desktop-surface,.workspace{height:auto!important;min-height:100vh;overflow:visible!important}.window{position:relative!important;inset:auto!important;width:min(90%,850px)!important;height:auto!important;margin:2rem auto}.desktop-icons{position:relative!important;display:flex!important;flex-wrap:wrap!important}.window-content{overflow:visible!important}</style></noscript>
+    <noscript><style>.window-controls,.taskbar,.resize-handle,.desktop-hint,.window-status,.no-print{display:none!important}.os,.desktop-surface,.workspace{height:auto!important;min-height:100vh;overflow:visible!important}.window{position:relative!important;inset:auto!important;width:min(90%,850px)!important;height:auto!important;margin:2rem auto}.desktop-icons{position:relative!important;inset:auto!important;margin:12px;display:flex!important;flex-wrap:wrap!important}.window-content{overflow:visible!important}</style></noscript>
   </head>
   <body>
     <a class="skip-link" href="#desktop">{t('Skip to desktop content')}</a>

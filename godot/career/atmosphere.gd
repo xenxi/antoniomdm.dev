@@ -111,6 +111,19 @@ func _door(object: Dictionary) -> void:
 
 func _draw() -> void:
 	if scene.is_empty(): return
+	var ambience = scene.get("ambience", {})
+	for note in ambience.get("notes", []):
+		for i in range(3):
+			var phase = fmod(elapsed * .32 + i / 3.0, 1)
+			var p = Vector2(note[0] + sin(phase * 4 + i) * 3, note[1] - phase * 12)
+			var ink = Color(.97, .82, .54, (1 - phase) * .8)
+			draw_circle(p, .85, ink)
+			draw_line(p + Vector2(.65, 0), p + Vector2(.65, -3.2), ink, .55)
+			draw_line(p + Vector2(.65, -3.2), p + Vector2(2, -2.5), ink, .65)
+	for puddle in ambience.get("puddles", []):
+		for i in range(2):
+			var phase = fmod(elapsed * .55 + i * .5, 1)
+			_ellipse(Vector2(puddle[0], puddle[1]), 2 + phase * 12, Color(.63, .89, 1, (1 - phase) * .35))
 	var effects = scene.get("effects", {})
 	for i in range(effects.get("lights", []).size()):
 		var line = effects.lights[i]

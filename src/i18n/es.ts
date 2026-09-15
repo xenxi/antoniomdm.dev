@@ -1,5 +1,7 @@
 // English source strings are the keys; every user-facing addition needs its Spanish equivalent.
 export const spanish: Record<string, string> = {
+  'Things I’ve built.': 'Cosas que he construido.',
+  'Ideas, side quests and things that started with ‘give me five minutes’.': 'Ideas, proyectos paralelos y cosas que empezaron con «dame cinco minutos».',
   'Featured project': 'Proyecto destacado',
   'Mute system audio': 'Silenciar audio del sistema',
   'Enable system audio': 'Activar audio del sistema',

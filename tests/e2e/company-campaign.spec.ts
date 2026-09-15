@@ -12,15 +12,18 @@ test('clock pauses, expires, can be disabled and survives the language switch', 
   await page.locator('[data-chapter="freelance"]').click();
   await expect(page.locator('.godot-world')).toHaveAttribute('data-engine', 'ready', { timeout: 60000 });
   await page.clock.install();
-  await page.clock.fastForward(2000);
-  const before = await page.locator('.quest-clock > span').textContent();
+  await page.clock.runFor(2000);
   await page.getByRole('button', { name: 'Pause', exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'Paused', exact: true })).toBeVisible();
+  const before = await page.locator('.quest-clock > span').textContent();
   await page.clock.fastForward(60000);
+  await expect(page.locator('.quest-clock > span')).toHaveText(before!);
   await page.getByRole('button', { name: 'Resume game', exact: true }).last().click();
   await expect(page.locator('.quest-clock > span')).toHaveText(before!);
   await page.locator('.career-quest-panel').getByRole('button', { name: 'Open terminal mission' }).click();
   await page.clock.runFor(6000);
   await expect(page.locator('[data-choice="responsive-1"]')).toBeDisabled();
+  await expect(page.locator('.quest-resources meter')).toHaveAttribute('value', '85');
   await page.getByRole('dialog').getByRole('button', { name: 'No time limit', exact: true }).click();
   await page.locator('[data-choice="responsive-1"]').click();
   await page.getByRole('button', { name: 'Return to mission', exact: true }).click();
@@ -30,8 +33,8 @@ test('clock pauses, expires, can be disabled and survives the language switch', 
   await expect(page.locator('.chapter-missions .is-current')).toContainText('La entrega también se usa con teclado');
 });
 
-test('flat incidents restore energy, persist and change the scene', async ({ page }) => {
-  const state = updateProgress(completeEvent(newGame(), 'freelance'), { mission: 1, energy: 20 });
+test('failed flat incidents lose their reward, persist and still resolve the scene', async ({ page }) => {
+  const state = updateProgress(completeEvent(newGame(), 'freelance'), { mission: 1, energy: 100 });
   await page.addInitScript(save => { if (!localStorage.getItem('antonios:career:v1')) localStorage.setItem('antonios:career:v1', save); }, JSON.stringify({ ...state, timed: false }));
   await page.goto('/en/arcade/'); await page.getByRole('button', { name: 'ENTER', exact: false }).click(); await page.locator('[data-chapter="freelance"]').click();
   await expect(page.locator('.godot-world')).toHaveAttribute('data-engine', 'ready', { timeout: 60000 });
@@ -39,14 +42,15 @@ test('flat incidents restore energy, persist and change the scene', async ({ pag
   for (const [id, correct] of [['leak', 0], ['cat', 1], ['foam', 2], ['noise', 0]] as const) {
     await page.locator(`[data-side="${id}"]`).click();
     await page.locator(`[data-side-choice="${(correct + 1) % 3}"]`).click();
-    await expect(page.getByRole('dialog')).toContainText('does not resolve');
+    await expect(page.getByRole('dialog')).toContainText('Reward lost');
     await page.locator(`[data-side-choice="${correct}"]`).click();
     await page.getByRole('button', { name: 'Return to mission', exact: true }).click();
     await expect(page.locator(`[data-side="${id}"]`)).toBeDisabled();
   }
-  await expect(page.locator('.quest-resources meter')).toHaveAttribute('value', '100');
+  await expect(page.locator('.quest-resources meter')).toHaveAttribute('value', '40');
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('antonios:career:v1')!));
   expect(saved.chapters.freelance.side).toEqual(['leak', 'cat', 'foam', 'noise']);
+  expect(saved.chapters.freelance.failedSide).toEqual(['leak', 'cat', 'foam', 'noise']);
   await page.locator('.career-scene').screenshot({ path: 'test-results/shared-flat-after.png' });
 });
 

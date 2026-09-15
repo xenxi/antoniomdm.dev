@@ -136,7 +136,7 @@ export const copy = {
   prologue: text('Prólogo · después volvemos a los comienzos', 'Prologue · then back to the beginnings'),
   play: text('Jugar capítulo', 'Play chapter'), menu: text('Menú', 'Menu'), pause: text('Pausar', 'Pause'), paused: text('En pausa', 'Paused'), resume: text('Volver al juego', 'Resume game'),
   replay: text('Repetir este capítulo', 'Replay this chapter'),
-  controls: text('Flechas / WASD para caminar · E / espacio para interactuar · M para el mapa · mantén pulsados los controles táctiles.', 'Arrows / WASD to walk · E / space to interact · M for the map · hold the touch controls to walk.'),
+  controls: text('Flechas / WASD para caminar · pulsa el suelo para elegir destino o un objeto para acercarte · E / espacio para interactuar · M para el mapa · mantén pulsados los controles táctiles.', 'Arrows / WASD to walk · tap the floor to choose a destination or an object to approach it · E / space to interact · M for the map · hold the touch controls to walk.'),
   map: text('Mapa de ciudad visto desde arriba. Usa las flechas para caminar y E junto a puertas, personas u objetos.', 'Top-down town map. Use arrows to walk and E near doors, people or objects.'),
   move: text('Movimiento', 'Movement'), up: text('Caminar al norte', 'Walk north'), down: text('Caminar al sur', 'Walk south'), left: text('Caminar al oeste', 'Walk west'), right: text('Caminar al este', 'Walk east'), interact: text('Interactuar', 'Interact'),
   accessible: text('Interacción directa accesible', 'Accessible direct interaction'), workstation: text('Abrir misión del terminal', 'Open terminal mission'), npc: text('Hablar con el equipo', 'Talk to the team'), coffee: text('Tomar café', 'Have coffee'), secret: text('Examinar caja negra', 'Inspect black box'),

@@ -5,6 +5,23 @@ type Polygon = (ctx: CanvasRenderingContext2D, points: number[][], color: string
 
 export function roomDetail(ctx: CanvasRenderingContext2D, scene: CompanyScene, project: Project, poly: Polygon, tile: number, home: boolean) {
   const line = (a: number[], b: number[], color: string, width = .35) => { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke(); };
+  // Woven rugs anchor the living areas without changing traversable floor tiles.
+  for (const item of scene.furniture.filter(item => item.kind === 'sofa')) {
+    const x = Math.max(.2, item.x - 1), y = Math.max(.2, item.y - .3);
+    const w = Math.min(3, scene.width - x - .2), d = Math.min(2.3, scene.height - y - .2);
+    poly(ctx, [project(x, y), project(x + w, y), project(x + w, y + d), project(x, y + d)], '#14253480');
+    poly(ctx, [project(x + .08, y + .08), project(x + w - .08, y + .08), project(x + w - .08, y + d - .08), project(x + .08, y + d - .08)], home ? '#715465' : '#3d6975');
+    for (let row = .17; row < d - .1; row += .12) line(project(x + .16, y + row), project(x + w - .16, y + row), '#e6c5a63d', .25);
+    for (let col = .2; col < w - .1; col += .23) {
+      line(project(x + col, y), project(x + col, y - .09), '#d7bd8b99', .4);
+      line(project(x + col, y + d), project(x + col, y + d + .09), '#d7bd8b99', .4);
+    }
+  }
+  // Low-level strips identify the exit even when tall furniture obscures its marker.
+  for (let i = 0; i < 3; i++) {
+    const x = .28 + i * .35;
+    line(project(x, 7.18), project(x, 7.82), '#90e7d3aa', .9);
+  }
   // Fine wood grain at home; inset polished stone and carpet seams in offices.
   for (let y = 0; y < scene.height; y++) for (let x = 0; x < scene.width; x++) {
     if (home) {

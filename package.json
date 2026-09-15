@@ -16,6 +16,7 @@
     "lint": "eslint .",
     "typecheck": "astro check",
     "test": "vitest run",
+    "test:godot": "node scripts/test-godot.mjs",
     "pretest:e2e": "npm run build",
     "test:e2e": "playwright test",
     "check": "npm run lint && npm run typecheck && npm test && npm run build",

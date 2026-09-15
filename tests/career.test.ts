@@ -60,12 +60,14 @@ describe('Playable campaign', () => {
       expect(parseSave(JSON.stringify(state))).toEqual(state);
     }
   });
-  it('rejects wrong answers, permits distinct architecture trade-offs and retains partial traces', () => {
+  it('penalizes wrong answers, restarts partial traces and permits distinct architecture trade-offs', () => {
     let state = selectChapter(newGame(), 'domingo-alonso');
-    expect(choose(state, 'noise').state).toEqual(state);
+    state = choose(state, 'noise').state;
+    expect(getProgress(state).energy).toBe(85);
     state = choose(state, 'web').state;
     expect(getProgress(state).sequence).toEqual(['web']);
-    expect(choose(state, 'sql').state).toEqual(state);
+    state = choose(state, 'sql').state;
+    expect(getProgress(state)).toMatchObject({ sequence: [], choices: [], energy: 70, remaining: 70 });
     expect(parseSave(JSON.stringify(state))).toEqual(state);
     state = updateProgress(state, { mission: 1, sequence: [] });
     expect(choose(state, 'rewrite').accepted).toBe(false);

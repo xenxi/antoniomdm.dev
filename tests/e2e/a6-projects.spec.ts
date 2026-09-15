@@ -18,7 +18,7 @@ const projectNames = [
 test('A6.6 Projects landing exposes the locked portfolio and ecosystem filters', async ({ page }) => {
   await page.goto('/en/projects/');
   await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Personal Engineering Labs' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Things I’ve built.' })).toBeVisible();
   await expect(page.locator('.project-card, .project-card-secondary')).toHaveCount(9);
   await page.getByRole('button', { name: 'Media Engineering', exact: true }).click();
   await expect(page.locator('.project-card, .project-card-secondary')).toHaveCount(4);
@@ -41,7 +41,7 @@ test('A6.6 localized project routes preserve the existing Platform934 case study
   await page.goto('/en/projects/koso/');
   await expect(page.locator('a[href*="koso-cosas-originales"]')).toContainText('Beta / temporary preview');
   await page.goto('/en/projects/luna-studio/');
-  await expect(page.getByText('DESIGNED / PLANNED', { exact: true })).toBeVisible();
+  await expect(page.getByText(/DESIGNED \/ PLANNED: Luna Studio/)).toBeVisible();
 });
 
 test('A6.6 project registry has exact names, counts, keyboard filters and coherent focus', async ({ page }) => {
@@ -97,7 +97,7 @@ test('A6.6 project editorial boundaries and approved CTAs are visible', async ({
   await expect(page.locator('a[href="https://koso-cosas-originales.xenxi-85.chatgpt.site/"]')).toContainText('Beta / temporary preview');
   await page.goto('/en/projects/antonios/');
   await expect(page.locator('a[href="https://antoniomdm.dev/"]')).toBeVisible();
-  for (const route of ['/en/projects/platform934-api/', '/en/projects/stream-optimizer/', '/en/projects/devagon-alley/', '/en/projects/luna-studio/']) {
+  for (const route of ['/en/projects/platform934-api/', '/en/projects/stream-optimizer/', '/en/projects/luna-studio/']) {
     await page.goto(route);
     await expect(page.locator('a[href^="https://"]')).toHaveCount(0);
   }
@@ -110,7 +110,7 @@ test('A6.6 project navigation preserves detail routes and browser history', asyn
   await expect(page.locator('h1')).toHaveText('Stream Optimizer');
   await page.goBack();
   await expect(page).toHaveURL(/\/en\/projects\/$/);
-  await expect(page.locator('h1')).toHaveText('Personal Engineering Labs');
+  await expect(page.locator('h1')).toHaveText('Things I’ve built.');
   await page.goForward();
   await expect(page.locator('h1')).toHaveText('Stream Optimizer');
 });
@@ -132,7 +132,7 @@ test('A6.6 projects remain discoverable and representative details work without 
   for (const route of ['/en/projects/platform934-api/', '/en/projects/stream-optimizer/', '/en/projects/luna-studio/', '/en/projects/koso/']) {
     await page.goto(route);
     await expect(page.locator('h1')).toBeVisible();
-    await expect(page.locator('.project-detail')).toContainText(/Architectural decision|Decisión arquitectónica/i);
+    await expect(page.locator('.project-detail')).toContainText(/Decisions|Decisiones/i);
     await expect(page.locator('.project-detail .project-status')).toBeVisible();
   }
   await context.close();

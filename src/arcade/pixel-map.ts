@@ -9,7 +9,7 @@ import { companyArt } from './company-art';
 
 export type PixelRect = [number, number, number, number, string];
 export interface MapObject { id: string; x: number; y: number; label: string; locked?: boolean; complete?: boolean; marker?: number[]; entrance?: { anchor: number[]; width: number; height: number; color: string }; hit?: [number, number, number, number]; hitPolygon?: number[][] }
-export interface PixelMap { scene?: { resolved: string[]; mission: number }; effects?: ReturnType<typeof sceneEffects>; art?: string; sprite?: string; spriteScale?: number; signs?: CompanySign[]; company?: string; locale?: Locale; axes?: number[]; projection?: 'isometric'; entities?: { depth: number; rects: PixelRect[] }[]; id: string; width: number; height: number; tile: number; ox: number; oy: number; rects: PixelRect[]; labels: { x: number; y: number; text: string; color: string }[]; blocked: { x: number; y: number }[]; objects: MapObject[] }
+export interface PixelMap { ambience?: { notes: number[][]; puddles: number[][] }; scene?: { resolved: string[]; mission: number }; effects?: ReturnType<typeof sceneEffects>; art?: string; sprite?: string; spriteScale?: number; signs?: CompanySign[]; company?: string; locale?: Locale; axes?: number[]; projection?: 'isometric'; entities?: { depth: number; rects: PixelRect[] }[]; id: string; width: number; height: number; tile: number; ox: number; oy: number; rects: PixelRect[]; labels: { x: number; y: number; text: string; color: string }[]; blocked: { x: number; y: number }[]; objects: MapObject[] }
 export interface CompanySign { id: string; name: string; unlocked: boolean; complete: boolean }
 export const playerSprite = [
   '.....hh.hh......', '....hHHhHHh.....', '...hHHLHHHHh....', '...hHHHHHHHh....',

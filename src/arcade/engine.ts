@@ -8,7 +8,7 @@ import { studioWalkable } from './studio-layout';
 
 export const saveKey = 'antonios:career:v1';
 export type EventId = 'freelance' | 'incident' | 'wedding' | 'emma-born' | 'friday' | 'family';
-export interface Progress { side?: string[]; energy?: number; remaining?: number; snake?: SnakeState; mission: number; sequence: string[]; x: number; y: number; seen: EventId[]; completedEvents: EventId[]; pendingPipeline: boolean; choices: string[] }
+export interface Progress { side?: string[]; failedSide?: string[]; energy?: number; remaining?: number; snake?: SnakeState; mission: number; sequence: string[]; x: number; y: number; seen: EventId[]; completedEvents: EventId[]; pendingPipeline: boolean; choices: string[] }
 export interface GameState { version: 1; layout?: 2 | 3; timed?: boolean; chapterId: string; chapters: Record<string, Progress>; coffee: boolean; secret: boolean; world?: { x: number; y: number; inside: boolean }; cleared?: string[] }
 export const freshProgress = (): Progress => ({ mission: 0, sequence: [], x: 4, y: 7, seen: [], completedEvents: [], pendingPipeline: false, choices: [], side: [], energy: 100 });
 export const newGame = (): GameState => ({ version: 1, layout: 3, chapterId: chapters[0].id, chapters: { [chapters[0].id]: freshProgress() }, coffee: false, secret: false, world: { ...townSpawn, inside: false } });
@@ -25,13 +25,39 @@ export function selectChapter(state: GameState, chapterId: string): GameState {
 }
 export function updateProgress(state: GameState, patch: Partial<Progress>): GameState { return { ...state, chapters: { ...state.chapters, [state.chapterId]: { ...getProgress(state), ...patch } } }; }
 export const isComplete = (state: GameState, chapterId = state.chapterId) => (state.chapters[chapterId]?.mission ?? 0) >= chapters.find(chapter => chapter.id === chapterId)!.missions.length;
+// Failure rules live in the engine so campaign, quick play and restored saves agree.
+export function failAttempt(state: GameState): GameState {
+  const p = getProgress(state), mission = missionById[chapters.find(c => c.id === state.chapterId)!.missions[p.mission]];
+  return updateProgress(state, { energy: Math.max(0, (p.energy ?? 100) - 15), sequence: [], snake: undefined,
+    choices: mission ? p.choices.filter(id => !id.startsWith(`${mission.id}:`)) : p.choices,
+    ...(mission && state.timed !== false ? { remaining: Math.max(0, (p.remaining ?? mission.seconds ?? 90) - 10) } : {}) });
+}
+export function tickMission(state: GameState): GameState {
+  const p = getProgress(state), mission = missionById[chapters.find(c => c.id === state.chapterId)!.missions[p.mission]];
+  if (!mission || state.timed === false || p.remaining === 0 || p.energy === 0) return state;
+  const remaining = (p.remaining ?? mission.seconds ?? 90) - 1;
+  const next = updateProgress(state, { remaining });
+  return remaining === 0 ? failAttempt(next) : next;
+}
+export function recoverEnergy(state: GameState): GameState {
+  const p = getProgress(state);
+  return updateProgress(state, { energy: 100, ...(p.energy === 0 ? { sequence: [], snake: undefined, remaining: undefined,
+    choices: p.choices.filter(id => !id.startsWith(`${chapters.find(c => c.id === state.chapterId)!.missions[p.mission]}:`)) } : {}) });
+}
+export function chooseSide(state: GameState, id: string, index: number): { state: GameState; accepted: boolean; reward: number } {
+  const p = getProgress(state), side = sideQuests.find(q => q.id === id && q.chapter === state.chapterId);
+  if (!side || p.energy === 0 || !Number.isInteger(index) || !side.options[index] || p.mission < (side.after ?? 0) || p.side?.includes(id)) return { state, accepted: false, reward: 0 };
+  if (index !== side.correct) return { state: updateProgress(failAttempt(state), { failedSide: [...new Set([...(p.failedSide ?? []), id])] }), accepted: false, reward: 0 };
+  const reward = p.failedSide?.includes(id) ? 0 : Math.min(20, 100 - (p.energy ?? 100));
+  return { state: updateProgress(state, { side: [...(p.side ?? []), id], energy: (p.energy ?? 100) + reward }), accepted: true, reward };
+}
 export function choose(state: GameState, choiceId: string): { state: GameState; accepted: boolean; completed: boolean; feedback?: string } {
   const progress = getProgress(state); const chapter = chapters.find(chapter => chapter.id === state.chapterId)!;
   const mission = missionById[chapter.missions[progress.mission]];
   const choice = mission?.choices.find(choice => choice.id === choiceId);
-  if (!choice || (state.timed !== false && progress.remaining === 0) || (mission.challenge === 'snake' && progress.snake?.score !== 4)) return { state, accepted: false, completed: false };
+  if (!choice || progress.energy === 0 || (state.timed !== false && progress.remaining === 0) || (mission.challenge === 'snake' && progress.snake?.score !== 4)) return { state, accepted: false, completed: false };
   const accepted = mission.sequence ? mission.sequence[progress.sequence.length] === choiceId : Boolean(choice.accepted);
-  if (!accepted) return { state, accepted: false, completed: false, feedback: choiceId };
+  if (!accepted) return { state: failAttempt(state), accepted: false, completed: false, feedback: choiceId };
   const sequence = [...progress.sequence, choiceId]; const completed = !mission.sequence || sequence.length === mission.sequence.length;
   return { state: updateProgress(state, { sequence: completed ? [] : sequence, mission: progress.mission + (completed ? 1 : 0), choices: [...progress.choices, `${mission.id}:${choiceId}`], ...(completed ? { remaining: undefined, snake: undefined, energy: Math.max(0, (progress.energy ?? 100) - 10) } : {}) }), accepted: true, completed, feedback: choiceId };
 }
@@ -66,7 +92,7 @@ export function enterCompany(state: GameState, id: string): GameState {
 export function replayChapter(state: GameState): GameState {
   if (!chapterCleared(state, state.chapterId)) return state;
   const p = getProgress(state);
-  return updateProgress({ ...state, cleared: [...new Set([...(state.cleared ?? []), state.chapterId])] }, { ...freshProgress(), remaining: undefined, snake: undefined, seen: p.seen, completedEvents: p.completedEvents });
+  return updateProgress({ ...state, cleared: [...new Set([...(state.cleared ?? []), state.chapterId])] }, { ...freshProgress(), failedSide: undefined, remaining: undefined, snake: undefined, seen: p.seen, completedEvents: p.completedEvents });
 }
 
 const events: EventId[] = ['freelance', 'incident', 'wedding', 'emma-born', 'friday', 'family'];
@@ -95,11 +121,13 @@ export function parseSave(value: string | null): GameState | null {
       if (p.sequence.length >= Math.max(1, sequence.length) || p.sequence.some((id, i) => id !== sequence[i])) return null;
       if (p.choices.some(value => typeof value !== 'string' || !chapter.missions.some(id => missionById[id].choices.some(choice => `${id}:${choice.id}` === value)))) return null;
       if (p.side !== undefined && (!Array.isArray(p.side) || p.side.some(q => !sideQuests.some(s => s.chapter === id && s.id === q)))) return null;
+      if (p.failedSide !== undefined && (!Array.isArray(p.failedSide) || p.failedSide.some(q => !sideQuests.some(s => s.chapter === id && s.id === q)))) return null;
       if (p.energy !== undefined && (!Number.isFinite(p.energy) || p.energy < 0 || p.energy > 100)) return null;
       if (p.remaining !== undefined && (!Number.isInteger(p.remaining) || p.remaining < 0 || p.remaining > (missionById[chapter.missions[p.mission]]?.seconds ?? 90))) return null;
       if (p.snake !== undefined && (!validSnake(p.snake) || missionById[chapter.missions[p.mission]]?.challenge !== 'snake')) return null;
       const sameLayout = saved.layout === 3;
       result.chapters[id] = { mission: p.mission, sequence: [...p.sequence], x: sameLayout ? p.x : 4, y: sameLayout ? p.y : 7, seen: [...new Set(p.seen)], completedEvents: [...new Set(p.completedEvents)], pendingPipeline: p.pendingPipeline, choices: [...p.choices], side: [...new Set(p.side ?? [])], energy: p.energy ?? 100, ...(p.remaining !== undefined ? { remaining: p.remaining } : {}), ...(p.snake ? { snake: p.snake } : {}) };
+      if (p.failedSide) result.chapters[id].failedSide = [...new Set(p.failedSide)];
     }
     if (saved.layout !== 3) {
       const currentIndex = chapters.findIndex(c => c.id === saved.chapterId);
