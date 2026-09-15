@@ -34,7 +34,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const [selectedMission, setSelectedMission] = useState(chapters[0].missions[0]);
   const game = quickGame ?? campaignGame;
   function setGame(value: GameState | ((state: GameState) => GameState)) {
-    if (quickGame) setQuickGame(previous => typeof value === 'function' ? value(previous!) : value);
+    if (quickGame) setQuickGame(previous => previous === null ? null : typeof value === 'function' ? value(previous) : value);
     else setCampaignGame(value);
   }
   const quickDone = Boolean(quickGame && getProgress(quickGame).mission > chapters.find(chapter => chapter.id === quickGame.chapterId)!.missions.indexOf(quickId));

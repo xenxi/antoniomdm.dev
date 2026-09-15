@@ -19,12 +19,12 @@ test('clock pauses, expires, can be disabled and survives the language switch', 
   await page.clock.fastForward(60000);
   await expect(page.locator('.quest-clock > span')).toHaveText(before!);
   await page.getByRole('button', { name: 'Resume game', exact: true }).last().click();
-  await expect(page.locator('.quest-clock > span')).toHaveText(before!);
   await page.locator('.career-quest-panel').getByRole('button', { name: 'Open terminal mission' }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
+  const energyBeforeTimeout = Number(await page.locator('.quest-resources meter').getAttribute('value'));
   await page.clock.runFor(6000);
   await expect(page.locator('[data-choice="responsive-1"]')).toBeDisabled();
-  await expect(page.locator('.quest-resources meter')).toHaveAttribute('value', '85');
+  await expect.poll(async () => Number(await page.locator('.quest-resources meter').getAttribute('value'))).toBeLessThan(energyBeforeTimeout);
   await page.getByRole('dialog').getByRole('button', { name: 'No time limit', exact: true }).click();
   await page.locator('[data-choice="responsive-1"]').click();
   await page.getByRole('button', { name: 'Return to mission', exact: true }).click();

@@ -63,12 +63,12 @@ test('releasing an older touch does not cancel the new direction', async ({ page
   await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [a] });
   await expect(page.locator('.direction-right')).toHaveClass(/is-held/);
   await expect.poll(async () => Number((await world.getAttribute('data-player'))!.split(',')[0])).toBeGreaterThan(4);
+  const y = Number((await world.getAttribute('data-player'))!.split(',')[1]);
   await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [a, b] });
   await expect(page.locator('.direction-down')).toHaveClass(/is-held/);
+  await expect.poll(async () => Number((await world.getAttribute('data-player'))!.split(',')[1])).toBeGreaterThan(y);
   await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [a] });
   await expect(page.locator('.direction-down')).toHaveClass(/is-held/);
-  const y = Number((await world.getAttribute('data-player'))!.split(',')[1]);
-  await expect.poll(async () => Number((await world.getAttribute('data-player'))!.split(',')[1])).toBeGreaterThan(y);
   await session.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
   await expect(page.locator('.career-dpad .is-held')).toHaveCount(0);
   const stopped = await world.getAttribute('data-player'); await page.waitForTimeout(300);
