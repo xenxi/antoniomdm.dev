@@ -39,6 +39,9 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   }
   const quickDone = Boolean(quickGame && getProgress(quickGame).mission > chapters.find(chapter => chapter.id === quickGame.chapterId)!.missions.indexOf(quickId));
   const [screen, setScreen] = useState<'menu' | 'game' | 'paused' | 'tour'>('menu');
+  // Effects are cleaned up after the pause render. Keep the timer callback from
+  // consuming a queued tick during that small window (including virtual clocks).
+  const screenRef = useRef(screen); screenRef.current = screen;
   const [modal, setModal] = useState<'mission' | 'event' | 'info' | 'reset' | 'inventory' | 'jobs' | 'hiring' | 'side' | null>(null);
   const [sideId, setSideId] = useState('');
   const [lockedCompany, setLockedCompany] = useState('');
@@ -111,7 +114,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const nextTraining = hiring[0];
   useEffect(() => {
     if (quickDone || !inside || !loaded || !worldReady || screen !== 'game' || hidden || (modal && modal !== 'mission') || !mission || game.timed === false) return;
-    const timer = window.setInterval(() => setGame(tickMission), 1000);
+    const timer = window.setInterval(() => setGame(value => screenRef.current === 'game' ? tickMission(value) : value), 1000);
     return () => window.clearInterval(timer);
   }, [inside, loaded, worldReady, screen, hidden, modal, chapter.id, p.mission, game.timed, quickDone]);
   useEffect(() => {
@@ -263,7 +266,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
       await element.play(); if (disposed.current) { element.pause(); return; } setMusic(true);
     } catch { if (!disposed.current) setNotice(t('Music could not play. You can still explore.')); }
   }
-  function pause() { setScreen('paused'); }
+  function pause() { screenRef.current = 'paused'; setScreen('paused'); }
   function hudAction(key: string) {
     if (key === 'O') pause();
     if (key === 'M') host.current?.querySelector<HTMLButtonElement>('.godot-zoom')?.click();

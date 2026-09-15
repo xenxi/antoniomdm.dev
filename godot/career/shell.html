@@ -21,5 +21,8 @@ window.addEventListener('message', event => {
   receiver?.(JSON.stringify(event.data.state));
 });
 const engine = new Engine($GODOT_CONFIG);
+// Releasing the Godot main loop on document teardown prevents a closing iframe
+// from retaining a WebGL context and its animation frame in automated browsers.
+window.addEventListener('pagehide', () => engine.requestQuit(), { once: true });
 engine.startGame({ canvas, canvasResizePolicy: 2, onPrint: () => {}, onPrintError: console.error }).catch(() => window.careerBridge.emit(JSON.stringify({ type: 'error' })));
 </script></body></html>
