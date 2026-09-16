@@ -1,4 +1,4 @@
-import { clickCompanyObject, dumpGodotDebug, enableGodotE2EDebug } from './career-fixture';
+import { clickCompanyObject, dumpGodotDebug, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -61,7 +61,7 @@ for (const locale of ['es', 'en']) test(`hiring requirements ${locale}: inspect 
   // The glowing exclamation is clickable, not merely decoration.
 
   await clickCompanyObject(page, 'freelance', 'terminal', true);
-  await expect(dialog).toContainText(locale === 'es' ? 'Solo es cambiar un botón' : 'Just change one button');
+  await waitForGodotInteraction(page, 'terminal', locale === 'es' ? 'Solo es cambiar un botón' : 'Just change one button');
   // Inspect earned mission progress while the required event is still pending.
   // Freeze its timer explicitly instead of racing the 200ms event trigger.
   const clockStart = new Date('2026-09-14T00:00:00Z');

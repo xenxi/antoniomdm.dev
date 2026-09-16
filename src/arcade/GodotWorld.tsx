@@ -24,6 +24,7 @@ export default function GodotWorld(props: Props) {
   const [status, setStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
   const [attempt, setAttempt] = useState(0), ready = useRef(false), lastMap = useRef<PixelMap | null>(null);
   const [godotMap, setGodotMap] = useState('');
+  const [movement, setMovement] = useState({ state: 'idle', pendingInteraction: '', lastInteraction: '', target: '' });
   const e2eDebug = typeof window !== 'undefined' && (new URLSearchParams(window.location.search).get('e2eDebug') === '1' || Boolean((window as Window & { __CAREER_E2E_DEBUG_ENABLE__?: boolean }).__CAREER_E2E_DEBUG_ENABLE__));
   const prepared = useRef<PixelMap | null>(null);
   const [preparing, setPreparing] = useState(true);
@@ -90,6 +91,26 @@ export default function GodotWorld(props: Props) {
         }
         return;
       }
+      if (event.data.type === 'movement-state') {
+        if (e2eDebug) {
+          const debug = (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ ?? {};
+          const events = Array.isArray(debug.events) ? debug.events : [];
+          (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ = { ...debug, bridgeMovement: event.data, events: [...events, { source: 'bridge', ...event.data }].slice(-80) };
+        }
+        setMovement(previous => ({
+          state: typeof event.data.state === 'string' ? event.data.state : 'idle',
+          pendingInteraction: typeof event.data.pendingInteraction === 'string' ? event.data.pendingInteraction : '',
+          // El evento normal de interacción también es autoritativo: consérvalo
+          // si una instantánea tardía del bridge aún no lo incluye.
+          // The normal interaction event below is authoritative too. Preserve it
+          // while a late bridge snapshot does not carry a last interaction yet.
+          lastInteraction: typeof event.data.lastInteraction === 'string' && event.data.lastInteraction !== ''
+            ? event.data.lastInteraction
+            : event.data.state === 'routing' ? '' : previous.lastInteraction,
+          target: Array.isArray(event.data.target) ? event.data.target.join(',') : '',
+        }));
+        return;
+      }
       if (event.data.type === 'error') { ready.current = false; setStatus('failed'); clearTimeout(timer); return; }
       if (event.data.type === 'debug' && e2eDebug) {
         const debug = (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ ?? {};
@@ -104,8 +125,18 @@ export default function GodotWorld(props: Props) {
       const p = current.current;
       if (event.data.chapterId !== p.map.id) { sync(); return; }
       const action = readMapAction(event.data, p);
-      if (action?.type === 'move') p.onMove(action.x, action.y);
-      else if (action?.type === 'interact') p.onInteract(action.id);
+      if (action?.type === 'move') {
+        setMovement(previous => previous.lastInteraction ? { ...previous, state: 'moving', lastInteraction: '' } : previous);
+        p.onMove(action.x, action.y);
+      }
+      else if (action?.type === 'interact') {
+        // Es el evento Godot→React real que abre el diálogo; es un punto de
+        // observación estable, no una interacción sintética.
+        // This is the same real Godot-to-React event that opens the dialog; it
+        // is a durable observation point, not a synthetic interaction.
+        setMovement(previous => ({ ...previous, state: 'dispatched', pendingInteraction: '', lastInteraction: action.id }));
+        p.onInteract(action.id);
+      }
       else if (action?.type === 'pause') p.onPause();
       else if (event.data.type === 'shortcut' && ['I', 'J', 'O'].includes(event.data.key) && p.active) frame.current?.dispatchEvent(new KeyboardEvent('keydown', { key: event.data.key.toLowerCase(), bubbles: true }));
       else if (action?.type === 'map') setZoom(value => value === 1 ? 2 : 1);
@@ -122,7 +153,7 @@ export default function GodotWorld(props: Props) {
     motion.addEventListener('change', changed);
     return () => motion.removeEventListener('change', changed);
   }, []);
-  return <div class="godot-world" tabIndex={0} role="group" aria-label={c('title')} data-player={`${x},${y}`} data-map={map.id} data-godot-map={godotMap} data-zoom={zoom} data-engine={status} onKeyUp={event => { heldKeys.current.delete(event.key.toLowerCase()); held.current = [...heldKeys.current.values()].at(-1) ?? null; }} onBlur={releaseKeys} onKeyDown={event => {
+  return <div class="godot-world" tabIndex={0} role="group" aria-label={c('title')} data-player={`${x},${y}`} data-map={map.id} data-godot-map={godotMap} data-zoom={zoom} data-engine={status} data-movement-state={movement.state} data-pending-interaction={movement.pendingInteraction} data-last-interaction={movement.lastInteraction} data-movement-target={movement.target} onKeyUp={event => { heldKeys.current.delete(event.key.toLowerCase()); held.current = [...heldKeys.current.values()].at(-1) ?? null; }} onBlur={releaseKeys} onKeyDown={event => {
     if (!active || status !== 'ready') return;
     if (event.key.toLowerCase() === 'm' && (event.target === event.currentTarget || (event.target as HTMLElement).tagName === 'CANVAS')) { event.preventDefault(); setZoom(value => value === 1 ? 2 : 1); return; }
     if (event.target !== event.currentTarget) return;

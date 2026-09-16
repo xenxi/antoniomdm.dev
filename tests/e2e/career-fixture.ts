@@ -1,10 +1,23 @@
 import { finishSnake } from '../campaign-fixture';
+import { writeFile } from 'node:fs/promises';
 import { makeCompanyMap } from '../../src/arcade/company-scenes';
 import { expect, type Page, type TestInfo } from '@playwright/test';
 import { chapters, missionById } from '../../src/arcade/campaign';
 import { choose, completeEvent, eligibleEvents, newGame, selectChapter } from '../../src/arcade/engine';
 
 type DebugWindow = Window & { __CAREER_E2E_DEBUG_ENABLE__?: boolean; __CAREER_E2E_DEBUG__?: Record<string, unknown> };
+
+// Una ruta real de Godot puede superar el presupuesto genérico de 5 s de
+// Playwright bajo un navegador limitado. Sincroniza primero el estado del bridge
+// y después espera el resultado visible con un límite de seguridad específico.
+// A real Godot route can take longer than Playwright's generic 5 s assertion
+// budget under a throttled browser. Synchronize on the bridge state first, then
+// wait for the user-visible result with a route-specific safety limit.
+export async function waitForGodotInteraction(page: Page, object: string, expected?: string | RegExp) {
+  const world = page.locator('.godot-world');
+  await expect(world).toHaveAttribute('data-last-interaction', object, { timeout: 30_000 });
+  if (expected) await expect(page.getByRole('dialog')).toContainText(expected, { timeout: 30_000 });
+}
 
 export async function enableGodotE2EDebug(page: Page) {
   await page.addInitScript(() => { (window as DebugWindow).__CAREER_E2E_DEBUG_ENABLE__ = true; });
@@ -57,7 +70,10 @@ export async function dumpGodotDebug(page: Page, testInfo: TestInfo, label = 'fa
       };
     }).catch(() => null),
   ]);
-  await testInfo.attach(`godot-debug-${label}.json`, { body: Buffer.from(JSON.stringify({ debug, worldState, canvasState }, null, 2)), contentType: 'application/json' });
+  const name = `godot-debug-${label}.json`;
+  const path = testInfo.outputPath(name);
+  await writeFile(path, JSON.stringify({ debug, worldState, canvasState }, null, 2));
+  await testInfo.attach(name, { path, contentType: 'application/json' });
 }
 
 export async function clickCompanyObject(page: Page, chapter: string, id: string, marker = false, touch = false) {

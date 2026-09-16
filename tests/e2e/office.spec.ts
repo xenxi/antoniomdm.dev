@@ -1,4 +1,4 @@
-import { clickCompanyObject, dumpGodotDebug, enableGodotE2EDebug } from './career-fixture';
+import { clickCompanyObject, dumpGodotDebug, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -36,7 +36,7 @@ for (const locale of ['es', 'en']) test(`detailed Godot office ${locale}: art, n
   await expect(world).toHaveAttribute('data-player', '4,6');
 
   await clickCompanyObject(page, 'freelance', 'terminal');
-  await expect(page.getByRole('dialog')).toContainText(locale === 'es' ? 'Solo es cambiar un botón' : 'Just change one button');
+  await waitForGodotInteraction(page, 'terminal', locale === 'es' ? 'Solo es cambiar un botón' : 'Just change one button');
   await page.getByRole('dialog').getByRole('button', { name: locale === 'es' ? 'Cerrar' : 'Close', exact: true }).click();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.locator('.career-world').evaluate(el => { el.scrollTop = 0; });

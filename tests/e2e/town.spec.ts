@@ -1,7 +1,7 @@
 import { townProject } from '../../src/arcade/town-scene';
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { clickCanvasPoint, dumpGodotDebug, enableGodotE2EDebug } from './career-fixture';
+import { clickCanvasPoint, dumpGodotDebug, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
 test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
@@ -20,6 +20,7 @@ for (const engine of ['desktop', 'mobile']) test(`${engine}: explore town, locke
   await expect(world).toHaveAttribute('data-player', '4,6');
   // A future building is reachable, but approaching it cannot start a locked chapter.
   await clickCanvasPoint(page, { x: townProject(9.5, 5.5)[0], y: townProject(9.5, 5.5)[1] - 5 }, 'town-locked-xul');
+  await waitForGodotInteraction(page, 'xul', 'Aún no te contratan');
   await expect(page.locator('.career-status')).toContainText('Puerta cerrada');
   await expect(page.getByRole('dialog')).toContainText('Aún no te contratan');
   await expect(page.getByRole('dialog')).toContainText('Solo es cambiar un botón');

@@ -1,7 +1,7 @@
 import { townProject } from '../../src/arcade/town-scene';
 import { test, expect } from '@playwright/test';
 import { chapters, missionById } from '../../src/arcade/campaign';
-import { unlockBefore, clickCanvasPoint, clickCompanyObject, dumpGodotDebug, enableGodotE2EDebug } from './career-fixture';
+import { unlockBefore, clickCanvasPoint, clickCompanyObject, dumpGodotDebug, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
 import AxeBuilder from '@axe-core/playwright';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
@@ -28,7 +28,7 @@ for (const locale of ['es', 'en']) test(`Godot ${locale}: real WASM, walking, mi
   await canvas.focus(); await canvas.press('ArrowUp');
   await expect(world).toHaveAttribute('data-player', '4,6');
   await clickCompanyObject(page, 'xul', 'terminal');
-  await expect(page.getByRole('dialog')).toContainText(locale === 'es' ? 'El primer bug' : 'The first bug');
+  await waitForGodotInteraction(page, 'terminal', locale === 'es' ? 'El primer bug' : 'The first bug');
   await page.locator('[data-choice="loop"]').click();
   await page.getByRole('dialog').getByRole('button').last().click();
   for (const id of chapters.find(c => c.id === 'xul')!.missions.slice(1)) {
@@ -38,7 +38,8 @@ for (const locale of ['es', 'en']) test(`Godot ${locale}: real WASM, walking, mi
   }
   await expect(page.locator('.godot-portal')).toHaveClass(/is-open/);
   await clickCompanyObject(page, 'xul', 'portal');
-  await expect(world).toHaveAttribute('data-map', 'town');
+  await waitForGodotInteraction(page, 'portal');
+  await expect(world).toHaveAttribute('data-map', 'town', { timeout: 30_000 });
   await expect(world).toHaveAttribute('data-godot-map', 'town');
   await clickCanvasPoint(page, { x: townProject(14.5, 5.5)[0], y: townProject(14.5, 5.5)[1] - 5 }, 'town-signlab');
   await expect(page.locator('.career-game-heading h1')).toContainText('Signlab', { timeout: 10000 });

@@ -33,6 +33,16 @@ var destination_time = 0.0
 var blocked_tile = Vector2i(-1, -1)
 var blocked_time = 0.0
 var footfalls: Array[Dictionary] = []
+const DEBUG_TICK_LIMIT = 180
+var debug_ticks: Array[Dictionary] = []
+var movement_requested_at = -1
+var first_movement_at = -1
+var last_movement_at = -1
+var adjacent_reached_at = -1
+var interaction_dispatched_at = -1
+var last_dispatched_interaction = ""
+var published_movement_state = "idle"
+var published_pending_interaction = ""
 const MOVE_KEYS = {KEY_UP: Vector2i.UP, KEY_W: Vector2i.UP, KEY_DOWN: Vector2i.DOWN, KEY_S: Vector2i.DOWN, KEY_LEFT: Vector2i.LEFT, KEY_A: Vector2i.LEFT, KEY_RIGHT: Vector2i.RIGHT, KEY_D: Vector2i.RIGHT}
 var camera_position = Vector2.ZERO
 var grid = AStarGrid2D.new()
@@ -106,11 +116,13 @@ func _receive(args: Array) -> void:
 		destination_time = 0
 		blocked_time = 0
 		footfalls.clear()
+		last_dispatched_interaction = ""
 	state = incoming
 	if state.reducedMotion:
 		player = Vector2(state.x, state.y)
 		visual_route.clear()
 	if changed or state.reducedMotion: camera_position = _camera_target()
+	_publish_movement_state()
 	queue_redraw()
 	if incoming.has("map"):
 		_debug({"stage": "scene-ready", "viewport": [get_viewport_rect().size.x, get_viewport_rect().size.y], "map": state.chapterId, "inputReady": not map.is_empty()})
@@ -126,7 +138,59 @@ func _debug(data: Dictionary) -> void:
 	data.player = [state.x, state.y]
 	data.camera = [camera_position.x, camera_position.y]
 	data.zoom = state.get("zoom", 1)
+	data.movement = _movement_debug_snapshot()
 	_emit({"type": "debug", "data": data})
+
+func _movement_debug_snapshot() -> Dictionary:
+	return {
+		"movementRequestedAt": movement_requested_at,
+		"firstMovementAt": first_movement_at,
+		"lastMovementAt": last_movement_at,
+		"adjacentReachedAt": adjacent_reached_at,
+		"interactionDispatchedAt": interaction_dispatched_at,
+		"ticks": debug_ticks.duplicate(true),
+	}
+
+func _movement_state() -> String:
+	if not goal.is_empty(): return "routing"
+	if waiting_ack: return "awaiting-ack"
+	if not route.is_empty() or not visual_route.is_empty(): return "moving"
+	if not last_dispatched_interaction.is_empty(): return "dispatched"
+	return "idle"
+
+func _publish_movement_state() -> void:
+	var next_state = _movement_state()
+	if next_state == published_movement_state and goal == published_pending_interaction: return
+	published_movement_state = next_state
+	published_pending_interaction = goal
+	_emit({
+		"type": "movement-state",
+		"state": next_state,
+		"pendingInteraction": goal,
+		"lastInteraction": last_dispatched_interaction,
+		"target": [destination.x, destination.y],
+		"logicalPosition": [state.x, state.y],
+		"visualPosition": [player.x, player.y],
+	})
+
+func _record_movement_tick(delta: float, before: Vector2) -> void:
+	if not e2e_debug: return
+	var target = Vector2(destination)
+	if not visual_route.is_empty(): target = visual_route[0]
+	var velocity = (player - before) / delta if delta > 0 else Vector2.ZERO
+	debug_ticks.append({
+		"timestamp": Time.get_ticks_msec(),
+		"delta": delta,
+		"playerPosition": [player.x, player.y],
+		"logicalPosition": [state.x, state.y],
+		"targetPosition": [target.x, target.y],
+		"remainingDistance": player.distance_to(target),
+		"velocity": [velocity.x, velocity.y],
+		"movementState": _movement_state(),
+		"pendingInteraction": goal,
+		"lastInteraction": last_dispatched_interaction,
+	})
+	if debug_ticks.size() > DEBUG_TICK_LIMIT: debug_ticks.pop_front()
 
 func _process(delta: float) -> void:
 	if not state.active or map.is_empty(): return
@@ -149,6 +213,7 @@ func _process(delta: float) -> void:
 		budget -= distance
 		if player.distance_to(waypoint) < 0.001: visual_route.pop_front()
 	if state.reducedMotion: player = target
+	_record_movement_tick(delta, before)
 	var last_stride = floori(travel * 2)
 	travel += player.distance_to(before)
 	if not state.reducedMotion and floori(travel * 2) != last_stride:
@@ -159,8 +224,10 @@ func _process(delta: float) -> void:
 	# El host ya confirmó la posición final de la cuadrícula. No hagas depender la
 	# interacción de un fotograma visual, que puede llegar tarde en Web.
 	if cooldown == 0 and not goal.is_empty() and _goal_is_nearby():
+		if adjacent_reached_at < 0: adjacent_reached_at = Time.get_ticks_msec()
 		var interaction = goal
 		goal = ""
+		_publish_movement_state()
 		_interact(interaction)
 	elif cooldown == 0 and visual_route.is_empty() and player.distance_to(target) < 0.05:
 		if queued_direction != Vector2i.ZERO:
@@ -169,8 +236,10 @@ func _process(delta: float) -> void:
 			_step(Vector2i(state.x, state.y) + next_direction)
 		elif not route.is_empty(): _step(route.pop_front())
 		elif not goal.is_empty():
+			if adjacent_reached_at < 0: adjacent_reached_at = Time.get_ticks_msec()
 			_interact(goal)
 			goal = ""
+			_publish_movement_state()
 		else:
 			var direction = _held_direction()
 			if direction != Vector2i.ZERO: _step(Vector2i(state.x, state.y) + direction)
@@ -187,6 +256,8 @@ func _step(tile: Vector2i) -> void:
 	if grid.is_in_boundsv(tile) and not grid.is_point_solid(tile):
 		waiting_ack = true
 		requested_tile = tile
+		if first_movement_at < 0: first_movement_at = Time.get_ticks_msec()
+		last_movement_at = Time.get_ticks_msec()
 		_emit({"type": "move", "x": tile.x, "y": tile.y})
 	else:
 		blocked_tile = tile
@@ -194,6 +265,7 @@ func _step(tile: Vector2i) -> void:
 		route.clear()
 		goal = ""
 	cooldown = 0.115
+	_publish_movement_state()
 
 func _held_direction() -> Vector2i:
 	return MOVE_KEYS[pressed_keys.back()] if not pressed_keys.is_empty() else Vector2i.ZERO
@@ -211,6 +283,9 @@ func _distance(tile: Vector2i) -> int:
 func _interact(id: String) -> void:
 	for object in map.objects:
 		if object.id == id and _distance(Vector2i(object.x, object.y)) <= 1:
+			interaction_dispatched_at = Time.get_ticks_msec()
+			last_dispatched_interaction = id
+			_publish_movement_state()
 			_debug({"stage": "action-emitted", "action": "interact", "object": id})
 			_emit({"type": "interact", "id": id})
 			return
@@ -301,6 +376,7 @@ func _route_to(screen: Vector2) -> void:
 		tile = Vector2i(floori((dx + dy) / 2.0), floori((dy - dx) / 2.0))
 	else: tile = Vector2i(floori((screen.x - map.ox) / map.tile), floori((screen.y - map.oy) / map.tile))
 	goal = ""
+	last_dispatched_interaction = ""
 	route.clear()
 	queued_direction = Vector2i.ZERO
 	pressed_keys.clear()
@@ -310,8 +386,11 @@ func _route_to(screen: Vector2) -> void:
 		tile = Vector2i(object.x, object.y)
 		goal = object.id
 	if not goal.is_empty() and _distance(tile) <= 1:
+		movement_requested_at = Time.get_ticks_msec()
+		adjacent_reached_at = movement_requested_at
 		var interaction = goal
 		goal = ""
+		_publish_movement_state()
 		_interact(interaction)
 		return
 	var targets: Array[Vector2i] = []
@@ -332,6 +411,14 @@ func _route_to(screen: Vector2) -> void:
 	else:
 		destination = route.back()
 		destination_time = 1.0
+		movement_requested_at = Time.get_ticks_msec()
+		first_movement_at = -1
+		last_movement_at = -1
+		adjacent_reached_at = -1
+		interaction_dispatched_at = -1
+		last_dispatched_interaction = ""
+		debug_ticks.clear()
+	_publish_movement_state()
 
 func _tile_outline(tile: Vector2i, color: Color, inset = 0.15) -> void:
 	var points = PackedVector2Array([_project(tile.x + inset, tile.y + inset), _project(tile.x + 1 - inset, tile.y + inset), _project(tile.x + 1 - inset, tile.y + 1 - inset), _project(tile.x + inset, tile.y + 1 - inset)])
