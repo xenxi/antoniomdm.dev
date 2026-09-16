@@ -1,11 +1,13 @@
 import { test, expect } from '@playwright/test';
 import { chapters } from '../../src/arcade/campaign';
 import { completeEvent, newGame, updateProgress } from '../../src/arcade/engine';
-import { unlockBefore } from './career-fixture';
+import { dumpGodotDebug, enableGodotE2EDebug, unlockBefore } from './career-fixture';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
+test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
+test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebug(page, testInfo); });
 
-test('clock pauses, expires, can be disabled and survives the language switch', async ({ page }) => {
+test('clock pauses, expires, can be disabled and survives the language switch', async ({ page }, testInfo) => {
   const state = updateProgress(completeEvent(newGame(), 'freelance'), { mission: 1, remaining: 5 });
   await page.addInitScript(save => { if (!localStorage.getItem('antonios:career:v1')) localStorage.setItem('antonios:career:v1', save); }, JSON.stringify(state));
   await page.clock.install();
@@ -22,7 +24,9 @@ test('clock pauses, expires, can be disabled and survives the language switch', 
   await page.locator('.career-quest-panel').getByRole('button', { name: 'Open terminal mission' }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   const energyBeforeTimeout = Number(await page.locator('.quest-resources meter').getAttribute('value'));
+  await dumpGodotDebug(page, testInfo, 'timer-before-runFor');
   await page.clock.runFor(6000);
+  await dumpGodotDebug(page, testInfo, 'timer-after-runFor');
   await expect(page.locator('[data-choice="responsive-1"]')).toBeDisabled();
   await expect.poll(async () => Number(await page.locator('.quest-resources meter').getAttribute('value'))).toBeLessThan(energyBeforeTimeout);
   await page.getByRole('dialog').getByRole('button', { name: 'No time limit', exact: true }).click();

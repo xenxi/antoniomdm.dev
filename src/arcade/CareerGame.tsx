@@ -25,7 +25,7 @@ function Modal({ title, children, close }: { title: string; children: ComponentC
 
 export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const { locale, href, t } = useLocale();
-  const e2eDebug = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('e2eDebug') === '1';
+  const e2eDebug = typeof window !== 'undefined' && (new URLSearchParams(window.location.search).get('e2eDebug') === '1' || Boolean((window as Window & { __CAREER_E2E_DEBUG_ENABLE__?: boolean }).__CAREER_E2E_DEBUG_ENABLE__));
   function writeE2eDebug(section: string, value: Record<string, unknown>) {
     if (!e2eDebug || typeof window === 'undefined') return;
     const target = window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> };
@@ -118,7 +118,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const canAdvance = completed && !pending && eligibleEvents(game).length === 0 && !p.pendingPipeline;
   const hiring = hiringRequirements(game, lockedCompany);
   const nextTraining = hiring[0];
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (quickDone || !inside || !loaded || !worldReady || screen !== 'game' || hidden || (modal && modal !== 'mission') || !mission || game.timed === false) return;
     const startedAt = { date: Date.now(), performance: performance.now() };
     const timer = window.setInterval(() => setGame(value => {

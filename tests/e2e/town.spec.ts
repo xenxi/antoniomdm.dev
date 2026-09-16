@@ -1,8 +1,11 @@
 import { townProject } from '../../src/arcade/town-scene';
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { clickCanvasPoint, dumpGodotDebug, enableGodotE2EDebug } from './career-fixture';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
+test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
+test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebug(page, testInfo); });
 for (const engine of ['desktop', 'mobile']) test(`${engine}: explore town, locked doors, enter and leave, preserve world across languages`, async ({ page }) => {
   test.setTimeout(60000);
   if (engine === 'mobile') await page.setViewportSize({ width: 390, height: 844 });
@@ -15,16 +18,14 @@ for (const engine of ['desktop', 'mobile']) test(`${engine}: explore town, locke
   await expect(world).toHaveAttribute('data-map', 'town');
   await expect(world).toHaveAttribute('data-godot-map', 'town');
   await expect(world).toHaveAttribute('data-player', '4,6');
-  const canvas = page.frameLocator('.godot-frame').locator('canvas');
-  const box = (await canvas.boundingBox())!;
   // A future building is reachable, but approaching it cannot start a locked chapter.
-  await canvas.click({ position: { x: townProject(9.5, 5.5)[0] / 480 * box.width, y: (townProject(9.5, 5.5)[1] - 5) / 320 * box.height } });
+  await clickCanvasPoint(page, { x: townProject(9.5, 5.5)[0], y: townProject(9.5, 5.5)[1] - 5 }, 'town-locked-xul');
   await expect(page.locator('.career-status')).toContainText('Puerta cerrada');
   await expect(page.getByRole('dialog')).toContainText('Aún no te contratan');
   await expect(page.getByRole('dialog')).toContainText('Solo es cambiar un botón');
   await page.getByRole('dialog').getByRole('button', { name: 'Cerrar', exact: true }).click();
   await expect(world).toHaveAttribute('data-map', 'town');
-  await canvas.click({ position: { x: townProject(4.5, 5.5)[0] / 480 * box.width, y: (townProject(4.5, 5.5)[1] - 5) / 320 * box.height } });
+  await clickCanvasPoint(page, { x: townProject(4.5, 5.5)[0], y: townProject(4.5, 5.5)[1] - 5 }, 'town-freelance');
   await expect(world).toHaveAttribute('data-map', 'freelance');
   await expect(world).toHaveAttribute('data-godot-map', 'freelance');
   await page.locator('.career-game-heading').getByRole('button', { name: 'Volver a la ciudad' }).click();
@@ -44,9 +45,7 @@ for (const engine of ['desktop', 'mobile']) test(`${engine}: explore town, locke
   await page.screenshot({ path: `test-results/town-${engine}.png`, fullPage: true });
   await page.getByRole('button', { name: 'Follow the character', exact: true }).click();
   await expect(world).toHaveAttribute('data-zoom', '2');
-  const zoomCanvas = page.frameLocator('.godot-frame').locator('canvas');
-  const zoomBox = (await zoomCanvas.boundingBox())!;
-  await zoomCanvas.click({ position: { x: (240 + 9.6 * 2) / 480 * zoomBox.width, y: (townProject(6.5, 6.5)[1] * 2) / 320 * zoomBox.height } });
+  await clickCanvasPoint(page, { x: 240 + 9.6 * 2, y: townProject(6.5, 6.5)[1] * 2 }, 'town-zoom');
   await expect(world).toHaveAttribute('data-player', '6,6');
   await page.locator('.career-game-heading').scrollIntoViewIfNeeded();
   await page.screenshot({ path: `test-results/town-zoom-${engine}.png`, fullPage: true });

@@ -1,10 +1,12 @@
 import { townProject } from '../../src/arcade/town-scene';
 import { test, expect } from '@playwright/test';
 import { chapters, missionById } from '../../src/arcade/campaign';
-import { unlockBefore, clickCompanyObject } from './career-fixture';
+import { unlockBefore, clickCanvasPoint, clickCompanyObject, dumpGodotDebug, enableGodotE2EDebug } from './career-fixture';
 import AxeBuilder from '@axe-core/playwright';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
+test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
+test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebug(page, testInfo); });
 for (const locale of ['es', 'en']) test(`Godot ${locale}: real WASM, walking, missions, portal and pause`, async ({ page }) => {
   test.setTimeout(90000);
   const errors: string[] = [];
@@ -25,7 +27,6 @@ for (const locale of ['es', 'en']) test(`Godot ${locale}: real WASM, walking, mi
   await expect(canvas).toBeVisible();
   await canvas.focus(); await canvas.press('ArrowUp');
   await expect(world).toHaveAttribute('data-player', '4,6');
-  const box = (await canvas.boundingBox())!;
   await clickCompanyObject(page, 'xul', 'terminal');
   await expect(page.getByRole('dialog')).toContainText(locale === 'es' ? 'El primer bug' : 'The first bug');
   await page.locator('[data-choice="loop"]').click();
@@ -39,7 +40,7 @@ for (const locale of ['es', 'en']) test(`Godot ${locale}: real WASM, walking, mi
   await clickCompanyObject(page, 'xul', 'portal');
   await expect(world).toHaveAttribute('data-map', 'town');
   await expect(world).toHaveAttribute('data-godot-map', 'town');
-  await canvas.click({ position: { x: townProject(14.5, 5.5)[0] / 480 * box.width, y: (townProject(14.5, 5.5)[1] - 5) / 320 * box.height } });
+  await clickCanvasPoint(page, { x: townProject(14.5, 5.5)[0], y: townProject(14.5, 5.5)[1] - 5 }, 'town-signlab');
   await expect(page.locator('.career-game-heading h1')).toContainText('Signlab', { timeout: 10000 });
   await expect(world).toHaveAttribute('data-player', '4,7');
   await canvas.focus(); await canvas.press('Escape');

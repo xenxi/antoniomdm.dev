@@ -1,11 +1,13 @@
 import { makeCompanyMap } from '../../src/arcade/company-scenes';
 import { snakeRoute } from '../campaign-fixture';
 import { test, expect, type Page } from '@playwright/test';
-import { unlockBefore } from './career-fixture';
+import { dumpGodotDebug, enableGodotE2EDebug, unlockBefore } from './career-fixture';
 import AxeBuilder from '@axe-core/playwright';
 import { chapters, missionById } from '../../src/arcade/campaign';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
+test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
+test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebug(page, testInfo); });
 test('a stylesheet failure returns to the launcher and explicit retry recovers', async ({ page }) => {
   await page.goto('/en/arcade/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await page.route('**/arcade.*.css', route => route.abort());
