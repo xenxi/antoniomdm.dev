@@ -58,6 +58,15 @@ func _receive(args: Array) -> void:
 	var incoming = JSON.parse_string(args[0])
 	if not incoming is Dictionary: return
 	var changed = state.chapterId != incoming.chapterId
+	# React can post the previous position while a legal move is awaiting its
+	# acknowledgement. Keep the planned interaction until its matching state
+	# arrives instead of discarding the route.
+	# React puede publicar la posición anterior mientras un movimiento legal
+	# espera su confirmación. Conserva la interacción planificada hasta que
+	# llegue su estado correspondiente en vez de descartar la ruta.
+	if not changed and waiting_ack and requested_tile != Vector2i(-1, -1) and Vector2i(incoming.x, incoming.y) != requested_tile:
+		_debug({"stage": "stale-move-ack", "expected": [requested_tile.x, requested_tile.y], "received": [incoming.x, incoming.y], "goal": goal})
+		return
 	var delta_position = Vector2i(incoming.x - state.x, incoming.y - state.y)
 	if not changed and delta_position != Vector2i.ZERO:
 		if incoming.reducedMotion: facing = delta_position
