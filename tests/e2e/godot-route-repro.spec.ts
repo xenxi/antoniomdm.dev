@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { townProject } from '../../src/arcade/town-scene';
-import { clickCanvasPoint, clickCompanyObject, dumpGodotDebug, enableGodotE2EDebug, unlockBefore, waitForGodotInteraction } from './career-fixture';
+import { clickCanvasPoint, clickCompanyObject, dumpGodotDebugBestEffort, enableGodotE2EDebug, unlockBefore, waitForGodotInteraction } from './career-fixture';
 
 // Focused, single-route reproductions. Run either with --repeat-each=100 to
 // preserve the bridge timeline for every failure without coupling it to the
@@ -10,7 +10,7 @@ import { clickCanvasPoint, clickCompanyObject, dumpGodotDebug, enableGodotE2EDeb
 // la progresión de campaña.
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
 test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
-test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebug(page, testInfo, 'focused-route'); });
+test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebugBestEffort(page, testInfo, 'focused-route'); });
 
 test('focused freelance terminal route keeps the pending interaction through every movement acknowledgement', async ({ page }) => {
   await page.goto('/en/arcade/');

@@ -1,11 +1,11 @@
 import { townProject } from '../../src/arcade/town-scene';
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { clickCanvasPoint, dumpGodotDebug, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
+import { clickCanvasPoint, dumpGodotDebugBestEffort, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
 test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
-test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebug(page, testInfo); });
+test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebugBestEffort(page, testInfo); });
 for (const engine of ['desktop', 'mobile']) test(`${engine}: explore town, locked doors, enter and leave, preserve world across languages`, async ({ page }) => {
   test.setTimeout(60000);
   if (engine === 'mobile') await page.setViewportSize({ width: 390, height: 844 });

@@ -76,6 +76,30 @@ export async function dumpGodotDebug(page: Page, testInfo: TestInfo, label = 'fa
   await testInfo.attach(name, { path, contentType: 'application/json' });
 }
 
+// Diagnostics must never replace the original assertion failure with a teardown
+// timeout. They are intentionally bounded and best-effort.
+// El diagnóstico nunca debe sustituir el fallo original de la aserción por un
+// timeout de teardown. Está acotado intencionadamente y es de mejor esfuerzo.
+export async function dumpGodotDebugBestEffort(page: Page, testInfo: TestInfo, label = 'failure') {
+  // A timed-out test has no teardown budget left. Starting any diagnostic there
+  // can only obscure its original failure.
+  // Un test agotado ya no tiene presupuesto para teardown. Iniciar diagnóstico
+  // ahí sólo puede ocultar su fallo original.
+  if (testInfo.timeout - testInfo.duration <= 1_000) return;
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    await Promise.race([
+      dumpGodotDebug(page, testInfo, label),
+      new Promise<void>(resolve => { timer = setTimeout(resolve, 1_000); }),
+    ]);
+  } catch {
+    // The failure being diagnosed remains the result reported by Playwright.
+    // El fallo que se diagnostica sigue siendo el resultado de Playwright.
+  } finally {
+    if (timer !== undefined) clearTimeout(timer);
+  }
+}
+
 // Capture actionability at the exact point a DOM click is attempted. The capture
 // listeners remain installed if Playwright times out inside dispatch, so the
 // failure JSON distinguishes a blocked action from a missing browser event.

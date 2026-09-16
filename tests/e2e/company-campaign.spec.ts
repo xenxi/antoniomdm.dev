@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { chapters } from '../../src/arcade/campaign';
 import { completeEvent, newGame, updateProgress } from '../../src/arcade/engine';
-import { dumpGodotDebug, enableGodotE2EDebug, traceDomClick, unlockBefore } from './career-fixture';
+import { dumpGodotDebug, dumpGodotDebugBestEffort, enableGodotE2EDebug, traceDomClick, unlockBefore } from './career-fixture';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
 test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
-test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebug(page, testInfo); });
+test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebugBestEffort(page, testInfo); });
 
 test('clock pauses, expires, can be disabled and survives the language switch', async ({ page }, testInfo) => {
   const state = updateProgress(completeEvent(newGame(), 'freelance'), { mission: 1, remaining: 5 });

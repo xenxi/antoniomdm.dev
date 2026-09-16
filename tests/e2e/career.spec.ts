@@ -1,13 +1,13 @@
 import { makeCompanyMap } from '../../src/arcade/company-scenes';
 import { snakeRoute } from '../campaign-fixture';
 import { test, expect, type Page } from '@playwright/test';
-import { dumpGodotDebug, enableGodotE2EDebug, traceDomClick, unlockBefore } from './career-fixture';
+import { dumpGodotDebugBestEffort, enableGodotE2EDebug, traceDomClick, unlockBefore, waitForGodotInteraction } from './career-fixture';
 import AxeBuilder from '@axe-core/playwright';
 import { chapters, missionById } from '../../src/arcade/campaign';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
 test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
-test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebug(page, testInfo); });
+test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebugBestEffort(page, testInfo); });
 test('a stylesheet failure returns to the launcher and explicit retry recovers', async ({ page }) => {
   await page.goto('/en/arcade/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await page.route('**/arcade.*.css', route => route.abort());
@@ -86,7 +86,7 @@ test('tapping an elevated terminal sprite walks to it and opens its mission', as
   const map = page.frameLocator('.godot-frame').locator('canvas'); const box = (await map.boundingBox())!;
   const hit = makeCompanyMap('signlab', 'en', 'Signlab').objects.find(o => o.id === 'terminal')!.hit!;
   await map.click({ position: { x: (hit[0] + hit[2] / 2) / 480 * box.width, y: (hit[1] + hit[3] / 2) / 320 * box.height } });
-  await expect(page.getByRole('dialog')).toContainText('Connect the interaction');
+  await waitForGodotInteraction(page, 'terminal', 'Connect the interaction');
   await expect(page.locator('.godot-world')).not.toHaveAttribute('data-player', '4,7');
 });
 

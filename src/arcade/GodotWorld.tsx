@@ -17,7 +17,7 @@ export const worldCopy = {
   zoom: { es: 'Acercar al personaje', en: 'Follow the character' },
   overview: { es: 'Ver mapa completo', en: 'View full map' },
 };
-interface Props { onReady?: () => void; map: PixelMap; x: number; y: number; locale: Locale; active: boolean; objective?: string; onMove: (x: number, y: number) => void; onInteract: (id: string) => void; onPause: () => void }
+interface Props { onReady?: () => void; map: PixelMap; x: number; y: number; locale: Locale; active: boolean; objective?: string; onMove: (x: number, y: number) => void; onInteract: (id: string) => void; onPause: () => void; onShortcut: (key: 'I' | 'J' | 'O') => void }
 export default function GodotWorld(props: Props) {
   const { x, y, locale, map, active } = props;
   const frame = useRef<HTMLIFrameElement>(null), current = useRef(props); current.current = props;
@@ -146,6 +146,12 @@ export default function GodotWorld(props: Props) {
       if (!ready.current) { recordBridge('react-action-ignored', { reason: 'engine-not-ready', sequence: event.data.seq, type: event.data.type }); return; }
       const p = current.current;
       if (event.data.chapterId !== p.map.id) { recordBridge('react-action-ignored', { reason: 'chapter-mismatch', sequence: event.data.seq, type: event.data.type, eventChapterId: event.data.chapterId, currentChapterId: p.map.id }); sync(); return; }
+      if (event.data.type === 'shortcut' && ['I', 'J', 'O'].includes(event.data.key) && p.active) {
+        const key = event.data.key as 'I' | 'J' | 'O';
+        recordBridge('react-shortcut-forwarded', { sequence: event.data.seq, key, chapterId: p.map.id });
+        p.onShortcut(key);
+        return;
+      }
       const action = readMapAction(event.data, p);
       if (!action) { recordBridge('react-action-ignored', { reason: 'invalid-action', sequence: event.data.seq, type: event.data.type, state: { map: p.map.id, player: [p.x, p.y], active: p.active } }); return; }
       if (action?.type === 'move') {
@@ -165,7 +171,6 @@ export default function GodotWorld(props: Props) {
         recordBridge('react-interaction-forwarded', { sequence: event.data.seq, object: action.id, chapterId: p.map.id });
       }
       else if (action?.type === 'pause') p.onPause();
-      else if (event.data.type === 'shortcut' && ['I', 'J', 'O'].includes(event.data.key) && p.active) frame.current?.dispatchEvent(new KeyboardEvent('keydown', { key: event.data.key.toLowerCase(), bubbles: true }));
       else if (action?.type === 'map') setZoom(value => value === 1 ? 2 : 1);
       else sync();
     };

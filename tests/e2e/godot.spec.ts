@@ -1,12 +1,12 @@
 import { townProject } from '../../src/arcade/town-scene';
 import { test, expect } from '@playwright/test';
 import { chapters, missionById } from '../../src/arcade/campaign';
-import { unlockBefore, clickCanvasPoint, clickCompanyObject, dumpGodotDebug, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
+import { unlockBefore, clickCanvasPoint, clickCompanyObject, dumpGodotDebugBestEffort, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
 import AxeBuilder from '@axe-core/playwright';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
 test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
-test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebug(page, testInfo); });
+test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebugBestEffort(page, testInfo); });
 for (const locale of ['es', 'en']) test(`Godot ${locale}: real WASM, walking, missions, portal and pause`, async ({ page }) => {
   test.setTimeout(90000);
   const errors: string[] = [];
@@ -89,7 +89,7 @@ test.describe('Godot on a touch screen', () => {
     await canvas.scrollIntoViewIfNeeded();
 
     await clickCompanyObject(page, 'freelance', 'terminal', false, true);
-    await expect(page.getByRole('dialog')).toContainText('Solo es cambiar un botón');
+    await waitForGodotInteraction(page, 'terminal', 'Solo es cambiar un botón');
     await page.getByRole('button', { name: 'Cerrar', exact: true }).tap();
     await expect(world).toHaveAttribute('data-player', '3,7');
     await canvas.screenshot({ path: 'test-results/godot-room.png' });
