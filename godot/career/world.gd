@@ -202,6 +202,9 @@ func _interact(id: String) -> void:
 			return
 
 func _input(event: InputEvent) -> void:
+	_handle_input_event(event)
+
+func _handle_input_event(event: InputEvent) -> void:
 	if not state.active or map.is_empty(): return
 	if event is InputEventKey and not event.pressed and MOVE_KEYS.has(event.physical_keycode):
 		pressed_keys.erase(event.physical_keycode)

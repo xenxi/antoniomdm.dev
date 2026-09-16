@@ -15,7 +15,7 @@ func key(code: int, pressed: bool) -> void:
 	var event = InputEventKey.new()
 	event.physical_keycode = code
 	event.pressed = pressed
-	world._unhandled_input(event)
+	world._handle_input_event(event)
 
 func _initialize() -> void:
 	world.map = {"id": "test", "width": 6, "height": 6, "ox": 240, "oy": 90, "tile": 16, "projection": "isometric", "objects": []}
