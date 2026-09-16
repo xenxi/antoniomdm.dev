@@ -8,10 +8,10 @@ test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swi
 test('clock pauses, expires, can be disabled and survives the language switch', async ({ page }) => {
   const state = updateProgress(completeEvent(newGame(), 'freelance'), { mission: 1, remaining: 5 });
   await page.addInitScript(save => { if (!localStorage.getItem('antonios:career:v1')) localStorage.setItem('antonios:career:v1', save); }, JSON.stringify(state));
+  await page.clock.install();
   await page.goto('/en/arcade/'); await page.getByRole('button', { name: 'ENTER', exact: false }).click();
   await page.locator('[data-chapter="freelance"]').click();
   await expect(page.locator('.godot-world')).toHaveAttribute('data-engine', 'ready', { timeout: 60000 });
-  await page.clock.install();
   await page.clock.runFor(2000);
   await page.getByRole('button', { name: 'Pause', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Paused', exact: true })).toBeVisible();

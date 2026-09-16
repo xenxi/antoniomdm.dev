@@ -25,6 +25,12 @@ function Modal({ title, children, close }: { title: string; children: ComponentC
 
 export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const { locale, href, t } = useLocale();
+  const e2eDebug = new URLSearchParams(location.search).get('e2eDebug') === '1';
+  function writeE2eDebug(section: string, value: Record<string, unknown>) {
+    if (!e2eDebug) return;
+    const target = window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> };
+    target.__CAREER_E2E_DEBUG__ = { ...(target.__CAREER_E2E_DEBUG__ ?? {}), [section]: value };
+  }
   const c = (key: keyof typeof copy) => copy[key][locale];
   const [campaignGame, setCampaignGame] = useState<GameState>(newGame);
   const [quickGame, setQuickGame] = useState<GameState | null>(null);
@@ -114,9 +120,17 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const nextTraining = hiring[0];
   useEffect(() => {
     if (quickDone || !inside || !loaded || !worldReady || screen !== 'game' || hidden || (modal && modal !== 'mission') || !mission || game.timed === false) return;
-    const timer = window.setInterval(() => setGame(value => screenRef.current === 'game' ? tickMission(value) : value), 1000);
+    const startedAt = { date: Date.now(), performance: performance.now() };
+    const timer = window.setInterval(() => setGame(value => {
+      const before = getProgress(value).remaining ?? mission.seconds ?? 90;
+      const next = screenRef.current === 'game' ? tickMission(value) : value;
+      const after = getProgress(next).remaining ?? mission.seconds ?? 90;
+      writeE2eDebug('timer', { startedAt, id: String(timer), intervalMs: 1000, callbackAt: { date: Date.now(), performance: performance.now() }, screen: screenRef.current, before, after, paused: screenRef.current !== 'game', expired: after === 0 });
+      return next;
+    }), 1000);
+    writeE2eDebug('timer', { startedAt, id: String(timer), intervalMs: 1000, remaining: p.remaining ?? mission.seconds ?? 90, paused: false, expired: false });
     return () => window.clearInterval(timer);
-  }, [inside, loaded, worldReady, screen, hidden, modal, chapter.id, p.mission, game.timed, quickDone]);
+  }, [inside, loaded, worldReady, screen, hidden, modal, chapter.id, p.mission, game.timed, quickDone, mission?.id]);
   useEffect(() => {
     if (!inside || chapter.id !== 'freelance' || screen !== 'game' || hidden || modal || !availableSides.length) return;
     const timer = window.setInterval(() => setGame(value => updateProgress(value, { energy: Math.max(0, (getProgress(value).energy ?? 100) - 3) })), 12000);

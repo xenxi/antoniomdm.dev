@@ -23,6 +23,8 @@ export default function GodotWorld(props: Props) {
   const frame = useRef<HTMLIFrameElement>(null), current = useRef(props); current.current = props;
   const [status, setStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
   const [attempt, setAttempt] = useState(0), ready = useRef(false), lastMap = useRef<PixelMap | null>(null);
+  const [godotMap, setGodotMap] = useState('');
+  const e2eDebug = typeof location !== 'undefined' && new URLSearchParams(location.search).get('e2eDebug') === '1';
   const prepared = useRef<PixelMap | null>(null);
   const [preparing, setPreparing] = useState(true);
   const [zoom, setZoom] = useState(() => map.art ? 1 : typeof matchMedia === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 2 : 1), currentZoom = useRef(zoom); currentZoom.current = zoom;
@@ -30,7 +32,7 @@ export default function GodotWorld(props: Props) {
   useEffect(() => {
     let alive = true;
     setPreparing(prepared.current?.id !== map.id);
-    void prepareSceneArt(map).then(() => { if (alive) { prepared.current = map; encoded.current = null; lastMap.current = null; if (ready.current) sync(); setPreparing(false); } }).catch(() => { if (alive) { ready.current = false; setStatus('failed'); } });
+    void prepareSceneArt(map).then(() => { if (alive) { prepared.current = map; encoded.current = null; lastMap.current = null; sync(); setPreparing(false); } }).catch(() => { if (alive) { ready.current = false; setStatus('failed'); } });
     return () => { alive = false; };
   }, [map, attempt]);
   const held = useRef<number[] | null>(null);
@@ -59,22 +61,45 @@ export default function GodotWorld(props: Props) {
       reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
       ...(changed ? { map: encoded.current!.data, frames: avatarFrames } : {}),
     } }, location.origin);
+    if (e2eDebug) {
+      const debug = (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ ?? {};
+      (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ = { ...debug, react: { lastState: { map: p.map.id, player: [p.x, p.y], active: p.active, zoom: currentZoom.current }, lastEvent: debug.react && typeof debug.react === 'object' ? (debug.react as Record<string, unknown>).lastEvent : undefined } };
+    }
     lastMap.current = p.map;
   }
   useEffect(() => {
-    ready.current = false; lastMap.current = null;
+    ready.current = false; lastMap.current = null; setGodotMap('');
     const receive = (event: MessageEvent) => {
       if (event.origin !== location.origin || event.source !== frame.current?.contentWindow || event.data?.channel !== bridgeChannel) return;
-      if (event.data.type === 'ready') {
+      if (event.data.type === 'engine-ready') {
+        // La escena puede rasterizarse antes de que el iframe registre el receptor.
+        // Force the first delivery to include the map / Forzar que incluya el mapa.
+        lastMap.current = null;
+        sync();
+        return;
+      }
+      if (event.data.type === 'scene-ready') {
         const requestedMap = current.current.map;
-        void prepareSceneArt(requestedMap).then(() => {
-          if (event.source !== frame.current?.contentWindow) return;
-          if (requestedMap === current.current.map) prepared.current = requestedMap;
-          ready.current = true; encoded.current = null; lastMap.current = null; sync(); setStatus('ready'); current.current.onReady?.(); clearTimeout(timer);
-        }).catch(() => { if (event.source === frame.current?.contentWindow) { ready.current = false; setStatus('failed'); clearTimeout(timer); } });
+        setGodotMap(typeof event.data.map === 'string' ? event.data.map : requestedMap.id);
+        if (requestedMap === current.current.map) {
+          prepared.current = requestedMap;
+          ready.current = true;
+          setStatus('ready');
+          current.current.onReady?.();
+          clearTimeout(timer);
+        }
         return;
       }
       if (event.data.type === 'error') { ready.current = false; setStatus('failed'); clearTimeout(timer); return; }
+      if (event.data.type === 'debug' && e2eDebug) {
+        const debug = (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ ?? {};
+        const frameBox = frame.current?.getBoundingClientRect();
+        const source = event.data.source === 'shell' ? 'shell' : 'godot';
+        const detail = { ...event.data.data, iframe: frameBox ? { width: frameBox.width, height: frameBox.height } : undefined };
+        const events = Array.isArray(debug.events) ? debug.events : [];
+        (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ = { ...debug, [source]: detail, events: [...events, { source, ...detail }].slice(-80), react: { ...(debug.react as Record<string, unknown> ?? {}), lastEvent: event.data } };
+        return;
+      }
       if (!ready.current) return;
       const p = current.current;
       if (event.data.chapterId !== p.map.id) { sync(); return; }
@@ -97,7 +122,7 @@ export default function GodotWorld(props: Props) {
     motion.addEventListener('change', changed);
     return () => motion.removeEventListener('change', changed);
   }, []);
-  return <div class="godot-world" tabIndex={0} role="group" aria-label={c('title')} data-player={`${x},${y}`} data-map={map.id} data-zoom={zoom} data-engine={status} onKeyUp={event => { heldKeys.current.delete(event.key.toLowerCase()); held.current = [...heldKeys.current.values()].at(-1) ?? null; }} onBlur={releaseKeys} onKeyDown={event => {
+  return <div class="godot-world" tabIndex={0} role="group" aria-label={c('title')} data-player={`${x},${y}`} data-map={map.id} data-godot-map={godotMap} data-zoom={zoom} data-engine={status} onKeyUp={event => { heldKeys.current.delete(event.key.toLowerCase()); held.current = [...heldKeys.current.values()].at(-1) ?? null; }} onBlur={releaseKeys} onKeyDown={event => {
     if (!active || status !== 'ready') return;
     if (event.key.toLowerCase() === 'm' && (event.target === event.currentTarget || (event.target as HTMLElement).tagName === 'CANVAS')) { event.preventDefault(); setZoom(value => value === 1 ? 2 : 1); return; }
     if (event.target !== event.currentTarget) return;
@@ -107,7 +132,7 @@ export default function GodotWorld(props: Props) {
   }}>
     <div class="godot-viewport" aria-busy={preparing || status === 'loading'}><div key={`${map.id}-${preparing}`} class={`world-transition ${preparing ? 'is-preparing' : ''}`} aria-hidden="true" />
       {status !== 'ready' && <div class="godot-loading"><img src={map.art ?? '/images/job-route/neon-city.webp'} alt="" /><div role="status"><span class="godot-loading-icon" aria-hidden="true">◇</span><p>{c(status === 'loading' ? 'loading' : 'failed')}</p>{status === 'failed' && <button onClick={() => { setStatus('loading'); setAttempt(value => value + 1); }}>{c('retry')}</button>}</div></div>}
-      {(status === 'loading' || status === 'ready') && <iframe key={attempt} ref={frame} class={`godot-frame ${status === 'ready' ? 'is-ready' : ''}`} src={`/games/career/index.html?lang=${locale}`} title={c('title')} tabIndex={status === 'ready' && active ? 0 : -1} aria-hidden={status !== 'ready' || !active || undefined} onError={() => setStatus('failed')} />}
+      {(status === 'loading' || status === 'ready') && <iframe key={attempt} ref={frame} class={`godot-frame ${status === 'ready' ? 'is-ready' : ''}`} src={`/games/career/index.html?lang=${locale}${e2eDebug ? '&e2eDebug=1' : ''}`} title={c('title')} tabIndex={status === 'ready' && active ? 0 : -1} aria-hidden={status !== 'ready' || !active || undefined} onError={() => setStatus('failed')} />}
       {active && status === 'ready' && mapNearby(map, x, y) && <div class="world-interaction-hint"><kbd>E</kbd><span>{mapNearby(map, x, y)!.locked ? townCopy.requirements[locale] : copy.interact[locale]} · {mapNearby(map, x, y)!.label}</span></div>}
     </div>
     <div class="godot-toolbar"><a class="godot-badge" href="/licenses/godot.txt" target="_blank" rel="noopener" aria-label={c('license')}>GODOT</a><button class="godot-zoom" disabled={status !== 'ready'} aria-pressed={zoom === 2} onClick={() => setZoom(value => value === 1 ? 2 : 1)}>{c(zoom === 1 ? 'zoom' : 'overview')}</button></div>

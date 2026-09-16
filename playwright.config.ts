@@ -9,7 +9,7 @@ export default defineConfig({
   // into startup/teardown timeouts; two preserve parallel coverage reliably.
   workers: 2,
   fullyParallel: true,
-  use: { baseURL: previewUrl, viewport: { width: 1440, height: 1000 }, trace: 'retain-on-failure' },
+  use: { baseURL: previewUrl, viewport: { width: 1440, height: 1000 }, trace: 'retain-on-failure', screenshot: 'only-on-failure', video: 'retain-on-failure' },
   webServer: {
     command: 'node ./scripts/e2e-preview.mjs',
     url: previewUrl,

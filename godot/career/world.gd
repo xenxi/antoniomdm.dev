@@ -18,6 +18,7 @@ var sprite_texture: ImageTexture
 const DIRECTIONS = [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
 var bridge: JavaScriptObject
 var callback: JavaScriptObject
+var e2e_debug = false
 var state: Dictionary = {"x": 4, "y": 6, "active": false, "reducedMotion": false, "chapterId": "town"}
 var map: Dictionary = {}
 var frames: Dictionary = {}
@@ -48,9 +49,10 @@ func _ready() -> void:
 	add_child(atmosphere)
 	if OS.has_feature("web"):
 		bridge = JavaScriptBridge.get_interface("careerBridge")
+		e2e_debug = bool(bridge.e2eDebug())
 		callback = JavaScriptBridge.create_callback(_receive)
 		bridge.subscribe(callback)
-		_emit({"type": "ready"})
+		_emit({"type": "engine-ready"})
 
 func _receive(args: Array) -> void:
 	var incoming = JSON.parse_string(args[0])
@@ -101,11 +103,21 @@ func _receive(args: Array) -> void:
 		visual_route.clear()
 	if changed or state.reducedMotion: camera_position = _camera_target()
 	queue_redraw()
+	if incoming.has("map"):
+		_debug({"stage": "scene-ready", "viewport": [get_viewport_rect().size.x, get_viewport_rect().size.y], "map": state.chapterId, "inputReady": not map.is_empty()})
+		_emit({"type": "scene-ready", "map": state.chapterId})
 
 func _emit(event: Dictionary) -> void:
 	if bridge:
 		event.chapterId = state.chapterId
 		bridge.emit(JSON.stringify(event))
+
+func _debug(data: Dictionary) -> void:
+	if not e2e_debug: return
+	data.player = [state.x, state.y]
+	data.camera = [camera_position.x, camera_position.y]
+	data.zoom = state.get("zoom", 1)
+	_emit({"type": "debug", "data": data})
 
 func _process(delta: float) -> void:
 	if not state.active or map.is_empty(): return
@@ -185,6 +197,7 @@ func _interact(id: String) -> void:
 			if not visual_route.is_empty():
 				goal = id
 				return
+			_debug({"stage": "action-emitted", "action": "interact", "object": id})
 			_emit({"type": "interact", "id": id})
 			return
 
@@ -219,8 +232,12 @@ func _unhandled_input(event: InputEvent) -> void:
 				destination_time = 0
 				if (cooldown == 0 or state.reducedMotion) and not waiting_ack and visual_route.is_empty(): _step(Vector2i(state.x, state.y) + MOVE_KEYS[event.physical_keycode])
 				else: queued_direction = MOVE_KEYS[event.physical_keycode]
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT: _route_to(event.position)
-	elif event is InputEventScreenTouch and event.pressed: _route_to(event.position)
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		_debug({"stage": "godot-pointer", "kind": "mouse", "raw": [event.position.x, event.position.y], "viewport": [get_viewport_rect().size.x, get_viewport_rect().size.y]})
+		_route_to(event.position)
+	elif event is InputEventScreenTouch and event.pressed:
+		_debug({"stage": "godot-pointer", "kind": "touch", "raw": [event.position.x, event.position.y], "viewport": [get_viewport_rect().size.x, get_viewport_rect().size.y]})
+		_route_to(event.position)
 
 func _object_hit(object: Dictionary, screen: Vector2) -> bool:
 	var hit = Rect2(map.ox + object.x * map.tile, map.oy + object.y * map.tile, map.tile, map.tile)
@@ -247,6 +264,7 @@ func _object_at(screen: Vector2) -> Dictionary:
 	return selected
 
 func _route_to(screen: Vector2) -> void:
+	var raw = screen
 	screen = screen / float(state.get("zoom", 1)) + camera_position.round()
 	var tile: Vector2i
 	if map.has("axes"):
@@ -264,6 +282,7 @@ func _route_to(screen: Vector2) -> void:
 	queued_direction = Vector2i.ZERO
 	pressed_keys.clear()
 	var object = _object_at(screen)
+	_debug({"stage": "hit-test", "raw": [raw.x, raw.y], "logical": [screen.x, screen.y], "object": object.get("id", ""), "hit": not object.is_empty()})
 	if not object.is_empty():
 		tile = Vector2i(object.x, object.y)
 		goal = object.id

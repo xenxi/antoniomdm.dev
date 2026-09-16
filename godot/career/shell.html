@@ -5,16 +5,35 @@ $GODOT_HEAD_INCLUDE</head><body><canvas id="canvas" tabindex="0"></canvas>
 <script src="$GODOT_URL"></script><script>
 const channel = 'antonios:godot:v1';
 const en = new URLSearchParams(location.search).get('lang') === 'en';
+const e2eDebug = new URLSearchParams(location.search).get('e2eDebug') === '1';
 document.documentElement.lang = en ? 'en' : 'es';
 const canvas = document.getElementById('canvas');
 canvas.setAttribute('aria-label', en ? 'Pixel art map. Arrow keys or WASD to walk, E to interact, Escape to pause. Tab to leave the map.' : 'Mapa pixel art. Flechas o WASD para caminar, E para interactuar, Escape para pausar. Tab para salir del mapa.');
 // Preserve native focus traversal instead of letting the engine consume Tab.
 window.addEventListener('keydown', event => { if (event.key === 'Tab') event.stopImmediatePropagation(); }, true);
 let receiver;
+function debug(stage, detail = {}) {
+  if (!e2eDebug) return;
+  const rect = canvas.getBoundingClientRect();
+  const snapshot = {
+    stage,
+    canvas: { cssWidth: rect.width, cssHeight: rect.height, width: canvas.width, height: canvas.height },
+    viewport: { width: innerWidth, height: innerHeight },
+    devicePixelRatio,
+    ...detail,
+  };
+  const previous = window.__CAREER_E2E_DEBUG__ ?? {};
+  window.__CAREER_E2E_DEBUG__ = { ...previous, shell: snapshot, events: [...(previous.events ?? []), { source: 'shell', ...snapshot }].slice(-40) };
+  parent.postMessage({ channel, type: 'debug', source: 'shell', data: snapshot }, location.origin);
+}
 window.careerBridge = {
   subscribe(callback) { receiver = callback; },
-  emit(json) { parent.postMessage({ ...JSON.parse(json), channel }, location.origin); }
+  emit(json) { parent.postMessage({ ...JSON.parse(json), channel }, location.origin); },
+  e2eDebug() { return e2eDebug; },
 };
+canvas.addEventListener('pointerdown', event => debug('pointer-received', {
+  pointer: { clientX: event.clientX, clientY: event.clientY, offsetX: event.offsetX, offsetY: event.offsetY, pointerType: event.pointerType },
+}));
 window.addEventListener('message', event => {
   if (event.origin !== location.origin || event.source !== parent || event.data?.channel !== channel || event.data.type !== 'state') return;
   document.documentElement.lang = event.data.state.locale;
@@ -24,5 +43,6 @@ const engine = new Engine($GODOT_CONFIG);
 // Releasing the Godot main loop on document teardown prevents a closing iframe
 // from retaining a WebGL context and its animation frame in automated browsers.
 window.addEventListener('pagehide', () => engine.requestQuit(), { once: true });
+debug('engine-starting');
 engine.startGame({ canvas, canvasResizePolicy: 2, onPrint: () => {}, onPrintError: console.error }).catch(() => window.careerBridge.emit(JSON.stringify({ type: 'error' })));
 </script></body></html>

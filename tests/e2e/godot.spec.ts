@@ -38,6 +38,7 @@ for (const locale of ['es', 'en']) test(`Godot ${locale}: real WASM, walking, mi
   await expect(page.locator('.godot-portal')).toHaveClass(/is-open/);
   await clickCompanyObject(page, 'xul', 'portal');
   await expect(world).toHaveAttribute('data-map', 'town');
+  await expect(world).toHaveAttribute('data-godot-map', 'town');
   await canvas.click({ position: { x: townProject(14.5, 5.5)[0] / 480 * box.width, y: (townProject(14.5, 5.5)[1] - 5) / 320 * box.height } });
   await expect(page.locator('.career-game-heading h1')).toContainText('Signlab', { timeout: 10000 });
   await expect(world).toHaveAttribute('data-player', '4,7');

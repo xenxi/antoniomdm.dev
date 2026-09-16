@@ -1,10 +1,13 @@
 import { finishSnake } from '../campaign-fixture';
 import { makeCompanyMap } from '../../src/arcade/company-scenes';
-import type { Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import { chapters, missionById } from '../../src/arcade/campaign';
 import { choose, completeEvent, eligibleEvents, newGame, selectChapter } from '../../src/arcade/engine';
 
 export async function clickCompanyObject(page: Page, chapter: string, id: string, marker = false, touch = false) {
+  // data-map is React's intended map. data-godot-map is set only after the
+  // real renderer has rebuilt that map's art, grid and input hitboxes.
+  await expect(page.locator('.godot-world')).toHaveAttribute('data-godot-map', chapter);
   const canvas = page.frameLocator('.godot-frame').locator('canvas');
   const box = (await canvas.boundingBox())!;
   const object = makeCompanyMap(chapter, 'en', chapter).objects.find(o => o.id === id)!;

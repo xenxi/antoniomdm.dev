@@ -13,6 +13,7 @@ for (const engine of ['desktop', 'mobile']) test(`${engine}: explore town, locke
   const world = page.locator('.godot-world');
   await expect(world).toHaveAttribute('data-engine', 'ready', { timeout: 60000 });
   await expect(world).toHaveAttribute('data-map', 'town');
+  await expect(world).toHaveAttribute('data-godot-map', 'town');
   await expect(world).toHaveAttribute('data-player', '4,6');
   const canvas = page.frameLocator('.godot-frame').locator('canvas');
   const box = (await canvas.boundingBox())!;
@@ -25,8 +26,10 @@ for (const engine of ['desktop', 'mobile']) test(`${engine}: explore town, locke
   await expect(world).toHaveAttribute('data-map', 'town');
   await canvas.click({ position: { x: townProject(4.5, 5.5)[0] / 480 * box.width, y: (townProject(4.5, 5.5)[1] - 5) / 320 * box.height } });
   await expect(world).toHaveAttribute('data-map', 'freelance');
+  await expect(world).toHaveAttribute('data-godot-map', 'freelance');
   await page.locator('.career-game-heading').getByRole('button', { name: 'Volver a la ciudad' }).click();
   await expect(world).toHaveAttribute('data-map', 'town');
+  await expect(world).toHaveAttribute('data-godot-map', 'town');
   await expect(world).toHaveAttribute('data-player', '4,6');
   await page.getByRole('button', { name: 'Caminar al este', exact: true }).click();
   await expect(world).toHaveAttribute('data-player', '5,6');

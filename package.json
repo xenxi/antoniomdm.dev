@@ -17,7 +17,7 @@
     "typecheck": "astro check",
     "test": "vitest run",
     "test:godot": "node scripts/test-godot.mjs",
-    "pretest:e2e": "npm run build",
+    "pretest:e2e": "npm run build:godot && npm run build",
     "test:e2e": "playwright test",
     "check": "npm run lint && npm run typecheck && npm test && npm run build",
     "test:performance": "node scripts/lighthouse.mjs",
