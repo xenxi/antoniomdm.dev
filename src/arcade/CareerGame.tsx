@@ -25,9 +25,9 @@ function Modal({ title, children, close }: { title: string; children: ComponentC
 
 export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const { locale, href, t } = useLocale();
-  const e2eDebug = new URLSearchParams(location.search).get('e2eDebug') === '1';
+  const e2eDebug = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('e2eDebug') === '1';
   function writeE2eDebug(section: string, value: Record<string, unknown>) {
-    if (!e2eDebug) return;
+    if (!e2eDebug || typeof window === 'undefined') return;
     const target = window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> };
     target.__CAREER_E2E_DEBUG__ = { ...(target.__CAREER_E2E_DEBUG__ ?? {}), [section]: value };
   }

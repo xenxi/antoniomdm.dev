@@ -24,7 +24,7 @@ export default function GodotWorld(props: Props) {
   const [status, setStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
   const [attempt, setAttempt] = useState(0), ready = useRef(false), lastMap = useRef<PixelMap | null>(null);
   const [godotMap, setGodotMap] = useState('');
-  const e2eDebug = typeof location !== 'undefined' && new URLSearchParams(location.search).get('e2eDebug') === '1';
+  const e2eDebug = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('e2eDebug') === '1';
   const prepared = useRef<PixelMap | null>(null);
   const [preparing, setPreparing] = useState(true);
   const [zoom, setZoom] = useState(() => map.art ? 1 : typeof matchMedia === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 2 : 1), currentZoom = useRef(zoom); currentZoom.current = zoom;
