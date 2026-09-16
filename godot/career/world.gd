@@ -145,7 +145,15 @@ func _process(delta: float) -> void:
 	if not state.reducedMotion and floori(travel * 2) != last_stride:
 		footfalls.append({"point": _project(player.x + .5, player.y + .5), "life": 0.28})
 	camera_position = _camera_target() if state.reducedMotion else camera_position.lerp(_camera_target(), 1.0 - exp(-delta * 14.0))
-	if cooldown == 0 and visual_route.is_empty() and player.distance_to(target) < 0.05:
+	# The host has already acknowledged the final grid position. Do not make the
+	# interaction depend on a presentation frame, which can arrive late on Web.
+	# El host ya confirmó la posición final de la cuadrícula. No hagas depender la
+	# interacción de un fotograma visual, que puede llegar tarde en Web.
+	if cooldown == 0 and not goal.is_empty() and _goal_is_nearby():
+		var interaction = goal
+		goal = ""
+		_interact(interaction)
+	elif cooldown == 0 and visual_route.is_empty() and player.distance_to(target) < 0.05:
 		if queued_direction != Vector2i.ZERO:
 			var next_direction = queued_direction
 			queued_direction = Vector2i.ZERO
@@ -194,12 +202,15 @@ func _distance(tile: Vector2i) -> int:
 func _interact(id: String) -> void:
 	for object in map.objects:
 		if object.id == id and _distance(Vector2i(object.x, object.y)) <= 1:
-			if not visual_route.is_empty():
-				goal = id
-				return
 			_debug({"stage": "action-emitted", "action": "interact", "object": id})
 			_emit({"type": "interact", "id": id})
 			return
+
+func _goal_is_nearby() -> bool:
+	for object in map.objects:
+		if object.id == goal:
+			return _distance(Vector2i(object.x, object.y)) <= 1
+	return false
 
 func _input(event: InputEvent) -> void:
 	_handle_input_event(event)
