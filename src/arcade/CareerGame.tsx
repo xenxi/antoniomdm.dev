@@ -31,6 +31,13 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
     const target = window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> };
     target.__CAREER_E2E_DEBUG__ = { ...(target.__CAREER_E2E_DEBUG__ ?? {}), [section]: value };
   }
+  function recordCareerEvent(stage: string, detail: Record<string, unknown> = {}) {
+    if (!e2eDebug || typeof window === 'undefined') return;
+    const target = window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> };
+    const debug = target.__CAREER_E2E_DEBUG__ ?? {};
+    const events = Array.isArray(debug.careerEvents) ? debug.careerEvents : [];
+    target.__CAREER_E2E_DEBUG__ = { ...debug, careerEvents: [...events, { stage, at: performance.now(), ...detail }].slice(-80) };
+  }
   const c = (key: keyof typeof copy) => copy[key][locale];
   const [campaignGame, setCampaignGame] = useState<GameState>(newGame);
   const [quickGame, setQuickGame] = useState<GameState | null>(null);
@@ -63,6 +70,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const [music, setMusic] = useState(true);
   const [tourSeconds, setTourSeconds] = useState(0);
   const [hidden, setHidden] = useState(false);
+  const [timerRevision, setTimerRevision] = useState(0);
   const host = useRef<HTMLElement>(null);
   const audio = useRef<HTMLAudioElement | null>(null);
   const effects = useRef<WorldAudio | null>(null);
@@ -118,16 +126,27 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
   const canAdvance = completed && !pending && eligibleEvents(game).length === 0 && !p.pendingPipeline;
   const hiring = hiringRequirements(game, lockedCompany);
   const nextTraining = hiring[0];
+  useEffect(() => {
+    recordCareerEvent('react-state-committed', { chapterId: chapter.id, inside, player: [position.x, position.y], screen, modal, mission: mission?.id ?? '', remaining, timedOut });
+    writeE2eDebug('timerRender', { revision: timerRevision, remaining, timedOut, disabled: timedOut || exhausted });
+  }, [chapter.id, inside, position.x, position.y, screen, modal, mission?.id, remaining, timedOut, exhausted, timerRevision]);
   useLayoutEffect(() => {
     if (quickDone || !inside || !loaded || !worldReady || screen !== 'game' || hidden || (modal && modal !== 'mission') || !mission || game.timed === false) return;
     const startedAt = { date: Date.now(), performance: performance.now() };
-    const timer = window.setInterval(() => setGame(value => {
-      const before = getProgress(value).remaining ?? mission.seconds ?? 90;
-      const next = screenRef.current === 'game' ? tickMission(value) : value;
-      const after = getProgress(next).remaining ?? mission.seconds ?? 90;
-      writeE2eDebug('timer', { startedAt, id: String(timer), intervalMs: 1000, callbackAt: { date: Date.now(), performance: performance.now() }, screen: screenRef.current, before, after, paused: screenRef.current !== 'game', expired: after === 0 });
-      return next;
-    }), 1000);
+    const timer = window.setInterval(() => {
+      setGame(value => {
+        const before = getProgress(value).remaining ?? mission.seconds ?? 90;
+        const next = screenRef.current === 'game' ? tickMission(value) : value;
+        const after = getProgress(next).remaining ?? mission.seconds ?? 90;
+        writeE2eDebug('timer', { startedAt, id: String(timer), intervalMs: 1000, callbackAt: { date: Date.now(), performance: performance.now() }, screen: screenRef.current, before, after, paused: screenRef.current !== 'game', expired: after === 0 });
+        return next;
+      });
+      // The mission state is authoritative, but this committed React update also
+      // makes the disabled DOM derivation observable when virtual clocks batch ticks.
+      // El estado de misión es autoritativo, pero esta actualización confirmada de React
+      // también hace observable la derivación disabled del DOM cuando los relojes virtuales agrupan ticks.
+      setTimerRevision(value => value + 1);
+    }, 1000);
     writeE2eDebug('timer', { startedAt, id: String(timer), intervalMs: 1000, remaining: p.remaining ?? mission.seconds ?? 90, paused: false, expired: false });
     return () => window.clearInterval(timer);
   }, [inside, loaded, worldReady, screen, hidden, modal, chapter.id, p.mission, game.timed, quickDone, mission?.id]);
@@ -215,6 +234,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
     requestAnimationFrame(() => host.current?.querySelector<HTMLElement>('.godot-world')?.focus());
   }
   function worldInteract(id: string) {
+    recordCareerEvent('world-interact-received', { object: id, chapterId: chapter.id, inside, player: [position.x, position.y], screen, modal });
     if (screen !== 'game' || modal) return;
     if (!inside) { if (chapterUnlocked(game, id)) start(id); else inspectHiring(id); }
     else if (id === 'portal') returnToTown();

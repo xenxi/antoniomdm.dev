@@ -28,7 +28,12 @@ function debug(stage, detail = {}) {
 }
 window.careerBridge = {
   subscribe(callback) { receiver = callback; },
-  emit(json) { parent.postMessage({ ...JSON.parse(json), channel }, location.origin); },
+  emit(json) {
+    const payload = JSON.parse(json);
+    debug('godot-received', { seq: payload.seq, type: payload.type, chapterId: payload.chapterId, payload: payload.type === 'interact' ? { id: payload.id } : undefined });
+    parent.postMessage({ ...payload, channel }, location.origin);
+    debug('godot-forwarded', { seq: payload.seq, type: payload.type, chapterId: payload.chapterId, payload: payload.type === 'interact' ? { id: payload.id } : undefined });
+  },
   e2eDebug() { return e2eDebug; },
 };
 canvas.addEventListener('pointerdown', event => debug('pointer-received', {
@@ -36,8 +41,10 @@ canvas.addEventListener('pointerdown', event => debug('pointer-received', {
 }));
 window.addEventListener('message', event => {
   if (event.origin !== location.origin || event.source !== parent || event.data?.channel !== channel || event.data.type !== 'state') return;
+  debug('react-state-received', { syncSequence: event.data.state.syncSequence, chapterId: event.data.state.chapterId, player: [event.data.state.x, event.data.state.y], positionOrigin: event.data.state.positionOrigin });
   document.documentElement.lang = event.data.state.locale;
   receiver?.(JSON.stringify(event.data.state));
+  debug('react-state-forwarded', { syncSequence: event.data.state.syncSequence, chapterId: event.data.state.chapterId, player: [event.data.state.x, event.data.state.y], positionOrigin: event.data.state.positionOrigin });
 });
 const engine = new Engine($GODOT_CONFIG);
 // Releasing the Godot main loop on document teardown prevents a closing iframe

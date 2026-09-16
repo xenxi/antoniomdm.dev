@@ -1,7 +1,7 @@
 import { makeCompanyMap } from '../../src/arcade/company-scenes';
 import { snakeRoute } from '../campaign-fixture';
 import { test, expect, type Page } from '@playwright/test';
-import { dumpGodotDebug, enableGodotE2EDebug, unlockBefore } from './career-fixture';
+import { dumpGodotDebug, enableGodotE2EDebug, traceDomClick, unlockBefore } from './career-fixture';
 import AxeBuilder from '@axe-core/playwright';
 import { chapters, missionById } from '../../src/arcade/campaign';
 
@@ -22,7 +22,11 @@ async function enter(page: Page, path = '/en/arcade/') {
   await page.getByRole('button', { name: 'ENTER', exact: false }).click();
   await expect(page.getByRole('region', { name: 'AntoñiOS Career Mode' })).toBeVisible();
 }
-async function dismiss(page: Page) { await page.getByRole('button', { name: 'Return to mission', exact: true }).click(); }
+async function dismiss(page: Page) {
+  const button = page.getByRole('button', { name: 'Return to mission', exact: true });
+  await traceDomClick(button, 'career-return-to-mission');
+  await button.click();
+}
 async function resolveEvent(page: Page) {
   const dialog = page.getByRole('dialog');
   if (await dialog.getByRole('button', { name: 'Accept', exact: true }).count()) {
@@ -58,16 +62,16 @@ test('keyboard movement, collision, touch controls, save and language continuati
   await page.getByRole('button', { name: 'Volver al juego', exact: true }).last().click();
   await page.locator('.career-quest-panel').getByRole('button', { name: 'Abrir misión del terminal' }).click();
   await page.locator('[data-choice="button"]').click();
-  await page.getByRole('button', { name: 'Volver a la misión' }).click();
+  { const button = page.getByRole('button', { name: 'Volver a la misión' }); await traceDomClick(button, 'career-return-to-mission-es'); await button.click(); }
   for (const id of chapters[0].missions.slice(1)) {
     await page.locator('.career-quest-panel').getByRole('button', { name: 'Abrir misión del terminal' }).click();
     await page.locator('[data-choice="' + missionById[id].choices.find(c => c.accepted)!.id + '"]').click();
-    await page.getByRole('button', { name: 'Volver a la misión' }).click();
+    { const button = page.getByRole('button', { name: 'Volver a la misión' }); await traceDomClick(button, 'career-return-to-mission-es'); await button.click(); }
   }
   await expect(page.getByRole('dialog')).toContainText('Cliente freelance');
   await page.getByRole('button', { name: 'Aceptar', exact: true }).click();
   await page.getByRole('button', { name: 'Restaurar la URL pública verificada' }).click();
-  await page.getByRole('button', { name: 'Volver a la misión' }).click();
+  { const button = page.getByRole('button', { name: 'Volver a la misión' }); await traceDomClick(button, 'career-return-to-mission-es'); await button.click(); }
   await expect(page.locator('.career-quest-panel').getByRole('button', { name: 'Volver a la ciudad', exact: false })).toBeVisible();
   await page.getByRole('link', { name: 'Ver experiencia completa' }).click();
   await expect(page).toHaveURL('/experience/#freelance');

@@ -43,6 +43,7 @@ var interaction_dispatched_at = -1
 var last_dispatched_interaction = ""
 var published_movement_state = "idle"
 var published_pending_interaction = ""
+var emitted_sequence = 0
 const MOVE_KEYS = {KEY_UP: Vector2i.UP, KEY_W: Vector2i.UP, KEY_DOWN: Vector2i.DOWN, KEY_S: Vector2i.DOWN, KEY_LEFT: Vector2i.LEFT, KEY_A: Vector2i.LEFT, KEY_RIGHT: Vector2i.RIGHT, KEY_D: Vector2i.RIGHT}
 var camera_position = Vector2.ZERO
 var grid = AStarGrid2D.new()
@@ -68,14 +69,16 @@ func _receive(args: Array) -> void:
 	var incoming = JSON.parse_string(args[0])
 	if not incoming is Dictionary: return
 	var changed = state.chapterId != incoming.chapterId
+	var position_origin = str(incoming.get("positionOrigin", "external"))
+	var incoming_position = Vector2i(incoming.x, incoming.y)
 	# React can post the previous position while a legal move is awaiting its
 	# acknowledgement. Keep the planned interaction until its matching state
 	# arrives instead of discarding the route.
 	# React puede publicar la posición anterior mientras un movimiento legal
 	# espera su confirmación. Conserva la interacción planificada hasta que
 	# llegue su estado correspondiente en vez de descartar la ruta.
-	if not changed and waiting_ack and requested_tile != Vector2i(-1, -1) and Vector2i(incoming.x, incoming.y) != requested_tile:
-		_debug({"stage": "stale-move-ack", "expected": [requested_tile.x, requested_tile.y], "received": [incoming.x, incoming.y], "goal": goal})
+	if not changed and waiting_ack and requested_tile != Vector2i(-1, -1) and incoming_position != requested_tile and position_origin == "godot-ack":
+		_debug({"stage": "stale-move-ack", "expected": [requested_tile.x, requested_tile.y], "received": [incoming.x, incoming.y], "goal": goal, "positionOrigin": position_origin, "syncSequence": incoming.get("syncSequence", -1)})
 		return
 	var delta_position = Vector2i(incoming.x - state.x, incoming.y - state.y)
 	if not changed and delta_position != Vector2i.ZERO:
@@ -87,9 +90,13 @@ func _receive(args: Array) -> void:
 		else:
 			visual_route.clear()
 			player = Vector2(incoming.x, incoming.y)
-		if Vector2i(incoming.x, incoming.y) != requested_tile:
+		# Acknowledgements of Godot's own move request are normal route progress.
+		# Only an explicit host-originated move may supersede the pending target.
+		# Los acuses del movimiento solicitado por Godot son progreso normal de ruta.
+		# Sólo un movimiento explícitamente originado por el host puede sustituir el objetivo pendiente.
+		if position_origin == "external":
 			route.clear()
-			goal = ""
+			_clear_pending_interaction("external-position", {"received": [incoming.x, incoming.y], "syncSequence": incoming.get("syncSequence", -1)})
 			queued_direction = Vector2i.ZERO
 	elif changed: facing = Vector2i.DOWN
 	waiting_ack = false
@@ -108,7 +115,7 @@ func _receive(args: Array) -> void:
 		atmosphere.hovered = ""
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		route.clear()
-		goal = ""
+		_clear_pending_interaction("map-replaced" if changed else "inactive")
 		queued_direction = Vector2i.ZERO
 		pressed_keys.clear()
 		visual_route.clear()
@@ -130,8 +137,22 @@ func _receive(args: Array) -> void:
 
 func _emit(event: Dictionary) -> void:
 	if bridge:
+		emitted_sequence += 1
+		event.seq = emitted_sequence
 		event.chapterId = state.chapterId
 		bridge.emit(JSON.stringify(event))
+
+func _set_pending_interaction(next_goal: String, reason: String) -> void:
+	if goal == next_goal: return
+	_debug({"stage": "pending-interaction", "action": "set", "previous": goal, "next": next_goal, "reason": reason})
+	goal = next_goal
+
+func _clear_pending_interaction(reason: String, detail: Dictionary = {}) -> void:
+	if goal.is_empty(): return
+	var data = {"stage": "pending-interaction", "action": "clear", "previous": goal, "reason": reason}
+	for key in detail: data[key] = detail[key]
+	_debug(data)
+	goal = ""
 
 func _debug(data: Dictionary) -> void:
 	if not e2e_debug: return
@@ -226,9 +247,9 @@ func _process(delta: float) -> void:
 	if cooldown == 0 and not goal.is_empty() and _goal_is_nearby():
 		if adjacent_reached_at < 0: adjacent_reached_at = Time.get_ticks_msec()
 		var interaction = goal
-		goal = ""
-		_publish_movement_state()
-		_interact(interaction)
+		if _interact(interaction):
+			_clear_pending_interaction("interaction-dispatched")
+			_publish_movement_state()
 	elif cooldown == 0 and visual_route.is_empty() and player.distance_to(target) < 0.05:
 		if queued_direction != Vector2i.ZERO:
 			var next_direction = queued_direction
@@ -237,9 +258,9 @@ func _process(delta: float) -> void:
 		elif not route.is_empty(): _step(route.pop_front())
 		elif not goal.is_empty():
 			if adjacent_reached_at < 0: adjacent_reached_at = Time.get_ticks_msec()
-			_interact(goal)
-			goal = ""
-			_publish_movement_state()
+			if _interact(goal):
+				_clear_pending_interaction("interaction-dispatched")
+				_publish_movement_state()
 		else:
 			var direction = _held_direction()
 			if direction != Vector2i.ZERO: _step(Vector2i(state.x, state.y) + direction)
@@ -250,7 +271,7 @@ func _step(tile: Vector2i) -> void:
 	if waiting_ack: return
 	if _distance(tile) != 1:
 		route.clear()
-		goal = ""
+		_clear_pending_interaction("invalid-step")
 		return
 	facing = tile - Vector2i(state.x, state.y)
 	if grid.is_in_boundsv(tile) and not grid.is_point_solid(tile):
@@ -263,7 +284,7 @@ func _step(tile: Vector2i) -> void:
 		blocked_tile = tile
 		blocked_time = 0.24
 		route.clear()
-		goal = ""
+		_clear_pending_interaction("blocked-step")
 	cooldown = 0.115
 	_publish_movement_state()
 
@@ -275,20 +296,21 @@ func _notification(what: int) -> void:
 		pressed_keys.clear()
 		queued_direction = Vector2i.ZERO
 		route.clear()
-		goal = ""
+		_clear_pending_interaction("window-focus-lost")
 
 func _distance(tile: Vector2i) -> int:
 	return absi(tile.x - int(state.x)) + absi(tile.y - int(state.y))
 
-func _interact(id: String) -> void:
+func _interact(id: String) -> bool:
 	for object in map.objects:
 		if object.id == id and _distance(Vector2i(object.x, object.y)) <= 1:
 			interaction_dispatched_at = Time.get_ticks_msec()
 			last_dispatched_interaction = id
 			_publish_movement_state()
 			_debug({"stage": "action-emitted", "action": "interact", "object": id})
-			_emit({"type": "interact", "id": id})
-			return
+			_emit({"type": "interact", "id": id, "position": [state.x, state.y]})
+			return true
+	return false
 
 func _goal_is_nearby() -> bool:
 	for object in map.objects:
@@ -316,7 +338,7 @@ func _handle_input_event(event: InputEvent) -> void:
 		elif event.physical_keycode in [KEY_I, KEY_J, KEY_O]: _emit({"type": "shortcut", "key": OS.get_keycode_string(event.physical_keycode)})
 		elif event.physical_keycode in [KEY_E, KEY_SPACE]:
 			route.clear()
-			goal = ""
+			_clear_pending_interaction("keyboard-interaction")
 			for object in map.objects:
 				if _distance(Vector2i(object.x, object.y)) <= 1:
 					_interact(object.id)
@@ -326,7 +348,7 @@ func _handle_input_event(event: InputEvent) -> void:
 				pressed_keys.erase(event.physical_keycode)
 				pressed_keys.append(event.physical_keycode)
 				route.clear()
-				goal = ""
+				_clear_pending_interaction("keyboard-movement")
 				destination_time = 0
 				if (cooldown == 0 or state.reducedMotion) and not waiting_ack and visual_route.is_empty(): _step(Vector2i(state.x, state.y) + MOVE_KEYS[event.physical_keycode])
 				else: queued_direction = MOVE_KEYS[event.physical_keycode]
@@ -375,7 +397,7 @@ func _route_to(screen: Vector2) -> void:
 		var dy = (screen.y - map.oy) / (map.tile / 2.0)
 		tile = Vector2i(floori((dx + dy) / 2.0), floori((dy - dx) / 2.0))
 	else: tile = Vector2i(floori((screen.x - map.ox) / map.tile), floori((screen.y - map.oy) / map.tile))
-	goal = ""
+	_clear_pending_interaction("new-pointer-target")
 	last_dispatched_interaction = ""
 	route.clear()
 	queued_direction = Vector2i.ZERO
@@ -384,14 +406,14 @@ func _route_to(screen: Vector2) -> void:
 	_debug({"stage": "hit-test", "raw": [raw.x, raw.y], "logical": [screen.x, screen.y], "object": object.get("id", ""), "hit": not object.is_empty()})
 	if not object.is_empty():
 		tile = Vector2i(object.x, object.y)
-		goal = object.id
+		_set_pending_interaction(object.id, "pointer-target")
 	if not goal.is_empty() and _distance(tile) <= 1:
 		movement_requested_at = Time.get_ticks_msec()
 		adjacent_reached_at = movement_requested_at
 		var interaction = goal
-		goal = ""
-		_publish_movement_state()
-		_interact(interaction)
+		if _interact(interaction):
+			_clear_pending_interaction("interaction-dispatched")
+			_publish_movement_state()
 		return
 	var targets: Array[Vector2i] = []
 	if goal.is_empty(): targets.append(tile)
@@ -404,7 +426,7 @@ func _route_to(screen: Vector2) -> void:
 			candidate.pop_front()
 			route.assign(candidate)
 	if route.is_empty():
-		goal = ""
+		_clear_pending_interaction("no-route")
 		if tile != Vector2i(state.x, state.y):
 			blocked_tile = tile
 			blocked_time = .35

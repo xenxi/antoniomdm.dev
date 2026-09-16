@@ -78,6 +78,8 @@ describe('Open town and chronological company doors', () => {
   it('rejects distant doors, teleports, stale invalid actions and paused movement', () => {
     const state = { ...townSpawn, active: true, map: makePixelMap('town', [], 'es') };
     expect(readMapAction({ type: 'interact', id: 'freelance' }, state)).toEqual({ type: 'interact', id: 'freelance' });
+    expect(readMapAction({ type: 'interact', id: 'nokia', position: [4, 17] }, state)).toEqual({ type: 'interact', id: 'nokia', position: [4, 17] });
+    expect(readMapAction({ type: 'interact', id: 'nokia', position: [4, 15] }, state)).toBeNull();
     expect(readMapAction({ type: 'interact', id: 'nokia' }, state)).toBeNull();
     expect(readMapAction({ type: 'move', x: 14, y: 6 }, state)).toBeNull();
     expect(readMapAction({ type: 'move', x: 5, y: 6 }, { ...state, active: false })).toBeNull();

@@ -1,7 +1,7 @@
 import { finishSnake } from '../campaign-fixture';
 import { writeFile } from 'node:fs/promises';
 import { makeCompanyMap } from '../../src/arcade/company-scenes';
-import { expect, type Page, type TestInfo } from '@playwright/test';
+import { expect, type Locator, type Page, type TestInfo } from '@playwright/test';
 import { chapters, missionById } from '../../src/arcade/campaign';
 import { choose, completeEvent, eligibleEvents, newGame, selectChapter } from '../../src/arcade/engine';
 
@@ -74,6 +74,45 @@ export async function dumpGodotDebug(page: Page, testInfo: TestInfo, label = 'fa
   const path = testInfo.outputPath(name);
   await writeFile(path, JSON.stringify({ debug, worldState, canvasState }, null, 2));
   await testInfo.attach(name, { path, contentType: 'application/json' });
+}
+
+// Capture actionability at the exact point a DOM click is attempted. The capture
+// listeners remain installed if Playwright times out inside dispatch, so the
+// failure JSON distinguishes a blocked action from a missing browser event.
+// Captura la accionabilidad justo al intentar un clic DOM. Los listeners de
+// captura permanecen instalados si Playwright agota tiempo dentro del dispatch,
+// para distinguir una acción bloqueada de un evento que no llega al navegador.
+export async function traceDomClick(locator: Locator, label: string) {
+  await locator.evaluate((element, name) => {
+    const target = window as DebugWindow & { __CAREER_DOM_CLICK_TRACE__?: WeakSet<Element> };
+    const rect = (element as HTMLElement).getBoundingClientRect();
+    const center = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    const at = document.elementFromPoint(center.x, center.y) as HTMLElement | null;
+    const active = document.activeElement as HTMLElement | null;
+    const style = getComputedStyle(element);
+    const snapshot = {
+      label: name,
+      phase: 'before-click',
+      at: performance.now(),
+      boundingRect: rect.toJSON(),
+      elementFromPoint: at ? { tag: at.tagName, className: at.className, text: at.textContent?.trim() } : null,
+      activeElement: active ? { tag: active.tagName, className: active.className, text: active.textContent?.trim() } : null,
+      pointerEvents: style.pointerEvents,
+      disabled: (element as HTMLButtonElement).disabled,
+      documentHasFocus: document.hasFocus(),
+    };
+    const debug = target.__CAREER_E2E_DEBUG__ ?? {};
+    const events = Array.isArray(debug.domClicks) ? debug.domClicks : [];
+    target.__CAREER_E2E_DEBUG__ = { ...debug, domClicks: [...events, snapshot].slice(-40) };
+    target.__CAREER_DOM_CLICK_TRACE__ ??= new WeakSet();
+    if (target.__CAREER_DOM_CLICK_TRACE__.has(element)) return;
+    target.__CAREER_DOM_CLICK_TRACE__.add(element);
+    for (const type of ['pointerdown', 'mousedown', 'mouseup', 'click']) element.addEventListener(type, event => {
+      const value = target.__CAREER_E2E_DEBUG__ ?? {};
+      const records = Array.isArray(value.domClicks) ? value.domClicks : [];
+      target.__CAREER_E2E_DEBUG__ = { ...value, domClicks: [...records, { label: name, phase: 'event', type: event.type, at: performance.now(), trusted: event.isTrusted }].slice(-40) };
+    }, true);
+  }, label);
 }
 
 export async function clickCompanyObject(page: Page, chapter: string, id: string, marker = false, touch = false) {

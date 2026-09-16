@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { chapters } from '../../src/arcade/campaign';
 import { completeEvent, newGame, updateProgress } from '../../src/arcade/engine';
-import { dumpGodotDebug, enableGodotE2EDebug, unlockBefore } from './career-fixture';
+import { dumpGodotDebug, enableGodotE2EDebug, traceDomClick, unlockBefore } from './career-fixture';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
 test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
@@ -31,7 +31,7 @@ test('clock pauses, expires, can be disabled and survives the language switch', 
   await expect.poll(async () => Number(await page.locator('.quest-resources meter').getAttribute('value'))).toBeLessThan(energyBeforeTimeout);
   await page.getByRole('dialog').getByRole('button', { name: 'No time limit', exact: true }).click();
   await page.locator('[data-choice="responsive-1"]').click();
-  await page.getByRole('button', { name: 'Return to mission', exact: true }).click();
+  { const button = page.getByRole('button', { name: 'Return to mission', exact: true }); await traceDomClick(button, 'company-timer-return-to-mission'); await button.click(); }
   await page.locator('.career-world').getByRole('link', { name: 'Español', exact: true }).click();
   await expect(page).toHaveURL('/arcade/?career=continue');
   await expect(page.locator('.quest-timing-toggle input')).not.toBeChecked();
@@ -49,7 +49,7 @@ test('failed flat incidents lose their reward, persist and still resolve the sce
     await page.locator(`[data-side-choice="${(correct + 1) % 3}"]`).click();
     await expect(page.getByRole('dialog')).toContainText('Reward lost');
     await page.locator(`[data-side-choice="${correct}"]`).click();
-    await page.getByRole('button', { name: 'Return to mission', exact: true }).click();
+    { const button = page.getByRole('button', { name: 'Return to mission', exact: true }); await traceDomClick(button, `company-side-return-${id}`); await button.click(); }
     await expect(page.locator(`[data-side="${id}"]`)).toBeDisabled();
   }
   await expect(page.locator('.quest-resources meter')).toHaveAttribute('value', '40');
@@ -72,7 +72,7 @@ test('every company renders its own world with four listed missions', async ({ p
     const dialog = page.getByRole('dialog');
     if (await dialog.isVisible()) {
       const close = dialog.getByRole('button', { name: /^(?:Close|Return to mission)$/ });
-      if (await close.count()) await close.first().click();
+      if (await close.count()) { const button = close.first(); await traceDomClick(button, `company-close-${chapter.id}`); await button.click(); }
     }
     await page.getByRole('button', { name: 'Menu', exact: true }).click();
   }
