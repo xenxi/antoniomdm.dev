@@ -1,0 +1,208 @@
+import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
+import type { Locale } from '../i18n/core';
+import { bridgeChannel, readMapAction } from './godot-bridge';
+import { mapNearby, type PixelMap } from './pixel-map';
+import { rasterize } from './godot-art';
+import { avatarFrames } from './avatar';
+import { copy } from './campaign';
+import { prepareSceneArt } from './scene-art';
+import { townCopy } from './town';
+
+export const worldCopy = {
+  loading: { es: 'Preparando el mundo…', en: 'Preparing the world…' },
+  failed: { es: 'No se pudo iniciar el juego. Tu progreso está guardado. Reintenta la carga.', en: 'The game could not start. Your progress is saved. Try loading again.' },
+  retry: { es: 'Reintentar', en: 'Try again' },
+  title: { es: 'Ciudad pixel art: camina con flechas e interactúa con E', en: 'Pixel art town: walk with arrows and interact with E' },
+  license: { es: 'Licencia de Godot', en: 'Godot license' },
+  zoom: { es: 'Acercar al personaje', en: 'Follow the character' },
+  overview: { es: 'Ver mapa completo', en: 'View full map' },
+};
+interface Props { onReady?: () => void; map: PixelMap; x: number; y: number; locale: Locale; active: boolean; objective?: string; onMove: (x: number, y: number) => void; onInteract: (id: string) => void; onPause: () => void; onShortcut: (key: 'I' | 'J' | 'O') => void }
+export default function GodotWorld(props: Props) {
+  const { x, y, locale, map, active } = props;
+  const frame = useRef<HTMLIFrameElement>(null), current = useRef(props); current.current = props;
+  const [status, setStatus] = useState<'loading' | 'ready' | 'failed'>('loading');
+  const [attempt, setAttempt] = useState(0), ready = useRef(false), lastMap = useRef<PixelMap | null>(null);
+  const [godotMap, setGodotMap] = useState('');
+  const [movement, setMovement] = useState({ state: 'idle', pendingInteraction: '', lastInteraction: '', target: '' });
+  const e2eDebug = typeof window !== 'undefined' && (new URLSearchParams(window.location.search).get('e2eDebug') === '1' || Boolean((window as Window & { __CAREER_E2E_DEBUG_ENABLE__?: boolean }).__CAREER_E2E_DEBUG_ENABLE__));
+  const prepared = useRef<PixelMap | null>(null);
+  const [preparing, setPreparing] = useState(true);
+  const [zoom, setZoom] = useState(() => map.art ? 1 : typeof matchMedia === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 2 : 1), currentZoom = useRef(zoom); currentZoom.current = zoom;
+  const [reducedMotion, setReducedMotion] = useState(() => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const syncSequence = useRef(0);
+  const lastSentPosition = useRef({ x, y, map: map.id });
+  const godotMoveAcknowledgements = useRef(new Set<string>());
+  function recordBridge(stage: string, detail: Record<string, unknown> = {}) {
+    if (!e2eDebug) return;
+    const target = window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> };
+    const debug = target.__CAREER_E2E_DEBUG__ ?? {};
+    const events = Array.isArray(debug.bridgeEvents) ? debug.bridgeEvents : [];
+    target.__CAREER_E2E_DEBUG__ = { ...debug, bridgeEvents: [...events, { stage, at: performance.now(), ...detail }].slice(-120) };
+  }
+  useEffect(() => { if (map.art) setZoom(1); }, [map.id]);
+  useEffect(() => {
+    let alive = true;
+    setPreparing(prepared.current?.id !== map.id);
+    void prepareSceneArt(map).then(() => { if (alive) { prepared.current = map; encoded.current = null; lastMap.current = null; sync(); setPreparing(false); } }).catch(() => { if (alive) { ready.current = false; setStatus('failed'); } });
+    return () => { alive = false; };
+  }, [map, attempt]);
+  const held = useRef<number[] | null>(null);
+  const heldKeys = useRef(new Map<string, number[]>());
+  function releaseKeys() { held.current = null; heldKeys.current.clear(); }
+  useEffect(() => {
+    releaseKeys();
+    if (!active || status !== 'ready') return;
+    const stop = releaseKeys;
+    window.addEventListener('blur', stop);
+    const timer = window.setInterval(() => { const p = current.current; if (held.current) p.onMove(p.x + held.current[0], p.y + held.current[1]); }, 140);
+    return () => { clearInterval(timer); window.removeEventListener('blur', stop); releaseKeys(); };
+  }, [active, map.id, status]);
+  const c = (key: keyof typeof worldCopy) => worldCopy[key][locale];
+  const encoded = useRef<{ map: PixelMap; data: object } | null>(null);
+  function sync() {
+    const p = current.current, changed = lastMap.current !== p.map;
+    if (changed && prepared.current !== p.map) return;
+    if (changed && encoded.current?.map !== p.map) {
+      const art = rasterize(p.map);
+      encoded.current = { map: p.map, data: { ...p.map, rects: [], labels: [], image: art.background.toDataURL('image/png').split(',')[1], spriteImage: art.sprite?.toDataURL('image/png').split(',')[1], entities: art.entities.map(e => ({ depth: e.depth, bounds: e.bounds, motion: e.motion ?? [], image: e.canvas.toDataURL('image/png').split(',')[1] })) } };
+    }
+    const previousPosition = lastSentPosition.current;
+    const positionChanged = previousPosition.x !== p.x || previousPosition.y !== p.y || previousPosition.map !== p.map.id;
+    const positionKey = `${p.map.id}:${p.x},${p.y}`;
+    const positionOrigin = positionChanged ? (godotMoveAcknowledgements.current.delete(positionKey) ? 'godot-ack' : 'external') : 'steady';
+    const sequence = ++syncSequence.current;
+    const state = {
+      x: p.x, y: p.y, chapterId: p.map.id, active: p.active, locale: p.locale,
+      zoom: currentZoom.current, objective: p.objective ?? '',
+      reducedMotion,
+      syncSequence: sequence, positionOrigin,
+      ...(changed ? { map: encoded.current!.data, frames: avatarFrames } : {}),
+    };
+    frame.current?.contentWindow?.postMessage({ channel: bridgeChannel, type: 'state', state }, location.origin);
+    lastSentPosition.current = { x: p.x, y: p.y, map: p.map.id };
+    recordBridge('react-state-posted', { sequence, map: p.map.id, player: [p.x, p.y], positionOrigin, mapReplaced: changed });
+    if (e2eDebug) {
+      const debug = (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ ?? {};
+      (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ = { ...debug, react: { lastState: { map: p.map.id, player: [p.x, p.y], active: p.active, zoom: currentZoom.current }, lastEvent: debug.react && typeof debug.react === 'object' ? (debug.react as Record<string, unknown>).lastEvent : undefined } };
+    }
+    lastMap.current = p.map;
+  }
+  useEffect(() => {
+    ready.current = false; lastMap.current = null; setGodotMap('');
+    godotMoveAcknowledgements.current.clear();
+    lastSentPosition.current = { x: current.current.x, y: current.current.y, map: current.current.map.id };
+    const receive = (event: MessageEvent) => {
+      if (event.origin !== location.origin || event.source !== frame.current?.contentWindow || event.data?.channel !== bridgeChannel) return;
+      recordBridge('react-window-received', { sequence: event.data.seq, type: event.data.type, chapterId: event.data.chapterId, currentChapterId: current.current.map.id, payload: event.data.type === 'interact' ? { id: event.data.id, position: event.data.position } : undefined });
+      if (event.data.type === 'engine-ready') {
+        // La escena puede rasterizarse antes de que el iframe registre el receptor.
+        // Force the first delivery to include the map / Forzar que incluya el mapa.
+        lastMap.current = null;
+        sync();
+        return;
+      }
+      if (event.data.type === 'scene-ready') {
+        const requestedMap = current.current.map;
+        setGodotMap(typeof event.data.map === 'string' ? event.data.map : requestedMap.id);
+        if (requestedMap === current.current.map) {
+          prepared.current = requestedMap;
+          ready.current = true;
+          setStatus('ready');
+          current.current.onReady?.();
+          clearTimeout(timer);
+        }
+        return;
+      }
+      if (event.data.type === 'movement-state') {
+        if (e2eDebug) {
+          const debug = (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ ?? {};
+          const events = Array.isArray(debug.events) ? debug.events : [];
+          (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ = { ...debug, bridgeMovement: event.data, events: [...events, { source: 'bridge', ...event.data }].slice(-80) };
+        }
+        setMovement(previous => ({
+          state: typeof event.data.state === 'string' ? event.data.state : 'idle',
+          pendingInteraction: typeof event.data.pendingInteraction === 'string' ? event.data.pendingInteraction : '',
+          // El evento normal de interacción también es autoritativo: consérvalo
+          // si una instantánea tardía del bridge aún no lo incluye.
+          // The normal interaction event below is authoritative too. Preserve it
+          // while a late bridge snapshot does not carry a last interaction yet.
+          lastInteraction: typeof event.data.lastInteraction === 'string' && event.data.lastInteraction !== ''
+            ? event.data.lastInteraction
+            : event.data.state === 'routing' ? '' : previous.lastInteraction,
+          target: Array.isArray(event.data.target) ? event.data.target.join(',') : '',
+        }));
+        return;
+      }
+      if (event.data.type === 'error') { ready.current = false; setStatus('failed'); clearTimeout(timer); return; }
+      if (event.data.type === 'debug' && e2eDebug) {
+        const debug = (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ ?? {};
+        const frameBox = frame.current?.getBoundingClientRect();
+        const source = event.data.source === 'shell' ? 'shell' : 'godot';
+        const detail = { ...event.data.data, seq: event.data.seq, iframe: frameBox ? { width: frameBox.width, height: frameBox.height } : undefined };
+        const events = Array.isArray(debug.events) ? debug.events : [];
+        (window as Window & { __CAREER_E2E_DEBUG__?: Record<string, unknown> }).__CAREER_E2E_DEBUG__ = { ...debug, [source]: detail, events: [...events, { source, ...detail }].slice(-80), react: { ...(debug.react as Record<string, unknown> ?? {}), lastEvent: event.data } };
+        return;
+      }
+      if (!ready.current) { recordBridge('react-action-ignored', { reason: 'engine-not-ready', sequence: event.data.seq, type: event.data.type }); return; }
+      const p = current.current;
+      if (event.data.chapterId !== p.map.id) { recordBridge('react-action-ignored', { reason: 'chapter-mismatch', sequence: event.data.seq, type: event.data.type, eventChapterId: event.data.chapterId, currentChapterId: p.map.id }); sync(); return; }
+      if (event.data.type === 'shortcut' && ['I', 'J', 'O'].includes(event.data.key) && p.active) {
+        const key = event.data.key as 'I' | 'J' | 'O';
+        recordBridge('react-shortcut-forwarded', { sequence: event.data.seq, key, chapterId: p.map.id });
+        p.onShortcut(key);
+        return;
+      }
+      const action = readMapAction(event.data, p);
+      if (!action) { recordBridge('react-action-ignored', { reason: 'invalid-action', sequence: event.data.seq, type: event.data.type, state: { map: p.map.id, player: [p.x, p.y], active: p.active } }); return; }
+      if (action?.type === 'move') {
+        godotMoveAcknowledgements.current.add(`${p.map.id}:${action.x},${action.y}`);
+        recordBridge('react-move-handler', { sequence: event.data.seq, target: [action.x, action.y], stateBefore: { map: p.map.id, player: [p.x, p.y] } });
+        setMovement(previous => previous.lastInteraction ? { ...previous, state: 'moving', lastInteraction: '' } : previous);
+        p.onMove(action.x, action.y);
+      }
+      else if (action?.type === 'interact') {
+        // Es el evento Godot→React real que abre el diálogo; es un punto de
+        // observación estable, no una interacción sintética.
+        // This is the same real Godot-to-React event that opens the dialog; it
+        // is a durable observation point, not a synthetic interaction.
+        recordBridge('react-interaction-handler', { sequence: event.data.seq, object: action.id, reportedPlayer: action.position, stateBefore: { map: p.map.id, player: [p.x, p.y], active: p.active } });
+        setMovement(previous => ({ ...previous, state: 'dispatched', pendingInteraction: '', lastInteraction: action.id }));
+        p.onInteract(action.id);
+        recordBridge('react-interaction-forwarded', { sequence: event.data.seq, object: action.id, chapterId: p.map.id });
+      }
+      else if (action?.type === 'pause') p.onPause();
+      else if (action?.type === 'map') setZoom(value => value === 1 ? 2 : 1);
+      else sync();
+    };
+    window.addEventListener('message', receive);
+    const timer = window.setTimeout(() => { if (!ready.current) setStatus(value => value === 'loading' ? 'failed' : value); }, 60000);
+    return () => { clearTimeout(timer); window.removeEventListener('message', receive); };
+  }, [attempt]);
+  useLayoutEffect(() => { if (ready.current) sync(); }, [x, y, locale, map, active, zoom, reducedMotion, props.objective]);
+  useEffect(() => {
+    const motion = matchMedia('(prefers-reduced-motion: reduce)');
+    // Keep the bridge state reactive so an in-session preference change is
+    // committed with the same lifecycle as every other renderer input.
+    // Mantiene el estado del puente reactivo para confirmar un cambio de
+    // preferencia durante la sesión con el mismo ciclo que el resto de entradas.
+    const changed = (event: MediaQueryListEvent) => setReducedMotion(event.matches);
+    motion.addEventListener('change', changed);
+    return () => motion.removeEventListener('change', changed);
+  }, []);
+  return <div class="godot-world" tabIndex={0} role="group" aria-label={c('title')} data-player={`${x},${y}`} data-map={map.id} data-godot-map={godotMap} data-zoom={zoom} data-engine={status} data-movement-state={movement.state} data-pending-interaction={movement.pendingInteraction} data-last-interaction={movement.lastInteraction} data-movement-target={movement.target} onKeyUp={event => { heldKeys.current.delete(event.key.toLowerCase()); held.current = [...heldKeys.current.values()].at(-1) ?? null; }} onBlur={releaseKeys} onKeyDown={event => {
+    if (!active || status !== 'ready') return;
+    if (event.key.toLowerCase() === 'm' && (event.target === event.currentTarget || (event.target as HTMLElement).tagName === 'CANVAS')) { event.preventDefault(); setZoom(value => value === 1 ? 2 : 1); return; }
+    if (event.target !== event.currentTarget) return;
+    const direction = ({ ArrowUp: [0, -1], w: [0, -1], ArrowDown: [0, 1], s: [0, 1], ArrowLeft: [-1, 0], a: [-1, 0], ArrowRight: [1, 0], d: [1, 0] } as Record<string, number[]>)[event.key.length === 1 ? event.key.toLowerCase() : event.key];
+    if (direction) { event.preventDefault(); if (event.repeat) return; heldKeys.current.set(event.key.toLowerCase(), direction); held.current = direction; props.onMove(x + direction[0], y + direction[1]); }
+    if (event.key.toLowerCase() === 'e' || event.key === ' ') { event.preventDefault(); const object = mapNearby(map, x, y); if (object) props.onInteract(object.id); }
+  }}>
+    <div class="godot-viewport" aria-busy={preparing || status === 'loading'}><div key={`${map.id}-${preparing}`} class={`world-transition ${preparing ? 'is-preparing' : ''}`} aria-hidden="true" />
+      {status !== 'ready' && <div class="godot-loading"><img src={map.art ?? '/images/job-route/neon-city.webp'} alt="" /><div role="status"><span class="godot-loading-icon" aria-hidden="true">◇</span><p>{c(status === 'loading' ? 'loading' : 'failed')}</p>{status === 'failed' && <button onClick={() => { setStatus('loading'); setAttempt(value => value + 1); }}>{c('retry')}</button>}</div></div>}
+      {(status === 'loading' || status === 'ready') && <iframe key={attempt} ref={frame} class={`godot-frame ${status === 'ready' ? 'is-ready' : ''}`} src={`/games/career/index.html?lang=${locale}${e2eDebug ? '&e2eDebug=1' : ''}`} title={c('title')} tabIndex={status === 'ready' && active ? 0 : -1} aria-hidden={status !== 'ready' || !active || undefined} onError={() => setStatus('failed')} />}
+      {active && status === 'ready' && mapNearby(map, x, y) && <div class="world-interaction-hint"><kbd>E</kbd><span>{mapNearby(map, x, y)!.locked ? townCopy.requirements[locale] : copy.interact[locale]} · {mapNearby(map, x, y)!.label}</span></div>}
+    </div>
+    <div class="godot-toolbar"><a class="godot-badge" href="/licenses/godot.txt" target="_blank" rel="noopener" aria-label={c('license')}>GODOT</a><button class="godot-zoom" disabled={status !== 'ready'} aria-pressed={zoom === 2} onClick={() => setZoom(value => value === 1 ? 2 : 1)}>{c(zoom === 1 ? 'zoom' : 'overview')}</button></div>
+  </div>;
+}

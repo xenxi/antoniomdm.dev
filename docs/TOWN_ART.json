@@ -1,0 +1,14 @@
+{
+  "tool": "Built-in image_gen",
+  "assets": [
+    {
+      "file": "public/images/job-route/neon-district.webp",
+      "references": [
+        "docs/art/town-layout.svg",
+        "public/images/job-route/neon-office.webp"
+      ],
+      "sharedCharacter": "public/images/job-route/antonio-atlas.webp",
+      "prompt": "Use case: stylized-concept. Create a production background plate for a playable premium isometric pixel-art RPG at 1536x1024.\nImage 1 is STRICT GEOMETRY / COMPOSITION reference, a blockout of a small walkable tech district. Image 2 is STRICT ART STYLE reference, the actual interior scene of the same game. Match image 2's meticulous pixel detailing, architectural materials, high-quality handcrafted pixel clusters, moody midnight blue palette, cyan/violet neon and warm amber windows, lush plants and glossy floor reflections. This should look like the exterior of that exact office world, NOT the flat simple geometry style of image 1.\nKEEP EXACTLY the camera framing, 2:1 isometric projection, placement and footprint of all TEN buildings in image 1, five buildings in each of two diagonal rows. Preserve every building's flat roof height and golden door position precisely; each cyan band is a BLANK illuminated company sign. Preserve the widths, locations and open walkability of all gray promenades. Keep all tree positions as detailed ornamental leafy trees. Keep the blue reflecting pool at the same position. Do not move or enlarge the building footprints or cover the pathways with furniture.\nTransform every simple building into a beautiful detailed contemporary tech company storefront: glass double doors and warm interiors, realistic pixel shading, dark steel frames, cyan/magenta light strips, small roof ventilation, polished stone cladding. Vary the ten facade materials subtly but keep all signs and doors in the exact reference positions. Add window details in facades without enlarging them.\nReplace flat ground with midnight violet wet stone tiles, physically convincing soft building shadows and amber/cyan reflections. The circular green trees become rich lush detailed canopies, subtle cyan-lit planters. Detailed small fountain in the existing blue rectangular pool. Fill the dark empty margins OUTSIDE the map island with richly shaded distant urban roofscape, city blocks, trees and night atmosphere in the same camera projection, lower contrast than the playable district. The foreground playable streets should remain clear and legible.\nCrucial: NO characters or pedestrians anywhere, the game draws its own character. NO HUD, NO UI, NO text, NO lettering, NO numbers, NO logos, NO watermark. No readable signs. Keep exact geometry from image1; use the advanced pixel art aesthetic of image2. Full bleed scene, not a mockup, not a poster, no thick border. Preserve all ten distinguishable entrances."
+    }
+  ]
+}

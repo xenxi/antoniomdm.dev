@@ -1,0 +1,41 @@
+@layer aura {
+  .project-detail-header { display: flow-root; }
+  .project-logo { float: right; width: clamp(80px, 18%, 144px); height: 120px; object-fit: contain; margin: 0 0 16px 20px; }
+  .project-card, .project-card-secondary { grid-template-columns: 96px minmax(0, 1fr); gap: 14px; padding: 12px; }
+  .project-art.has-logo { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; align-self: start; width: 96px; height: 96px; min-height: 96px; background: var(--background); }
+  .project-art.has-logo::after { display: none; }
+  .project-art.has-logo img { display: block; width: 100%; height: 100%; min-width: 0; min-height: 0; object-fit: contain; padding: 6px; }
+  .project-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; clear: both; margin: 24px 0; }
+  .project-gallery figure { min-width: 0; margin: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--background); }
+  .project-gallery figure:first-child { grid-column: 1 / -1; }
+  .project-gallery a { display: block; }
+  .project-gallery img { display: block; width: 100%; height: auto; }
+  .project-gallery figcaption { padding: 10px 14px; font: .75rem/1.5 var(--mono); color: var(--text-muted); border-top: 1px solid var(--border); }
+  .project-facts { display: grid; gap: 16px; grid-template-columns: minmax(130px, 1fr) 2fr; padding: 16px 0; border-block: 1px solid var(--border); }
+  .project-facts .project-status { margin: 0; }
+  .project-facts .project-status span { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: .75rem; }
+  .project-links { margin: 20px 0 28px; }
+  .project-scope { margin-top: 24px; padding: 16px; border-left: 2px solid var(--border); background: var(--surface-elevated); }
+  .project-scope h2 { margin-top: 0; font-size: 1rem; }
+  .project-api-reference { margin-top: 36px; min-width: 0; }
+  .endpoint-search { display: grid; gap: 8px; font-size: .85rem; }
+  .endpoint-search input { width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 4px; color: var(--text); background: var(--background); }
+  .endpoint-group { border: 1px solid var(--border); border-radius: 5px; margin: 10px 0; overflow: hidden; }
+  .endpoint-group summary { cursor: pointer; padding: 14px; min-height: 44px; background: var(--surface-elevated); font-weight: 600; }
+  .endpoint-group summary span { float: right; font-family: var(--mono); color: var(--text-muted); }
+  .endpoint-group dl { margin: 0; }
+  .endpoint { padding: 14px; border-top: 1px solid var(--border); }
+  .endpoint dt { display: flex; align-items: baseline; gap: 10px; }
+  .endpoint dt code { min-width: 0; overflow-wrap: anywhere; white-space: normal; font-size: .8rem; }
+  .endpoint dd { margin: 8px 0 0; font-size: .85rem; color: var(--text-muted); }
+  .endpoint-method { flex-shrink: 0; font: 700 .7rem var(--mono); border: 1px solid currentColor; border-radius: 3px; padding: 3px 5px; color: var(--cyan); }
+  .method-post { color: var(--warning); }
+  .method-put { color: var(--text); }
+  .method-delete { color: var(--text); }
+  :is(.project-gallery a, .project-links a, .endpoint-group summary, .endpoint-search input):focus-visible { outline: 2px solid var(--cyan); outline-offset: -3px; }
+  @media (max-width: 600px) {
+    .project-gallery, .project-facts { grid-template-columns: minmax(0, 1fr); }
+    .project-logo { width: 80px; height: 80px; margin-left: 12px; }
+  }
+  @media (scripting: none) { .endpoint-search { display: none; } }
+}

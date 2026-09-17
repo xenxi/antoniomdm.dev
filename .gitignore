@@ -49,3 +49,13 @@ app.*.map.json
 .vscode/
 .vscode/launch.json
 *.env
+
+node_modules/
+dist/
+.astro/
+test-results/
+playwright-report/
+
+# Reproducible Godot web export and editor cache
+godot/**/.godot/
+public/games/career/

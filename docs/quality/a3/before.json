@@ -1,0 +1,96 @@
+{
+  "phase": "before",
+  "date": "2026-09-11T05:48:01.571Z",
+  "assets": [
+    {
+      "path": "/es/",
+      "type": "document",
+      "bytes": 40016,
+      "gzip": 10634
+    },
+    {
+      "path": "/_astro/global.Dxorb4PA.css",
+      "type": "stylesheet",
+      "bytes": 19553,
+      "gzip": 5495
+    },
+    {
+      "path": "/wallpaper.webp",
+      "type": "image",
+      "bytes": 45440,
+      "gzip": 45440
+    },
+    {
+      "path": "/_astro/client.B8ClRQhZ.js",
+      "type": "script",
+      "bytes": 1407,
+      "gzip": 805
+    },
+    {
+      "path": "/_astro/Desktop.L2NrMiPQ.js",
+      "type": "script",
+      "bytes": 28754,
+      "gzip": 10105
+    },
+    {
+      "path": "/_astro/hooks.module.DjkT9XFd.js",
+      "type": "script",
+      "bytes": 2721,
+      "gzip": 1200
+    },
+    {
+      "path": "/_astro/jsxRuntime.module.CpLCbZvC.js",
+      "type": "script",
+      "bytes": 9432,
+      "gzip": 4510
+    },
+    {
+      "path": "/_astro/preload-helper.BxCGGqdC.js",
+      "type": "script",
+      "bytes": 12352,
+      "gzip": 5174
+    }
+  ],
+  "network": [
+    {
+      "name": "http://127.0.0.1:4321/_astro/global.Dxorb4PA.css",
+      "transfer": 5795
+    },
+    {
+      "name": "http://127.0.0.1:4321/_astro/Desktop.L2NrMiPQ.js",
+      "transfer": 10405
+    },
+    {
+      "name": "http://127.0.0.1:4321/_astro/client.B8ClRQhZ.js",
+      "transfer": 1105
+    },
+    {
+      "name": "http://127.0.0.1:4321/wallpaper.webp",
+      "transfer": 45740
+    },
+    {
+      "name": "http://127.0.0.1:4321/_astro/preload-helper.BxCGGqdC.js",
+      "transfer": 5474
+    },
+    {
+      "name": "http://127.0.0.1:4321/_astro/hooks.module.DjkT9XFd.js",
+      "transfer": 1500
+    },
+    {
+      "name": "http://127.0.0.1:4321/_astro/jsxRuntime.module.CpLCbZvC.js",
+      "transfer": 4810
+    }
+  ],
+  "initialJsGzip": 21794,
+  "homeGzipEstimate": 83363,
+  "deferredBootRequests": [],
+  "lighthouse": {
+    "performance": 100,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100
+  },
+  "lighthouseTransfer": 86080,
+  "lcp": 1656.0494999999999,
+  "cls": 0
+}

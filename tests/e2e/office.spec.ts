@@ -1,0 +1,47 @@
+import { clickCompanyObject, dumpGodotDebugBestEffort, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
+test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
+test.afterEach(async ({ page }, testInfo) => { if (testInfo.status !== testInfo.expectedStatus) await dumpGodotDebugBestEffort(page, testInfo); });
+for (const locale of ['es', 'en']) test(`detailed Godot office ${locale}: art, navigation, localized HUD and mobile`, async ({ page }) => {
+  test.setTimeout(90000);
+  const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
+  await page.goto(locale === 'es' ? '/arcade/' : '/en/arcade/');
+  await expect(page.locator('[data-ready="true"]')).toBeVisible();
+  await page.locator('.arcade-launcher button').click();
+  await page.locator('[data-chapter="freelance"]').click();
+  const world = page.locator('.godot-world');
+  await expect(world).toHaveAttribute('data-engine', 'ready', { timeout: 60000 });
+  await expect(world).toHaveAttribute('data-zoom', '1');
+  await expect(world.locator('canvas')).toHaveCount(0);
+  const canvas = page.frameLocator('.godot-frame').locator('canvas');
+  await page.waitForTimeout(1200);
+  await page.locator('.career-scene').screenshot({ path: `test-results/office-${locale}.png` });
+  await canvas.focus(); await canvas.press('i');
+  await expect(page.getByRole('dialog')).toContainText(locale === 'es' ? 'Inventario' : 'Inventory');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.locator('.godot-frame')).not.toHaveAttribute('aria-hidden', 'true');
+  await canvas.focus(); await canvas.press('j');
+  await expect(page.getByRole('dialog')).toContainText(locale === 'es' ? 'Trabajos' : 'Jobs');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.locator('.godot-frame')).not.toHaveAttribute('aria-hidden', 'true');
+  await canvas.focus(); await canvas.press('o');
+  await expect(page.locator('.career-paused')).toBeVisible();
+  await page.locator('.career-paused button').click();
+  await canvas.focus(); await canvas.press('ArrowUp');
+  await expect(world).toHaveAttribute('data-player', '4,6');
+
+  await clickCompanyObject(page, 'freelance', 'terminal');
+  await waitForGodotInteraction(page, 'terminal', locale === 'es' ? 'Solo es cambiar un botón' : 'Just change one button');
+  await page.getByRole('dialog').getByRole('button', { name: locale === 'es' ? 'Cerrar' : 'Close', exact: true }).click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator('.career-world').evaluate(el => { el.scrollTop = 0; });
+  await page.screenshot({ path: `test-results/office-mobile-${locale}.png` });
+  expect(await page.locator('.career-world').evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+  expect((await new AxeBuilder({ page }).include('.career-world').withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
+  expect(errors).toEqual([]);
+});

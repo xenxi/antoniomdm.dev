@@ -1,0 +1,375 @@
+{
+  "repository": "xenxi/knowledge-vault",
+  "revision": "ecd75a15420c49ec5d9a2ace98e352fcc913aea6",
+  "reviewedAt": "2026-09-14",
+  "claims": [
+    {
+      "id": "profile-12-years",
+      "evidenceId": "ev-career-chronology",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/master/cv-master.md",
+        "Professional Experience"
+      ]
+    },
+    {
+      "id": "domingo-scope",
+      "evidenceId": "ev-domingo-scope",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/experience/domingo-alonso.md",
+        "Role summary; Architecture decision process; Azure / CI-CD / delivery; Observability / reliability"
+      ]
+    },
+    {
+      "id": "vehicle-read-model-claim",
+      "evidenceId": "ev-vehicle-read-model",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/experience/domingo-alonso.md",
+        "Vehicle read model / data architecture"
+      ]
+    },
+    {
+      "id": "testing-improvement",
+      "evidenceId": "ev-testing-feedback",
+      "classification": "METRIC_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/experience/domingo-alonso.md",
+        "Testing infrastructure"
+      ]
+    },
+    {
+      "id": "event-summary-improvement",
+      "evidenceId": "ev-event-summaries",
+      "classification": "METRIC_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/experience/domingo-alonso.md",
+        "Event summaries / integration design"
+      ]
+    },
+    {
+      "id": "legacy-modernization-claim",
+      "evidenceId": "ev-legacy-modernization",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/experience/domingo-alonso.md",
+        "Legacy modernization"
+      ]
+    },
+    {
+      "id": "anexia-end-to-end",
+      "evidenceId": "ev-anexia-scope",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/experience/anexia.md",
+        "Core responsibilities"
+      ]
+    },
+    {
+      "id": "platform-implemented",
+      "evidenceId": "ev-platform934-implemented",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/platform934.md",
+        "Native Android TV; Engineering areas demonstrated"
+      ]
+    },
+    {
+      "id": "platform-agent-implemented",
+      "evidenceId": "ev-platform934-agent",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/platform934-api.md",
+        "Architecture; Boundaries; Devices and SignalR"
+      ]
+    },
+    {
+      "id": "platform-agent-in-progress",
+      "evidenceId": "ev-platform934-agent",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "IN_PROGRESS",
+      "source": [
+        "career/projects/platform934-api.md",
+        "Architecture; Boundaries; Devices and SignalR"
+      ]
+    },
+    {
+      "id": "ai-engineering",
+      "evidenceId": "ev-agentic-engineering",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/experience/domingo-alonso.md",
+        "AI-assisted / agentic engineering"
+      ]
+    },
+    {
+      "id": "incident-agent",
+      "evidenceId": "ev-alert-auditor",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/experience/domingo-alonso.md",
+        "Alert auditor / agentic incident diagnosis"
+      ]
+    },
+    {
+      "id": "architecture-judgement",
+      "evidenceId": "ev-architecture-patterns",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/architecture/decision-patterns.md",
+        "1–10; career/architecture/cases/service-boundaries-and-ddd.md A–C"
+      ]
+    },
+    {
+      "id": "project-platform934",
+      "evidenceId": "ev-project-platform934",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/platform934.md",
+        "Project summary and implemented capabilities"
+      ]
+    },
+    {
+      "id": "project-platform934-api",
+      "evidenceId": "ev-project-platform934-api",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/platform934-api.md",
+        "Project summary and implemented capabilities"
+      ]
+    },
+    {
+      "id": "project-stream-optimizer",
+      "evidenceId": "ev-project-stream-optimizer",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/stream-optimizer.md",
+        "Project summary and implemented capabilities"
+      ]
+    },
+    {
+      "id": "project-devagon-alley",
+      "evidenceId": "ev-project-devagon-alley",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/devagon-alley.md",
+        "Project summary and implemented capabilities"
+      ]
+    },
+    {
+      "id": "project-luna-tartas",
+      "evidenceId": "ev-project-luna-tartas",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/luna-tartas.md",
+        "Project summary and implemented capabilities"
+      ]
+    },
+    {
+      "id": "project-koso",
+      "evidenceId": "ev-project-koso",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/koso.md",
+        "Project summary and implemented capabilities"
+      ]
+    },
+    {
+      "id": "project-luna-studio",
+      "evidenceId": "ev-project-luna-studio",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/luna-studio.md",
+        "Project summary and implemented capabilities"
+      ]
+    },
+    {
+      "id": "project-antonios",
+      "evidenceId": "ev-project-antonios",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/antonios.md",
+        "Project summary and implemented capabilities"
+      ]
+    },
+    {
+      "id": "project-bio-cli",
+      "evidenceId": "ev-project-bio-cli",
+      "classification": "PERSONAL_CONFIRMED",
+      "delivery": "CONFIRMED",
+      "source": [
+        "career/projects/bio-cli.md",
+        "Project summary and implemented capabilities"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "remove-unnecessary-service",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "architecture-judgement"
+      ]
+    },
+    {
+      "id": "ddd-where-needed",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "architecture-judgement"
+      ]
+    },
+    {
+      "id": "crud-isnt-crud",
+      "classification": "RECURRING_PATTERN_CONFIRMED",
+      "claimIds": [
+        "architecture-judgement"
+      ]
+    },
+    {
+      "id": "choose-style-by-context",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "architecture-judgement"
+      ]
+    },
+    {
+      "id": "persistence-by-workload",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "vehicle-read-model-claim"
+      ]
+    },
+    {
+      "id": "performance-from-evidence",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "domingo-scope"
+      ]
+    },
+    {
+      "id": "communication-by-semantics",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "domingo-scope"
+      ]
+    },
+    {
+      "id": "summary-events",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "event-summary-improvement"
+      ]
+    },
+    {
+      "id": "modernize-by-risk",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "legacy-modernization-claim"
+      ]
+    },
+    {
+      "id": "testing-as-architecture",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "testing-improvement"
+      ]
+    },
+    {
+      "id": "diagnose-runtime-behaviour",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "domingo-scope"
+      ]
+    },
+    {
+      "id": "contain-the-failure",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "domingo-scope"
+      ]
+    },
+    {
+      "id": "bound-agent-capabilities",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "incident-agent",
+        "ai-engineering"
+      ]
+    },
+    {
+      "id": "deliver-with-control",
+      "classification": "PROFESSIONAL_CONFIRMED",
+      "claimIds": [
+        "domingo-scope"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "platform934",
+      "classification": "PERSONAL_CONFIRMED",
+      "source": "career/projects/platform934.md"
+    },
+    {
+      "id": "platform934-api",
+      "classification": "PERSONAL_CONFIRMED",
+      "source": "career/projects/platform934-api.md"
+    },
+    {
+      "id": "stream-optimizer",
+      "classification": "PERSONAL_CONFIRMED",
+      "source": "career/projects/stream-optimizer.md"
+    },
+    {
+      "id": "devagon-alley",
+      "classification": "PERSONAL_CONFIRMED",
+      "source": "career/projects/devagon-alley.md"
+    },
+    {
+      "id": "luna-tartas",
+      "classification": "PERSONAL_CONFIRMED",
+      "source": "career/projects/luna-tartas.md"
+    },
+    {
+      "id": "koso",
+      "classification": "PERSONAL_CONFIRMED",
+      "source": "career/projects/koso.md"
+    },
+    {
+      "id": "luna-studio",
+      "classification": "PERSONAL_CONFIRMED",
+      "source": "career/projects/luna-studio.md"
+    },
+    {
+      "id": "antonios",
+      "classification": "PERSONAL_CONFIRMED",
+      "source": "career/projects/antonios.md"
+    },
+    {
+      "id": "bio-cli",
+      "classification": "PERSONAL_CONFIRMED",
+      "source": "career/projects/bio-cli.md"
+    }
+  ]
+}

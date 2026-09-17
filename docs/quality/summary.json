@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-09T17:58:38.969Z",
+  "url": "http://127.0.0.1:4321/",
+  "mode": "mobile / default simulated throttling / local production preview",
+  "scores": {
+    "performance": 100,
+    "accessibility": 100,
+    "best-practices": 100,
+    "seo": 100
+  },
+  "lcp": 1215.205,
+  "cls": 0.0004086745358377775,
+  "failed": [
+    {
+      "id": "network-dependency-tree-insight",
+      "title": "Network dependency tree",
+      "score": 0
+    },
+    {
+      "id": "render-blocking-insight",
+      "title": "Render-blocking requests",
+      "score": 0,
+      "displayValue": "Est savings of 150 ms"
+    }
+  ]
+}
