@@ -19,16 +19,22 @@ npm ci
 npm run dev
 ```
 
-Production: `npm run build` and `npm run preview`. Requires Node >=22.12 (CI uses Node 24). Astro 7 preview runs in the background; stop it with `npx astro preview stop`.
+**ES.** Para la validación completa local instala Node/npm (Node >=22.12; CI usa Node 24), Godot `4.7.2.stable`, sus Export Templates oficiales `4.7.2.stable` y los navegadores de Playwright. Configura `GODOT_BIN` con el ejecutable de Godot si no está en `PATH`. `npm ci` activa el hook pre-push versionado automáticamente. Producción: `npm run build` y `npm run preview`. Astro 7 preview se ejecuta en segundo plano; detenlo con `npx astro preview stop`.
+
+**EN.** For complete local verification install Node/npm (Node >=22.12; CI uses Node 24), Godot `4.7.2.stable`, its official `4.7.2.stable` Export Templates, and Playwright browsers. Set `GODOT_BIN` to the Godot executable if it is not on `PATH`. `npm ci` automatically enables the versioned pre-push hook. Production: `npm run build` and `npm run preview`. Astro 7 preview runs in the background; stop it with `npx astro preview stop`.
 
 ```sh
-npm run lint
-npm run typecheck
-npm test
-npm run build
 npx playwright install chromium
-npm run test:e2e
+npm run verify:local
 ```
+
+**ES.** Ejecuta `npx playwright install chromium` una vez tras instalar dependencias y después `npm run verify:local` antes de cada push o PR. El comando ejecuta, por orden, `test:godot`, tests unitarios, lint, typecheck y `test:e2e`; este último exporta el build Web real de Godot y construye Astro antes de Playwright. Un fallo devuelve un código de salida distinto de cero y cancela el push normal mediante `.githooks/pre-push` (Git permite omitirlo con `--no-verify`).
+
+**EN.** Run `npx playwright install chromium` once after installing dependencies, then run `npm run verify:local` before every push or PR. The command runs, in order, `test:godot`, unit tests, lint, typecheck, and `test:e2e`; the latter exports the real Godot Web build and builds Astro before Playwright. A failure returns a non-zero exit code and cancels a normal push through `.githooks/pre-push` (Git allows bypassing it with `--no-verify`).
+
+**ES.** La validación completa, incluido Playwright/Godot E2E, se aplica localmente. El CI obligatorio de GitHub ejecuta `test:godot`, tests unitarios, lint, typecheck y build. El workflow **ANTONIOMDM OS · manual browser E2E** conserva los E2E Playwright/Godot para ejecuciones manuales desde la pestaña Actions mientras se investiga la diferencia de entorno.
+
+**EN.** Complete validation, including Playwright/Godot E2E, is enforced locally. Required GitHub CI runs `test:godot`, unit tests, lint, typecheck, and build. The **ANTONIOMDM OS · manual browser E2E** workflow retains Playwright/Godot E2E for manual runs from the Actions tab while the environment difference is investigated.
 
 Click, double click, tap or Enter on desktop icons. Drag the titlebar, resize at edges, use window controls, or move with Alt+arrows and resize with Alt+Shift+arrows. Escape minimizes; Alt+L opens the launcher. Mobile apps fill the workspace. Audio is off by default.
 
