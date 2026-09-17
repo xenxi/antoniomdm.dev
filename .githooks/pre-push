@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Verificación completa local antes de subir cambios. / Full local verification before pushing changes.
+exec npm run verify:local
