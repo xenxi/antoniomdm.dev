@@ -1,0 +1,88 @@
+# AntoñiOS
+
+## Modelo profesional público
+
+Antonio Manuel Díaz Moreno
+Software Architect | Senior .NET Engineer
+Sistemas distribuidos · Modernización legacy · Rendimiento · Observabilidad · IA aplicada
+
+Arquitecto de software hands-on y Senior .NET Engineer con más de 12 años de experiencia profesional. Diseño, modernizo e implemento sistemas complejos, y sigo sus decisiones desde discovery y descomposición del problema hasta testing, entrega, observabilidad y diagnóstico en producción.
+
+## Experiencia
+- Domingo Alonso Group — Desarrollador sénior .NET / Arquitecto de software (Julio de 2021 — Actualidad): Arquitectura e ingeniería sénior hands-on con responsabilidad desde discovery y diseño hasta revisión, entrega, observabilidad y seguimiento en producción.
+- Anexia Tecnologías y Consultoría — Desarrollador sénior .NET / Ingeniero Full Stack (Diciembre de 2017 — Julio de 2021): Responsabilidad end-to-end sobre aplicaciones, desde requisitos y análisis funcional/técnico hasta arquitectura, backend, frontend, móvil, despliegue y soporte.
+- Vector ITC Group — Desarrollador .NET (Mayo de 2017 — Diciembre de 2017): Automatización de procesos e informes, sistemas de campañas y NLP/ML clásico con métodos léxicos, Bag of Words, TF-IDF y Naive Bayes.
+- Nokia — Desarrollador .NET (Enero de 2016 — Mayo de 2017): Evolución de herramientas CAD hacia una plataforma GIS para modelado, validación, costes y diseños preliminares de redes de telecomunicaciones.
+- Alcatel-Lucent Enterprise — Desarrollador .NET (Septiembre de 2014 — Enero de 2016): Automatización, plataforma interna e integraciones CAD con reglas de validación de ingeniería mediante .NET, C#, VB y componentes web.
+- Profesional independiente — Desarrollador web (Junio de 2013 — Octubre de 2014): Maquetación y desarrollo web para clientes y entrega de sitios públicos.
+- La Salle — Técnico de sistemas en prácticas (Octubre de 2013 — Febrero de 2014): Instalación y mantenimiento de sistemas y trabajo básico con Windows Server.
+- Signlab Nuevas Tecnologías — Desarrollador Android en prácticas (Enero de 2013 — Abril de 2013): Aplicaciones Android para experiencias relacionadas con museos y componentes de interacción sobre imágenes.
+- XUL Comunicación Social — Desarrollador Android en prácticas (Octubre de 2012 — Diciembre de 2012): Desarrollo temprano de aplicaciones Android y componentes móviles reutilizables.
+
+## Competencias
+- Arquitectura de software — PRIMARY / STRONG; CURRENT
+- .NET / Backend C# — PRIMARY / STRONG; CURRENT
+- Análisis funcional / técnico — PRIMARY / STRONG; CURRENT
+- Descomposición de problemas / diseño de soluciones — PRIMARY / STRONG; CURRENT
+- Modernización de sistemas heredados — PRIMARY / STRONG; CURRENT
+- Testing / Ingeniería de calidad — PRIMARY / STRONG; CURRENT
+- Liderazgo técnico — PRIMARY / STRONG; CURRENT
+- Responsabilidad end-to-end — PRIMARY / STRONG; CURRENT
+- Sistemas distribuidos — STRONG / CURRENT; CURRENT
+- Arquitectura orientada a eventos — STRONG / CURRENT; CURRENT
+- Ingeniería de rendimiento — STRONG / CURRENT; CURRENT
+- SQL / Arquitectura de datos — STRONG / CURRENT; CURRENT
+- Observabilidad / Diagnóstico en producción — STRONG / CURRENT; CURRENT
+- Plataforma de aplicaciones Azure / CI-CD — STRONG / CURRENT; CURRENT
+- Full Stack / Frontend — STRONG / SECONDARY; RECENT_RETURNING
+- Móvil / Multiplataforma — STRONG / SECONDARY; PROFESSIONAL_HISTORICAL_CURRENT_PERSONAL
+- IA aplicada — STRONG / CURRENT; CURRENT
+- Ingeniería con agentes — STRONG / CURRENT; CURRENT
+- Arquitectura de producto con agentes — EMERGING / CURRENT; CURRENT
+
+## Logros confirmados
+- Feedback de la suite de integración: La mayor suite de integración pasó de aproximadamente 60 minutos a aproximadamente 2 minutos.
+- Menos llamadas síncronas por evento: Los eventos resumen eliminaron aproximadamente 1–2 llamadas API síncronas por evento relevante.
+- Lecturas aisladas del dato transaccional: La representación de lectura redujo presión y bloqueo en datos operativos; el estado exacto sigue en la fuente autoritativa.
+- Modernización con retorno seguro: La extracción progresiva de precios de accesorios conservó el comportamiento legacy como vía estable de retorno.
+
+## Proyectos
+- [Platform934](https://antoniomdm.dev/projects/platform934/): Quería una forma propia de recorrer mi biblioteca de Jellyfin desde el móvil, la web y el sofá. El mando de la tele acabó abriendo unas cuantas tareas más.
+  implemented: Núcleo multimedia · implemented: Experiencia TV · implemented: Flujo de ingeniería con agentes · implemented: API y agente con herramientas · in_progress: Control entre dispositivos
+- [Platform934 API](https://antoniomdm.dev/projects/platform934-api/): Un backend privado para conversar sobre mi biblioteca y pedir recomendaciones o listas. La puerta de enlace del agente conecta esas conversaciones con operaciones concretas de Jellyfin.
+  
+- [Stream Optimizer](https://antoniomdm.dev/projects/stream-optimizer/): El mantenimiento de una biblioteca multimedia tiene bastante trabajo repetitivo. Stream Optimizer reúne flujos de n8n y un worker de FFmpeg para automatizar trailers, normalización y transcodificación.
+  
+- [Devagon Alley](https://antoniomdm.dev/projects/devagon-alley/): Mis aplicaciones también necesitaban un sitio desde el que descargarse y actualizarse. Devagon Alley es ese pequeño servicio de distribución privada: acceso, catálogo, versiones y descargas.
+  
+- [Luna Tartas](https://antoniomdm.dev/projects/luna-tartas/): Una web para los regalos hechos a mano de Luna: tartas de pañales, papelería y detalles personalizados. El catálogo organiza los productos por tipo, ocasión y destinatario.
+  
+- [Koso](https://antoniomdm.dev/projects/koso/): Cosas originales que pasan de una idea a un objeto. Koso reúne productos físicos y personalizados en una tienda propia, con impresión 3D entre las formas de fabricarlos.
+  
+- [Luna Studio](https://antoniomdm.dev/projects/luna-studio/): Editar el catálogo de Luna desde una aplicación: productos, imágenes, inventario y publicación. Luna Studio es el backoffice privado en Flutter que conecta ese trabajo con la web.
+  
+- [AntoñiOS](https://antoniomdm.dev/projects/antonios/): Un portfolio al que le salieron ventanas, terminal y un sistema operativo ficticio. Quería que recorrerlo también tuviera algo de exploración. Estás dentro.
+  
+- [bio-cli / bio-dev-card](https://antoniomdm.dev/projects/bio-cli/): Una pequeña tarjeta profesional para abrir en la terminal. Node.js y TypeScript, unas preguntas y los enlaces a mano.
+  
+
+## Casos de arquitectura
+- [Modelo de lectura de vehículos](https://antoniomdm.dev/architecture/): Una proyección de lectura redujo presión sobre una ruta legacy mientras la modernización avanzaba de forma incremental.
+- [Infraestructura de testing](https://antoniomdm.dev/architecture/): Mejoras sucesivas convirtieron fricción de testing legacy en patrones reutilizables y feedback más rápido.
+- [Eventos resumen](https://antoniomdm.dev/architecture/): Contexto relevante en eventos resumen redujo el enriquecimiento síncrono de consumidores afectados.
+- [Modernización gradual del legado](https://antoniomdm.dev/architecture/): Un marco cualitativo ajusta la intervención a criticidad y frecuencia esperada de cambio.
+- [Límites distribuidos y DDD pragmático](https://antoniomdm.dev/architecture/): Dos casos profesionales de simplificación y un patrón recurrente: modelar con más riqueza donde el dominio lo justifica.
+- [Agente para diagnóstico de incidencias](https://antoniomdm.dev/architecture/): Un flujo con herramientas conecta traceId, telemetría, conocimiento, código e informe sin conceder remediación autónoma.
+
+## AI Lab
+- IA para ingeniería: Agentes supervisados para discovery, planificación, comprensión de código y legado, implementación, testing, diagnóstico de CI y revisión técnica.
+- IA dentro del software / Diagnóstico de incidencias: Orquestación desde traceId a telemetría, conocimiento documentado, inspección de código, diagnóstico e informe; sin remediación autónoma.
+
+## Notas
+- [AntoñiOS: diario de los cimientos](https://antoniomdm.dev/notes/os-foundation/): El primer hito de un portfolio construido como un sistema operativo web.
+
+## Enlaces verificados
+- GitHub: https://github.com/xenxi
+- Sitio web: https://antoniomdm.dev
+- LinkedIn: https://www.linkedin.com/in/antoniomanueldiazmoreno
+- Correo electrónico: mailto:antoniom.diaz.moreno@gmail.com

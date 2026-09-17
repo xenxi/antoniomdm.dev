@@ -1,0 +1,88 @@
+# AntoñiOS
+
+## Public professional model
+
+Antonio Manuel Díaz Moreno
+Software Architect | Senior .NET Engineer
+Distributed Systems · Legacy Modernization · Performance · Observability · Applied AI
+
+Hands-on Software Architect and Senior .NET Engineer with more than 12 years of professional experience. I design, modernize and implement complex systems, following decisions from discovery and problem decomposition through testing, delivery, observability and production diagnosis.
+
+## Experience
+- Domingo Alonso Group — Senior .NET Developer / Software Architect (July 2021 — Present): Hands-on senior architecture and engineering spanning discovery and design through review, delivery, observability and production follow-through.
+- Anexia Tecnologías y Consultoría — Senior .NET Developer / Full Stack Engineer (December 2017 — July 2021): End-to-end responsibility across applications, from requirements and functional/technical analysis through architecture, backend, frontend, mobile, deployment and support.
+- Vector ITC Group — .NET Developer (May 2017 — December 2017): Process and reporting automation, campaign systems, and classic NLP/ML using lexical methods, Bag of Words, TF-IDF and Naive Bayes.
+- Nokia — .NET Developer (January 2016 — May 2017): Evolution of CAD tools into a GIS-like platform for telecom network modelling, validation, costing and preliminary designs.
+- Alcatel-Lucent Enterprise — .NET Developer (September 2014 — January 2016): Automation, an internal platform and CAD integrations with engineering validation rules using .NET, C#, VB and web components.
+- Freelance — Web Developer (June 2013 — October 2014): Web layout and development for clients, delivering public-facing websites.
+- La Salle — Systems Technician Intern (October 2013 — February 2014): Systems installation and maintenance, with basic Windows Server work.
+- Signlab Nuevas Tecnologías — Android Developer Intern (January 2013 — April 2013): Android applications for museum-related experiences and interactive image components.
+- XUL Comunicación Social — Android Developer Intern (October 2012 — December 2012): Early Android application development and reusable mobile components.
+
+## Competencies
+- Software Architecture — PRIMARY / STRONG; CURRENT
+- .NET / C# Backend — PRIMARY / STRONG; CURRENT
+- Functional / Technical Analysis — PRIMARY / STRONG; CURRENT
+- Problem Decomposition / Solution Shaping — PRIMARY / STRONG; CURRENT
+- Legacy Modernization — PRIMARY / STRONG; CURRENT
+- Testing / Quality Engineering — PRIMARY / STRONG; CURRENT
+- Technical Leadership — PRIMARY / STRONG; CURRENT
+- End-to-end Ownership — PRIMARY / STRONG; CURRENT
+- Distributed Systems — STRONG / CURRENT; CURRENT
+- Event-driven Architecture — STRONG / CURRENT; CURRENT
+- Performance Engineering — STRONG / CURRENT; CURRENT
+- SQL / Data Architecture — STRONG / CURRENT; CURRENT
+- Observability / Production Diagnostics — STRONG / CURRENT; CURRENT
+- Azure Application Platform / CI-CD — STRONG / CURRENT; CURRENT
+- Full Stack / Frontend — STRONG / SECONDARY; RECENT_RETURNING
+- Mobile / Multiplatform — STRONG / SECONDARY; PROFESSIONAL_HISTORICAL_CURRENT_PERSONAL
+- Applied AI — STRONG / CURRENT; CURRENT
+- Agentic Engineering — STRONG / CURRENT; CURRENT
+- Agentic Product Architecture — EMERGING / CURRENT; CURRENT
+
+## Confirmed achievements
+- Integration-suite feedback: The largest integration suite changed from approximately 60 minutes to approximately 2 minutes.
+- Fewer synchronous calls per event: Summary events removed approximately 1–2 synchronous API calls per relevant event.
+- Reads isolated from transactional data: The read representation reduced pressure and blocking on operational data; exact state stays at the authoritative source.
+- Modernization with a safe fallback: Progressive accessory-pricing extraction retained legacy behaviour as a stable fallback.
+
+## Projects
+- [Platform934](https://antoniomdm.dev/en/projects/platform934/): I wanted my own way to browse my Jellyfin library on mobile, on the web and from the sofa. The TV remote ended up adding a few more tasks.
+  implemented: Media core · implemented: TV experience · implemented: Agentic engineering workflow · implemented: API and tool-using agent · in_progress: Cross-device control
+- [Platform934 API](https://antoniomdm.dev/en/projects/platform934-api/): A private backend for talking about my library and asking for recommendations or lists. The agent gateway connects those conversations to concrete Jellyfin operations.
+  
+- [Stream Optimizer](https://antoniomdm.dev/en/projects/stream-optimizer/): Maintaining a media library involves plenty of repetitive work. Stream Optimizer brings together n8n workflows and an FFmpeg worker to automate trailers, normalization and transcoding.
+  
+- [Devagon Alley](https://antoniomdm.dev/en/projects/devagon-alley/): My apps also needed somewhere to download and update themselves. Devagon Alley is that small private application distribution and update service: access, catalogue, versions and downloads.
+  
+- [Luna Tartas](https://antoniomdm.dev/en/projects/luna-tartas/): A website for Luna’s handmade gifts: diaper cakes, stationery and personalized details. The catalogue organizes products by type, occasion and recipient.
+  
+- [Koso](https://antoniomdm.dev/en/projects/koso/): Original things that go from an idea to an object. Koso brings physical and personalized products together in its own store, with 3D printing among the ways to make them.
+  
+- [Luna Studio](https://antoniomdm.dev/en/projects/luna-studio/): Edit Luna’s catalogue from an app: products, images, inventory and publishing. Luna Studio is the private Flutter backoffice connecting that work to the website.
+  
+- [AntoñiOS](https://antoniomdm.dev/en/projects/antonios/): A portfolio that grew windows, a terminal and a fictional operating system. I wanted browsing it to feel a little like exploring. You are inside it.
+  
+- [bio-cli / bio-dev-card](https://antoniomdm.dev/en/projects/bio-cli/): A small professional card to open in the terminal. Node.js and TypeScript, a few prompts and the links at hand.
+  
+
+## Architecture cases
+- [Vehicle read model](https://antoniomdm.dev/en/architecture/): A read projection reduced pressure on a legacy path while modernization continued incrementally.
+- [Testing infrastructure](https://antoniomdm.dev/en/architecture/): Successive improvements turned legacy testing friction into reusable patterns and faster feedback.
+- [Event summaries](https://antoniomdm.dev/en/architecture/): Relevant context in summary events reduced synchronous enrichment for affected consumers.
+- [Incremental legacy modernization](https://antoniomdm.dev/en/architecture/): A qualitative framework adjusts intervention to criticality and expected change frequency.
+- [Distributed boundaries and pragmatic DDD](https://antoniomdm.dev/en/architecture/): Two professional simplification cases and a recurring pattern: richer modelling where domain complexity warrants it.
+- [Incident-diagnosis agent](https://antoniomdm.dev/en/architecture/): A tool-using workflow connects traceId, telemetry, knowledge, code and reporting; no autonomous remediation.
+
+## AI Lab
+- AI for Engineering: Supervised agents for discovery, planning, code and legacy comprehension, implementation, testing, CI diagnosis and technical review.
+- AI inside Software / Incident Diagnosis: Orchestration from traceId through telemetry, documented knowledge, code inspection, diagnosis and reporting; without autonomous remediation.
+
+## Notes
+- [AntoñiOS: foundation log](https://antoniomdm.dev/en/notes/os-foundation/): The first milestone of a portfolio built as a web operating system.
+
+## Verified links
+- GitHub: https://github.com/xenxi
+- Website: https://antoniomdm.dev
+- LinkedIn: https://www.linkedin.com/in/antoniomanueldiazmoreno
+- Email: mailto:antoniom.diaz.moreno@gmail.com

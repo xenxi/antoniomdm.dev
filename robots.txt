@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://antoniomdm.dev/sitemap.xml
