@@ -29,6 +29,7 @@ export default function GodotWorld(props: Props) {
   const prepared = useRef<PixelMap | null>(null);
   const [preparing, setPreparing] = useState(true);
   const [zoom, setZoom] = useState(() => map.art ? 1 : typeof matchMedia === 'function' && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 2 : 1), currentZoom = useRef(zoom); currentZoom.current = zoom;
+  const [reducedMotion, setReducedMotion] = useState(() => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches);
   const syncSequence = useRef(0);
   const lastSentPosition = useRef({ x, y, map: map.id });
   const godotMoveAcknowledgements = useRef(new Set<string>());
@@ -74,7 +75,7 @@ export default function GodotWorld(props: Props) {
     const state = {
       x: p.x, y: p.y, chapterId: p.map.id, active: p.active, locale: p.locale,
       zoom: currentZoom.current, objective: p.objective ?? '',
-      reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
+      reducedMotion,
       syncSequence: sequence, positionOrigin,
       ...(changed ? { map: encoded.current!.data, frames: avatarFrames } : {}),
     };
@@ -178,10 +179,14 @@ export default function GodotWorld(props: Props) {
     const timer = window.setTimeout(() => { if (!ready.current) setStatus(value => value === 'loading' ? 'failed' : value); }, 60000);
     return () => { clearTimeout(timer); window.removeEventListener('message', receive); };
   }, [attempt]);
-  useLayoutEffect(() => { if (ready.current) sync(); }, [x, y, locale, map, active, zoom, props.objective]);
+  useLayoutEffect(() => { if (ready.current) sync(); }, [x, y, locale, map, active, zoom, reducedMotion, props.objective]);
   useEffect(() => {
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
-    const changed = () => { if (ready.current) sync(); };
+    // Keep the bridge state reactive so an in-session preference change is
+    // committed with the same lifecycle as every other renderer input.
+    // Mantiene el estado del puente reactivo para confirmar un cambio de
+    // preferencia durante la sesión con el mismo ciclo que el resto de entradas.
+    const changed = (event: MediaQueryListEvent) => setReducedMotion(event.matches);
     motion.addEventListener('change', changed);
     return () => motion.removeEventListener('change', changed);
   }, []);
