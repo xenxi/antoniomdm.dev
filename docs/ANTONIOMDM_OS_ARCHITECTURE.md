@@ -67,7 +67,9 @@ M1 has one small note. Before a large archive is added, load article bodies on d
 
 ## Persistence, effects and audio
 
-Only validated preferences live under `antoniomdm-os:preferences:v1`: wallpaper, effects, sound, music and UI sounds. All audio defaults off; invalid/unavailable storage falls back safely. Window instances and geometry deliberately remain session-local. Reset replaces runtime windows/preferences with defaults and opens Welcome.
+**ES.** Solo las preferencias validadas viven bajo `antoniomdm-os:preferences:v2`: fondo, efectos, sonido, música y sonidos de interfaz. Medianoche es el fondo predeterminado; los efectos, el sonido y la música empiezan activos, mientras que los sonidos de interfaz empiezan desactivados. Un almacenamiento inválido o no disponible utiliza valores seguros. Las ventanas y su geometría permanecen deliberadamente en la sesión. Restablecer aplica los valores predeterminados y abre Bienvenida.
+
+**EN.** Only validated preferences live under `antoniomdm-os:preferences:v2`: wallpaper, effects, sound, music and UI sounds. Midnight is the default wallpaper; effects, sound and music start enabled, while UI sounds start disabled. Invalid or unavailable storage falls back safely. Window instances and geometry deliberately remain session-local. Reset applies the defaults and opens Welcome.
 
 Short CSS entry/focus/launcher effects respect prefers-reduced-motion and Settings. M1 close/minimize and maximize geometry commit immediately; dedicated exit/dock/geometric animation choreography is a documented polish item. Optional UI sounds use a tiny native Web Audio oscillator. Arcade audio requires Sound and Music preferences plus explicit Play, and is released on exit.
 

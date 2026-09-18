@@ -128,7 +128,7 @@ function AiLabCase({ item }: { item: CaseItem }) {
   const { locale, href } = useLocale();
   const l = (value: Localized) => value[locale];
   const related = item.related ?? [];
-  return <article class="ai-lab ai-lab-case" data-ai-lab data-ai-lab-case={item.id}>
+  return <article class="ai-lab ai-lab-case" data-ai-lab data-ai-lab-case={item.id} data-ai-lab-case-name={item.title}>
     <a class="back-link" href={href('/ai-lab/')}>{l(aiLabLanding.backToLab)}</a>
     <header class="ai-lab-case-header">
       <p class="eyebrow">{item.eyebrow}</p>

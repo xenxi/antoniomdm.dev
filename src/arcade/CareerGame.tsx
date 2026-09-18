@@ -15,6 +15,7 @@ import { buildings, townCopy, townSpawn } from './town';
 import { makePixelMap, mapNearby, mapWalkable } from './pixel-map';
 import { hiringRequirements, gameSkills } from './recruitment';
 import { WorldAudio, type WorldSound } from './world-audio';
+import { trackEvent } from '../lib/analytics/tracking';
 
 function Modal({ title, children, close }: { title: string; children: ComponentChildren; close: () => void }) {
   const { locale, href } = useLocale();
@@ -210,18 +211,24 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
     return () => window.clearTimeout(timer);
   }, [inside, loaded, screen, modal, hidden, chapter.id, p.mission, completed, p.completedEvents.length, quickId]);
   function menu() { setQuickGame(null); setQuickId(''); setScreen('menu'); setModal(null); setEvent(null); setFeedback(''); }
+  function recordGameStart() {
+    trackEvent({ name: 'arcade_game_start', params: { game_id: 'job-route', language: locale } });
+  }
   function launchQuick(id: string) {
     const run = newQuickMission(id, selectedChapter); if (!run) return;
+    recordGameStart();
     unlockEffects(); playMusic(); interruptedMission.current = false;
     setQuickGame(run); setQuickId(id); setSelectedChapter(run.chapterId); setSelectedMission(id);
     setEvent(null); setFeedback(''); setNotice(''); setScreen('game'); setModal('mission');
   }
   function start(id = chapters[0].id, reset = false) {
+    const startsRun = screen === 'menu' || reset;
     unlockEffects();
     if (screen === 'menu') setWorldReady(false);
     if (!reset && !chapterUnlocked(game, id)) { inspectHiring(id); return; }
     if (!reset) worldSound('open');
     interruptedMission.current = false;
+    if (startsRun) recordGameStart();
     setGame(value => reset ? newGame() : enterCompany(value, id)); setHasSave(true); setScreen('game'); setModal(null); setEvent(null); setFeedback(''); setNotice(reset ? tc('hint') : c('terminalHint'));
     requestAnimationFrame(() => host.current?.querySelector<HTMLElement>('.godot-world')?.focus());
   }
@@ -320,7 +327,7 @@ export default function CareerGame({ data, preferences, exit }: ArcadeProps) {
       <a data-native-navigation href={href('/profile/')}>{c('profile')} ↗</a><a data-language href={`${localizedPath('/arcade/', locale === 'es' ? 'en' : 'es')}?career=continue${quickId ? `&mission=${encodeURIComponent(quickId)}&chapter=${encodeURIComponent(game.chapterId)}` : ''}`} lang={locale === 'es' ? 'en' : 'es'} aria-label={locale === 'es' ? 'English' : 'Español'}>{locale === 'es' ? 'EN' : 'ES'}</a><button onClick={exit}>{c('exit')}</button>
     </nav></header>
     {screen === 'menu' && <>
-      <div class="career-hero"><img class="job-cover-art" src="/images/job-route/neon-city.webp" width="1536" height="1024" alt="" /><div class="career-hero-copy"><p class="eyebrow">{hudCopy.edition[locale]}</p><h1 class="job-title">JOB<br />ROUTE<span aria-hidden="true">»</span></h1><p class="job-tagline">{hudCopy.tagline[locale]}</p><p class="career-lead">{c('intro')}</p><div class="career-start"><button class="career-primary" onClick={() => hasSave ? setModal('reset') : start(chapters[0].id, true)}>{c('start')} <span aria-hidden="true">↗</span></button><button disabled={!hasSave} onClick={() => { setScreen('game'); setNotice(inside ? c('terminalHint') : tc('hint')); }}>{c('continue')}</button><button onClick={() => { setMenuMode('quick'); requestAnimationFrame(() => host.current?.querySelector('.career-mission-select')?.scrollIntoView({ block: 'center' })); }}>{c('quickMode')} →</button><button onClick={() => { setTourSeconds(0); setScreen('tour'); }}>{c('tour')}</button></div><p class="career-premise">{c('premise')}</p></div><div class="career-hero-scene"><div class="job-cover-id"><img src="/images/job-route/antonio-portrait.webp" width="96" height="96" alt="" /><span><strong>ANTONIO</strong><small>{tc('avatar')}</small></span></div></div></div>
+      <div class="career-hero"><img class="job-cover-art" src="/images/job-route/neon-city.webp" width="1536" height="1024" alt="" /><div class="career-hero-copy"><p class="eyebrow">{hudCopy.edition[locale]}</p><h1 class="job-title">JOB<br />ROUTE<span aria-hidden="true">»</span></h1><p class="job-tagline">{hudCopy.tagline[locale]}</p><p class="career-lead">{c('intro')}</p><div class="career-start"><button class="career-primary" onClick={() => hasSave ? setModal('reset') : start(chapters[0].id, true)}>{c('start')} <span aria-hidden="true">↗</span></button><button disabled={!hasSave} onClick={() => { recordGameStart(); setScreen('game'); setNotice(inside ? c('terminalHint') : tc('hint')); }}>{c('continue')}</button><button onClick={() => { setMenuMode('quick'); requestAnimationFrame(() => host.current?.querySelector('.career-mission-select')?.scrollIntoView({ block: 'center' })); }}>{c('quickMode')} →</button><button onClick={() => { setTourSeconds(0); setScreen('tour'); }}>{c('tour')}</button></div><p class="career-premise">{c('premise')}</p></div><div class="career-hero-scene"><div class="job-cover-id"><img src="/images/job-route/antonio-portrait.webp" width="96" height="96" alt="" /><span><strong>ANTONIO</strong><small>{tc('avatar')}</small></span></div></div></div>
       <div class="career-mode-switch" role="group" aria-label={c('selectMission')}><button aria-pressed={menuMode === 'campaign'} onClick={() => setMenuMode('campaign')}>{c('campaignMode')}</button><button aria-pressed={menuMode === 'quick'} onClick={() => setMenuMode('quick')}>{c('quickMode')}</button></div>
       {menuMode === 'quick' && <section class="career-mission-select" aria-labelledby="quick-title"><div><p class="eyebrow">ARCADE</p><h2 id="quick-title">{c('quickMode')}</h2><p>{c('quickIntro')}</p><label><span id="quick-company-label">{c('selectCompany')}</span><select aria-labelledby="quick-company-label" value={selectedChapter} onChange={e => { const id = e.currentTarget.value; setSelectedChapter(id); setSelectedMission(chapters.find(chapter => chapter.id === id)!.missions[0]); }}>{chapters.map(chapter => <option key={chapter.id} value={chapter.id}>{chapter.id === 'system-recovery' ? 'System Recovery' : data.professionalExperience.find(job => job.id === chapter.experienceId)!.company}</option>)}</select></label><div class="quick-mission-list" role="group" aria-label={c('selectMission')}>{chapters.find(chapter => chapter.id === selectedChapter)!.missions.map((id, index) => <button key={id} data-quick-mission={id} aria-pressed={id === selectedMission} onClick={() => setSelectedMission(id)}><span>{String(index + 1).padStart(2, '0')}</span>{missionById[id].title[locale]}</button>)}</div></div><aside><p class="eyebrow">{companyScenes[selectedChapter].title[locale]}</p><h3>{missionById[selectedMission].title[locale]}</h3><p>{missionById[selectedMission].briefing[locale]}</p><p class="quick-duration">◷ {missionById[selectedMission].seconds ?? 90}s · {qc('timer')}</p><button class="career-primary" onClick={() => launchQuick(selectedMission)}>{c('launchMission')} →</button></aside></section>}
       {menuMode === 'campaign' && <section class="career-chapters" aria-labelledby="career-chapters-title"><div class="career-section-heading"><h2 id="career-chapters-title">{c('chapters')}</h2><p>{c('independent')}</p></div><div class="career-chapter-grid">{chapters.map((item, index) => {

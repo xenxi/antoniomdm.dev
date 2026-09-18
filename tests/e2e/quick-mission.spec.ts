@@ -67,7 +67,7 @@ test('music defaults on, pauses and honors saved mute', async ({ page }) => {
   await page.locator('.career-paused button').click(); await expect.poll(playing).toBe(true);
   await page.getByRole('button', { name: '← Return to desktop', exact: true }).click();
   await expect.poll(playing).toBe(false);
-  await page.evaluate(() => localStorage.setItem('antoniomdm-os:preferences:v1', JSON.stringify({ sound: true, music: false })));
+  await page.evaluate(() => localStorage.setItem('antoniomdm-os:preferences:v2', JSON.stringify({ sound: true, music: false })));
   await page.goto('/en/arcade/'); await page.locator('.arcade-launcher button').click();
   await expect(page.getByText('Music disabled in Settings', { exact: true })).toBeVisible();
   expect(await playing()).toBe(false);

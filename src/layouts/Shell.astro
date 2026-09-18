@@ -7,6 +7,7 @@ import '../styles/aura.css';
 import '../styles/projects.css';
 import { basePath, localeForPath, localizedPath, translator } from '../i18n/core';
 import { getUiData } from '../data/ui';
+import AnalyticsConsent from '../components/AnalyticsConsent.astro';
 interface Props { path: string; content: ContentData }
 const { path, content } = Astro.props;
 const meta = pageMetadata(path, content);
@@ -51,5 +52,6 @@ const initialContent = { notes: content.notes.map(note => ({ ...note, html: base
     <a class="skip-link" href="#desktop">{t('Skip to desktop content')}</a>
     <a class="reading-exit no-print" href={localizedPath(path, locale)}>{t('Exit reading view')}</a>
     <Desktop path={path} content={initialContent} data={uiData} client:load />
+    <AnalyticsConsent locale={locale} />
   </body>
 </html>

@@ -17,6 +17,8 @@ import Icon from './Icon';
 import AntoniosBrand from './AntoniosBrand';
 import { DesktopHint, DesktopStatus } from './DesktopPanels';
 import { PublicShortcuts } from './Profile';
+import { routeViewEvent, sourceSectionForPath } from '../lib/analytics/route-events';
+import { trackEvent, trackPageNavigation } from '../lib/analytics/tracking';
 
 const initialViewport = { width: 1440, height: 850 };
 export default function Desktop({ path, content, data }: { path: string; content: ContentData; data: UiData }) {
@@ -61,6 +63,7 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
   const initialLayout = useRef(true);
   const audioContext = useRef<AudioContext | null>(null);
   const modeGeneration = useRef(0);
+  const currentPath = useRef(normalizePath(path));
   const knownPath = (value: string) => data.knownPaths.includes(value);
   function syncMetadata(value: string) {
     const metadata = data.metadata[value]; if (!metadata) return;
@@ -75,8 +78,21 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
     for (const lang of ['es', 'en', 'x-default'] as const) document.querySelector(`link[hreflang="${lang}"]`)?.setAttribute('href', `https://antoniomdm.dev${localizedPath(value, lang === 'x-default' ? 'es' : lang)}`);
   }
   function syncUrl(value: string) {
-    if (normalizePath(location.pathname) !== href(value)) history.pushState({}, '', href(value));
+    const next = normalizePath(value);
+    const changed = currentPath.current !== next;
+    if (changed) history.pushState({}, '', href(next));
+    currentPath.current = next;
     syncMetadata(value);
+    return changed;
+  }
+  function trackNavigation(value: string, sourcePath: string) {
+    const next = normalizePath(value);
+    trackPageNavigation({
+      pagePath: href(next),
+      pageTitle: document.title,
+      language: locale,
+      viewEvent: routeViewEvent(next, locale, data, loadedContent, sourceSectionForPath(sourcePath)),
+    });
   }
   function sound() {
     if (!preferences.sound || !preferences.uiSounds) return;
@@ -91,13 +107,23 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
   function open(value: string) {
     const next = normalizePath(value); const id = appForPath(next);
     if (!id || !knownPath(next)) return;
+    const sourcePath = currentPath.current;
     void loadNote(next); dispatch({ type: 'open', id, path: next, viewport: viewportRef.current });
-    syncUrl(next); setLauncher(false); setSearch(''); sound();
+    const changed = syncUrl(next);
+    if (changed) {
+      trackNavigation(next, sourcePath);
+      if (next === registry[id].path && id !== 'lab' && id !== 'arcade') {
+        trackEvent({ name: 'app_open', params: { app_id: id, language: locale } });
+      }
+    }
+    setLauncher(false); setSearch(''); sound();
   }
   function act(action: WindowAction) {
     const next = windowReducer(state, action); dispatch(action);
     if ('id' in action && ['focus', 'restore', 'maximize', 'close', 'minimize'].includes(action.type)) {
-      syncUrl(next.openWindows.find(win => win.id === next.activeWindowId)?.path ?? '/');
+      const sourcePath = currentPath.current;
+      const nextPath = next.openWindows.find(win => win.id === next.activeWindowId)?.path ?? '/';
+      if (syncUrl(nextPath)) trackNavigation(nextPath, sourcePath);
     }
     if (action.type === 'close' || action.type === 'minimize') {
       requestAnimationFrame(() => {
@@ -145,8 +171,14 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
     connectivity(); window.addEventListener('online', connectivity); window.addEventListener('offline', connectivity);
     const pop = () => {
       modeGeneration.current++; setMode('desktop'); setLauncher(false);
+      const sourcePath = currentPath.current;
       const next = normalizePath(basePath(location.pathname)); const id = appForPath(next);
-      if (id) { dispatch({ type: 'open', id, path: next, viewport: viewportRef.current }); syncMetadata(next); }
+      if (id) {
+        dispatch({ type: 'open', id, path: next, viewport: viewportRef.current });
+        currentPath.current = next;
+        syncMetadata(next);
+        trackNavigation(next, sourcePath);
+      }
     };
     window.addEventListener('popstate', pop);
     // Retire the old Flutter cache without touching unrelated origin caches.
@@ -161,7 +193,7 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
     const url = new URL(anchor.href, location.href); const next = normalizePath(basePath(url.pathname));
     if (url.origin === location.origin && !url.search && !url.hash && knownPath(next)) { event.preventDefault(); open(next); }
   }
-  function reset() { dispatch({ type: 'reset' }); dispatch({ type: 'open', id: 'about', viewport }); setPreferences({ ...defaults }); syncUrl('/'); setNotice(t("Desktop and preferences reset.")); }
+  function reset() { const sourcePath = currentPath.current; dispatch({ type: 'reset' }); dispatch({ type: 'open', id: 'about', viewport }); setPreferences({ ...defaults }); if (syncUrl('/')) trackNavigation('/', sourcePath); setNotice(t("Desktop and preferences reset.")); }
   function closeLauncher() { setLauncher(false); launcherButton.current?.focus(); }
   function toggleLauncher() { const next = !launcherRef.current; setLauncher(next); if (!next) launcherButton.current?.focus(); }
   useEffect(() => {

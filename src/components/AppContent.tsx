@@ -33,7 +33,7 @@ export default function AppContent(props: Props) {
   }
   if (id === 'notes') {
     const note = content.notes.find(note => path === `/notes/${note.slug}/`);
-    return note ? <article class="prose"><a class="back-link" href={href("/notes/")}>{t("← All notes")}</a><p class="eyebrow">{note.date.slice(0, 10)} / {note.readingTime} {t("MIN READ")}</p><h1>{note.title}</h1><div class="tags">{note.tags.map(tag => <span key={tag}>{tag}</span>)}</div><div data-note-body dangerouslySetInnerHTML={{ __html: note.html || `<p>${t("Loading article…")}</p>` }} />{!note.html && <a href={href(`${path}?view=reading`)}>{t("Reading view ↗")}</a>}</article> : <><p class="eyebrow">{t("NOTES / THE OPEN NOTEBOOK")}</p><h1>{t("Thinking out loud.")}</h1><p class="muted">{t("Notes on software and the things I build.")}</p>{content.notes.map(note => <a class="note-card" key={note.slug} href={href(`/notes/${note.slug}/`)}><p class="eyebrow">{note.date.slice(0, 10)} / {note.readingTime} {t("MIN READ")}</p><h2>{note.title} ↗</h2><p>{note.description}</p><div class="tags">{note.tags.map(tag => <span key={tag}>{tag}</span>)}</div></a>)}<a class="back-link" href={href("/rss.xml")}>{t("Subscribe via RSS ↗")}</a></>;
+    return note ? <article class="prose" data-note-slug={note.slug}><a class="back-link" href={href("/notes/")}>{t("← All notes")}</a><p class="eyebrow">{note.date.slice(0, 10)} / {note.readingTime} {t("MIN READ")}</p><h1>{note.title}</h1><div class="tags">{note.tags.map(tag => <span key={tag}>{tag}</span>)}</div><div data-note-body dangerouslySetInnerHTML={{ __html: note.html || `<p>${t("Loading article…")}</p>` }} />{!note.html && <a href={href(`${path}?view=reading`)}>{t("Reading view ↗")}</a>}</article> : <><p class="eyebrow">{t("NOTES / THE OPEN NOTEBOOK")}</p><h1>{t("Thinking out loud.")}</h1><p class="muted">{t("Notes on software and the things I build.")}</p>{content.notes.map(note => <a class="note-card" key={note.slug} href={href(`/notes/${note.slug}/`)}><p class="eyebrow">{note.date.slice(0, 10)} / {note.readingTime} {t("MIN READ")}</p><h2>{note.title} ↗</h2><p>{note.description}</p><div class="tags">{note.tags.map(tag => <span key={tag}>{tag}</span>)}</div></a>)}<a class="back-link" href={href("/rss.xml")}>{t("Subscribe via RSS ↗")}</a></>;
   }
   if (id === 'architecture') return <Architecture path={path} data={data} />;
   if (id === 'lab') return <AiLab path={path} />;
@@ -45,7 +45,7 @@ export default function AppContent(props: Props) {
 function ProjectDetail({ project }: { project: DisplayProject }) {
   const { href, locale } = useLocale();
   const es = locale === 'es';
-  return <article class={`project-detail project-depth-${project.depth}`}>
+  return <article class={`project-detail project-depth-${project.depth}`} data-project-detail data-project-id={project.id} data-project-name={project.name}>
     <a class="back-link" href={href('/projects/')}>{es ? '← Todos los proyectos' : '← All projects'}</a>
     <header class="project-detail-header">
       <p class="eyebrow">{es ? 'PROYECTOS /' : 'PROJECTS /'} {project.categoryLabel}</p>

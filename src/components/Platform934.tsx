@@ -13,7 +13,7 @@ export default function Platform934({ data }: { data: UiData }) {
   const { locale, href } = useLocale(); const p = getPlatform934(locale); const es = locale === 'es';
   const project = data.portfolio.projects.find(project => project.id === 'platform934')!;
   const l = (spanish: string, english: string) => es ? spanish : english;
-  return <article class="platform934" data-platform934>
+  return <article class="platform934" data-platform934 data-project-detail data-project-id={project.id} data-project-name={project.name}>
     <a class="back-link" href={href('/projects/')}>← {l('Todos los proyectos', 'All projects')}</a>
     <header class="platform-hero"><p class="eyebrow">{p.eyebrow}</p><img class="project-logo" src={project.logo!.src} width={project.logo!.width} height={project.logo!.height} alt="" /><h1>{p.title}</h1><p class="lead">{project.description}</p><div class="tags">{p.technologies.map(technology => <span key={technology}>{technology}</span>)}</div></header>
     <ProjectGallery images={project.images} />

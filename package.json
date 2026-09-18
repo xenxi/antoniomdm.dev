@@ -19,6 +19,7 @@
     "test:godot": "node scripts/test-godot.mjs",
     "pretest:e2e": "npm run build:godot && npm run build",
     "test:e2e": "playwright test",
+    "test:analytics-browser": "node scripts/verify-analytics-browser.mjs",
     "verify:local": "npm run test:godot && npm test && npm run lint && npm run typecheck && npm run test:e2e",
     "prepare": "node scripts/setup-git-hooks.mjs",
     "check": "npm run lint && npm run typecheck && npm test && npm run build",

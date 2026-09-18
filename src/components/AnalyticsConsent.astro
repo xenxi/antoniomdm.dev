@@ -1,0 +1,78 @@
+---
+import type { Locale } from '../i18n/core';
+import { analyticsConfig } from '../lib/analytics/config';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const copy = locale === 'es' ? {
+  title: 'Medición opcional',
+  description: 'Google Analytics me ayuda a conocer las visitas y las páginas consultadas. Google sólo se carga si aceptas; la medición no afecta a la navegación.',
+  privacy: 'Privacidad de Google',
+  reject: 'Rechazar',
+  accept: 'Aceptar medición',
+  settings: 'Configurar analítica',
+  granted: 'Medición de Google Analytics activada.',
+  denied: 'Medición de Google Analytics desactivada.',
+} : {
+  title: 'Optional measurement',
+  description: 'Google Analytics helps me understand visits and viewed pages. Google only loads if you accept; measurement does not affect navigation.',
+  privacy: 'Google privacy',
+  reject: 'Reject',
+  accept: 'Allow measurement',
+  settings: 'Analytics settings',
+  granted: 'Google Analytics measurement enabled.',
+  denied: 'Google Analytics measurement disabled.',
+};
+---
+
+{analyticsConfig.enabled && (
+  <div
+    id="analytics-consent"
+    class="analytics-consent no-print"
+    data-analytics-consent-state="pending"
+  >
+    <aside
+      id="analytics-consent-panel"
+      class="analytics-consent__panel"
+      aria-labelledby="analytics-consent-title"
+      aria-describedby="analytics-consent-description"
+      tabindex="-1"
+      hidden
+    >
+      <div>
+        <p class="analytics-consent__eyebrow">GA4 / PRIVACY</p>
+        <h2 id="analytics-consent-title">{copy.title}</h2>
+        <p id="analytics-consent-description">
+          {copy.description}{' '}
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">
+            {copy.privacy} ↗
+          </a>
+        </p>
+      </div>
+      <div class="analytics-consent__actions">
+        <button type="button" data-analytics-consent="reject">{copy.reject}</button>
+        <button class="primary" type="button" data-analytics-consent="accept">{copy.accept}</button>
+      </div>
+    </aside>
+    <button
+      id="analytics-consent-settings"
+      class="analytics-consent__settings"
+      type="button"
+      hidden
+    >
+      {copy.settings}
+    </button>
+    <p
+      id="analytics-consent-status"
+      class="analytics-consent__status"
+      data-granted={copy.granted}
+      data-denied={copy.denied}
+      aria-live="polite"
+    ></p>
+    <script>
+      import { bindAnalytics } from '../lib/analytics/instrumentation';
+      import { analyticsConfig } from '../lib/analytics/config';
+      bindAnalytics(analyticsConfig, document, window);
+    </script>
+  </div>
+)}

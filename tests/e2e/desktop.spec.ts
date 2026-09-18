@@ -40,7 +40,7 @@ test('route deep links and browser Back / Forward work', async ({ page }) => {
 test('Arcade engine and audio are deferred until explicit entry', async ({ page }) => {
   const requests: string[] = []; page.on('request', request => requests.push(request.url()));
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  expect(await page.locator('.os').evaluate(element => getComputedStyle(element).backgroundImage)).toContain('wallpaper.webp');
+  expect(await page.locator('.os').evaluate(element => getComputedStyle(element).backgroundImage)).toContain('wallpaper-midnight.webp');
   expect(requests.filter(url => /\/(?:Arcade|arcade)\..*\.(?:js|css)|\/arcade\/world|\.mp3|flutter|\.dart/.test(url))).toEqual([]);
   await page.locator('[data-desktop-app="arcade"]').click(); await expect(page.getByRole('heading', { name: 'JOB ROUTE »' })).toBeVisible();
   expect(requests.filter(url => /\/(?:Arcade|arcade)\..*\.(?:js|css)|\/arcade\/world|\.mp3/.test(url))).toEqual([]);
@@ -67,7 +67,7 @@ test('keyboard navigation, terminal and settings persistence', async ({ page }) 
   await page.getByRole('checkbox', { name: 'Enable sound', exact: true }).check(); await page.reload();
   await expect(page.getByRole('radio', { name: 'Midnight' })).toBeChecked();
   await expect(page.getByRole('checkbox', { name: 'Enable sound', exact: true })).toBeChecked();
-  await page.getByRole('button', { name: 'Reset desktop & preferences' }).click(); await expect(page.locator('.wallpaper-nebula')).toBeVisible();
+  await page.getByRole('button', { name: 'Reset desktop & preferences' }).click(); await expect(page.locator('.wallpaper-midnight')).toBeVisible();
 });
 
 test('mobile apps fill the workspace and switch from dock', async ({ page }) => {

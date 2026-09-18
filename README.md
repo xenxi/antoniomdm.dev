@@ -42,3 +42,7 @@ Click, double click, tap or Enter on desktop icons. Drag the titlebar, resize at
 
 Original Flutter code/assets are retained under `legacy/flutter/`, **not part of the production build**. GitHub Actions builds only Astro and publishes dist to the existing gh-pages branch with the original antoniomdm.dev CNAME.
 
+**ES.** Google Analytics 4 es opcional y requiere consentimiento. Producción utiliza el identificador público `G-RD0PDLYEDV`, configurado como variable de repositorio `GA_MEASUREMENT_ID`; el workflow la proyecta como `PUBLIC_GA_MEASUREMENT_ID`. En local puedes usar esa variable de entorno directamente. El tracker sólo se carga tras aceptar y únicamente en `https://antoniomdm.dev`. Consulta el [contrato de Analytics](docs/ANALYTICS.md) para eventos, privacidad, pruebas y DebugView.
+
+**EN.** Google Analytics 4 is optional and consent-gated. Production uses the public identifier `G-RD0PDLYEDV`, configured as the `GA_MEASUREMENT_ID` repository variable; the workflow exposes it as `PUBLIC_GA_MEASUREMENT_ID`. Locally, you can use that environment variable directly. The tracker loads only after acceptance and only on `https://antoniomdm.dev`. See the [Analytics contract](docs/ANALYTICS.md) for events, privacy, testing and DebugView.
+

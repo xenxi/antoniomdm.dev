@@ -21,6 +21,6 @@ export function ProjectLinks({ project }: { project: DisplayProject }) {
   const links = project.links.filter(link => link.kind !== 'detail');
   if (!links.length) return null;
   return <nav class="actions project-links" aria-label={locale === 'es' ? 'Enlaces del proyecto' : 'Project links'}>
-    {links.map(link => <a class={link.kind === 'live' ? 'button primary' : 'button'} href={link.url} target="_blank" rel="noopener noreferrer" key={link.url}>{link.label} <span aria-hidden="true">↗</span><span class="sr-only">{locale === 'es' ? ' (abre otra pestaña)' : ' (opens a new tab)'}</span></a>)}
+    {links.map(link => <a data-project-destination={link.kind === 'repository' ? 'github' : 'website'} class={link.kind === 'live' ? 'button primary' : 'button'} href={link.url} target="_blank" rel="noopener noreferrer" key={link.url}>{link.label} <span aria-hidden="true">↗</span><span class="sr-only">{locale === 'es' ? ' (abre otra pestaña)' : ' (opens a new tab)'}</span></a>)}
   </nav>;
 }

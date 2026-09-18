@@ -4,7 +4,7 @@ test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swi
 for (const locale of ['es', 'en']) test(`world sounds ${locale}: valid steps, doors, mute and cleanup`, async ({ page }) => {
   test.setTimeout(90000);
   await page.addInitScript(() => {
-    localStorage.setItem('antoniomdm-os:preferences:v1', JSON.stringify({ sound: true, music: false, uiSounds: false }));
+    localStorage.setItem('antoniomdm-os:preferences:v2', JSON.stringify({ sound: true, music: false, uiSounds: false }));
     const stats = { starts: 0, closed: 0 };
     Object.assign(window, { worldAudioStats: stats });
     for (const proto of [AudioBufferSourceNode.prototype, OscillatorNode.prototype]) {
