@@ -79,7 +79,7 @@ Hands-on Software Architect and Senior .NET Engineer with more than 12 years of 
 - AI inside Software / Incident Diagnosis: Orchestration from traceId through telemetry, documented knowledge, code inspection, diagnosis and reporting; without autonomous remediation.
 
 ## Blog
-- [The question remains](https://antoniomdm.dev/en/blog/the-question-remains/): An opening note on why some technical questions deserve to survive the closure of the story that first brought them into view.
+- [The question remains](https://antoniomdm.dev/en/blog/the-question-remains/): Closing a story does not always close the question that surfaced along the way. Out of Context is where I return to understand what happened.
 
 ## Verified links
 - GitHub: https://github.com/xenxi

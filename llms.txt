@@ -79,7 +79,7 @@ Arquitecto de software hands-on y Senior .NET Engineer con más de 12 años de e
 - IA dentro del software / Diagnóstico de incidencias: Orquestación desde traceId a telemetría, conocimiento documentado, inspección de código, diagnóstico e informe; sin remediación autónoma.
 
 ## Blog
-- [La pregunta se queda](https://antoniomdm.dev/blog/la-pregunta-se-queda/): Una nota de apertura sobre por qué algunas preguntas técnicas merecen sobrevivir al cierre de la historia que las hizo aparecer.
+- [La pregunta se queda](https://antoniomdm.dev/blog/la-pregunta-se-queda/): Cerrar una historia no siempre cierra la pregunta que apareció durante el trabajo. Out of Context es el lugar al que vuelvo para entender qué ocurrió.
 
 ## Enlaces verificados
 - GitHub: https://github.com/xenxi
