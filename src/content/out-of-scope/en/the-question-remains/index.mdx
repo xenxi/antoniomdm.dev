@@ -1,6 +1,6 @@
 ---
 title: "The question remains"
-summary: "An opening note on why some technical questions deserve to survive the closure of the story that first brought them into view."
+summary: "A story can be closed and still leave an awkward question behind. Out of Context exists to revisit it without turning every finding into a universal rule."
 date: 2026-09-20
 slug: "the-question-remains"
 locale: "en"
@@ -14,54 +14,65 @@ type: "exploration"
 readingTime: 4
 featured: true
 draft: false
-seo:
-  description: "Why Out of Context preserves and explores technical questions that survive the closure of a story."
 linkedin:
   enabled: true
   mode: "review"
 ---
 
-A story needs a boundary. Without one, a small fix can turn into an expedition across three system layers, two specifications and a decision that looked obvious until it did not.
+There is a question that tends to appear just after I close a story: “Yes, it works. But what actually happened here?”
 
-That boundary is useful. So is curiosity.
+It is an inconvenient question. That is why I like it.
+
+I have been building software for long enough to know that finishing a story and understanding everything that happened around it are not necessarily the same thing. Work has to be scoped, delivered, verified, and moved on from. That discipline keeps a small fix from turning into an expedition across three system layers, two specifications, and an architectural decision that looked obvious until it did not.
+
+It is not the ticket's fault that I still want to pull at the thread.
 
 <OriginalScope
-  original="Finish the story with a contained, verifiable change."
-  beyond="Understand the interesting behaviour around the problem, even when that understanding is no longer required to deliver the story."
+  original="Solve the problem, verify the change, and deliver."
+  beyond="Understand why the system behaved that way and what I would change if I met it again."
+  originalLabel="THE STORY"
+  beyondLabel="THE QUESTION"
+  ariaLabel="The delivered story and the question that remains"
 />
 
-## Where this comes from
+## What does not fit in the story
 
-Questions appear while building software and not all of them are blockers. Sometimes a sufficient explanation fits in one line. Sometimes it requires isolating the behaviour, building a minimal test and comparing alternatives without the pressure of an immediate delivery.
+Some questions resolve themselves while I work. Others stop being necessary before they are answered.
 
-The story closes. The question stays in the notebook.
+The query now responds on time, but I still want to know what was blocking it. The architectural decision has been made, although a rejected alternative is beginning to look less absurd. The agent passes its test with controlled data and then encounters real data, that hostile environment where certainties acquire nuance with admirable efficiency.
+
+None of this prevents the work from being closed. None of it vanishes when it is.
+
+Sometimes a provisional explanation is enough. Sometimes I put the question aside because chasing it at that moment would be irresponsible. And sometimes, when I return without the pressure of delivery, I discover that I was asking the wrong question.
+
+At this point I usually have two options: accept that it works and get on with my life, or prepare a minimal test to find out why.
+
+I do not always choose the sensible option.
 
 <Observation title="OBSERVATION">
-  A deferred question is not a discarded question. It only needs a different context and pace.
+  A question becoming non-blocking does not make it uninteresting.
 </Observation>
 
-## What I want to preserve
+## A second context
 
-Out of Context is that second context: the blog for technical explorations, experiments and notes that start with concrete problems but do not try to turn every finding into a universal rule.
+Out of Context comes from that difference between what a story needs and what my curiosity is still asking for.
 
-The structure will follow the investigation, not the other way around. Some entries will contain reproducible experiments. Others will be postmortems or short notes. Every article will have a hand-written summary and keep its remaining questions visible.
+The question first appeared inside a specific context: an incident, a feature, an architecture review, or an experiment. Then it fell outside the scope. Not because it was irrelevant, but because answering it was no longer required to deliver the work well.
 
-<Question title="QUESTION">
-  What can we learn when we stop optimising the exploration to fit inside the original story?
-</Question>
+Here it gets a second context.
 
-## How it will read
+Not to turn every detour into a solemn investigation or every conclusion into a universal law. I want to preserve the path: what made me stop, what I thought was happening, what I tested, what went wrong, and what I eventually changed. Sometimes that will require code. Other times it will be a measurement, a short postmortem, or a decision that only makes sense beside the alternative I rejected.
 
-The content lives in a single MDX source. AntoñiOS is where it is discovered; the full publication is where it is read with space, hierarchy and context. There are no two articles or two indexable URLs competing with each other.
+The story may begin in .NET, a database, an interface, or an agent. That is almost incidental. Technology provides the setting; the question decides whether what happened is worth telling.
 
-`LOG`, `EXPERIMENT`, `OBSERVATION` and `OPEN QUESTIONS` are reading signals. They are not a rigid template.
+## What remains afterwards
 
-<OpenQuestions title="OPEN QUESTIONS">
+I do not expect every exploration to end with a neat answer. Some will leave me with a rule I will apply from then on. Others will document a mistake and stop my future self from presenting it as a new idea. The most interesting ones may simply replace a comfortable certainty with a better question.
 
-- Which technical detail deserves a full exploration?
-- When has an experiment gathered enough evidence?
-- Which part of the finding will remain uncertain?
+That is enough of a result for me.
 
-</OpenQuestions>
+Out of Context will be a field notebook for those small investigations: concrete enough to show the evidence, personal enough to explain why I kept looking, and short enough not to pretend that every finding needs a treatise.
 
-// The story can end without taking the question with it.
+Delivering and understanding run on different clocks. I have learned to respect the first. This space exists so I do not lose the second.
+
+**The story can end without taking the question with it.**

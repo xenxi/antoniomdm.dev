@@ -46,17 +46,15 @@ const schema = {
       <Content components={editorialComponents} />
       <AdSlot position="article-inline-1" />
     </div>
-    <footer class="oos-article__footer">
-      <p class="oos-block__label">{en ? 'QUESTION STILL OPEN' : 'LA PREGUNTA SIGUE ABIERTA'}</p>
-      <h2>{en ? 'Keep exploring.' : 'Seguir explorando.'}</h2>
-      <div class="oos-article__actions">
-        <button type="button" data-oos-share data-article-share>{en ? 'Share article' : 'Compartir artículo'}</button>
-        <a data-article-contact href={`${en ? '/en' : ''}/contact/`}>{en ? 'Contact ↗' : 'Contacto ↗'}</a>
-        <a data-article-portfolio href={en ? '/en/' : '/'}>{en ? 'Back to AntoñiOS ↗' : 'Volver a AntoñiOS ↗'}</a>
-      </div>
-      <p role="status" aria-live="polite" data-oos-share-status></p>
-    </footer>
   </article>
+  <footer class="oos-article__footer" aria-label={en ? 'Article actions' : 'Acciones del artículo'}>
+    <div class="oos-article__actions">
+      <button type="button" data-oos-share data-article-share>{en ? 'Share article' : 'Compartir artículo'}</button>
+      <a data-article-contact href={`${en ? '/en' : ''}/contact/`}>{en ? 'Contact ↗' : 'Contacto ↗'}</a>
+      <a data-article-portfolio href={en ? '/en/' : '/'}>{en ? 'Back to AntoñiOS ↗' : 'Volver a AntoñiOS ↗'}</a>
+    </div>
+    <p role="status" aria-live="polite" data-oos-share-status></p>
+  </footer>
   <script is:inline define:vars={{ shareTitle: data.title, shareText: data.summary, shareUrl: canonical, copied: en ? 'Link copied.' : 'Enlace copiado.', copyFailed: en ? 'Could not copy the link.' : 'No se pudo copiar el enlace.' }}>
     const share = document.querySelector('[data-oos-share]');
     const shareStatus = document.querySelector('[data-oos-share-status]');

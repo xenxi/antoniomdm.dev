@@ -12,6 +12,8 @@ test('publishes the unified bilingual Blog, article SEO, RSS and the AntoñiOS e
   await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
   expect(await page.locator('script[type="application/ld+json"]').textContent()).toContain('BlogPosting');
   await expect(page.locator('.oos-scope')).toBeVisible();
+  await expect(page.locator('.oos-article__body > p').last()).toHaveText('La historia puede terminar sin llevarse la pregunta por delante.');
+  await expect(page.locator('.oos-article')).not.toContainText('Seguir explorando.');
   await expect(page.locator('[data-ad-position]')).toHaveCount(0);
   expect((await new AxeBuilder({ page }).analyze()).violations.filter(item => item.impact === 'critical' || item.impact === 'serious')).toEqual([]);
 
@@ -21,7 +23,7 @@ test('publishes the unified bilingual Blog, article SEO, RSS and the AntoñiOS e
 
   const rss = await request.get('/blog/rss.xml');
   expect(rss.ok()).toBe(true);
-  expect(await rss.text()).toContain('Una nota de apertura');
+  expect(await rss.text()).toContain('Una historia puede estar cerrada');
 
   await page.goto('/blog/app/');
   await expect(page.locator('[data-window="blog"]')).toBeVisible();

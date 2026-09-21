@@ -88,6 +88,16 @@ describe('Blog publishing contract', () => {
     expect(es).toContain('summary:'); expect(en).toContain('summary:');
     expect(es).toContain('translationKey: "the-question-remains"');
     expect(en).toContain('translationKey: "the-question-remains"');
-    expect(es).toContain('<OriginalScope'); expect(en).toContain('<OpenQuestions');
+    expect(es).toContain('<OriginalScope'); expect(en).toContain('<Observation');
+    expect(es).toContain('La historia puede terminar sin llevarse la pregunta por delante.');
+    expect(en).toContain('The story can end without taking the question with it.');
+  });
+
+  it('makes the editorial guide the persistent source of truth for agents', () => {
+    const agents = readFileSync('AGENTS.md', 'utf8');
+    const guide = readFileSync('docs/BLOG_EDITORIAL_GUIDE.md', 'utf8');
+    expect(agents).toContain('docs/BLOG_EDITORIAL_GUIDE.md');
+    expect(guide).toContain('fuente de verdad editorial');
+    expect(guide).toContain('editorial source of truth');
   });
 });

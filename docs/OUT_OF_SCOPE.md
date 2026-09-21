@@ -10,6 +10,8 @@ La única aplicación Blog de AntoñiOS usa `/blog/app/` y simula un editor de c
 
 ### Crear y previsualizar un artículo
 
+Antes de crear, reescribir o revisar un artículo, lee la [guía editorial de Out of Context](BLOG_EDITORIAL_GUIDE.md). Es la fuente de verdad sobre identidad, voz, estructura, extensión y criterios de revisión; este documento conserva únicamente el contrato técnico y de publicación.
+
 ```sh
 npm run article:new -- mi-pregunta
 npm run dev
@@ -92,6 +94,8 @@ Out of Context is the Blog and is part of the same static Astro build and `anton
 The single AntoñiOS Blog app uses `/blog/app/` and simulates a code editor with the Aura Pixel visual language. It shows metadata and links to the canonical editorial URL with `utm_source=antonios&utm_medium=portfolio&utm_campaign=blog`; it never renders the full body.
 
 ### Creating and previewing an article
+
+Before creating, rewriting, or reviewing an article, read the [Out of Context editorial guide](BLOG_EDITORIAL_GUIDE.md). It is the source of truth for identity, voice, structure, length, and review criteria; this document covers only the technical and publishing contract.
 
 ```sh
 npm run article:new -- my-question

@@ -1,6 +1,6 @@
 ---
 title: "La pregunta se queda"
-summary: "Una nota de apertura sobre por qué algunas preguntas técnicas merecen sobrevivir al cierre de la historia que las hizo aparecer."
+summary: "Una historia puede estar cerrada y seguir dejando una pregunta incómoda. Out of Context nace para volver a ella sin convertir cada hallazgo en una regla universal."
 date: 2026-09-20
 slug: "la-pregunta-se-queda"
 locale: "es"
@@ -14,57 +14,65 @@ type: "exploration"
 readingTime: 4
 featured: true
 draft: false
-seo:
-  description: "Por qué Out of Context conserva y explora las preguntas técnicas que sobreviven al cierre de una historia."
 linkedin:
   enabled: true
   mode: "review"
 ---
 
-Una historia necesita un límite. Sin él, una corrección pequeña puede convertirse en una expedición por tres capas del sistema, dos especificaciones y una decisión que parecía obvia hasta que dejó de serlo.
+Hay una pregunta que suele aparecer justo después de cerrar una historia: «Sí, funciona. ¿Pero qué ha ocurrido realmente aquí?»
 
-Ese límite es útil. La curiosidad también.
+Es una pregunta inoportuna. Por eso me gusta.
+
+Llevo suficientes años desarrollando software como para saber que terminar una historia y entender todo lo que ha ocurrido alrededor no son necesariamente la misma cosa. Durante el trabajo hay que acotar, entregar, verificar y continuar. Esa disciplina evita que una corrección pequeña acabe convertida en una expedición por tres capas del sistema, dos especificaciones y una decisión de arquitectura que parecía obvia hasta que dejó de serlo.
+
+El ticket no tiene la culpa de que yo quiera seguir tirando del hilo.
 
 <OriginalScope
-  original="Terminar la historia con un cambio verificable y contenido."
-  beyond="Entender el comportamiento interesante que apareció alrededor del problema, aunque ya no fuera necesario para entregar la historia."
-  originalLabel="ALCANCE ORIGINAL"
-  beyondLabel="FUERA DE ALCANCE"
-  ariaLabel="Alcance original y exploración fuera de alcance"
+  original="Resolver el problema, comprobar el cambio y entregar."
+  beyond="Entender por qué el sistema se comportó así y qué cambiaría si volviera a encontrarme con ello."
+  originalLabel="LA HISTORIA"
+  beyondLabel="LA PREGUNTA"
+  ariaLabel="La historia entregada y la pregunta que permanece"
 />
 
-## De dónde sale esto
+## Lo que no cabe en la historia
 
-Mientras se trabaja en software aparecen preguntas que no son bloqueantes. A veces la explicación suficiente cabe en una línea. Otras veces exige aislar el comportamiento, construir una prueba mínima y comparar alternativas sin la presión de una entrega inmediata.
+Algunas preguntas se resuelven mientras avanzo. Otras dejan de ser necesarias antes de quedar resueltas.
 
-La historia se cierra. La pregunta queda apuntada.
+La consulta ya responde a tiempo, pero sigo queriendo saber qué la bloqueaba. La decisión de arquitectura ya está tomada, aunque una alternativa descartada empieza a parecer menos absurda. El agente supera la prueba con datos controlados y luego se encuentra con datos reales, ese entorno hostil en el que las certezas adquieren matices con una eficacia admirable.
+
+Nada de eso impide cerrar el trabajo. Tampoco desaparece al cerrarlo.
+
+A veces basta con una explicación provisional. A veces dejo la pregunta a un lado porque perseguirla en ese momento sería irresponsable. Y a veces, cuando vuelvo a ella sin la presión de la entrega, descubro que estaba formulando la pregunta equivocada.
+
+En este punto suelo tener dos opciones: aceptar que funciona y continuar con mi vida o preparar una prueba mínima para averiguar por qué.
+
+No siempre elijo la opción sensata.
 
 <Observation title="OBSERVACIÓN">
-  Una pregunta aplazada no es una pregunta descartada. Sólo necesita otro contexto y otro ritmo.
+  Que una pregunta deje de ser bloqueante no significa que haya dejado de ser interesante.
 </Observation>
 
-## Qué quiero conservar
+## Un segundo contexto
 
-Out of Context es ese segundo contexto: el blog de exploraciones técnicas, experimentos y notas que empiezan en problemas concretos pero no intentan convertir cada hallazgo en una regla universal.
+Out of Context nace de esa diferencia entre lo que una historia necesita y lo que mi curiosidad todavía reclama.
 
-La estructura seguirá la investigación, no al revés. Algunas entradas tendrán experimentos reproducibles. Otras serán postmortems o notas breves. Todas tendrán un resumen escrito a mano y dejarán visibles las preguntas que sigan abiertas.
+La pregunta apareció dentro de un contexto concreto: una incidencia, una funcionalidad, una revisión de arquitectura o un experimento. Después quedó fuera de su alcance. No porque fuera irrelevante, sino porque ya no hacía falta responderla para entregar bien.
 
-<Question title="PREGUNTA">
-  ¿Qué podemos aprender cuando dejamos de optimizar la exploración para que quepa dentro de la historia original?
-</Question>
+Aquí obtiene un segundo contexto.
 
-## Cómo se leerá
+No para convertir cada desvío en una investigación solemne ni cada conclusión en una ley universal. Quiero conservar el recorrido: qué me hizo detenerme, qué creía que estaba pasando, qué probé, qué salió mal y qué acabé cambiando. En ocasiones habrá código. En otras, una medición, un postmortem breve o una decisión que sólo se entiende al mirar la alternativa que descarté.
 
-El contenido vive en una única fuente MDX. La portada de AntoñiOS sirve para descubrirlo; la publicación completa está diseñada para leerlo con espacio, jerarquía y contexto. No hay dos artículos ni dos URLs indexables compitiendo entre sí.
+Puede que la historia empiece en .NET, una base de datos, una interfaz o un agente. Eso es casi accidental. La tecnología aporta el escenario; la pregunta decide si merece la pena contar lo que ocurrió.
 
-`LOG`, `EXPERIMENT`, `OBSERVATION` y `OPEN QUESTIONS` son señales de lectura. No son una plantilla rígida.
+## Lo que queda después
 
-<OpenQuestions title="PREGUNTAS ABIERTAS">
+No espero que todas estas exploraciones terminen con una respuesta limpia. Algunas dejarán una regla que aplicaré a partir de entonces. Otras servirán para documentar un error y evitar que mi yo futuro lo presente como una idea nueva. Las más interesantes quizá sólo sustituyan una certeza cómoda por una pregunta mejor.
 
-- ¿Qué detalle técnico merece una exploración completa?
-- ¿Cuándo un experimento ha reunido evidencia suficiente?
-- ¿Qué parte del hallazgo seguirá siendo incierta?
+Ese resultado me vale.
 
-</OpenQuestions>
+Out of Context será un cuaderno de campo para esas pequeñas investigaciones: suficientemente concretas para mostrar la evidencia, suficientemente personales para explicar por qué seguí mirando y suficientemente cortas para no fingir que cada hallazgo necesita un tratado.
 
-// La historia puede terminar sin llevarse la pregunta por delante.
+Porque entregar y comprender obedecen a ritmos distintos. He aprendido a respetar el primero. Este espacio existe para no perder el segundo.
+
+**La historia puede terminar sin llevarse la pregunta por delante.**
