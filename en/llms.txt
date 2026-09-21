@@ -78,8 +78,8 @@ Hands-on Software Architect and Senior .NET Engineer with more than 12 years of 
 - AI for Engineering: Supervised agents for discovery, planning, code and legacy comprehension, implementation, testing, CI diagnosis and technical review.
 - AI inside Software / Incident Diagnosis: Orchestration from traceId through telemetry, documented knowledge, code inspection, diagnosis and reporting; without autonomous remediation.
 
-## Notes
-- [AntoñiOS: foundation log](https://antoniomdm.dev/en/notes/os-foundation/): The first milestone of a portfolio built as a web operating system.
+## Blog
+- [The question remains](https://antoniomdm.dev/en/blog/the-question-remains/): An opening note on why some technical questions deserve to survive the closure of the story that first brought them into view.
 
 ## Verified links
 - GitHub: https://github.com/xenxi

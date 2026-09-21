@@ -78,8 +78,8 @@ Arquitecto de software hands-on y Senior .NET Engineer con más de 12 años de e
 - IA para ingeniería: Agentes supervisados para discovery, planificación, comprensión de código y legado, implementación, testing, diagnóstico de CI y revisión técnica.
 - IA dentro del software / Diagnóstico de incidencias: Orquestación desde traceId a telemetría, conocimiento documentado, inspección de código, diagnóstico e informe; sin remediación autónoma.
 
-## Notas
-- [AntoñiOS: diario de los cimientos](https://antoniomdm.dev/notes/os-foundation/): El primer hito de un portfolio construido como un sistema operativo web.
+## Blog
+- [La pregunta se queda](https://antoniomdm.dev/blog/la-pregunta-se-queda/): Una nota de apertura sobre por qué algunas preguntas técnicas merecen sobrevivir al cierre de la historia que las hizo aparecer.
 
 ## Enlaces verificados
 - GitHub: https://github.com/xenxi
