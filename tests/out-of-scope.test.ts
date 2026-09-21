@@ -88,7 +88,9 @@ describe('Blog publishing contract', () => {
     expect(es).toContain('summary:'); expect(en).toContain('summary:');
     expect(es).toContain('translationKey: "the-question-remains"');
     expect(en).toContain('translationKey: "the-question-remains"');
-    expect(es).toContain('<OriginalScope'); expect(en).toContain('<Observation');
+    expect(es).toContain('<OriginalScope'); expect(en).toContain('<OriginalScope');
+    expect(es).not.toContain('<Observation'); expect(en).not.toContain('<Observation');
+    expect(es).toContain('readingTime: 3'); expect(en).toContain('readingTime: 3');
     expect(es).toContain('La historia puede terminar sin llevarse la pregunta por delante.');
     expect(en).toContain('The story can end without taking the question with it.');
   });
@@ -99,5 +101,8 @@ describe('Blog publishing contract', () => {
     expect(agents).toContain('docs/BLOG_EDITORIAL_GUIDE.md');
     expect(guide).toContain('fuente de verdad editorial');
     expect(guide).toContain('editorial source of truth');
+    expect(guide).toContain('golden sample');
+    expect(agents).toContain('La pregunta se queda');
+    expect(agents).toContain('The question remains');
   });
 });

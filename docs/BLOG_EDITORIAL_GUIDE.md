@@ -4,6 +4,12 @@ Esta guía es la fuente de verdad editorial para Out of Context. Se aplica a cua
 
 This guide is the editorial source of truth for Out of Context. It applies whenever an article is created, rewritten, or reviewed. Technical architecture, routes, and the publishing workflow are documented in [`OUT_OF_SCOPE.md`](OUT_OF_SCOPE.md).
 
+## Referencia práctica / Practical reference
+
+La guía explica las reglas editoriales. [`La pregunta se queda`](../src/content/out-of-scope/es/la-pregunta-se-queda/index.mdx) es el artículo de referencia editorial (*golden sample*) que demuestra cómo suenan en la práctica. Deben consultarse juntos cuando resulte útil para crear o revisar un artículo; en caso de duda, esta guía conserva la autoridad normativa.
+
+This guide explains the editorial rules. [`The question remains`](../src/content/out-of-scope/en/the-question-remains/index.mdx) is the editorial reference article (*golden sample*) showing how they sound in practice. Consult them together when useful for writing or reviewing an article; when in doubt, this guide remains the normative authority.
+
 ## Español
 
 ### Identidad
