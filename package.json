@@ -24,9 +24,12 @@
     "prepare": "node scripts/setup-git-hooks.mjs",
     "check": "npm run lint && npm run typecheck && npm test && npm run build",
     "test:performance": "node scripts/lighthouse.mjs",
-    "assets:prepare": "node scripts/prepare-assets.mjs"
+    "assets:prepare": "node scripts/prepare-assets.mjs",
+    "article:new": "node scripts/article-new.mjs",
+    "article:social": "node scripts/article-social.mjs"
   },
   "dependencies": {
+    "@astrojs/mdx": "^8.0.1",
     "@astrojs/preact": "6.0.5",
     "@astrojs/rss": "4.0.19",
     "astro": "7.3.2",

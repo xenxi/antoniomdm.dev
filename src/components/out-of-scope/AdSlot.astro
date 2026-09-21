@@ -1,0 +1,7 @@
+---
+import { canRenderAds } from '../../config/ads';
+interface Props { position: string }
+const { position } = Astro.props;
+const label = Astro.url.pathname.startsWith('/en/') ? 'Advertisement' : 'Publicidad';
+---
+{canRenderAds() && <aside class="oos-ad-slot" data-ad-position={position} aria-label={label}></aside>}

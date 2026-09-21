@@ -38,21 +38,7 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
   const [Arcade, setArcade] = useState<ComponentType<ArcadeProps> | null>(null);
   const [mode, setMode] = useState<'desktop' | 'loading' | 'arcade'>('desktop');
   const [notice, setNotice] = useState('');
-  const [loadedContent, setLoadedContent] = useState(content);
-  const pendingNotes = useRef(new Set<string>());
-  async function loadNote(value: string) {
-    const note = loadedContent.notes.find(note => value === `/notes/${note.slug}/`);
-    if (!note || note.html || pendingNotes.current.has(value)) return;
-    pendingNotes.current.add(value);
-    try {
-      const response = await fetch(href(value));
-      if (!response.ok) throw new Error('Note request failed');
-      const html = new DOMParser().parseFromString(await response.text(), 'text/html').querySelector('[data-note-body]')?.innerHTML;
-      if (!html) throw new Error('Missing note body');
-      setLoadedContent(previous => ({ notes: previous.notes.map(item => item.slug === note.slug ? { ...item, html } : item) }));
-    } catch { setNotice(t('This article could not load. Open reading view or try again.')); }
-    finally { pendingNotes.current.delete(value); }
-  }
+  const loadedContent = content;
   const workspace = useRef<HTMLDivElement>(null);
   const launcherButton = useRef<HTMLButtonElement>(null);
   const searchInput = useRef<HTMLInputElement>(null);
@@ -108,7 +94,7 @@ function DesktopContent({ path, content, data }: { path: string; content: Conten
     const next = normalizePath(value); const id = appForPath(next);
     if (!id || !knownPath(next)) return;
     const sourcePath = currentPath.current;
-    void loadNote(next); dispatch({ type: 'open', id, path: next, viewport: viewportRef.current });
+    dispatch({ type: 'open', id, path: next, viewport: viewportRef.current });
     const changed = syncUrl(next);
     if (changed) {
       trackNavigation(next, sourcePath);

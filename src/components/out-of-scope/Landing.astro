@@ -1,0 +1,81 @@
+---
+import OutOfScopeLayout from '../../layouts/OutOfScopeLayout.astro';
+import ArticleCard from './ArticleCard.astro';
+import { getOutOfScopeArticles } from '../../data/out-of-scope';
+import type { Locale } from '../../i18n/core';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const en = locale === 'en';
+const articles = await getOutOfScopeArticles(locale);
+const featured = articles.find(article => article.featured) ?? articles[0];
+const latest = featured ? articles.filter(article => article.slug !== featured.slug) : articles;
+const tags = [...new Set(articles.flatMap(article => article.tags))].sort();
+const categories = [...new Set(articles.map(article => article.category))].sort();
+const canonical = `https://antoniomdm.dev${en ? '/en' : ''}/blog/`;
+const alternate = { locale: (en ? 'es' : 'en') as Locale, href: `https://antoniomdm.dev${en ? '' : '/en'}/blog/` };
+const description = en ? 'Questions, experiments and engineering notes by Antonio Manuel Delgado.' : 'Preguntas, experimentos y notas de ingeniería de Antonio Manuel Delgado.';
+const schema = { '@context': 'https://schema.org', '@type': 'Blog', name: 'Out of Context · AntoñiOS', description, url: canonical, inLanguage: locale, publisher: { '@type': 'Person', name: 'Antonio Manuel Delgado Martín', url: 'https://antoniomdm.dev/' } };
+---
+<OutOfScopeLayout locale={locale} title="Out of Context" description={description} canonical={canonical} alternate={alternate} schema={schema}>
+  <section class="oos-hero">
+    <p class="oos-log">ANTONIOMDM.DEV / OUT OF CONTEXT</p>
+    <h1>OUT OF<br />CONTEXT<span>_</span></h1>
+    <p class="oos-claim">{en ? 'Ideas that keep running after the ticket closes.' : 'Ideas que siguen ejecutándose cuando se cierra el ticket.'}</p>
+    <div class="oos-intro">
+      {en ? <>
+        <p>You are working on a story. Something catches your attention. You could stop, set up a test, compare three alternatives and spend the next four hours understanding what is going on.</p>
+        <p>You could also finish the story.</p>
+        <p>Usually, the latter wins.</p>
+        <p><strong>Out of Scope is where I go back to the former.</strong></p>
+      </> : <>
+        <p>Estás resolviendo una historia. Algo llama tu atención. Podrías parar, montar una prueba, comparar tres alternativas y dedicar las próximas cuatro horas a entender qué está pasando.</p>
+        <p>También podrías terminar la historia.</p>
+        <p>Normalmente gana la segunda.</p>
+        <p><strong>Out of Scope es donde vuelvo a lo primero.</strong></p>
+      </>}
+    </div>
+  </section>
+
+  <section class="oos-index" aria-labelledby="oos-featured-title">
+    <div class="oos-section-heading"><p>EDITOR / PINNED</p><h2 id="oos-featured-title">{en ? 'Featured article' : 'Artículo destacado'}</h2></div>
+    {featured ? <ArticleCard article={featured} featured /> : <div class="oos-empty"><p>{en ? 'The first question is still taking shape.' : 'La primera pregunta todavía está tomando forma.'}</p></div>}
+  </section>
+
+  <section class="oos-index" aria-labelledby="oos-latest-title">
+    <div class="oos-section-heading"><p>EXPLORER / LATEST</p><h2 id="oos-latest-title">{en ? 'Latest articles' : 'Últimos artículos'}</h2></div>
+    <form class="oos-search" role="search" data-oos-search>
+      <label for="oos-query">{en ? 'Search the blog' : 'Buscar en el blog'}</label>
+      <input id="oos-query" name="q" type="search" placeholder={en ? 'Architecture, media, AI…' : 'Arquitectura, media, IA…'} autocomplete="off" />
+      <p role="status" aria-live="polite" data-oos-search-status></p>
+    </form>
+    <div class="oos-taxonomy">
+      {[...categories, ...tags].map(value => <button type="button" data-oos-filter={value.toLowerCase()}>{value}</button>)}
+    </div>
+    <div class="oos-grid" data-oos-list>
+      {latest.map(article => <ArticleCard article={article} />)}
+      {latest.length === 0 && featured && <p class="oos-empty" data-oos-empty>{en ? 'One question for now. More field notes will appear here.' : 'Una pregunta por ahora. Las próximas notas de campo aparecerán aquí.'}</p>}
+    </div>
+    <button class="oos-more" type="button" data-oos-more hidden>{en ? 'Load more articles' : 'Cargar más artículos'}</button>
+    <p class="oos-empty" data-oos-no-results hidden>{en ? 'No article matches that search.' : 'Ningún artículo coincide con la búsqueda.'}</p>
+  </section>
+  <script is:inline define:vars={{ resultCopy: en ? 'results' : 'resultados' }}>
+    const form = document.querySelector('[data-oos-search]');
+    const input = form?.querySelector('input');
+    const cards = [...document.querySelectorAll('[data-oos-list] [data-oos-card]')];
+    const status = form?.querySelector('[data-oos-search-status]');
+    const empty = document.querySelector('[data-oos-no-results]');
+    const more = document.querySelector('[data-oos-more]'); let limit = 6;
+    const apply = value => {
+      const query = value.trim().toLowerCase(); let matches = 0;
+      cards.forEach(card => { const match = !query || card.dataset.search.includes(query); const show = match && matches < limit; if (match) matches += 1; card.hidden = !show; });
+      if (empty) empty.hidden = matches > 0 || !query;
+      if (more) more.hidden = matches <= limit;
+      if (status) status.textContent = query ? `${matches} ${resultCopy}` : '';
+    };
+    form?.addEventListener('submit', event => event.preventDefault());
+    input?.addEventListener('input', event => { limit = 6; apply(event.target.value); });
+    more?.addEventListener('click', () => { limit += 6; apply(input?.value ?? ''); });
+    document.querySelectorAll('[data-oos-filter]').forEach(button => button.addEventListener('click', () => { limit = 6; if (input) input.value = button.dataset.oosFilter; apply(button.dataset.oosFilter ?? ''); }));
+    apply('');
+  </script>
+</OutOfScopeLayout>

@@ -31,10 +31,10 @@ test('desktop window lifecycle, drag, resize and exact restore', async ({ page }
 test('route deep links and browser Back / Forward work', async ({ page }) => {
   await page.goto('/en/projects/platform934/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await expect(page.locator('h1', { hasText: 'Platform934' })).toBeVisible();
-  await page.locator('[data-desktop-app="notes"]').click(); await expect(page).toHaveURL(/\/notes\/$/);
+  await page.locator('[data-desktop-app="blog"]').click(); await expect(page).toHaveURL(/\/blog\/app\/$/);
   await page.goBack(); await expect(page.locator('[data-window="projects"]')).toHaveClass(/active/);
   await expect(page.locator('h1', { hasText: 'Platform934' })).toBeVisible();
-  await page.goForward(); await expect(page.locator('[data-window="notes"]')).toHaveClass(/active/);
+  await page.goForward(); await expect(page.locator('[data-window="blog"]')).toHaveClass(/active/);
 });
 
 test('Arcade engine and audio are deferred until explicit entry', async ({ page }) => {
@@ -81,21 +81,21 @@ test('mobile apps fill the workspace and switch from dock', async ({ page }) => 
   await page.screenshot({ path: 'test-results/mobile.png', fullPage: true });
 });
 
-test('static HTML, notes and SEO exist without JavaScript', async ({ browser }) => {
+test('static HTML, Blog and SEO exist without JavaScript', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false }); const page = await context.newPage();
   await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/projects/platform934/`); await expect(page.locator('h1', { hasText: 'Platform934' })).toBeVisible();
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://antoniomdm.dev/en/projects/platform934/');
-  await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/notes/os-foundation/`); await expect(page.getByRole('heading', { name: 'One portfolio, two ways to explore' })).toBeVisible();
+  await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/blog/the-question-remains/`); await expect(page.getByRole('heading', { name: 'The question remains' })).toBeVisible();
   await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}/en/profile/languages/`); await expect(page.getByRole('heading', { name: 'Languages', exact: true })).toBeVisible();
   await context.close();
 });
 
 test('main routes and machine-readable outputs respond', async ({ request }) => {
-  for (const path of ['/', '/es/', '/en/', '/projects/', '/es/projects/', '/en/projects/', '/projects/platform934/', '/es/experience/', '/en/notes/', '/es/architecture/', '/en/architecture/', '/ai-lab/', '/en/ai-lab/', '/es/ai-lab/', '/ai-lab/platform934/', '/en/ai-lab/incident-investigation/', '/es/ai/', '/en/contact/', '/lab/', '/about/', '/es/profile/languages/', '/en/arcade/', '/es/settings/', '/en/terminal/', '/rss.xml', '/es/rss.xml', '/en/rss.xml', '/sitemap.xml', '/robots.txt', '/llms.txt', '/es/llms.txt', '/en/llms.txt', '/social.png']) {
+  for (const path of ['/', '/es/', '/en/', '/projects/', '/es/projects/', '/en/projects/', '/projects/platform934/', '/es/experience/', '/en/blog/', '/blog/app/', '/es/architecture/', '/en/architecture/', '/ai-lab/', '/en/ai-lab/', '/es/ai-lab/', '/ai-lab/platform934/', '/en/ai-lab/incident-investigation/', '/es/ai/', '/en/contact/', '/lab/', '/about/', '/es/profile/languages/', '/en/arcade/', '/es/settings/', '/en/terminal/', '/rss.xml', '/es/rss.xml', '/en/rss.xml', '/blog/rss.xml', '/en/blog/rss.xml', '/sitemap.xml', '/robots.txt', '/llms.txt', '/es/llms.txt', '/en/llms.txt', '/social.png']) {
     const response = await request.get(path); expect(response.status(), path).toBe(200);
   }
   const sitemap = await (await request.get('/sitemap.xml')).text(); expect(sitemap).toContain('/projects/platform934/');
-  const rss = await (await request.get('/rss.xml')).text(); expect(rss).toContain('os-foundation');
+  const rss = await (await request.get('/rss.xml')).text(); expect(rss).toContain('la-pregunta-se-queda');
   const llms = await (await request.get('/en/llms.txt')).text();
   expect(llms).toContain('Public professional model'); expect(llms).toContain('implemented: API and tool-using agent');
   expect(llms).not.toMatch(/pending_editorial|NEEDS_VERIFICATION|INTERVIEW_ONLY|PRIVATE|knowledge-vault/);
@@ -111,16 +111,16 @@ test('desktop and project route accessibility', async ({ page }) => {
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
 });
 
-test('project filters, note content, lab concepts and languages reading view', async ({ page }) => {
+test('project filters, Blog editor, lab concepts and languages reading view', async ({ page }) => {
   await page.goto('/en/projects/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await page.getByRole('button', { name: 'Media Engineering', exact: true }).click();
   await expect(page.locator('.project-groups h2')).toHaveCount(4);
   await page.getByRole('button', { name: 'All projects', exact: true }).click();
   await page.getByRole('link', { name: /FEATURED.*Platform/ }).click();
   await expect(page).toHaveURL(/\/projects\/platform934\/$/);
-  await page.locator('[data-desktop-app="notes"]').click();
-  await page.locator('.note-card').click(); await expect(page.getByRole('heading', { name: 'One portfolio, two ways to explore' })).toBeVisible();
-  await expect(page.locator('meta[property="og:type"]')).toHaveAttribute('content', 'article');
+  await page.locator('[data-desktop-app="blog"]').click();
+  await expect(page.locator('.blog-editor')).toBeVisible();
+  await expect(page.getByRole('link', { name: /Open article/ })).toHaveAttribute('href', /\/en\/blog\/the-question-remains\//);
   await page.locator('[data-desktop-app="lab"]').click();
   await expect(page).toHaveURL(/\/ai-lab\/$/);
   await expect(page.locator('.ai-lab-axis')).toHaveCount(2);

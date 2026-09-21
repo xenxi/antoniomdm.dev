@@ -65,7 +65,7 @@ test('A3 sections share a window, update metadata, restore history and preserve 
 
 test('A3 launcher opens every app and keyboard restores minimized state', async ({ page }) => {
   await page.goto('/en/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  for (const [path, id] of [['/profile/', 'about'], ['/background-processes/', 'background'], ['/architecture/', 'architecture'], ['/projects/', 'projects'], ['/ai-lab/', 'lab'], ['/notes/', 'notes'], ['/terminal/', 'terminal'], ['/arcade/', 'arcade'], ['/contact/', 'contact'], ['/settings/', 'settings']]) {
+  for (const [path, id] of [['/profile/', 'about'], ['/background-processes/', 'background'], ['/architecture/', 'architecture'], ['/projects/', 'projects'], ['/ai-lab/', 'lab'], ['/blog/app/', 'blog'], ['/terminal/', 'terminal'], ['/arcade/', 'arcade'], ['/contact/', 'contact'], ['/settings/', 'settings']]) {
     await page.keyboard.press('Alt+l');
     await expect(page.getByRole('textbox', { name: 'Find an application' })).toBeFocused();
     await page.locator(`.launcher nav a[href="/en${path}"]`).focus(); await page.keyboard.press('Enter');
@@ -118,15 +118,10 @@ for (const [locale, label, closing] of [
   await page.keyboard.press('Escape'); await expect(app).toBeHidden();
 });
 
-test('A3 a deferred article failure keeps a real reading link and can be retried', async ({ page }) => {
-  await page.goto('/en/notes/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
-  await page.route('**/en/notes/os-foundation/', route => route.abort());
-  await page.locator('.note-card').click();
-  await expect(page.getByRole('status')).toContainText('This article could not load.');
-  await expect(page.locator('.prose').getByRole('link', { name: 'Reading view ↗' })).toHaveAttribute('href', '/en/notes/os-foundation/?view=reading');
-  await page.unroute('**/en/notes/os-foundation/');
-  await page.locator('.back-link').click(); await page.locator('.note-card').click();
-  await expect(page.locator('[data-note-body] h2').first()).toBeVisible();
+test('A3 Blog editor exposes a real published article link', async ({ page }) => {
+  await page.goto('/en/blog/app/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
+  await expect(page.locator('.blog-editor__explorer')).toBeVisible();
+  await expect(page.getByRole('link', { name: /Open article/ })).toHaveAttribute('href', /\/en\/blog\/the-question-remains\//);
 });
 
 for (const width of [390, 820]) test(`A3 inactive apps leave keyboard navigation at ${width}px`, async ({ page }) => {

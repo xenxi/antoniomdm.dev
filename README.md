@@ -40,6 +40,10 @@ Click, double click, tap or Enter on desktop icons. Drag the titlebar, resize at
 
 [Architecture and extension guide](docs/ANTONIOMDM_OS_ARCHITECTURE.md) · [Flutter legacy audit](docs/LEGACY_AUDIT.md) · [M1 delivery and checks](docs/M1_DELIVERY.md)
 
+**ES.** [Out of Context](docs/OUT_OF_SCOPE.md) documenta el blog técnico unificado, su aplicación-editor Aura Pixel, creación MDX, imágenes, componentes, ES/EN, SEO/RSS, analytics, LinkedIn y publicidad desactivada.
+
+**EN.** [Out of Context](docs/OUT_OF_SCOPE.md) documents the unified technical blog, its Aura Pixel editor app, MDX authoring, images, components, ES/EN, SEO/RSS, analytics, LinkedIn, and disabled-by-default advertising.
+
 Original Flutter code/assets are retained under `legacy/flutter/`, **not part of the production build**. GitHub Actions builds only Astro and publishes dist to the existing gh-pages branch with the original antoniomdm.dev CNAME.
 
 **ES.** Google Analytics 4 es opcional y requiere consentimiento. Producción utiliza el identificador público `G-RD0PDLYEDV`, configurado como variable de repositorio `GA_MEASUREMENT_ID`; el workflow la proyecta como `PUBLIC_GA_MEASUREMENT_ID`. En local puedes usar esa variable de entorno directamente. El tracker sólo se carga tras aceptar y únicamente en `https://antoniomdm.dev`. Consulta el [contrato de Analytics](docs/ANALYTICS.md) para eventos, privacidad, pruebas y DebugView.

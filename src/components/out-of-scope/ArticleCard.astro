@@ -1,0 +1,20 @@
+---
+import { Image } from 'astro:assets';
+import type { OutOfScopeCard } from '../../data/out-of-scope';
+import { localizedArticlePath } from '../../data/out-of-scope';
+interface Props { article: OutOfScopeCard; featured?: boolean }
+const { article, featured = false } = Astro.props;
+const en = article.locale === 'en';
+---
+<article class:list={['oos-card', featured && 'oos-card--featured']} data-oos-card data-search={`${article.title} ${article.summary} ${article.tags.join(' ')} ${article.category}`.toLowerCase()}>
+  <a class="oos-card__cover" href={localizedArticlePath(article)} aria-label={`${en ? 'Read' : 'Leer'}: ${article.title}`}>
+    {article.cover ? <Image src={article.cover} alt={article.coverAlt ?? ''} widths={[520, 900, 1400]} sizes={featured ? '(max-width: 900px) 94vw, 56vw' : '(max-width: 700px) 94vw, 34vw'} loading={featured ? 'eager' : 'lazy'} /> : <span aria-hidden="true"><b>OUT</b><b>OF</b><b>CONTEXT_</b><i>{article.type}</i></span>}
+  </a>
+  <div class="oos-card__body">
+    <p class="oos-meta">{article.category} · {article.readingTime} {en ? 'MIN READ' : 'MIN DE LECTURA'}</p>
+    <h2><a href={localizedArticlePath(article)}>{article.title}</a></h2>
+    <p>{article.summary}</p>
+    <div class="oos-tags">{article.tags.map(tag => <span>{tag}</span>)}</div>
+    <a class="oos-read" href={localizedArticlePath(article)}>{en ? 'Read ↗' : 'Leer ↗'}</a>
+  </div>
+</article>

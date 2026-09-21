@@ -37,7 +37,7 @@ test('Spanish default, language switching, navigation and reading view', async (
   await expect(page).toHaveURL(/\/profile\/languages\/$/);
 });
 
-test('both languages publish complete static HTML, notes, feeds and arcade launchers', async ({ browser, request }) => {
+test('both languages publish complete static HTML, Blog feeds and arcade launchers', async ({ browser, request }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   for (const locale of ['es', 'en']) {
@@ -47,15 +47,15 @@ test('both languages publish complete static HTML, notes, feeds and arcade launc
     await expect(page.locator('.timeline-item')).toHaveCount(9);
     await page.getByRole('link', { name: locale === 'es' ? 'English' : 'Español', exact: true }).click();
     await expect(page.locator('html')).toHaveAttribute('lang', locale === 'es' ? 'en' : 'es');
-    await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${prefix}/notes/os-foundation/`);
-    await expect(page.getByRole('heading', { name: locale === 'es' ? 'Un portfolio, dos formas de explorar' : 'One portfolio, two ways to explore' })).toBeVisible();
+    await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${prefix}/blog/${locale === 'es' ? 'la-pregunta-se-queda' : 'the-question-remains'}/`);
+    await expect(page.getByRole('heading', { name: locale === 'es' ? 'La pregunta se queda' : 'The question remains' })).toBeVisible();
     // CV downloads were removed; verify the current static Arcade entry instead.
     await page.goto(`http://127.0.0.1:${process.env.ANTONIOS_E2E_PORT ?? '4321'}${prefix}/arcade/`);
     await expect(page.locator('.arcade-launcher')).toContainText(locale === 'es' ? 'misión rápida directa' : 'direct quick mission');
     await expect(page.locator('.arcade-launcher').getByRole('link', { name: locale === 'es' ? 'Explorar la trayectoria ↗' : 'Explore the career ↗' })).toHaveAttribute('href', `${prefix}/experience/`);
     const rss = await (await request.get(`${prefix}/rss.xml`)).text();
     expect(rss).toContain(`<language>${locale}</language>`);
-    expect(rss).toContain(`${prefix}/notes/os-foundation/`);
+    expect(rss).toContain(`${prefix}/blog/${locale === 'es' ? 'la-pregunta-se-queda' : 'the-question-remains'}/`);
   }
   await context.close();
 });

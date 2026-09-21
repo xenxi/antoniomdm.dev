@@ -1,0 +1,42 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  position?: 'inline' | 'wide' | 'full' | 'left' | 'right';
+  caption?: string;
+  number?: number;
+  zoom?: boolean;
+  eager?: boolean;
+}
+const { src, alt, position = 'inline', caption, number, zoom = false, eager = false } = Astro.props;
+const figureLabel = `${number ? `FIG. ${String(number).padStart(2, '0')} · ` : ''}${caption ?? alt}`;
+const en = Astro.url.pathname.startsWith('/en/');
+---
+<figure class:list={['oos-figure', `oos-figure--${position}`]} data-oos-figure>
+  {zoom ? (
+    <button class="oos-figure__zoom" type="button" aria-label={`${en ? 'Enlarge image' : 'Ampliar imagen'}: ${alt}`} data-oos-zoom-open>
+      <Image src={src} alt={alt} widths={[480, 760, 1200, 1600]} sizes={position === 'inline' ? '(max-width: 820px) 92vw, 720px' : '(max-width: 1100px) 94vw, 1080px'} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} />
+    </button>
+  ) : <Image src={src} alt={alt} widths={[480, 760, 1200, 1600]} sizes={position === 'inline' ? '(max-width: 820px) 92vw, 720px' : '(max-width: 1100px) 94vw, 1080px'} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : 'auto'} />}
+  {(caption || number) && <figcaption>{figureLabel}</figcaption>}
+  {zoom && <dialog class="oos-lightbox" aria-label={figureLabel} data-oos-lightbox>
+    <button type="button" aria-label={en ? 'Close enlarged image' : 'Cerrar imagen ampliada'} data-oos-zoom-close>×</button>
+    <Image src={src} alt={alt} widths={[1200, 1600, 2200]} sizes="95vw" loading="lazy" />
+    {(caption || number) && <p>{figureLabel}</p>}
+  </dialog>}
+</figure>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-oos-figure]').forEach(figure => {
+    if (figure.dataset.zoomBound) return;
+    figure.dataset.zoomBound = 'true';
+    const dialog = figure.querySelector<HTMLDialogElement>('[data-oos-lightbox]');
+    const opener = figure.querySelector<HTMLButtonElement>('[data-oos-zoom-open]');
+    const closer = figure.querySelector<HTMLButtonElement>('[data-oos-zoom-close]');
+    opener?.addEventListener('click', () => dialog?.showModal());
+    closer?.addEventListener('click', () => dialog?.close());
+    dialog?.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+  });
+</script>

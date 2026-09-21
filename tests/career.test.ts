@@ -22,10 +22,10 @@ describe('Career Mode professional data boundary', () => {
     expect(chapters.at(-1)?.missions).toHaveLength(7);
   });
   it('reflects a canonical description or date edit without changing game configuration', () => {
-    const data = getUiData('es', { notes: [] });
+    const data = getUiData('es', { notes: [], outOfScope: [] });
     data.professionalExperience.find(job => job.id === 'nokia')!.company = 'CANONICAL COMPANY EDIT';
     data.professionalExperience.find(job => job.id === 'nokia')!.period = 'CANONICAL PERIOD EDIT';
-    const output = render(h(LocaleContext.Provider, { value: 'es', children: h(CareerGame, { data, content: { notes: [] }, preferences: defaults, exit() {}, navigate() {} }) }));
+    const output = render(h(LocaleContext.Provider, { value: 'es', children: h(CareerGame, { data, content: { notes: [], outOfScope: [] }, preferences: defaults, exit() {}, navigate() {} }) }));
     expect(output).toContain('CANONICAL COMPANY EDIT');
     expect(output).toContain('CANONICAL PERIOD EDIT');
     expect(readFileSync('src/arcade/CareerGame.tsx', 'utf8')).toContain('job.summary');

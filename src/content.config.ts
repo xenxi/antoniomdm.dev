@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
+import { createOutOfScopeSchema } from './lib/out-of-scope/schema';
 
 const notes = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/notes' }),
@@ -11,4 +12,10 @@ const notes = defineCollection({
     draft: z.boolean().default(false),
   }),
 });
-export const collections = { notes };
+
+const outOfScope = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/out-of-scope' }),
+  schema: ({ image }) => createOutOfScopeSchema(image()),
+});
+
+export const collections = { notes, outOfScope };

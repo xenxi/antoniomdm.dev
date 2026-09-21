@@ -1,7 +1,5 @@
-import rss from '@astrojs/rss';
-import { getContent } from './content';
-import { localizedPath, translator, type Locale } from '../i18n/core';
+import type { Locale } from '../i18n/core';
+import { outOfScopeRss } from './out-of-scope-feed';
 export async function rssResponse(locale: Locale) {
-  const content = await getContent(locale); const t = translator(locale);
-  return rss({ title: `AntoñiOS · ${t('Notes')}`, description: t('Software, architecture and build logs.'), site: `https://antoniomdm.dev/${locale}/`, customData: `<language>${locale}</language>`, items: content.notes.map(note => ({ title: note.title, description: note.description, pubDate: new Date(note.date), link: localizedPath(`/notes/${note.slug}/`, locale), categories: note.tags })) });
+  return outOfScopeRss(locale);
 }

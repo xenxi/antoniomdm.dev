@@ -72,3 +72,19 @@ jobs:
           branch: gh-pages
           folder: dist
           clean: true
+  social-preview:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: deploy
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Prepare LinkedIn copy for review (does not publish)
+        run: npm run article:social

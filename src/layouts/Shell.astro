@@ -5,7 +5,7 @@ import type { ContentData } from '../data/portfolio';
 import '../styles/global.css';
 import '../styles/aura.css';
 import '../styles/projects.css';
-import { basePath, localeForPath, localizedPath, translator } from '../i18n/core';
+import { localeForPath, localizedPath, translator } from '../i18n/core';
 import { getUiData } from '../data/ui';
 import AnalyticsConsent from '../components/AnalyticsConsent.astro';
 interface Props { path: string; content: ContentData }
@@ -13,7 +13,7 @@ const { path, content } = Astro.props;
 const meta = pageMetadata(path, content);
 const locale = localeForPath(path); const t = translator(locale);
 const uiData = getUiData(locale, content, path);
-const initialContent = { notes: content.notes.map(note => ({ ...note, html: basePath(path) === `/notes/${note.slug}/` ? note.html : "" })) };
+const initialContent = content;
 ---
 <!doctype html>
 <html lang={locale}>
@@ -28,7 +28,7 @@ const initialContent = { notes: content.notes.map(note => ({ ...note, html: base
     <link rel="alternate" hreflang="en" href={`https://antoniomdm.dev${localizedPath(path, 'en')}`} />
     <link rel="alternate" hreflang="x-default" href={`https://antoniomdm.dev${localizedPath(path, 'es')}`} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="alternate" type="application/rss+xml" title={`AntoñiOS · ${t('Notes')}`} href={localizedPath('/rss.xml', locale)} />
+    <link rel="alternate" type="application/rss+xml" title="Out of Context · AntoñiOS RSS" href={localizedPath('/blog/rss.xml', locale)} />
     <meta property="og:locale" content={locale === 'es' ? 'es_ES' : 'en_GB'} />
     <meta property="og:title" content={meta.title} />
     <meta property="og:description" content={meta.description} />

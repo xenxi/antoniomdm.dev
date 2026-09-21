@@ -1,0 +1,88 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import type { OutOfScopeEntry } from '../../data/out-of-scope';
+import { articleCanonical, findOutOfScopeTranslation } from '../../data/out-of-scope';
+import OutOfScopeLayout from '../../layouts/OutOfScopeLayout.astro';
+import AdSlot from './AdSlot.astro';
+import { editorialComponents } from './components';
+
+interface Props { entry: OutOfScopeEntry }
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const data = entry.data;
+const en = data.locale === 'en';
+const card = { slug: data.slug, locale: data.locale };
+const canonical = articleCanonical(card);
+const alternateEntry = await findOutOfScopeTranslation(entry, en ? 'es' : 'en');
+const alternate = alternateEntry ? { locale: alternateEntry.data.locale, href: articleCanonical({ slug: alternateEntry.data.slug, locale: alternateEntry.data.locale }) } : undefined;
+const description = data.seo?.description ?? data.summary;
+const typeLabels = en ? { exploration: 'Exploration', experiment: 'Experiment', postmortem: 'Postmortem', notes: 'Notes' } : { exploration: 'Exploración', experiment: 'Experimento', postmortem: 'Postmortem', notes: 'Notas' };
+const schema = {
+  '@context': 'https://schema.org', '@type': 'BlogPosting', headline: data.title, description,
+  datePublished: data.date.toISOString(), dateModified: (data.updated ?? data.date).toISOString(), inLanguage: data.locale,
+  mainEntityOfPage: canonical, url: canonical, keywords: data.tags,
+  author: { '@type': 'Person', name: 'Antonio Manuel Delgado Martín', url: 'https://antoniomdm.dev/' },
+  publisher: { '@type': 'Person', name: 'Antonio Manuel Delgado Martín', url: 'https://antoniomdm.dev/' },
+  ...(data.cover ? { image: new URL(data.cover.src, Astro.site).href } : {}),
+};
+---
+<OutOfScopeLayout locale={data.locale} title={data.title} description={description} canonical={canonical} alternate={alternate} kind="article" published={data.date.toISOString()} updated={data.updated?.toISOString()} tags={data.tags} schema={schema}>
+  <article class="oos-article" data-oos-article={data.slug} data-oos-language={data.locale}>
+    <header class="oos-article__header">
+      <a class="oos-back" href={`${data.locale === 'en' ? '/en' : ''}/blog/`}>{en ? '← All articles' : '← Todos los artículos'}</a>
+      <p class="oos-log">LOG #{String(data.date.getUTCFullYear()).slice(-2)}{String(data.date.getUTCMonth() + 1).padStart(2, '0')} · {typeLabels[data.type].toUpperCase()}</p>
+      <h1>{data.title}</h1>
+      <p class="oos-article__summary">{data.summary}</p>
+      <div class="oos-article__facts">
+        <time datetime={data.date.toISOString()}>{new Intl.DateTimeFormat(en ? 'en-GB' : 'es-ES', { dateStyle: 'long', timeZone: 'UTC' }).format(data.date)}</time>
+        <span>{data.readingTime} {en ? 'min read' : 'min de lectura'}</span>
+        <span>{data.category}</span>
+      </div>
+      <div class="oos-tags">{data.tags.map(tag => <span>{tag}</span>)}</div>
+    </header>
+    {data.cover ? <figure class="oos-article__cover"><Image src={data.cover} alt={data.coverAlt ?? ''} widths={[720, 1080, 1600, 2200]} sizes="(max-width: 1200px) 100vw, 1120px" loading="eager" fetchpriority="high" /></figure> : <div class="oos-article__cover oos-article__cover--generated" aria-hidden="true"><span>OUT<br />OF<br />CONTEXT_</span><i>{typeLabels[data.type]}</i></div>}
+    <div class="oos-article__body">
+      <Content components={editorialComponents} />
+      <AdSlot position="article-inline-1" />
+    </div>
+    <footer class="oos-article__footer">
+      <p class="oos-block__label">{en ? 'QUESTION STILL OPEN' : 'LA PREGUNTA SIGUE ABIERTA'}</p>
+      <h2>{en ? 'Keep exploring.' : 'Seguir explorando.'}</h2>
+      <div class="oos-article__actions">
+        <button type="button" data-oos-share data-article-share>{en ? 'Share article' : 'Compartir artículo'}</button>
+        <a data-article-contact href={`${en ? '/en' : ''}/contact/`}>{en ? 'Contact ↗' : 'Contacto ↗'}</a>
+        <a data-article-portfolio href={en ? '/en/' : '/'}>{en ? 'Back to AntoñiOS ↗' : 'Volver a AntoñiOS ↗'}</a>
+      </div>
+      <p role="status" aria-live="polite" data-oos-share-status></p>
+    </footer>
+  </article>
+  <script is:inline define:vars={{ shareTitle: data.title, shareText: data.summary, shareUrl: canonical, copied: en ? 'Link copied.' : 'Enlace copiado.', copyFailed: en ? 'Could not copy the link.' : 'No se pudo copiar el enlace.' }}>
+    const share = document.querySelector('[data-oos-share]');
+    const shareStatus = document.querySelector('[data-oos-share-status]');
+    share?.addEventListener('click', async () => {
+      try {
+        if (navigator.share) await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+        else { await navigator.clipboard.writeText(shareUrl); if (shareStatus) shareStatus.textContent = copied; }
+      } catch (error) { if (error?.name !== 'AbortError' && shareStatus) shareStatus.textContent = copyFailed; }
+    });
+  </script>
+  <script>
+    import { createArticleProgressTracker } from '../../lib/analytics/article-progress';
+    const article = document.querySelector<HTMLElement>('[data-oos-article]');
+    if (article) {
+      const slug = article.dataset.oosArticle ?? '';
+      const language = article.dataset.oosLanguage === 'en' ? 'en' : 'es';
+      const trackProgress = createArticleProgressTracker(slug, language, event => window.__ANTONIOS_ANALYTICS__?.track(event) ?? false);
+      const measure = () => {
+        const root = document.documentElement;
+        const available = root.scrollHeight - window.innerHeight;
+        const progress = available <= 0 ? 1 : window.scrollY / available;
+        trackProgress(progress);
+      };
+      addEventListener('scroll', measure, { passive: true });
+      addEventListener('analytics-consent-changed', measure);
+      measure();
+    }
+  </script>
+</OutOfScopeLayout>

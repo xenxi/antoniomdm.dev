@@ -5,9 +5,10 @@ import { profileSections } from '../os/profile-sections';
 import { getArchitectureCases } from './professional';
 import { aiLabDetailSlugs, aiLabLanding as aiLabLandingContent, getAiLabCases } from './aiLab';
 export function routes(content: ContentData) {
+  void content;
   const { projects } = getPortfolio();
   const cases = getArchitectureCases('es');
-  return [...new Set([...applications.map(app => app.path), ...profileSections.map(section => section.path), ...projects.map(project => `/projects/${project.slug}/`), ...cases.map(item => `/architecture/${item.slug}/`), ...aiLabDetailSlugs.map(slug => `/ai-lab/${slug}/`), ...content.notes.map(note => `/notes/${note.slug}/`)])];
+  return [...new Set([...applications.map(app => app.path), ...profileSections.map(section => section.path), ...projects.map(project => `/projects/${project.slug}/`), ...cases.map(item => `/architecture/${item.slug}/`), ...aiLabDetailSlugs.map(slug => `/ai-lab/${slug}/`)])];
 }
 export function pageMetadata(path: string, content: ContentData) {
   const locale = localeForPath(path); const t = translator(locale);

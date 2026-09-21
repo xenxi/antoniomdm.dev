@@ -1,0 +1,9 @@
+---
+import StaticRedirect from '../../../layouts/StaticRedirect.astro';
+import { getOutOfScopeEntries } from '../../../data/out-of-scope';
+export async function getStaticPaths() {
+  return (await getOutOfScopeEntries('en')).map(entry => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+const { slug } = Astro.params;
+---
+<StaticRedirect target={`/en/blog/${slug}/`} />

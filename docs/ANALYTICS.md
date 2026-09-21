@@ -21,6 +21,8 @@ La aplicación usa una API tipada central; los componentes no llaman directament
 | `ai_lab_view` | `language` | Entrada en la portada de AI Lab. |
 | `ai_lab_case_view` | `case_id`, `case_name`, `language` | Apertura de un caso concreto de AI Lab. |
 | `blog_article_view` | `article_slug`, `language`, `source_section` | Apertura de una nota publicada en el portfolio. |
+| `article_view`, `article_50_percent`, `article_complete` | `article_slug`, `language` | Lectura de Out of Scope y profundidades únicas del 50 % y final. |
+| `article_project_click`, `article_portfolio_click`, `article_contact_click`, `article_share`, `article_external_link` | `article_slug`, `language` y destino estable cuando corresponda | Interacciones editoriales; el enlace externo sólo envía hostname. |
 | `github_click` | `source_section`, `project_id?`, `language` | Clic explícito en el perfil de GitHub fuera de una ficha de proyecto. |
 | `linkedin_click` | `source_section`, `language` | Clic en LinkedIn fuera de Contacto. |
 | `contact_click` | `contact_method`, `source_section`, `language` | Acción de email o LinkedIn en Contacto; evita duplicar `linkedin_click`. |
@@ -60,6 +62,8 @@ The application uses one central typed API; components never call `gtag` directl
 | `ai_lab_view` | `language` | Entry into the AI Lab landing. |
 | `ai_lab_case_view` | `case_id`, `case_name`, `language` | A specific AI Lab case is opened. |
 | `blog_article_view` | `article_slug`, `language`, `source_section` | A portfolio note is opened. |
+| `article_view`, `article_50_percent`, `article_complete` | `article_slug`, `language` | Out of Scope reading and one-shot 50% and completion depths. |
+| `article_project_click`, `article_portfolio_click`, `article_contact_click`, `article_share`, `article_external_link` | `article_slug`, `language`, and a stable destination when applicable | Editorial interactions; external links send only the hostname. |
 | `github_click` | `source_section`, `project_id?`, `language` | Explicit GitHub-profile click outside a project detail. |
 | `linkedin_click` | `source_section`, `language` | LinkedIn click outside Contact. |
 | `contact_click` | `contact_method`, `source_section`, `language` | Email or LinkedIn action in Contact; avoids duplicating `linkedin_click`. |

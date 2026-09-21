@@ -15,7 +15,9 @@ export function sourceSectionForPath(path: string): AnalyticsSourceSection {
   if (normalized.startsWith('/projects/')) return 'project';
   if (normalized.startsWith('/architecture/')) return 'architecture';
   if (normalized.startsWith('/ai-lab/')) return 'ai_lab';
+  if (normalized.startsWith('/blog/')) return 'blog';
   if (normalized.startsWith('/notes/')) return 'blog';
+  if (normalized.startsWith('/out-of-scope/')) return 'blog';
   if (normalized.startsWith('/profile/') || normalized === '/profile/') return 'about';
   if (normalized === '/contact/') return 'contact';
   if (normalized === '/terminal/') return 'terminal';
@@ -157,6 +159,14 @@ export function routeViewEventFromDocument(
         language,
         source_section: 'portfolio',
       },
+    };
+  }
+
+  const outOfScopeArticle = document.querySelector<HTMLElement>('[data-oos-article]');
+  if (outOfScopeArticle?.dataset.oosArticle) {
+    return {
+      name: 'article_view',
+      params: { article_slug: outOfScopeArticle.dataset.oosArticle, language },
     };
   }
 

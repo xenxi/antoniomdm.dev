@@ -1,0 +1,77 @@
+---
+import AnalyticsConsent from '../components/AnalyticsConsent.astro';
+import type { Locale } from '../i18n/core';
+import '../styles/global.css';
+import '../styles/out-of-scope.css';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  canonical: string;
+  alternate?: { locale: Locale; href: string };
+  kind?: 'website' | 'article';
+  published?: string;
+  updated?: string;
+  tags?: string[];
+  schema?: Record<string, unknown>;
+}
+const { locale, title, description, canonical, alternate, kind = 'website', published, updated, tags = [], schema } = Astro.props;
+const en = locale === 'en';
+const home = en ? '/en/blog/' : '/blog/';
+const portfolio = en ? '/en/' : '/';
+const rss = `${home}rss.xml`;
+const socialImage = `https://antoniomdm.dev${en ? '/en/social.png' : '/social.png'}`;
+const defaultHref = alternate?.locale === 'es' ? alternate.href : canonical;
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · Out of Context · AntoñiOS</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b100e" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={locale} href={canonical} />
+    {alternate && <link rel="alternate" hreflang={alternate.locale} href={alternate.href} />}
+    <link rel="alternate" hreflang="x-default" href={defaultHref} />
+    <link rel="alternate" type="application/rss+xml" title="Out of Context · AntoñiOS RSS" href={rss} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:locale" content={en ? 'en_GB' : 'es_ES'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={kind} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Out of Context · AntoñiOS" />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    {published && <meta property="article:published_time" content={published} />}
+    {updated && <meta property="article:modified_time" content={updated} />}
+    {tags.map(tag => <meta property="article:tag" content={tag} />)}
+    {schema && <script is:inline type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\u003c')} />}
+  </head>
+  <body class="oos-body">
+    <a class="oos-skip" href="#main">{en ? 'Skip to content' : 'Saltar al contenido'}</a>
+    <header class="oos-site-header">
+      <a class="oos-brand" href={home} aria-label={en ? 'Out of Context home' : 'Inicio de Out of Context'}><b aria-hidden="true">▰</b> OUT OF CONTEXT<span>_</span></a>
+      <nav aria-label={en ? 'Publication navigation' : 'Navegación de la publicación'}>
+        <a href={home}>{en ? 'Articles' : 'Artículos'}</a>
+        <a href={rss}>RSS</a>
+        {alternate && <a data-language={alternate.locale} lang={alternate.locale} hreflang={alternate.locale} href={alternate.href}>{alternate.locale.toUpperCase()}</a>}
+        <a data-article-portfolio href={portfolio}>{en ? 'Portfolio ↗' : 'Portfolio ↗'}</a>
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="oos-site-footer">
+      <p>OUT OF CONTEXT_ <span>×</span> AntoñiOS</p>
+      <p>{en ? 'Questions, experiments and engineering notes.' : 'Preguntas, experimentos y notas de ingeniería.'}</p>
+    </footer>
+    <AnalyticsConsent locale={locale} />
+  </body>
+</html>

@@ -9,6 +9,7 @@ export type AnalyticsSourceSection =
   | 'architecture'
   | 'ai_lab'
   | 'blog'
+  | 'out_of_scope'
   | 'about'
   | 'contact'
   | 'terminal'
@@ -68,6 +69,9 @@ export type AnalyticsEvent =
         source_section: AnalyticsSourceSection;
       };
     }
+  | { name: 'article_view' | 'article_50_percent' | 'article_complete' | 'article_portfolio_click' | 'article_contact_click' | 'article_share'; params: { article_slug: string; language: AnalyticsLanguage } }
+  | { name: 'article_project_click'; params: { article_slug: string; project_id: string; language: AnalyticsLanguage } }
+  | { name: 'article_external_link'; params: { article_slug: string; destination: string; language: AnalyticsLanguage } }
   | {
       name: 'github_click';
       params: {
@@ -116,6 +120,7 @@ const sourceSections = new Set<AnalyticsSourceSection>([
   'architecture',
   'ai_lab',
   'blog',
+  'out_of_scope',
   'about',
   'contact',
   'terminal',
@@ -135,7 +140,7 @@ const appIds = new Set<AppId>([
   'welcome',
   'projects',
   'experience',
-  'notes',
+  'blog',
   'lab',
   'about',
   'background',
@@ -236,6 +241,34 @@ export function sanitizeAnalyticsEvent(value: unknown): AnalyticsEvent | undefin
         !stableId.test(params.article_slug) ||
         !isLanguage(params.language) ||
         !isSource(params.source_section)
+      ) return undefined;
+      break;
+    case 'article_view':
+    case 'article_50_percent':
+    case 'article_complete':
+    case 'article_portfolio_click':
+    case 'article_contact_click':
+    case 'article_share':
+      if (
+        !hasOnlyKeys(params, ['article_slug', 'language']) ||
+        typeof params.article_slug !== 'string' ||
+        !stableId.test(params.article_slug) ||
+        !isLanguage(params.language)
+      ) return undefined;
+      break;
+    case 'article_project_click':
+      if (
+        !hasOnlyKeys(params, ['article_slug', 'project_id', 'language']) ||
+        typeof params.article_slug !== 'string' || !stableId.test(params.article_slug) ||
+        typeof params.project_id !== 'string' || !stableId.test(params.project_id) ||
+        !isLanguage(params.language)
+      ) return undefined;
+      break;
+    case 'article_external_link':
+      if (
+        !hasOnlyKeys(params, ['article_slug', 'destination', 'language']) ||
+        typeof params.article_slug !== 'string' || !stableId.test(params.article_slug) ||
+        !isPublicLabel(params.destination) || !isLanguage(params.language)
       ) return undefined;
       break;
     case 'github_click':

@@ -39,14 +39,14 @@ describe('WindowManager', () => {
     expect(reduce(state, { type: 'restore', id: 'projects' }).openWindows[0].state).toBe('maximized');
   });
   it('focuses with bounded z-order and selects the next visible window on close', () => {
-    let state = open(open(), 'notes');
-    for (let i = 0; i < 1000; i++) state = reduce(state, { type: 'focus', id: i % 2 ? 'notes' : 'projects' });
-    expect(state.zOrder).toEqual(['projects', 'notes']); expect(state.activeWindowId).toBe('notes');
-    const closed = reduce(state, { type: 'close', id: 'notes' }); expect(closed.activeWindowId).toBe('projects');
+    let state = open(open(), 'blog');
+    for (let i = 0; i < 1000; i++) state = reduce(state, { type: 'focus', id: i % 2 ? 'blog' : 'projects' });
+    expect(state.zOrder).toEqual(['projects', 'blog']); expect(state.activeWindowId).toBe('blog');
+    const closed = reduce(state, { type: 'close', id: 'blog' }); expect(closed.activeWindowId).toBe('projects');
   });
   it('does not focus a minimized window accidentally', () => {
-    const state = reduce(open(open(), 'notes'), { type: 'minimize', id: 'notes' });
-    expect(reduce(state, { type: 'focus', id: 'notes' })).toEqual(state);
+    const state = reduce(open(open(), 'blog'), { type: 'minimize', id: 'blog' });
+    expect(reduce(state, { type: 'focus', id: 'blog' })).toEqual(state);
   });
   it('constrains geometry and reconciles viewport changes', () => {
     expect(clampRect({ x: -30, y: 2000, width: 9000, height: 10 }, viewport, registry.projects.minSize)).toEqual({ x: 0, y: 570, width: 1400, height: 280 });
@@ -54,13 +54,13 @@ describe('WindowManager', () => {
     expect(state.openWindows[0].rect.x).toBe(0); expect(state.openWindows[0].rect.width).toBe(390);
   });
   it('ignores unknown closed instances and resets cleanly', () => {
-    expect(reduce(initialState, { type: 'close', id: 'notes' })).toEqual(initialState);
+    expect(reduce(initialState, { type: 'close', id: 'blog' })).toEqual(initialState);
     expect(reduce(open(), { type: 'reset' })).toEqual(initialState);
   });
   it.each(['/projects', '/projects/', '/projects/platform934/'])('deep link %s opens Projects', path => {
     const id = appForPath(path)!; expect(id).toBe('projects'); expect(open(initialState, id, path).activeWindowId).toBe('projects');
   });
-  it('maps legacy blog and rejects unknown routes', () => { expect(appForPath('/blog/')).toBe('notes'); expect(appForPath('/missing/')).toBeUndefined(); });
+  it('maps the Blog editor and rejects public or unknown routes', () => { expect(appForPath('/blog/app/')).toBe('blog'); expect(appForPath('/blog/')).toBeUndefined(); expect(appForPath('/missing/')).toBeUndefined(); });
 });
 describe('Preferences', () => {
   it('defaults arcade music on and preserves explicit mute preferences', () => { expect(defaults.music).toBe(true); expect(parsePreferences('{"music":false}').music).toBe(false); expect(parsePreferences('{"sound":false}').sound).toBe(false); expect(parsePreferences(null)).toEqual(defaults); expect(parsePreferences('{broken')).toEqual(defaults); expect(parsePreferences('null')).toEqual(defaults); });

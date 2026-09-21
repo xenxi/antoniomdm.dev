@@ -1,0 +1,5 @@
+---
+import StaticRedirect from '../../../layouts/StaticRedirect.astro';
+export function getStaticPaths() { return [{ params: { slug: 'os-foundation' } }]; }
+---
+<StaticRedirect target="/blog/" />

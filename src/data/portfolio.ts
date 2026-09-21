@@ -2,6 +2,7 @@ import type { Locale } from '../i18n/core';
 import { getAiLab, getCompetencies, getExperience, getProfile, getPublicLinks } from './professional';
 import { ecosystemLabels, localizeProject } from './projects';
 import { publicProfessionalModel } from './professional';
+import type { OutOfScopeCard } from './out-of-scope';
 
 export function getPortfolio(locale: Locale = 'es') {
 const sourceProfile = getProfile(locale);
@@ -44,4 +45,4 @@ export interface Note {
   slug: string; title: string; description: string; date: string; updated?: string;
   tags: string[]; readingTime: number; canonical?: string; html: string;
 }
-export interface ContentData { notes: Note[] }
+export interface ContentData { notes: Note[]; outOfScope: OutOfScopeCard[] }

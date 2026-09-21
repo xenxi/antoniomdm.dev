@@ -29,6 +29,7 @@ describe('A3 Profile document contract', () => {
     expect(appForPath('/background-processes/')).toBe('background');
     expect(desktopApplications).toHaveLength(9);
     expect(launcherApplications).toHaveLength(10);
+    expect(desktopApplications).toContain('blog');
     for (const app of launcherApplications) {
       expect(spanish[app.name]).toBeTruthy();
       expect(translator('es')(app.description)).toBeTruthy();

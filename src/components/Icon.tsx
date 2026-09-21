@@ -5,7 +5,7 @@ const paths: Record<AppId, string> = {
   welcome: 'M4 5h16v13H4z M4 9h16 M8 21h8 M12 18v3 M8 12l3 2-3 2 M13 16h3',
   projects: 'M2 15l10 5 10-5v4l-10 5-10-5z M2 9l10 5 10-5v4l-10 5-10-5z M2 5l10-5 10 5-10 5z',
   experience: 'M2 4h8l3 3h9v14H2z M2 9h20',
-  notes: 'M5 3h11l4 4v14H5z M16 3v5h4 M8 12h9 M8 16h7',
+  blog: 'M3 4h18v16H3z M3 8h18 M7 6h.01 M10 6h.01 M13 6h.01 M7 12l3 2-3 2 M12 16h5',
   lab: 'M9 3h6 M10 3v7l-6 9v2h16v-2l-6-9V3 M7 15h10 M10 18h1 M14 17h1',
   about: 'M9 3h6v2h2v7h-2v2H9v-2H7V5h2z M4 22v-4h3v-2h10v2h3v4',
   background: 'M4 4h7v6H4z M13 4h7v6h-7z M4 13h7v7H4z M13 13h7v7h-7z M6 7h3 M15 7h3 M6 16h3 M15 16h3',

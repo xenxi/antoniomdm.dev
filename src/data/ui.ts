@@ -37,6 +37,7 @@ export function getUiData(locale: Locale, content: ContentData, path = localized
     publicLinks: getPublicLinks(locale),
     contact: contactInfo,
     contactMailto,
+    outOfScope: content.outOfScope,
     knownPaths: routes(content), metadata,
   };
 }

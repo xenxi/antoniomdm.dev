@@ -82,7 +82,7 @@ function sourceSectionForElement(element: Element): AnalyticsSourceSection {
     projects: 'project',
     architecture: 'architecture',
     lab: 'ai_lab',
-    notes: 'blog',
+    blog: 'blog',
     about: 'about',
     contact: 'contact',
     terminal: 'terminal',
@@ -119,6 +119,19 @@ export function interactionEventFromElement(
   }
 
   const link = element.closest<HTMLAnchorElement>('a[href]');
+  const article = element.closest<HTMLElement>('[data-oos-article]');
+  const articleSlug = article?.dataset.oosArticle;
+  if (articleSlug) {
+    if (element.closest('[data-article-share]')) return { name: 'article_share', params: { article_slug: articleSlug, language } };
+    if (element.closest('[data-article-portfolio]')) return { name: 'article_portfolio_click', params: { article_slug: articleSlug, language } };
+    if (element.closest('[data-article-contact]')) return { name: 'article_contact_click', params: { article_slug: articleSlug, language } };
+    const project = element.closest<HTMLElement>('[data-article-project]');
+    if (project?.dataset.projectId) return { name: 'article_project_click', params: { article_slug: articleSlug, project_id: project.dataset.projectId, language } };
+    const currentOrigin = link?.ownerDocument.defaultView?.location.origin;
+    if (link && /^https?:$/.test(link.protocol) && (!currentOrigin || link.origin !== currentOrigin)) {
+      return { name: 'article_external_link', params: { article_slug: articleSlug, destination: link.hostname, language } };
+    }
+  }
   if (!link) return undefined;
   const sourceSection = sourceSectionForElement(link);
 
@@ -232,6 +245,7 @@ export function bindAnalytics(
       pageTracker.reset();
       clearGaCookies(document);
     }
+    window.dispatchEvent(new Event('analytics-consent-changed'));
   };
 
   region
