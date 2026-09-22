@@ -53,9 +53,9 @@ describe('Blog publishing contract', () => {
   });
 
   it('renders no advertising unless both future configuration values are present', () => {
-    expect(canRenderAds({ enabled: false, clientId: undefined })).toBe(false);
-    expect(canRenderAds({ enabled: true, clientId: undefined })).toBe(false);
-    expect(canRenderAds({ enabled: true, clientId: 'ca-pub-configured-later' })).toBe(true);
+    expect(canRenderAds({ enabled: false, clientId: undefined, articleSlotId: undefined })).toBe(false);
+    expect(canRenderAds({ enabled: true, clientId: 'ca-pub-2673939834159464', articleSlotId: undefined })).toBe(false);
+    expect(canRenderAds({ enabled: true, clientId: 'ca-pub-2673939834159464', articleSlotId: '0'.repeat(10) })).toBe(true);
   });
 
   it('accepts typed article events and rejects extra or private parameters', () => {

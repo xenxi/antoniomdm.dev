@@ -63,7 +63,7 @@ import flow from './images/flow.webp';
 <Image src={flow} alt="Flujo simplificado" position="wide" caption="Del comando al siguiente frame." number={1} zoom />
 ```
 
-`position` admite `inline`, `wide`, `full`, `left` y `right`; las posiciones laterales pasan a vertical en móvil. `zoom` usa un diálogo nativo navegable por teclado. También están disponibles `Gallery`, `Compare`, `Question`, `Experiment`, `Result`, `Observation`, `Aside`, `Callout`, `Code`, `OriginalScope`, `OutOfScope`, `OpenQuestions` y `AdSlot`. Estas piezas comparten una abstracción visual pequeña; no son plantillas obligatorias.
+`position` admite `inline`, `wide`, `full`, `left` y `right`; las posiciones laterales pasan a vertical en móvil. `zoom` usa un diálogo nativo navegable por teclado. También están disponibles `Gallery`, `Compare`, `Question`, `Experiment`, `Result`, `Observation`, `Aside`, `Callout`, `Code`, `OriginalScope`, `OutOfScope` y `OpenQuestions`. Estas piezas comparten una abstracción visual pequeña; no son plantillas obligatorias.
 
 ### Publicación, SEO y RSS
 
@@ -83,7 +83,7 @@ El formatter usa `title + summary + canonical URL` y añade los UTM de LinkedIn.
 
 ### Publicidad
 
-`AdSlot` y `src/config/ads.ts` son el límite de integración. `PUBLIC_ADS_ENABLED` es falso por defecto y, sin flag e ID público, el componente no produce HTML, espacio ni scripts. No hay IDs inventados. Antes de activar un proveedor hay que ampliar el consentimiento con una categoría publicitaria explícita, configurar IDs públicos mediante variables de entorno e implementar el adaptador oficial dentro de ese límite. Los anuncios sólo pertenecen a la página editorial, nunca a la ventana de AntoñiOS, y no deben insertarse dentro de código, tablas o bloques técnicos.
+`AdSlot`, `AdSenseLoader` y `src/config/ads.ts` forman el límite de integración. `PUBLIC_ADS_ENABLED` es falso por defecto y una unidad sólo se renderiza con client y slot válidos. El loader de verificación vive únicamente en el layout de Out of Context; las unidades sólo pertenecen a artículos individuales, nunca a la landing, a la ventana de AntoñiOS ni al contenido MDX. La operación completa se documenta en `docs/ADSENSE.md`.
 
 ## English
 
@@ -114,7 +114,7 @@ Invalid frontmatter fails content sync, typecheck, or build with the affected pa
 
 Covers use Astro's schema image helper: `cover: "./images/cover.webp"` requires `coverAlt`. Import body images and pass them to `Image` to retain dimensions and optimisation. Semantic positions are `inline`, `wide`, `full`, `left`, and `right`; side figures stack on mobile. `zoom` uses a keyboard-accessible native dialog.
 
-Available components are `Image`, `Gallery`, `Compare`, `Question`, `Experiment`, `Result`, `Observation`, `Aside`, `Callout`, `Code`, `OriginalScope`, `OutOfScope`, `OpenQuestions`, and `AdSlot`. They share a small visual abstraction and do not impose an article template.
+Available components are `Image`, `Gallery`, `Compare`, `Question`, `Experiment`, `Result`, `Observation`, `Aside`, `Callout`, `Code`, `OriginalScope`, `OutOfScope`, and `OpenQuestions`. They share a small visual abstraction and do not impose an article template.
 
 ### Publishing, SEO and RSS
 
@@ -130,4 +130,4 @@ Run `npm run article:social -- --locale=en --slug=my-question` to produce review
 
 ### Advertising
 
-`AdSlot` and `src/config/ads.ts` are the integration boundary. `PUBLIC_ADS_ENABLED` is false by default; without the flag and a public ID the component produces no HTML, gap, or script. No IDs are invented. Before enabling a provider, add an explicit advertising consent category, configure public IDs through environment variables, and implement the official adapter within this boundary. Ads belong only in the full editorial page, never the AntoñiOS window or inside code, tables, and technical blocks.
+`AdSlot`, `AdSenseLoader`, and `src/config/ads.ts` form the integration boundary. `PUBLIC_ADS_ENABLED` is false by default, and a unit renders only with a valid client and slot. The verification loader exists only in the Out of Context layout; units belong only on individual articles, never on the landing, in the AntoñiOS window, or in MDX content. The complete operating guide is in `docs/ADSENSE.md`.

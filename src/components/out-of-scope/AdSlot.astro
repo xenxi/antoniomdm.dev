@@ -1,7 +1,55 @@
 ---
-import { canRenderAds } from '../../config/ads';
-interface Props { position: string }
+import { adsConfig, canRenderAds } from '../../config/ads';
+
+interface Props {
+  position: 'article-end';
+}
+
 const { position } = Astro.props;
-const label = Astro.url.pathname.startsWith('/en/') ? 'Advertisement' : 'Publicidad';
+const en = Astro.url.pathname.startsWith('/en/');
+const label = en ? 'ADVERTISEMENT' : 'PUBLICIDAD';
+const labelId = `oos-ad-${position}-label`;
+const renderAd = canRenderAds();
 ---
-{canRenderAds() && <aside class="oos-ad-slot" data-ad-position={position} aria-label={label}></aside>}
+
+{renderAd && (
+  <aside
+    class="oos-ad-slot"
+    data-ad-position={position}
+    aria-labelledby={labelId}
+  >
+    <p id={labelId} class="oos-ad-slot__label">AD_01 / {label}</p>
+    <div class="oos-ad-slot__frame">
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client={adsConfig.clientId}
+        data-ad-slot={adsConfig.articleSlotId}
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    </div>
+  </aside>
+)}
+
+{renderAd && (
+  <script is:inline>
+    (() => {
+      const initializeAds = () => {
+        document
+          .querySelectorAll('.adsbygoogle:not([data-ad-initialized])')
+          .forEach((unit) => {
+            unit.setAttribute('data-ad-initialized', 'true');
+            try {
+              (window.adsbygoogle = window.adsbygoogle || []).push({});
+            } catch {
+              unit.setAttribute('data-ad-initialized', 'blocked');
+            }
+          });
+      };
+
+      initializeAds();
+      document.addEventListener('astro:page-load', initializeAds);
+    })();
+  </script>
+)}

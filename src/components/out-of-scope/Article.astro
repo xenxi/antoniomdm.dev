@@ -42,9 +42,11 @@ const schema = {
       <div class="oos-tags">{data.tags.map(tag => <span>{tag}</span>)}</div>
     </header>
     {data.cover ? <figure class="oos-article__cover"><Image src={data.cover} alt={data.coverAlt ?? ''} widths={[720, 1080, 1600, 2200]} sizes="(max-width: 1200px) 100vw, 1120px" loading="eager" fetchpriority="high" /></figure> : <div class="oos-article__cover oos-article__cover--generated" aria-hidden="true"><span>OUT<br />OF<br />CONTEXT_</span><i>{typeLabels[data.type]}</i></div>}
-    <div class="oos-article__body">
-      <Content components={editorialComponents} />
-      <AdSlot position="article-inline-1" />
+    <div class="oos-article__layout">
+      <div class="oos-article__body">
+        <Content components={editorialComponents} />
+      </div>
+      <AdSlot position="article-end" />
     </div>
   </article>
   <footer class="oos-article__footer" aria-label={en ? 'Article actions' : 'Acciones del artículo'}>

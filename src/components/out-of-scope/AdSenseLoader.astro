@@ -1,0 +1,17 @@
+---
+import { adsConfig, canLoadAdSense } from '../../config/ads';
+
+const src = canLoadAdSense(adsConfig)
+  ? `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(adsConfig.clientId ?? '')}`
+  : undefined;
+---
+
+{src && (
+  <script
+    is:inline
+    id="antonios-adsense-loader"
+    async
+    crossorigin="anonymous"
+    src={src}
+  ></script>
+)}

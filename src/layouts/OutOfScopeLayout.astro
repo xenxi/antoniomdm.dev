@@ -1,5 +1,6 @@
 ---
 import AnalyticsConsent from '../components/AnalyticsConsent.astro';
+import AdSenseLoader from '../components/out-of-scope/AdSenseLoader.astro';
 import type { Locale } from '../i18n/core';
 import '../styles/global.css';
 import '../styles/out-of-scope.css';
@@ -55,6 +56,7 @@ const defaultHref = alternate?.locale === 'es' ? alternate.href : canonical;
     {updated && <meta property="article:modified_time" content={updated} />}
     {tags.map(tag => <meta property="article:tag" content={tag} />)}
     {schema && <script is:inline type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\u003c')} />}
+    <AdSenseLoader />
   </head>
   <body class="oos-body">
     <a class="oos-skip" href="#main">{en ? 'Skip to content' : 'Saltar al contenido'}</a>

@@ -46,9 +46,13 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test
+      - run: npm run test:ads-builds
       - run: npm run build
         env:
           PUBLIC_GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID }}
+          PUBLIC_ADS_ENABLED: ${{ vars.PUBLIC_ADS_ENABLED }}
+          PUBLIC_ADS_CLIENT_ID: ${{ vars.PUBLIC_ADS_CLIENT_ID }}
+          PUBLIC_ADS_ARTICLE_SLOT_ID: ${{ vars.PUBLIC_ADS_ARTICLE_SLOT_ID }}
       - uses: actions/upload-artifact@v4
         with:
           name: web-dist
