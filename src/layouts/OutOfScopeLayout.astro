@@ -16,35 +16,40 @@ interface Props {
   updated?: string;
   tags?: string[];
   schema?: Record<string, unknown>;
+  variant?: 'editorial' | 'legal';
 }
-const { locale, title, description, canonical, alternate, kind = 'website', published, updated, tags = [], schema } = Astro.props;
+const { locale, title, description, canonical, alternate, kind = 'website', published, updated, tags = [], schema, variant = 'editorial' } = Astro.props;
 const en = locale === 'en';
+const legal = variant === 'legal';
 const home = en ? '/en/blog/' : '/blog/';
 const portfolio = en ? '/en/' : '/';
+const privacy = en ? '/en/privacy/' : '/privacy/';
 const rss = `${home}rss.xml`;
 const socialImage = `https://antoniomdm.dev${en ? '/en/social.png' : '/social.png'}`;
 const defaultHref = alternate?.locale === 'es' ? alternate.href : canonical;
+const documentTitle = legal ? `${title} · AntoñiOS` : `${title} · Out of Context · AntoñiOS`;
+const siteName = legal ? 'AntoñiOS' : 'Out of Context · AntoñiOS';
 ---
 <!doctype html>
 <html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title} · Out of Context · AntoñiOS</title>
+    <title>{documentTitle}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0b100e" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang={locale} href={canonical} />
     {alternate && <link rel="alternate" hreflang={alternate.locale} href={alternate.href} />}
     <link rel="alternate" hreflang="x-default" href={defaultHref} />
-    <link rel="alternate" type="application/rss+xml" title="Out of Context · AntoñiOS RSS" href={rss} />
+    {!legal && <link rel="alternate" type="application/rss+xml" title="Out of Context · AntoñiOS RSS" href={rss} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta property="og:locale" content={en ? 'en_GB' : 'es_ES'} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={kind} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:site_name" content="Out of Context · AntoñiOS" />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:image" content={socialImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -61,10 +66,10 @@ const defaultHref = alternate?.locale === 'es' ? alternate.href : canonical;
   <body class="oos-body">
     <a class="oos-skip" href="#main">{en ? 'Skip to content' : 'Saltar al contenido'}</a>
     <header class="oos-site-header">
-      <a class="oos-brand" href={home} aria-label={en ? 'Out of Context home' : 'Inicio de Out of Context'}><b aria-hidden="true">▰</b> OUT OF CONTEXT<span>_</span></a>
+      <a class="oos-brand" href={legal ? portfolio : home} aria-label={legal ? (en ? 'AntoñiOS home' : 'Inicio de AntoñiOS') : (en ? 'Out of Context home' : 'Inicio de Out of Context')}><b aria-hidden="true">▰</b> {legal ? `ANTOÑIOS / ${en ? 'PRIVACY' : 'PRIVACIDAD'}` : 'OUT OF CONTEXT'}<span>_</span></a>
       <nav aria-label={en ? 'Publication navigation' : 'Navegación de la publicación'}>
-        <a href={home}>{en ? 'Articles' : 'Artículos'}</a>
-        <a href={rss}>RSS</a>
+        <a href={home}>{legal ? 'Out of Context' : (en ? 'Articles' : 'Artículos')}</a>
+        {!legal && <a href={rss}>RSS</a>}
         {alternate && <a data-language={alternate.locale} lang={alternate.locale} hreflang={alternate.locale} href={alternate.href}>{alternate.locale.toUpperCase()}</a>}
         <a data-article-portfolio href={portfolio}>{en ? 'Portfolio ↗' : 'Portfolio ↗'}</a>
       </nav>
@@ -73,6 +78,7 @@ const defaultHref = alternate?.locale === 'es' ? alternate.href : canonical;
     <footer class="oos-site-footer">
       <p>OUT OF CONTEXT_ <span>×</span> AntoñiOS</p>
       <p>{en ? 'Questions, experiments and engineering notes.' : 'Preguntas, experimentos y notas de ingeniería.'}</p>
+      <p><a class="oos-footer-link" href={privacy}>{en ? 'Privacy' : 'Privacidad'}</a></p>
     </footer>
     <AnalyticsConsent locale={locale} />
   </body>

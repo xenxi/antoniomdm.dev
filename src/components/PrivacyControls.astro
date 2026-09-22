@@ -1,0 +1,62 @@
+---
+import type { PrivacyCopy } from '../data/privacy';
+
+interface Props {
+  copy: Pick<PrivacyCopy, 'controlsTitle' | 'controlsIntroduction' | 'analyticsControl' | 'advertisingControl' | 'advertisingUnavailable'>;
+}
+
+const { copy } = Astro.props;
+---
+
+<section class="privacy-controls" aria-labelledby="privacy-controls-title">
+  <div>
+    <p class="privacy-controls__eyebrow">CONSENT / CONTROL</p>
+    <h2 id="privacy-controls-title">{copy.controlsTitle}</h2>
+    <p>{copy.controlsIntroduction}</p>
+  </div>
+  <div class="privacy-controls__actions">
+    <button type="button" data-open-analytics-settings>{copy.analyticsControl}</button>
+    <button type="button" data-open-ad-settings disabled>{copy.advertisingControl}</button>
+  </div>
+  <p class="privacy-controls__status" data-ad-settings-status aria-live="polite">
+    {copy.advertisingUnavailable}
+  </p>
+</section>
+
+<script>
+  type GoogleFc = {
+    callbackQueue: Array<Record<string, () => void> | (() => void)>;
+    showRevocationMessage?: () => void;
+  };
+
+  const analyticsButton = document.querySelector<HTMLButtonElement>('[data-open-analytics-settings]');
+  const advertisingButton = document.querySelector<HTMLButtonElement>('[data-open-ad-settings]');
+  const advertisingStatus = document.querySelector<HTMLElement>('[data-ad-settings-status]');
+
+  analyticsButton?.addEventListener('click', () => {
+    const panel = document.getElementById('analytics-consent-panel');
+    const settings = document.getElementById('analytics-consent-settings');
+    if (panel && !panel.hidden) {
+      panel.focus();
+      return;
+    }
+    settings?.click();
+  });
+
+  const googleWindow = window as Window & { googlefc?: GoogleFc };
+  const googlefc = (googleWindow.googlefc ??= { callbackQueue: [] });
+  googlefc.callbackQueue ??= [];
+  googlefc.callbackQueue.push({
+    CONSENT_API_READY: () => {
+      if (!advertisingButton || typeof googlefc.showRevocationMessage !== 'function') return;
+      advertisingButton.disabled = false;
+      if (advertisingStatus) advertisingStatus.hidden = true;
+    },
+  });
+
+  advertisingButton?.addEventListener('click', () => {
+    if (typeof googlefc.showRevocationMessage === 'function') {
+      googlefc.callbackQueue.push(googlefc.showRevocationMessage);
+    }
+  });
+</script>

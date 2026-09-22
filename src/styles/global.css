@@ -116,9 +116,9 @@
   .dock-app.selected i { background: var(--violet); width: 22px; left: calc(50% - 11px); }
   .dock-app.is-minimized i { background: transparent; border: 1px solid var(--text-muted); height: 3px; }
   .dock-utilities { display: flex; align-items: center; gap: 7px; }
-  .dock-utilities button, .dock-utilities a:not(.reading-link) { display: grid; place-items: center; background: transparent; border: 0; padding: 8px; color: var(--text-muted); min-width: 38px; }
+  .dock-utilities button, .dock-utilities a:not(.reading-link):not(.privacy-link) { display: grid; place-items: center; background: transparent; border: 0; padding: 8px; color: var(--text-muted); min-width: 38px; }
   .dock-utilities .app-icon { width: 20px; height: 20px; }
-  .reading-link { font-size: .75rem; padding: 8px; }
+  .privacy-link, .reading-link { flex-shrink: 0; font-size: .75rem; padding: 8px; }
   .launcher-dismiss { position: absolute; inset: var(--bar-height) 0 var(--dock-height); z-index: 89; padding: 0; background: #0002; border: 0; border-radius: 0; cursor: default; }
   .launcher-dismiss:hover { background: #0002; }
   .launcher { position: absolute; bottom: 80px; left: 20px; width: 410px; max-height: calc(100dvh - 150px); overflow: auto; background: #202527; border: 1px solid #657173; border-radius: 14px; padding: 22px; box-shadow: var(--shadow); z-index: 90; animation: window-in var(--motion) ease-out; }
@@ -395,7 +395,7 @@
   .dock-app.selected i { background: var(--cyan); }
   .dock-apps { padding: 4px; }
   .dock-app:focus-visible { outline-offset: -2px; }
-  .dock-utilities a:not(.reading-link), .dock-utilities button { min-width: 44px; min-height: 44px; }
+  .dock-utilities a:not(.reading-link):not(.privacy-link), .dock-utilities button { min-width: 44px; min-height: 44px; }
   .language-switch a { display: grid; place-items: center; min-width: 44px; min-height: 44px; font-size: .875rem; }
   .language-switch a:focus-visible { outline-offset: -2px; }
   .launcher { border-radius: 8px; width: 620px; }
@@ -479,6 +479,7 @@
     .dock-app { padding: 0 10px; }
     .dock-utilities { gap: 0; }
     .dock-utilities > a[aria-label]:first-child, .dock-divider { display: none; }
+    .privacy-link { padding-inline: 5px; font-size: .68rem; }
     .launcher { left: 8px; right: 8px; bottom: 76px; width: auto; padding: 16px; max-height: calc(100dvh - 138px); }
     .launcher nav { grid-template-columns: 1fr; }
     .launcher-extras > span { flex-wrap: wrap; }

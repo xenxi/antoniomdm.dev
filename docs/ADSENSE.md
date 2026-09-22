@@ -28,6 +28,8 @@ Las tres se configuran como GitHub Repository Variables. El client y el slot son
 
 El consentimiento propio de GA4 (`antonios-analytics-consent`) sigue controlando sólo Analytics. No se interpreta como consentimiento publicitario ni se comparte con AdSense.
 
+La URL oficial configurada en AdSense y Google Privacy & Messaging es `https://antoniomdm.dev/privacy/`; su equivalente inglés es `https://antoniomdm.dev/en/privacy/`. Ambas páginas enlazan entre sí, explican por separado los dos consentimientos y ofrecen el control analítico existente. El control publicitario usa la API oficial `googlefc.callbackQueue.push(googlefc.showRevocationMessage)` y sólo se habilita cuando la CMP de Google está disponible; no elimina cookies de Google manualmente.
+
 Antes de activar `PUBLIC_ADS_ENABLED`, hay que crear y publicar en **AdSense → Privacidad y mensajes → Reglamentos europeos** el mensaje de la CMP certificada de Google para `antoniomdm.dev`. El loader permanece en el layout de Out of Context porque la CMP de Google y las etiquetas publicitarias usan esa infraestructura. No se añade un segundo banner casero. Si se habilita Consent Mode desde la CMP de Google, hay que revisar su configuración junto a los valores por defecto actuales de GA4; no se debe convertir automáticamente la elección de Analytics en una elección de publicidad.
 
 ### Activación y comprobación
@@ -70,6 +72,8 @@ Configure all three as GitHub Repository Variables. The client and slot are publ
 ### Consent and privacy
 
 The existing GA4 consent (`antonios-analytics-consent`) continues to control Analytics only. It is not interpreted as advertising consent or shared with AdSense.
+
+The official URL configured in AdSense and Google Privacy & Messaging is `https://antoniomdm.dev/privacy/`; its English equivalent is `https://antoniomdm.dev/en/privacy/`. Both pages link to each other, explain the two consents separately and expose the existing Analytics control. The advertising control uses the official `googlefc.callbackQueue.push(googlefc.showRevocationMessage)` API and is enabled only when Google's CMP is available; it does not delete Google cookies manually.
 
 Before enabling `PUBLIC_ADS_ENABLED`, create and publish the certified Google CMP message for `antoniomdm.dev` under **AdSense → Privacy & messaging → European regulations**. The loader remains in the Out of Context layout because Google's CMP and ad tags use that infrastructure. No second custom banner is added. If Consent Mode is enabled from Google's CMP, review its configuration alongside GA4's existing defaults; never automatically turn an Analytics choice into an advertising choice.
 

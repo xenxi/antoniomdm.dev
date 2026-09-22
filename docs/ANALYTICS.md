@@ -8,6 +8,8 @@ Producción usa el Measurement ID público `G-RD0PDLYEDV`. Está configurado en 
 
 GA4 sólo se descarga después de un consentimiento analítico explícito y únicamente bajo HTTPS en `antoniomdm.dev` o `www.antoniomdm.dev`. Rechazar no carga Google. Retirar el consentimiento envía el estado denegado, elimina las cookies GA accesibles y bloquea eventos posteriores. El consentimiento puede concederse de nuevo sin recargar la página.
 
+La política pública está disponible en `https://antoniomdm.dev/privacy/` y en inglés en `https://antoniomdm.dev/en/privacy/`. Ambas páginas reutilizan `AnalyticsConsent` para volver a abrir esta configuración y mantienen esta elección separada del consentimiento publicitario de la CMP de Google.
+
 La aplicación usa una API tipada central; los componentes no llaman directamente a `gtag`. La navegación cliente emite una sola vista por cambio lógico de ruta. Volver a una ruta después de visitar otra sí cuenta como una nueva vista. Los clics se observan sin cancelar ni retrasar el comportamiento normal del enlace.
 
 ### Eventos
@@ -48,6 +50,8 @@ Para una comprobación manual en producción, acepta la medición y revisa Netwo
 Production uses the public Measurement ID `G-RD0PDLYEDV`. It is configured in GitHub as the `GA_MEASUREMENT_ID` repository variable; `.github/workflows/publish.yml` exposes it to the build as `PUBLIC_GA_MEASUREMENT_ID`. A build without a valid ID keeps Analytics disabled and does not generate the consent controls.
 
 GA4 is downloaded only after explicit analytics consent and only over HTTPS on `antoniomdm.dev` or `www.antoniomdm.dev`. Rejecting does not load Google. Revoking sends the denied state, removes accessible GA cookies and blocks later events. Consent can be granted again without reloading the page.
+
+The public policy is available at `https://antoniomdm.dev/privacy/`, with its English version at `https://antoniomdm.dev/en/privacy/`. Both pages reuse `AnalyticsConsent` to reopen these settings and keep this choice separate from advertising consent in Google's CMP.
 
 The application uses one central typed API; components never call `gtag` directly. Client navigation emits one view per logical route change. Returning to a route after visiting another does count as a new view. Click tracking neither cancels nor delays normal link behaviour.
 
