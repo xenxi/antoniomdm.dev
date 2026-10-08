@@ -79,11 +79,9 @@ export function createAnalyticsAdapter(
     if (activeConfig === undefined) return;
 
     if (!configured) {
+      // Advertising consent belongs to Google's CMP, even if it was set before GA4.
       runtime.dispatch('consent', 'default', {
-        ad_storage: 'denied',
         analytics_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
       });
     }
 

@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 import {
   mkdtempSync,
   readFileSync,
+  readdirSync,
   rmSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -55,6 +56,14 @@ try {
   assert.equal(occurrences(disabledArticle, 'class="adsbygoogle"'), 0);
   assert.equal(occurrences(disabledArticle, 'adsbygoogle.js?client='), 0);
 
+  const verification = build('verification', {
+    PUBLIC_ADS_ENABLED: 'false',
+    PUBLIC_ADS_CLIENT_ID: publisherId,
+    PUBLIC_ADS_ARTICLE_SLOT_ID: '',
+  });
+  assert.equal(occurrences(html(verification, 'blog'), 'adsbygoogle.js?client='), 1);
+  assert.equal(occurrences(html(verification, 'blog', 'la-pregunta-se-queda'), 'class="adsbygoogle"'), 0);
+
   const enabled = build('enabled', {
     PUBLIC_ADS_ENABLED: 'true',
     PUBLIC_ADS_CLIENT_ID: publisherId,
@@ -85,7 +94,17 @@ try {
   assert.equal(occurrences(portfolio, 'adsbygoogle.js?client='), 0);
   assert.equal(readFileSync(join(enabled, 'ads.txt'), 'utf8'), adsTxt);
 
-  console.log('AdSense builds verified with disabled and simulated valid configuration.');
+  // Scan every generated route, including aliases and both languages.
+  for (const output of [disabled, verification, enabled]) {
+    for (const file of readdirSync(output, { recursive: true }).filter(file => file.endsWith('.html'))) {
+      const page = readFileSync(join(output, file), 'utf8');
+      const units = occurrences(page, 'class="adsbygoogle"');
+      const isArticle = page.includes('data-oos-article=');
+      assert.equal(units, output === enabled && isArticle ? 1 : 0, `${file}: incorrect ad inventory`);
+      if (units) assert.equal(occurrences(page, 'adsbygoogle.js?client='), 1, `${file}: loader count`);
+    }
+  }
+  console.log('AdSense builds verified across all routes: disabled, verification-only and simulated enabled.');
 } finally {
   rmSync(temporaryRoot, { recursive: true, force: true });
 }

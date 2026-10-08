@@ -152,6 +152,20 @@ describe('consent-aware Google Analytics', () => {
     ).toHaveLength(3);
   });
 
+  it('never overwrites advertising consent when analytics is accepted or revoked', () => {
+    const dispatch = vi.fn();
+    const { analyticsRuntime } = runtime({ dispatch });
+    const adapter = createAnalyticsAdapter(createAnalyticsConfig('G-ABC1234567'), analyticsRuntime);
+    adapter.track(projectView);
+    adapter.revoke();
+    adapter.track(projectView);
+    const consentCommands = dispatch.mock.calls.filter(call => call[0] === 'consent');
+    expect(consentCommands).toHaveLength(4);
+    for (const command of consentCommands) {
+      expect(Object.keys(command[2])).toEqual(['analytics_storage']);
+    }
+  });
+
   it('loads one restricted tracker and strips query strings from page views', () => {
     const analyticsWindow: { dataLayer?: unknown[] } = {};
     const { appended, analyticsRuntime } = runtime({
