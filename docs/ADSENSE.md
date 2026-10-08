@@ -16,7 +16,7 @@ El artículo contiene una sola instancia semántica `article-end`. A partir de 1
 
 ### Variables
 
-| Variable | Valor de producción actual | Función |
+| Variable | Valor documentado (22-09-2026) | Función |
 | --- | --- | --- |
 | `PUBLIC_ADS_ENABLED` | `false` | Feature flag de las unidades. |
 | `PUBLIC_ADS_CLIENT_ID` | `ca-pub-2673939834159464` | Habilita el loader de verificación si el formato es válido. |
@@ -28,9 +28,11 @@ Las tres se configuran como GitHub Repository Variables. El client y el slot son
 
 El consentimiento propio de GA4 (`antonios-analytics-consent`) sigue controlando sólo Analytics. No se interpreta como consentimiento publicitario ni se comparte con AdSense.
 
-La URL oficial configurada en AdSense y Google Privacy & Messaging es `https://antoniomdm.dev/privacy/`; su equivalente inglés es `https://antoniomdm.dev/en/privacy/`. Ambas páginas enlazan entre sí, explican por separado los dos consentimientos y ofrecen el control analítico existente. El control publicitario usa la API oficial `googlefc.callbackQueue.push(googlefc.showRevocationMessage)` y sólo se habilita cuando la CMP de Google está disponible; no elimina cookies de Google manualmente.
+La URL que debe configurarse en AdSense y Google Privacy & Messaging es `https://antoniomdm.dev/privacy/`; su equivalente inglés es `https://antoniomdm.dev/en/privacy/`. Ambas páginas enlazan entre sí, explican por separado los dos consentimientos y ofrecen el control analítico existente. El control publicitario usa la API oficial `googlefc.callbackQueue.push(googlefc.showRevocationMessage)` y sólo se habilita cuando la CMP de Google está disponible; no elimina cookies de Google manualmente.
 
-Antes de activar `PUBLIC_ADS_ENABLED`, hay que crear y publicar en **AdSense → Privacidad y mensajes → Reglamentos europeos** el mensaje de la CMP certificada de Google para `antoniomdm.dev`. El loader permanece en el layout de Out of Context porque la CMP de Google y las etiquetas publicitarias usan esa infraestructura. No se añade un segundo banner casero. Si se habilita Consent Mode desde la CMP de Google, hay que revisar su configuración junto a los valores por defecto actuales de GA4; no se debe convertir automáticamente la elección de Analytics en una elección de publicidad.
+Antes de activar `PUBLIC_ADS_ENABLED`, hay que crear y publicar en **AdSense → Privacidad y mensajes → Reglamentos europeos** el mensaje de la CMP certificada de Google para `antoniomdm.dev`. El loader permanece en el layout de Out of Context porque la CMP de Google y las etiquetas publicitarias usan esa infraestructura. No se añade un segundo banner casero. Si se habilita Consent Mode desde la CMP de Google, hay que revisar su configuración junto al consentimiento independiente de GA4; no se debe convertir automáticamente la elección de Analytics en una elección de publicidad.
+
+GA4 sólo escribe `analytics_storage`; los campos publicitarios pertenecen a la CMP. Mantener desactivada la sincronización automática de Consent Mode desde la CMP mientras Analytics utilice su consentimiento independiente.
 
 ### Activación y comprobación
 
@@ -61,7 +63,7 @@ The article contains one semantic `article-end` instance. From 1180 px upwards, 
 
 ### Variables
 
-| Variable | Current production value | Purpose |
+| Variable | Documented value (2026-09-22) | Purpose |
 | --- | --- | --- |
 | `PUBLIC_ADS_ENABLED` | `false` | Ad-unit feature flag. |
 | `PUBLIC_ADS_CLIENT_ID` | `ca-pub-2673939834159464` | Enables the verification loader when its format is valid. |
@@ -73,9 +75,11 @@ Configure all three as GitHub Repository Variables. The client and slot are publ
 
 The existing GA4 consent (`antonios-analytics-consent`) continues to control Analytics only. It is not interpreted as advertising consent or shared with AdSense.
 
-The official URL configured in AdSense and Google Privacy & Messaging is `https://antoniomdm.dev/privacy/`; its English equivalent is `https://antoniomdm.dev/en/privacy/`. Both pages link to each other, explain the two consents separately and expose the existing Analytics control. The advertising control uses the official `googlefc.callbackQueue.push(googlefc.showRevocationMessage)` API and is enabled only when Google's CMP is available; it does not delete Google cookies manually.
+The official URL to configure in AdSense and Google Privacy & Messaging is `https://antoniomdm.dev/privacy/`; its English equivalent is `https://antoniomdm.dev/en/privacy/`. Both pages link to each other, explain the two consents separately and expose the existing Analytics control. The advertising control uses the official `googlefc.callbackQueue.push(googlefc.showRevocationMessage)` API and is enabled only when Google's CMP is available; it does not delete Google cookies manually.
 
-Before enabling `PUBLIC_ADS_ENABLED`, create and publish the certified Google CMP message for `antoniomdm.dev` under **AdSense → Privacy & messaging → European regulations**. The loader remains in the Out of Context layout because Google's CMP and ad tags use that infrastructure. No second custom banner is added. If Consent Mode is enabled from Google's CMP, review its configuration alongside GA4's existing defaults; never automatically turn an Analytics choice into an advertising choice.
+Before enabling `PUBLIC_ADS_ENABLED`, create and publish the certified Google CMP message for `antoniomdm.dev` under **AdSense → Privacy & messaging → European regulations**. The loader remains in the Out of Context layout because Google's CMP and ad tags use that infrastructure. No second custom banner is added. If Consent Mode is enabled from Google's CMP, review its configuration alongside GA4's independent consent; never automatically turn an Analytics choice into an advertising choice.
+
+GA4 only writes `analytics_storage`; advertising fields belong to the CMP. Keep the CMP's automatic Consent Mode synchronization disabled while Analytics uses its independent consent.
 
 ### Activation and verification
 
@@ -89,3 +93,45 @@ Before enabling `PUBLIC_ADS_ENABLED`, create and publish the certified Google CM
 Local tests use simulated configuration only to inspect static HTML; they do not contact Google. In production, never click your own ads or generate artificial impressions. Safely verify the DOM, network requests, and the AdSense diagnostics panel instead.
 
 Official references: [site management and verification](https://support.google.com/adsense/answer/12131223), [ads.txt guide](https://support.google.com/adsense/answer/12171612), [European regulations messages](https://support.google.com/adsense/answer/10961068), and [IAB TCF integration](https://support.google.com/adsense/answer/9804260).
+
+## Auditoría / Audit · 2026-10-08
+
+### Español
+
+Revisión de `main` en `1150704f56abb8850c0128a2b4514287bf2c0623`. El workflow de publicación 35758182413 y el despliegue de Pages 35758348589 terminaron correctamente. Esto no confirma aprobación de AdSense.
+
+La inspección HTTP de `/`, `/en/`, `/blog/`, `/en/blog/`, ambos artículos `la-pregunta-se-queda` / `the-question-remains`, `/privacy/`, `/en/privacy/` y `/ads.txt` devuelve 200. No hay unidades ni loader de AdSense en ninguno de los HTML inspeccionados. `ads.txt` coincide exactamente con el editor autorizado. La portada observada en navegador muestra el control propio de Analytics y no muestra publicidad.
+
+El HTML publicado no refleja el loader que produciría el client ID documentado. No permite distinguir entre cliente ausente/inválido, configuración de compilación o artefacto diferente. La API de variables de Actions no está soportada por el conector utilizado: los valores actuales del flag y slot siguen sin verificar. No deducirlos de la ausencia de anuncios.
+
+Antes de activar, obtener evidencia del panel de AdSense:
+
+- Sitio `antoniomdm.dev` aprobado/listo y cuenta sin restricciones de publicación.
+- Editor y `ads.txt` reconocidos por Google.
+- Mensaje europeo publicado para el dominio, idiomas ES/EN y URL de privacidad correcta. Verificar rechazo, aceptación, opciones y revocación en sesión europea nueva; comprobar señal TCF válida y diagnóstico de consentimiento.
+- Consent Mode de la CMP sin sincronización automática con Analytics; comprobar que aceptar publicidad no activa GA4 y que aceptar/revocar GA4 no modifica publicidad.
+- Auto Ads desactivado: el loader en la portada y privacidad podría permitir publicidad automática si se activa desde el panel. El flag local sólo controla unidades manuales.
+- Una unidad display responsive real y su ID; después comprobar variables de GitHub y generar una nueva compilación. Mantener `PUBLIC_ADS_ENABLED=false` hasta cerrar todos estos puntos.
+
+Las pruebas de inventario recorren todas las rutas generadas en tres compilaciones: sin configuración, verificación con cliente y flag desactivado, y configuración activa simulada. No envían peticiones a Google. Una prueba adicional protege que GA4 no escriba campos publicitarios. Estas pruebas no certifican la CMP remota ni una respuesta publicitaria real.
+
+### English
+
+Reviewed `main` at `1150704f56abb8850c0128a2b4514287bf2c0623`. Publishing workflow 35758182413 and Pages deployment 35758348589 succeeded. This does not establish AdSense approval.
+
+HTTP checks of `/`, `/en/`, `/blog/`, `/en/blog/`, the `la-pregunta-se-queda` / `the-question-remains` articles, `/privacy/`, `/en/privacy/` and `/ads.txt` return 200. None of the inspected HTML contains ad units or the AdSense loader. `ads.txt` exactly matches the authorized publisher. The browser-observed landing shows the independent Analytics control and no advertising.
+
+Published HTML does not contain the loader expected with the documented client ID. It cannot distinguish a missing/invalid client, build configuration or a different artifact. Actions variables are unsupported by the connector used: current flag and slot values remain unverified. Do not infer them from missing ads.
+
+Before activation, obtain AdSense dashboard evidence:
+
+- `antoniomdm.dev` approved/ready and no account serving restrictions.
+- Publisher and ads.txt recognized by Google.
+- European message published for the domain, ES/EN languages and correct privacy URL. Check rejection, acceptance, options and revocation in a fresh European session; validate TCF signals and consent diagnostics.
+- CMP Consent Mode without automatic Analytics synchronization; accepting advertising must not activate GA4, and accepting/revoking GA4 must not change advertising consent.
+- Auto Ads disabled: the loader on landing/privacy could allow automatic ads if enabled in the dashboard. The local flag controls manual units only.
+- One real responsive display unit and its ID; then inspect GitHub variables and generate a new build. Keep `PUBLIC_ADS_ENABLED=false` until every item is confirmed.
+
+Inventory tests scan all generated routes in three builds: unconfigured, verification with client and disabled flag, and simulated enabled configuration. They make no Google requests. An additional test protects against GA4 writing advertising fields. These tests do not certify the remote CMP or actual ad responses.
+
+Validación / Validation: `npm test` (152 tests), `npm run lint`, `npm run typecheck`, `npm run test:ads-builds` y/and `npm run build` pasan/pass. `test:analytics-browser` bloqueado/blocked: falta Chromium / Chromium unavailable; descarga fallida / download failed. Repetir en CI / rerun in CI.
