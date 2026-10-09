@@ -1,0 +1,100 @@
+---
+title: "El PR estaba en verde. El problema seguía ahí."
+summary: "GitHub migró Copilot a Rust con agentes que escribieron más de 800.000 líneas. Pero una comprobación de compatibilidad dejó una pregunta: ¿quién decide cuándo está terminado el trabajo?"
+date: 2026-10-09
+translationKey: "green-pr-same-problem"
+category: "Ingeniería agéntica"
+type: "exploration"
+readingTime: 3
+featured: false
+draft: false
+linkedin:
+  enabled: true
+  mode: "review"
+slug: "el-pr-estaba-en-verde"
+locale: "es"
+tags:
+  - Ingeniería de software
+  - IA
+  - Testing
+---
+
+Hay algo maravilloso en que una IA escriba más de 800.000 líneas de código.
+
+Y algo todavía mejor en que, después de todo eso, alguien tenga que preguntar por qué ha desaparecido una función.
+
+GitHub ha contado cómo Stephen Toub lideró la migración del runtime de Copilot de TypeScript a Rust: unas 14 semanas y media, 128 pull requests y un ejército de agentes trabajando en paralelo.
+
+Pero hay una anécdota que me interesa bastante más.
+
+## Dame cinco minutos, que cambio el motor.
+
+El runtime original dependía de Node.js. Utilizarlo desde determinados SDKs implicaba levantar un proceso adicional, con su propio consumo de memoria.
+
+Algo parecido a arrancar una cocina industrial para hacerte una tostada.
+
+La solución fue migrarlo a Rust y convertirlo en una biblioteca nativa.
+
+Según GitHub, una prueba de arranque, creación de sesión y primer turno pasó de 5,25 segundos a 292 milisegundos, sin contar la latencia del modelo ni la red.
+
+Una mejora considerable para una pequeña tarea de mantenimiento.
+
+## Compila. No hagas preguntas.
+
+Durante la migración aparecieron regresiones que compilaban perfectamente.
+
+Un entero que antes se serializaba como `42` empezó a viajar como `42.0`.
+
+Para Rust, estupendo.
+
+Para algunos consumidores del SDK, no tanto.
+
+El compilador puede comprobar que utilizas correctamente un tipo. Lo que no sabe es que otro sistema espera exactamente el contrato de ayer.
+
+Código válido. Comportamiento roto.
+
+La ingeniería de software de siempre, pero ahora con la posibilidad de generar problemas bastante más rápido.
+
+## La solución era quitar el problema del informe.
+
+Aquí llega mi parte favorita.
+
+Un agente eliminó accidentalmente una función del SDK. Una comprobación de compatibilidad detectó la ruptura.
+
+¿La solución?
+
+Etiquetar el cambio para tratarlo como una modificación de esquema permitida.
+
+El equivalente a encontrar un test fallando y decidir que el test tiene una actitud bastante negativa.
+
+Stephen revisó el cambio y la función terminó restaurada.
+
+El agente sabía escribir código. Lo que no había resuelto era el problema que tenía delante.
+
+Y eso plantea una pregunta interesante: ¿qué ocurre cuando quien hace el trabajo también puede modificar las reglas que determinan si está bien hecho?
+
+## Los tests necesitan protección de testigos.
+
+Si un agente puede modificar cientos de archivos, necesitamos mecanismos independientes que comprueben que el comportamiento sigue siendo el esperado.
+
+Tests de regresión, contratos públicos, comprobaciones de compatibilidad.
+
+Y límites claros sobre cuáles puede modificar.
+
+Porque conseguir que pasen los tests después de cambiar los tests tiene cierto mérito.
+
+Pero no necesariamente el que buscábamos.
+
+La migración demuestra que podemos delegar buena parte de la implementación. Lo que no deberíamos delegar sin control es la definición de éxito.
+
+Quizá el siguiente salto en ingeniería agéntica no consista en conseguir que los agentes escriban todavía más código.
+
+Sino en aprender a decirles qué significa haber terminado.
+
+Porque el PR puede estar en verde.
+
+Y el problema seguir exactamente donde estaba.
+
+---
+
+**Para quien quiera entrar en las tripas de la migración:** [Migrating the GitHub Copilot runtime to Rust, using Copilot](https://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/), de Stephen Toub. Una lectura bastante más larga, pero merece la pena.
