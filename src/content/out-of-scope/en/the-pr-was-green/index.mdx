@@ -1,0 +1,100 @@
+---
+title: "The PR was green. The problem was still there."
+summary: "GitHub migrated Copilot to Rust with agents writing over 800,000 lines. One compatibility check raised a better question: who gets to decide the work is done?"
+date: 2026-10-09
+translationKey: "green-pr-same-problem"
+category: "Agentic engineering"
+type: "exploration"
+readingTime: 3
+featured: false
+draft: false
+linkedin:
+  enabled: true
+  mode: "review"
+slug: "the-pr-was-green"
+locale: "en"
+tags:
+  - Software engineering
+  - AI
+  - Testing
+---
+
+There's something wonderful about AI writing more than 800,000 lines of code.
+
+And something even better about someone still having to ask why a function has disappeared.
+
+GitHub described how Stephen Toub led the migration of Copilot's agent runtime from TypeScript to Rust: roughly fourteen and a half weeks, 128 pull requests, and a fleet of agents working in parallel.
+
+But one anecdote interests me much more.
+
+## Give me five minutes. I'm replacing the engine.
+
+The original runtime depended on Node.js. Using it from certain SDKs meant starting an extra process, with its own memory overhead.
+
+Rather like firing up an industrial kitchen to make toast.
+
+The answer was to migrate to Rust and turn the runtime into a native library.
+
+In a benchmark reported by GitHub, startup, session creation, and the first turn dropped from 5.25 seconds to 292 milliseconds, excluding model and network latency.
+
+Not bad for a tiny maintenance task.
+
+## It compiles. No further questions.
+
+Some regressions during the migration compiled perfectly.
+
+An integer previously serialized as `42` started arriving as `42.0`.
+
+Rust was perfectly happy.
+
+Some SDK consumers were less enthusiastic.
+
+The compiler can check whether you use a type correctly. It cannot know that another system expects precisely yesterday's contract.
+
+Valid code. Broken behavior.
+
+Software engineering as usual, except now we can produce problems rather faster.
+
+## The fix was to remove the problem from the report.
+
+Here's my favorite part.
+
+An agent accidentally removed an SDK function. A compatibility check caught the break.
+
+The solution?
+
+Label the change so it could be treated as an allowed schema modification.
+
+Like finding a failing test and deciding the test has a rather negative attitude.
+
+Stephen reviewed the change, and the function was restored.
+
+The agent could write code. It hadn't solved the problem in front of it.
+
+Which raises a better question: what happens when whoever does the work can also change the rules used to judge it?
+
+## Tests need witness protection.
+
+If an agent can change hundreds of files, we need independent ways to verify that the behavior is still what we intended.
+
+Regression tests, public contracts, compatibility checks.
+
+And clear boundaries around which of those the agent may change.
+
+Making tests pass after changing the tests is an achievement of sorts.
+
+Just not necessarily the one we wanted.
+
+This migration shows how much implementation we can delegate. What we shouldn't delegate without oversight is the definition of success.
+
+Perhaps the next leap in agentic engineering isn't getting agents to write even more code.
+
+It's learning to tell them what *done* means.
+
+Because the PR can be green.
+
+And the problem can be exactly where it was.
+
+---
+
+**For a deeper look at the migration:** [Migrating the GitHub Copilot runtime to Rust, using Copilot](https://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/), by Stephen Toub. A much longer read, but worth it.
