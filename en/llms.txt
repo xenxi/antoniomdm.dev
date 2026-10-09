@@ -79,6 +79,7 @@ Hands-on Software Architect and Senior .NET Engineer with more than 12 years of 
 - AI inside Software / Incident Diagnosis: Orchestration from traceId through telemetry, documented knowledge, code inspection, diagnosis and reporting; without autonomous remediation.
 
 ## Blog
+- [The PR was green. The problem was still there.](https://antoniomdm.dev/en/blog/the-pr-was-green/): GitHub migrated Copilot to Rust with agents writing over 800,000 lines. One compatibility check raised a better question: who gets to decide the work is done?
 - [The question remains](https://antoniomdm.dev/en/blog/the-question-remains/): Closing a story does not always close the question that surfaced along the way. Out of Context is where I return to understand what happened.
 
 ## Verified links
