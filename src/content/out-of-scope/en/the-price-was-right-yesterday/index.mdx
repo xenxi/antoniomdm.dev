@@ -1,0 +1,149 @@
+---
+title: "The price was right. Yesterday."
+summary: "A cache can improve latency while returning stale information. Between Redis and business rules, how long can we afford a value to be wrong?"
+slug: "the-price-was-right-yesterday"
+locale: "en"
+tags: ["Architecture", ".NET", "Redis", "Caching"]
+category: "Architecture"
+seo:
+  description: "Redis, distributed caching, and business rules: improving latency means little if the system is efficiently returning the wrong price."
+date: 2026-10-17
+translationKey: "the-price-was-right-yesterday"
+type: "exploration"
+readingTime: 4
+featured: false
+draft: false
+linkedin:
+  enabled: false
+  mode: "disabled"
+---
+
+There's a remarkably efficient way to return the wrong price: put it in Redis.
+
+It's fast. It scales. The metrics look fantastic.
+
+Unfortunately, the customer still expects the right price. Some people are impossible to please.
+
+I've worked with pricing, availability, and business rules long enough to be suspicious of optimizations that look too easy.
+
+And few things look easier than adding a cache.
+
+Until you ask what you're actually caching.
+
+## A price never travels alone
+
+Picture a commercial system.
+
+There's a product, several dealers, campaigns, discounts, taxes, and a few conditions the business considers perfectly reasonable.
+
+We want faster queries.
+
+The obvious answer: calculate the price once, store it, and skip the repeated work.
+
+```text
+price:product:123 → 249.99
+```
+
+Beautiful.
+
+Except the price may depend on the dealer, campaign, date, or customer conditions.
+
+A minor detail.
+
+The cache isn't to blame. We asked it to remember an answer without telling it the question.
+
+We can improve the key, include context, and version the data. Then another question appears.
+
+How long is that answer still valid?
+
+## Five minutes is not a strategy
+
+One of my favorite moments in cache design is when TTL comes up.
+
+—How long should we keep it?
+
+—Five minutes.
+
+—Why?
+
+—Well... five minutes sounds fine, doesn't it?
+
+And just like that, we've made a business decision in a configuration file.
+
+Five minutes might be harmless for a product description and far too long for a price that's just changed.
+
+Microsoft's guidance on the *cache-aside* pattern makes an important point: the cache does not guarantee consistency with the source.
+
+And Redis, however fast it is, cannot decide how long we're willing to show stale information.
+
+That's our job.
+
+Invalidating an entry after updating the source doesn't magically remove every race condition, either. Another read can get ahead, hit a lagging replica, or repopulate the cache with an old value.
+
+A TTL doesn't solve those problems.
+
+It just puts an expiration date on our confidence.
+
+## The question that changes the design
+
+Here's a thought experiment I find useful.
+
+A promotion ends at noon.
+
+A customer checks the price at 11:59.
+
+At 12:01, the page is still open.
+
+At 12:02, they try to confirm the purchase.
+
+What should happen?
+
+There is no universal answer.
+
+We might allow slightly stale prices on screen, recalculate before confirmation, or guarantee an offer for a defined period.
+
+Different decisions. Different designs.
+
+None is settled by choosing Redis, MemoryCache, or the latest caching library for .NET.
+
+They're settled by understanding the business contract.
+
+**The important question isn't how long a value stays cached. It's how long we can afford it to be wrong.**
+
+## Performance can lie, too
+
+I like metrics.
+
+Latency, percentiles, hit rates, database load. They all matter.
+
+But a 99% cache-hit rate doesn't necessarily mean the system is doing its job well.
+
+It might mean we're returning stale data with admirable efficiency.
+
+For commercially sensitive data, I also want to know about invalidations, data age, and discrepancies discovered when operations are recalculated.
+
+We don't always need immediate consistency. Sometimes accepting briefly stale data is exactly the right trade-off.
+
+What matters is making that decision deliberately.
+
+And documenting it.
+
+Preferably before someone discovers the behavior in production.
+
+## Redis wasn't the problem
+
+We have increasingly good tools for implementing caches. We can even ask an AI agent to set up the integration, keys, and expiration policies.
+
+It will probably do it quickly.
+
+But no library can answer this for us:
+
+“What happens if this value stops being correct?”
+
+That's the conversation worth having before optimizing.
+
+Because a cache can dramatically reduce latency.
+
+It can also deliver the wrong price in record time.
+
+And however good the performance looks, that shouldn't count as a win.
