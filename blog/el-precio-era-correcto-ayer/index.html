@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>El precio era correcto. Ayer. · Out of Context · AntoñiOS</title><meta name="description" content="Una reflexión sobre Redis, caché distribuida y reglas de negocio. Porque reducir la latencia no sirve de mucho si devolvemos el dato equivocado."><meta name="theme-color" content="#0b100e"><link rel="canonical" href="https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/"><link rel="alternate" hreflang="es" href="https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/"><link rel="alternate" hreflang="en" href="https://antoniomdm.dev/en/blog/the-price-was-right-yesterday/"><link rel="alternate" hreflang="x-default" href="https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/"><link rel="alternate" type="application/rss+xml" title="Out of Context · AntoñiOS RSS" href="/blog/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:locale" content="es_ES"><meta property="og:title" content="El precio era correcto. Ayer."><meta property="og:description" content="Una reflexión sobre Redis, caché distribuida y reglas de negocio. Porque reducir la latencia no sirve de mucho si devolvemos el dato equivocado."><meta property="og:type" content="article"><meta property="og:url" content="https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/"><meta property="og:site_name" content="Out of Context · AntoñiOS"><meta property="og:image" content="https://antoniomdm.dev/social.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="El precio era correcto. Ayer."><meta name="twitter:description" content="Una reflexión sobre Redis, caché distribuida y reglas de negocio. Porque reducir la latencia no sirve de mucho si devolvemos el dato equivocado."><meta name="twitter:image" content="https://antoniomdm.dev/social.png"><meta property="article:published_time" content="2026-10-17T00:00:00.000Z"><meta property="article:tag" content="Arquitectura"><meta property="article:tag" content=".NET"><meta property="article:tag" content="Redis"><meta property="article:tag" content="Caché"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"El precio era correcto. Ayer.","description":"Una reflexión sobre Redis, caché distribuida y reglas de negocio. Porque reducir la latencia no sirve de mucho si devolvemos el dato equivocado.","datePublished":"2026-10-17T00:00:00.000Z","dateModified":"2026-10-17T00:00:00.000Z","inLanguage":"es","mainEntityOfPage":"https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/","url":"https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/","keywords":["Arquitectura",".NET","Redis","Caché"],"author":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"},"publisher":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"}}</script><link rel="stylesheet" href="/_astro/global.Bxf2nCII.css"><link rel="stylesheet" href="/_astro/OutOfScopeLayout.BVd6fVjb.css"></head><body class="oos-body"><a class="oos-skip" href="#main">Saltar al contenido</a><header class="oos-site-header"><a class="oos-brand" href="/blog/" aria-label="Inicio de Out of Context"><b aria-hidden="true">▰</b> OUT OF CONTEXT<span>_</span></a><nav aria-label="Navegación de la publicación"><a href="/blog/">Artículos</a><a href="/blog/rss.xml">RSS</a><a data-language="en" lang="en" hreflang="en" href="https://antoniomdm.dev/en/blog/the-price-was-right-yesterday/">EN</a><a data-article-portfolio href="/">Portfolio ↗</a></nav></header><main id="main"><article class="oos-article" data-oos-article="el-precio-era-correcto-ayer" data-oos-language="es"><header class="oos-article__header"><a class="oos-back" href="/blog/">← Todos los artículos</a><p class="oos-log">LOG #2610 · EXPLORACIÓN</p><h1>El precio era correcto. Ayer.</h1><p class="oos-article__summary">Una caché puede reducir la latencia mientras devuelve información desactualizada. Entre Redis y las reglas de negocio, ¿cuánto tiempo podemos permitirnos que un dato sea incorrecto?</p><div class="oos-article__facts"><time datetime="2026-10-17T00:00:00.000Z">17 de octubre de 2026</time><span>4 min de lectura</span><span>Arquitectura</span></div><div class="oos-tags"><span>Arquitectura</span><span>.NET</span><span>Redis</span><span>Caché</span></div></header><div class="oos-article__cover oos-article__cover--generated" aria-hidden="true"><span>OUT<br>OF<br>CONTEXT_</span><i>Exploración</i></div><div class="oos-article__layout"><div class="oos-article__body"><p>Hay una manera muy eficiente de devolver un precio equivocado: meterlo en Redis.</p>
+<p>Funciona rápido. Escala bien. Las métricas son preciosas.</p>
+<p>El problema es que el usuario sigue queriendo el precio correcto. Qué exigente se ha vuelto la gente.</p>
+<p>He trabajado con sistemas de precios, disponibilidad y reglas de negocio lo suficiente como para desconfiar de las optimizaciones que parecen demasiado sencillas.</p>
+<p>Y pocas cosas parecen más sencillas que añadir una caché.</p>
+<p>Hasta que empiezas a preguntarte qué estás guardando realmente.</p>
+<h2 id="un-precio-nunca-viene-solo">Un precio nunca viene solo</h2>
+<p>Imaginemos un sistema comercial.</p>
+<p>Tenemos un producto, varios distribuidores, campañas, descuentos, impuestos y unas cuantas condiciones que negocio considera perfectamente razonables.</p>
+<p>Queremos acelerar las consultas.</p>
+<p>La solución parece evidente: calculamos el precio, lo guardamos y evitamos repetir la operación.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="text"><code><span class="line"><span>price:product:123 → 249.99</span></span></code></pre>
+<p>Precioso.</p>
+<p>Solo nos hemos olvidado de que ese precio quizá dependa del distribuidor, la campaña, la fecha o las condiciones del cliente.</p>
+<p>Un pequeño detalle.</p>
+<p>La caché no tiene la culpa. Le hemos pedido que recuerde una respuesta sin explicarle la pregunta.</p>
+<p>Podemos mejorar la clave, incorporar contexto y versionar los datos. Pero entonces aparece otra cuestión.</p>
+<p>¿Cuánto tiempo sigue siendo válida esa respuesta?</p>
+<h2 id="cinco-minutos-no-es-una-estrategia">Cinco minutos no es una estrategia</h2>
+<p>Uno de mis momentos favoritos diseñando una caché es cuando aparece el TTL.</p>
+<p>—¿Cuánto tiempo guardamos el dato?</p>
+<p>—Cinco minutos.</p>
+<p>—¿Por qué?</p>
+<p>—Bueno… cinco minutos está bien, ¿no?</p>
+<p>Y así, sin ceremonia, acabamos de tomar una decisión de negocio desde un archivo de configuración.</p>
+<p>Porque cinco minutos pueden ser irrelevantes para mostrar una descripción comercial y demasiado tiempo para confirmar un precio que acaba de cambiar.</p>
+<p>La documentación de Microsoft sobre <em>cache-aside</em> advierte de algo fundamental: la caché no garantiza por sí sola la consistencia con el origen.</p>
+<p>Y Redis, por muy rápido que sea, tampoco puede decidir cuánto tiempo estamos dispuestos a mostrar información desactualizada.</p>
+<p>Eso nos corresponde a nosotros.</p>
+<p>Además, invalidar una entrada después de actualizar el origen no resuelve automáticamente todas las condiciones de carrera. Otra lectura puede adelantarse, consultar una réplica desactualizada o repoblar la caché con un valor antiguo.</p>
+<p>Un TTL no arregla esas situaciones.</p>
+<p>Solo pone fecha de caducidad a nuestra confianza.</p>
+<h2 id="la-pregunta-que-cambia-el-diseño">La pregunta que cambia el diseño</h2>
+<p>Hay un ejercicio mental que me parece especialmente útil.</p>
+<p>Supongamos que una promoción termina a las 12:00.</p>
+<p>Un usuario consulta el precio a las 11:59.</p>
+<p>A las 12:01 todavía tiene abierta la pantalla.</p>
+<p>A las 12:02 intenta confirmar la operación.</p>
+<p>¿Qué debería ocurrir?</p>
+<p>No hay una respuesta universal.</p>
+<p>Podemos aceptar cierta antigüedad en la información mostrada, obligar a recalcular antes de confirmar o establecer un periodo durante el que una oferta sea vinculante.</p>
+<p>Son decisiones distintas.</p>
+<p>Y cada una necesita un diseño diferente.</p>
+<p>Lo interesante es que ninguna se resuelve eligiendo Redis, MemoryCache o la última biblioteca de caché para .NET.</p>
+<p>Se resuelve entendiendo el contrato funcional.</p>
+<p><strong>La pregunta importante no es cuánto dura el dato en caché, sino cuánto tiempo podemos permitirnos que sea incorrecto.</strong></p>
+<h2 id="el-rendimiento-también-puede-mentir">El rendimiento también puede mentir</h2>
+<p>Me gustan las métricas.</p>
+<p>Latencia, percentiles, porcentaje de aciertos, carga de base de datos… Todo eso importa.</p>
+<p>Pero un 99 % de <em>cache hits</em> no significa necesariamente que el sistema esté haciendo bien su trabajo.</p>
+<p>También puede significar que estamos devolviendo información desactualizada con una eficiencia admirable.</p>
+<p>Por eso, cuando la información tiene consecuencias comerciales, me interesa medir algo más: invalidaciones, antigüedad de los datos y diferencias detectadas al recalcular operaciones.</p>
+<p>No siempre necesitamos consistencia inmediata. A veces aceptar datos temporalmente desactualizados es exactamente la decisión correcta.</p>
+<p>Lo importante es que sea una decisión consciente.</p>
+<p>Y documentada.</p>
+<p>Preferiblemente antes de que alguien descubra el comportamiento en producción.</p>
+<h2 id="el-problema-no-era-redis">El problema no era Redis</h2>
+<p>Cada vez tenemos mejores herramientas para implementar una caché. Incluso podemos pedirle a un agente de IA que nos prepare la integración, las claves y las políticas de expiración.</p>
+<p>Y seguramente lo haga bastante rápido.</p>
+<p>Pero hay una pregunta que ninguna biblioteca puede contestar por nosotros:</p>
+<p>«¿Qué consecuencias tiene que este dato deje de ser correcto?».</p>
+<p>Esa es la conversación que merece la pena tener antes de optimizar.</p>
+<p>Porque una caché puede reducir muchísimo la latencia.</p>
+<p>También puede conseguir que devolvamos el precio equivocado en tiempo récord.</p>
+<p>Y eso, por mucho que mejore el rendimiento, no debería contar como una victoria.</p></div></div></article><footer class="oos-article__footer" aria-label="Acciones del artículo"><div class="oos-article__actions"><button type="button" data-oos-share data-article-share>Compartir artículo</button><a data-article-contact href="/contact/">Contacto ↗</a><a data-article-portfolio href="/">Volver a AntoñiOS ↗</a></div><p role="status" aria-live="polite" data-oos-share-status></p></footer><script>(function(){const shareTitle = "El precio era correcto. Ayer.";
+const shareText = "Una caché puede reducir la latencia mientras devuelve información desactualizada. Entre Redis y las reglas de negocio, ¿cuánto tiempo podemos permitirnos que un dato sea incorrecto?";
+const shareUrl = "https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/";
+const copied = "Enlace copiado.";
+const copyFailed = "No se pudo copiar el enlace.";
+
+    const share = document.querySelector('[data-oos-share]');
+    const shareStatus = document.querySelector('[data-oos-share-status]');
+    share?.addEventListener('click', async () => {
+      try {
+        if (navigator.share) await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+        else { await navigator.clipboard.writeText(shareUrl); if (shareStatus) shareStatus.textContent = copied; }
+      } catch (error) { if (error?.name !== 'AbortError' && shareStatus) shareStatus.textContent = copyFailed; }
+    });
+  })();</script><script type="module">function e(e,t,n){let r=new Set;return i=>{for(let[a,o]of[[.5,`article_50_percent`],[.9,`article_complete`]])i>=a&&!r.has(o)&&n({name:o,params:{article_slug:e,language:t}})&&r.add(o);return r.size}}var t=document.querySelector(`[data-oos-article]`);if(t){let n=e(t.dataset.oosArticle??``,t.dataset.oosLanguage===`en`?`en`:`es`,e=>window.__ANTONIOS_ANALYTICS__?.track(e)??!1),r=()=>{let e=document.documentElement.scrollHeight-window.innerHeight,t=e<=0?1:window.scrollY/e;n(t)};addEventListener(`scroll`,r,{passive:!0}),addEventListener(`analytics-consent-changed`,r),r()}</script></main><footer class="oos-site-footer"><p>OUT OF CONTEXT_ <span>×</span> AntoñiOS</p><p>Preguntas, experimentos y notas de ingeniería.</p><p><a class="oos-footer-link" href="/privacy/">Privacidad</a></p></footer><div id="analytics-consent" class="analytics-consent no-print" data-analytics-consent-state="pending"><aside id="analytics-consent-panel" class="analytics-consent__panel" aria-labelledby="analytics-consent-title" aria-describedby="analytics-consent-description" tabindex="-1" hidden><div><p class="analytics-consent__eyebrow">GA4 / PRIVACY</p><h2 id="analytics-consent-title">Medición opcional</h2><p id="analytics-consent-description">Google Analytics me ayuda a conocer las visitas y las páginas consultadas. Google sólo se carga si aceptas; la medición no afecta a la navegación. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacidad de Google ↗</a></p></div><div class="analytics-consent__actions"><button type="button" data-analytics-consent="reject">Rechazar</button><button class="primary" type="button" data-analytics-consent="accept">Aceptar medición</button></div></aside><button id="analytics-consent-settings" class="analytics-consent__settings" type="button" hidden>Configurar analítica</button><p id="analytics-consent-status" class="analytics-consent__status" data-granted="Medición de Google Analytics activada." data-denied="Medición de Google Analytics desactivada." aria-live="polite"></p><script type="module" src="/_astro/AnalyticsConsent.astro_astro_type_script_index_0_lang.9i8arElP.js"></script></div></body></html>

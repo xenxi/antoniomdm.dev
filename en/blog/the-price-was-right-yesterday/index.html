@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>The price was right. Yesterday. · Out of Context · AntoñiOS</title><meta name="description" content="Redis, distributed caching, and business rules: improving latency means little if the system is efficiently returning the wrong price."><meta name="theme-color" content="#0b100e"><link rel="canonical" href="https://antoniomdm.dev/en/blog/the-price-was-right-yesterday/"><link rel="alternate" hreflang="en" href="https://antoniomdm.dev/en/blog/the-price-was-right-yesterday/"><link rel="alternate" hreflang="es" href="https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/"><link rel="alternate" hreflang="x-default" href="https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/"><link rel="alternate" type="application/rss+xml" title="Out of Context · AntoñiOS RSS" href="/en/blog/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:locale" content="en_GB"><meta property="og:title" content="The price was right. Yesterday."><meta property="og:description" content="Redis, distributed caching, and business rules: improving latency means little if the system is efficiently returning the wrong price."><meta property="og:type" content="article"><meta property="og:url" content="https://antoniomdm.dev/en/blog/the-price-was-right-yesterday/"><meta property="og:site_name" content="Out of Context · AntoñiOS"><meta property="og:image" content="https://antoniomdm.dev/en/social.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="The price was right. Yesterday."><meta name="twitter:description" content="Redis, distributed caching, and business rules: improving latency means little if the system is efficiently returning the wrong price."><meta name="twitter:image" content="https://antoniomdm.dev/en/social.png"><meta property="article:published_time" content="2026-10-17T00:00:00.000Z"><meta property="article:tag" content="Architecture"><meta property="article:tag" content=".NET"><meta property="article:tag" content="Redis"><meta property="article:tag" content="Caching"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The price was right. Yesterday.","description":"Redis, distributed caching, and business rules: improving latency means little if the system is efficiently returning the wrong price.","datePublished":"2026-10-17T00:00:00.000Z","dateModified":"2026-10-17T00:00:00.000Z","inLanguage":"en","mainEntityOfPage":"https://antoniomdm.dev/en/blog/the-price-was-right-yesterday/","url":"https://antoniomdm.dev/en/blog/the-price-was-right-yesterday/","keywords":["Architecture",".NET","Redis","Caching"],"author":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"},"publisher":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"}}</script><link rel="stylesheet" href="/_astro/global.Bxf2nCII.css"><link rel="stylesheet" href="/_astro/OutOfScopeLayout.BVd6fVjb.css"></head><body class="oos-body"><a class="oos-skip" href="#main">Skip to content</a><header class="oos-site-header"><a class="oos-brand" href="/en/blog/" aria-label="Out of Context home"><b aria-hidden="true">▰</b> OUT OF CONTEXT<span>_</span></a><nav aria-label="Publication navigation"><a href="/en/blog/">Articles</a><a href="/en/blog/rss.xml">RSS</a><a data-language="es" lang="es" hreflang="es" href="https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/">ES</a><a data-article-portfolio href="/en/">Portfolio ↗</a></nav></header><main id="main"><article class="oos-article" data-oos-article="the-price-was-right-yesterday" data-oos-language="en"><header class="oos-article__header"><a class="oos-back" href="/en/blog/">← All articles</a><p class="oos-log">LOG #2610 · EXPLORATION</p><h1>The price was right. Yesterday.</h1><p class="oos-article__summary">A cache can improve latency while returning stale information. Between Redis and business rules, how long can we afford a value to be wrong?</p><div class="oos-article__facts"><time datetime="2026-10-17T00:00:00.000Z">17 October 2026</time><span>4 min read</span><span>Architecture</span></div><div class="oos-tags"><span>Architecture</span><span>.NET</span><span>Redis</span><span>Caching</span></div></header><div class="oos-article__cover oos-article__cover--generated" aria-hidden="true"><span>OUT<br>OF<br>CONTEXT_</span><i>Exploration</i></div><div class="oos-article__layout"><div class="oos-article__body"><p>There’s a remarkably efficient way to return the wrong price: put it in Redis.</p>
+<p>It’s fast. It scales. The metrics look fantastic.</p>
+<p>Unfortunately, the customer still expects the right price. Some people are impossible to please.</p>
+<p>I’ve worked with pricing, availability, and business rules long enough to be suspicious of optimizations that look too easy.</p>
+<p>And few things look easier than adding a cache.</p>
+<p>Until you ask what you’re actually caching.</p>
+<h2 id="a-price-never-travels-alone">A price never travels alone</h2>
+<p>Picture a commercial system.</p>
+<p>There’s a product, several dealers, campaigns, discounts, taxes, and a few conditions the business considers perfectly reasonable.</p>
+<p>We want faster queries.</p>
+<p>The obvious answer: calculate the price once, store it, and skip the repeated work.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="text"><code><span class="line"><span>price:product:123 → 249.99</span></span></code></pre>
+<p>Beautiful.</p>
+<p>Except the price may depend on the dealer, campaign, date, or customer conditions.</p>
+<p>A minor detail.</p>
+<p>The cache isn’t to blame. We asked it to remember an answer without telling it the question.</p>
+<p>We can improve the key, include context, and version the data. Then another question appears.</p>
+<p>How long is that answer still valid?</p>
+<h2 id="five-minutes-is-not-a-strategy">Five minutes is not a strategy</h2>
+<p>One of my favorite moments in cache design is when TTL comes up.</p>
+<p>—How long should we keep it?</p>
+<p>—Five minutes.</p>
+<p>—Why?</p>
+<p>—Well… five minutes sounds fine, doesn’t it?</p>
+<p>And just like that, we’ve made a business decision in a configuration file.</p>
+<p>Five minutes might be harmless for a product description and far too long for a price that’s just changed.</p>
+<p>Microsoft’s guidance on the <em>cache-aside</em> pattern makes an important point: the cache does not guarantee consistency with the source.</p>
+<p>And Redis, however fast it is, cannot decide how long we’re willing to show stale information.</p>
+<p>That’s our job.</p>
+<p>Invalidating an entry after updating the source doesn’t magically remove every race condition, either. Another read can get ahead, hit a lagging replica, or repopulate the cache with an old value.</p>
+<p>A TTL doesn’t solve those problems.</p>
+<p>It just puts an expiration date on our confidence.</p>
+<h2 id="the-question-that-changes-the-design">The question that changes the design</h2>
+<p>Here’s a thought experiment I find useful.</p>
+<p>A promotion ends at noon.</p>
+<p>A customer checks the price at 11:59.</p>
+<p>At 12:01, the page is still open.</p>
+<p>At 12:02, they try to confirm the purchase.</p>
+<p>What should happen?</p>
+<p>There is no universal answer.</p>
+<p>We might allow slightly stale prices on screen, recalculate before confirmation, or guarantee an offer for a defined period.</p>
+<p>Different decisions. Different designs.</p>
+<p>None is settled by choosing Redis, MemoryCache, or the latest caching library for .NET.</p>
+<p>They’re settled by understanding the business contract.</p>
+<p><strong>The important question isn’t how long a value stays cached. It’s how long we can afford it to be wrong.</strong></p>
+<h2 id="performance-can-lie-too">Performance can lie, too</h2>
+<p>I like metrics.</p>
+<p>Latency, percentiles, hit rates, database load. They all matter.</p>
+<p>But a 99% cache-hit rate doesn’t necessarily mean the system is doing its job well.</p>
+<p>It might mean we’re returning stale data with admirable efficiency.</p>
+<p>For commercially sensitive data, I also want to know about invalidations, data age, and discrepancies discovered when operations are recalculated.</p>
+<p>We don’t always need immediate consistency. Sometimes accepting briefly stale data is exactly the right trade-off.</p>
+<p>What matters is making that decision deliberately.</p>
+<p>And documenting it.</p>
+<p>Preferably before someone discovers the behavior in production.</p>
+<h2 id="redis-wasnt-the-problem">Redis wasn’t the problem</h2>
+<p>We have increasingly good tools for implementing caches. We can even ask an AI agent to set up the integration, keys, and expiration policies.</p>
+<p>It will probably do it quickly.</p>
+<p>But no library can answer this for us:</p>
+<p>“What happens if this value stops being correct?”</p>
+<p>That’s the conversation worth having before optimizing.</p>
+<p>Because a cache can dramatically reduce latency.</p>
+<p>It can also deliver the wrong price in record time.</p>
+<p>And however good the performance looks, that shouldn’t count as a win.</p></div></div></article><footer class="oos-article__footer" aria-label="Article actions"><div class="oos-article__actions"><button type="button" data-oos-share data-article-share>Share article</button><a data-article-contact href="/en/contact/">Contact ↗</a><a data-article-portfolio href="/en/">Back to AntoñiOS ↗</a></div><p role="status" aria-live="polite" data-oos-share-status></p></footer><script>(function(){const shareTitle = "The price was right. Yesterday.";
+const shareText = "A cache can improve latency while returning stale information. Between Redis and business rules, how long can we afford a value to be wrong?";
+const shareUrl = "https://antoniomdm.dev/en/blog/the-price-was-right-yesterday/";
+const copied = "Link copied.";
+const copyFailed = "Could not copy the link.";
+
+    const share = document.querySelector('[data-oos-share]');
+    const shareStatus = document.querySelector('[data-oos-share-status]');
+    share?.addEventListener('click', async () => {
+      try {
+        if (navigator.share) await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+        else { await navigator.clipboard.writeText(shareUrl); if (shareStatus) shareStatus.textContent = copied; }
+      } catch (error) { if (error?.name !== 'AbortError' && shareStatus) shareStatus.textContent = copyFailed; }
+    });
+  })();</script><script type="module">function e(e,t,n){let r=new Set;return i=>{for(let[a,o]of[[.5,`article_50_percent`],[.9,`article_complete`]])i>=a&&!r.has(o)&&n({name:o,params:{article_slug:e,language:t}})&&r.add(o);return r.size}}var t=document.querySelector(`[data-oos-article]`);if(t){let n=e(t.dataset.oosArticle??``,t.dataset.oosLanguage===`en`?`en`:`es`,e=>window.__ANTONIOS_ANALYTICS__?.track(e)??!1),r=()=>{let e=document.documentElement.scrollHeight-window.innerHeight,t=e<=0?1:window.scrollY/e;n(t)};addEventListener(`scroll`,r,{passive:!0}),addEventListener(`analytics-consent-changed`,r),r()}</script></main><footer class="oos-site-footer"><p>OUT OF CONTEXT_ <span>×</span> AntoñiOS</p><p>Questions, experiments and engineering notes.</p><p><a class="oos-footer-link" href="/en/privacy/">Privacy</a></p></footer><div id="analytics-consent" class="analytics-consent no-print" data-analytics-consent-state="pending"><aside id="analytics-consent-panel" class="analytics-consent__panel" aria-labelledby="analytics-consent-title" aria-describedby="analytics-consent-description" tabindex="-1" hidden><div><p class="analytics-consent__eyebrow">GA4 / PRIVACY</p><h2 id="analytics-consent-title">Optional measurement</h2><p id="analytics-consent-description">Google Analytics helps me understand visits and viewed pages. Google only loads if you accept; measurement does not affect navigation. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google privacy ↗</a></p></div><div class="analytics-consent__actions"><button type="button" data-analytics-consent="reject">Reject</button><button class="primary" type="button" data-analytics-consent="accept">Allow measurement</button></div></aside><button id="analytics-consent-settings" class="analytics-consent__settings" type="button" hidden>Analytics settings</button><p id="analytics-consent-status" class="analytics-consent__status" data-granted="Google Analytics measurement enabled." data-denied="Google Analytics measurement disabled." aria-live="polite"></p><script type="module" src="/_astro/AnalyticsConsent.astro_astro_type_script_index_0_lang.9i8arElP.js"></script></div></body></html>
