@@ -1,0 +1,152 @@
+---
+title: "El precio era correcto. Ayer."
+summary: "Una caché puede reducir la latencia mientras devuelve información desactualizada. Entre Redis y las reglas de negocio, ¿cuánto tiempo podemos permitirnos que un dato sea incorrecto?"
+slug: "el-precio-era-correcto-ayer"
+locale: "es"
+tags: ["Arquitectura", ".NET", "Redis", "Caché"]
+category: "Arquitectura"
+seo:
+  description: "Una reflexión sobre Redis, caché distribuida y reglas de negocio. Porque reducir la latencia no sirve de mucho si devolvemos el dato equivocado."
+date: 2026-10-17
+translationKey: "the-price-was-right-yesterday"
+type: "exploration"
+readingTime: 4
+featured: false
+draft: false
+linkedin:
+  enabled: true
+  mode: "review"
+  text: "Hay una manera muy eficiente de devolver un precio equivocado: meterlo en Redis.\n\nFunciona rápido, escala bien y las métricas quedan preciosas.\n\nEl problema aparece cuando el dato cambia y nadie ha decidido cuánto tiempo puede seguir siendo válido.\n\nA veces tratamos el TTL como una configuración técnica.\n\nPero en sistemas con precios, disponibilidad o condiciones comerciales, puede esconder una decisión de negocio.\n\nPorque un *cache hit* también puede ser un error servido a toda velocidad.\n\n🔗 Artículo completo: https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/\n\n#SoftwareEngineering #DotNet #Architecture"
+---
+
+Hay una manera muy eficiente de devolver un precio equivocado: meterlo en Redis.
+
+Funciona rápido. Escala bien. Las métricas son preciosas.
+
+El problema es que el usuario sigue queriendo el precio correcto. Qué exigente se ha vuelto la gente.
+
+He trabajado con sistemas de precios, disponibilidad y reglas de negocio lo suficiente como para desconfiar de las optimizaciones que parecen demasiado sencillas.
+
+Y pocas cosas parecen más sencillas que añadir una caché.
+
+Hasta que empiezas a preguntarte qué estás guardando realmente.
+
+## Un precio nunca viene solo
+
+Imaginemos un sistema comercial.
+
+Tenemos un producto, varios distribuidores, campañas, descuentos, impuestos y unas cuantas condiciones que negocio considera perfectamente razonables.
+
+Queremos acelerar las consultas.
+
+La solución parece evidente: calculamos el precio, lo guardamos y evitamos repetir la operación.
+
+```text
+price:product:123 → 249.99
+```
+
+Precioso.
+
+Solo nos hemos olvidado de que ese precio quizá dependa del distribuidor, la campaña, la fecha o las condiciones del cliente.
+
+Un pequeño detalle.
+
+La caché no tiene la culpa. Le hemos pedido que recuerde una respuesta sin explicarle la pregunta.
+
+Podemos mejorar la clave, incorporar contexto y versionar los datos. Pero entonces aparece otra cuestión.
+
+¿Cuánto tiempo sigue siendo válida esa respuesta?
+
+## Cinco minutos no es una estrategia
+
+Uno de mis momentos favoritos diseñando una caché es cuando aparece el TTL.
+
+—¿Cuánto tiempo guardamos el dato?
+
+—Cinco minutos.
+
+—¿Por qué?
+
+—Bueno... cinco minutos está bien, ¿no?
+
+Y así, sin ceremonia, acabamos de tomar una decisión de negocio desde un archivo de configuración.
+
+Porque cinco minutos pueden ser irrelevantes para mostrar una descripción comercial y demasiado tiempo para confirmar un precio que acaba de cambiar.
+
+La documentación de Microsoft sobre *cache-aside* advierte de algo fundamental: la caché no garantiza por sí sola la consistencia con el origen.
+
+Y Redis, por muy rápido que sea, tampoco puede decidir cuánto tiempo estamos dispuestos a mostrar información desactualizada.
+
+Eso nos corresponde a nosotros.
+
+Además, invalidar una entrada después de actualizar el origen no resuelve automáticamente todas las condiciones de carrera. Otra lectura puede adelantarse, consultar una réplica desactualizada o repoblar la caché con un valor antiguo.
+
+Un TTL no arregla esas situaciones.
+
+Solo pone fecha de caducidad a nuestra confianza.
+
+## La pregunta que cambia el diseño
+
+Hay un ejercicio mental que me parece especialmente útil.
+
+Supongamos que una promoción termina a las 12:00.
+
+Un usuario consulta el precio a las 11:59.
+
+A las 12:01 todavía tiene abierta la pantalla.
+
+A las 12:02 intenta confirmar la operación.
+
+¿Qué debería ocurrir?
+
+No hay una respuesta universal.
+
+Podemos aceptar cierta antigüedad en la información mostrada, obligar a recalcular antes de confirmar o establecer un periodo durante el que una oferta sea vinculante.
+
+Son decisiones distintas.
+
+Y cada una necesita un diseño diferente.
+
+Lo interesante es que ninguna se resuelve eligiendo Redis, MemoryCache o la última biblioteca de caché para .NET.
+
+Se resuelve entendiendo el contrato funcional.
+
+**La pregunta importante no es cuánto dura el dato en caché, sino cuánto tiempo podemos permitirnos que sea incorrecto.**
+
+## El rendimiento también puede mentir
+
+Me gustan las métricas.
+
+Latencia, percentiles, porcentaje de aciertos, carga de base de datos... Todo eso importa.
+
+Pero un 99 % de *cache hits* no significa necesariamente que el sistema esté haciendo bien su trabajo.
+
+También puede significar que estamos devolviendo información desactualizada con una eficiencia admirable.
+
+Por eso, cuando la información tiene consecuencias comerciales, me interesa medir algo más: invalidaciones, antigüedad de los datos y diferencias detectadas al recalcular operaciones.
+
+No siempre necesitamos consistencia inmediata. A veces aceptar datos temporalmente desactualizados es exactamente la decisión correcta.
+
+Lo importante es que sea una decisión consciente.
+
+Y documentada.
+
+Preferiblemente antes de que alguien descubra el comportamiento en producción.
+
+## El problema no era Redis
+
+Cada vez tenemos mejores herramientas para implementar una caché. Incluso podemos pedirle a un agente de IA que nos prepare la integración, las claves y las políticas de expiración.
+
+Y seguramente lo haga bastante rápido.
+
+Pero hay una pregunta que ninguna biblioteca puede contestar por nosotros:
+
+«¿Qué consecuencias tiene que este dato deje de ser correcto?».
+
+Esa es la conversación que merece la pena tener antes de optimizar.
+
+Porque una caché puede reducir muchísimo la latencia.
+
+También puede conseguir que devolvamos el precio equivocado en tiempo récord.
+
+Y eso, por mucho que mejore el rendimiento, no debería contar como una victoria.
