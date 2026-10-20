@@ -87,6 +87,10 @@ Dirección de las escenas actuales (generadas con ImageGen):
 - `green-pr.webp`: check verde celebrado sobre un pedestal con el bug todavía debajo.
 - `question.webp`: interrogación que permanece sobre un portátil cerrado después de terminar el trabajo.
 
+### Encabezado de fuentes
+
+Cuando haya fuentes o lecturas adicionales, usar un título breve, natural y con humor discreto. Variarlo entre artículos: «Las fuentes, por si acaso», «No me lo he inventado todo», «De dónde sale todo esto», «Para contrastar mis desvaríos» u otras frases del mismo estilo. Elegir una variante al editar y conservarla en el artículo; no cambiarla aleatoriamente en cada visita. Evitar «Para seguir por la madriguera» como fórmula recurrente. Para el artículo de Claudio queda fijado «No me lo he inventado todo».
+
 ### Metadata y reutilización
 
 El artículo MDX es la única fuente de contenido. `summary` se escribe a mano y presenta la pregunta o el descubrimiento sin resolver todo el artículo. Alimenta tarjetas, listados, RSS y la copia social predeterminada; también actúa como descripción SEO cuando no existe `seo.description`. `linkedin.text` sólo se usa cuando la publicación necesita una adaptación deliberada. La URL canónica se deriva de `locale` y `slug`; no se copia dentro del artículo. `translationKey` relaciona las versiones ES/EN aunque sus slugs difieran.
@@ -183,6 +187,10 @@ Current scene directions (generated with ImageGen):
 - `cache.webp`: an old frozen price beside the current price and a speed symbol.
 - `green-pr.webp`: a celebrated green checkmark on a pedestal with the bug still underneath.
 - `question.webp`: a question mark remaining above a closed laptop after the work is finished.
+
+### Sources heading
+
+When including sources or further reading, use a short, natural heading with understated humour. Vary it between articles: “Sources, just in case”, “I didn't make all of this up”, “Where all this comes from”, “To fact-check my ramblings”, or similar wording. Choose a variant during editing and keep it in the article; do not randomise it on each visit. Avoid “Further down the rabbit hole” as a recurring formula. Claudio's article uses “I didn't make all of this up”.
 
 ### Metadata and reuse
 
