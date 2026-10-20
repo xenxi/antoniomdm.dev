@@ -1,0 +1,156 @@
+---
+title: "Mi portfolio quería ser un sistema operativo. El navegador tenía otros planes."
+summary: "Quería convertir mi portfolio en un pequeño sistema operativo, con ventanas, dock, terminal y modo Arcade. Pero ¿cómo mantener esa experiencia sin romper las URLs, el historial y la accesibilidad?"
+slug: "mi-portfolio-queria-ser-un-sistema-operativo"
+locale: "es"
+tags: ["Astro", "Preact", "Frontend", "Arquitectura"]
+category: "Arquitectura"
+seo:
+  description: "Una reflexión sobre AntoñiOS, un portfolio inspirado en un sistema operativo, y cómo conciliar ventanas interactivas con rutas, accesibilidad y navegación web."
+date: 2026-10-20
+translationKey: "portfolio-operating-system-browser"
+type: "exploration"
+readingTime: 4
+featured: false
+draft: false
+linkedin:
+  enabled: true
+  mode: "review"
+  text: "Quería que mi portfolio pareciera un sistema operativo.\n\nVentanas flotantes, dock, terminal, modo Arcade...\n\nTodo muy bonito hasta que aparece una pregunta:\n\n¿Qué pasa cuando alguien pulsa el botón Atrás?\n\nPorque una cosa es simular un escritorio y otra conseguir que siga comportándose como una web.\n\nEntre Astro, Preact, gestión de estado y rutas reales, descubrí que la parte interesante no era mover ventanas.\n\nEra decidir qué debía seguir funcionando cuando dejaban de moverse.\n\n🔗 Artículo completo: https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/\n\n#SoftwareEngineering #Astro #Frontend"
+---
+
+La idea parecía bastante sencilla: convertir mi portfolio en una especie de sistema operativo.
+
+Un escritorio, ventanas que se pueden mover, un dock, una terminal y hasta un modo Arcade.
+
+Porque, aparentemente, mostrar cuatro proyectos en una cuadrícula era demasiado convencional.
+
+Así nació AntoñiOS.
+
+Lo interesante apareció al pensar en algo bastante menos espectacular que las ventanas: **qué debería ocurrir cuando alguien abre directamente un enlace**.
+
+Porque puedes construir el escritorio más bonito del mundo, pero si alguien entra desde Google a un proyecto y termina viendo una pantalla de bienvenida, igual hay algo que revisar.
+
+## Un escritorio no es una página web
+
+En un sistema operativo, el escritorio suele ser el punto de partida.
+
+En una web, no.
+
+Alguien puede llegar directamente a `/projects/`, `/architecture/` o a un artículo del blog.
+
+Y espera encontrar lo que venía buscando.
+
+No una animación de arranque.
+
+No una ventana vacía.
+
+Y, preferiblemente, tampoco un botón que diga «Pulsa aquí para empezar».
+
+AntoñiOS tenía que conciliar dos formas de navegar.
+
+Por un lado, la experiencia visual: abrir aplicaciones, minimizar ventanas, cambiar el foco y moverse por el escritorio.
+
+Por otro, el comportamiento habitual del navegador: URLs compartibles, historial, botón Atrás y páginas que funcionan al recargarse.
+
+La solución actual combina Astro para generar páginas estáticas y Preact para gestionar la parte interactiva.
+
+Dos mundos que pueden convivir perfectamente.
+
+Siempre que ninguno intente hacerse dueño del otro.
+
+## El estado de una ventana no es la URL
+
+El gestor de ventanas tiene su propio estado.
+
+Sabe qué aplicaciones están abiertas, cuál tiene el foco, cuáles están minimizadas y en qué orden deben aparecer.
+
+También controla posiciones y tamaños.
+
+Nada especialmente revolucionario.
+
+Hasta que decides relacionarlo con la navegación.
+
+Imaginemos que abro Proyectos y después Arquitectura.
+
+Arquitectura queda en primer plano.
+
+Ahora pulso Atrás.
+
+¿Qué debería ocurrir?
+
+El navegador quiere volver a la ruta anterior. El escritorio, mientras tanto, tiene sus propias ventanas abiertas.
+
+Si cada uno funciona por su cuenta, podemos acabar con una URL que dice una cosa y una interfaz que muestra otra.
+
+Una especie de multiverso frontend.
+
+Y ya tenemos suficientes problemas de continuidad sin introducir viajes interdimensionales.
+
+En AntoñiOS, las acciones del escritorio actualizan la ruta activa y la navegación del navegador puede recuperar la aplicación correspondiente.
+
+El historial no es un elemento decorativo.
+
+Forma parte del contrato.
+
+## También tiene que funcionar cuando desaparece la magia
+
+Hay otro detalle que me interesa especialmente.
+
+Una interfaz puede resultar muy convincente mientras todo funciona exactamente como esperamos.
+
+Pero ¿qué ocurre si JavaScript no está disponible?
+
+¿Y si alguien necesita navegar con teclado?
+
+¿Y si abre la web desde un móvil donde mover ventanas flotantes deja de tener bastante sentido?
+
+En AntoñiOS, las rutas disponen de HTML generado durante la compilación. El contenido principal no depende exclusivamente de que el escritorio interactivo se ejecute.
+
+En pantallas pequeñas, las aplicaciones dejan de comportarse como ventanas libres y pasan a ocupar el espacio disponible.
+
+No tiene mucho sentido empeñarse en reproducir Windows en una pantalla de seis pulgadas.
+
+A veces adaptar una experiencia significa renunciar a parte de ella.
+
+Y eso cuesta más de aceptar que añadir otra animación.
+
+## No todo merece sobrevivir a un F5
+
+Otra decisión interesante tiene que ver con la persistencia.
+
+AntoñiOS guarda determinadas preferencias: fondo, efectos y sonido.
+
+Pero no conserva indefinidamente las posiciones y dimensiones de todas las ventanas.
+
+Me parece una separación razonable.
+
+Una cosa es recordar cómo prefiero ver el escritorio y otra convertir cada movimiento en un dato que debe sobrevivir a las siguientes visitas.
+
+Persistir algo siempre parece sencillo.
+
+Hasta que hay que decidir cuándo caduca, cómo se restaura o qué ocurre al cambiar de dispositivo.
+
+Y, de repente, tenemos un problema de sincronización para recordar que ayer dejé una ventana veinte píxeles más a la derecha.
+
+Hay batallas arquitectónicas que merece la pena ganar.
+
+Y otras que merece la pena no empezar.
+
+## La interfaz era la excusa
+
+Lo que más me interesa de AntoñiOS no es haber conseguido que una web parezca un sistema operativo.
+
+Es la cantidad de decisiones que aparecen al intentar hacerlo sin perder lo que hace útil a la web.
+
+Rutas reales, contenido accesible, navegación predecible, estados bien delimitados.
+
+El escritorio es la presentación.
+
+La arquitectura tiene que seguir funcionando cuando quitamos el decorado.
+
+Y quizá esa sea la lección que me llevo de este proyecto: **una buena experiencia no consiste en añadir todas las interacciones posibles, sino en saber cuáles merecen complicar el sistema**.
+
+Porque montar un sistema operativo ficticio tiene su gracia.
+
+Tener que explicarle al usuario por qué el botón Atrás ha dejado de funcionar, bastante menos.
