@@ -1,0 +1,155 @@
+---
+title: "My portfolio wanted to be an operating system. The browser had other plans."
+summary: "I wanted a portfolio with windows, a dock, a terminal, and an Arcade mode. But how do you preserve the desktop experience without breaking URLs, browser history, and accessibility?"
+slug: "my-portfolio-wanted-to-be-an-operating-system"
+locale: "en"
+tags: ["Astro", "Preact", "Frontend", "Architecture"]
+category: "Architecture"
+seo:
+  description: "AntoñiOS is a portfolio inspired by an operating system. A reflection on balancing interactive windows with real routes, accessibility, and browser navigation."
+date: 2026-10-20
+translationKey: "portfolio-operating-system-browser"
+type: "exploration"
+readingTime: 4
+featured: false
+draft: false
+linkedin:
+  enabled: false
+  mode: "disabled"
+---
+
+The idea sounded simple enough: turn my portfolio into something resembling an operating system.
+
+A desktop, draggable windows, a dock, a terminal, even an Arcade mode.
+
+Because apparently showing four projects in a grid was far too conventional.
+
+And so AntoñiOS was born.
+
+The interesting part came when I started thinking about something much less exciting than windows: **what should happen when someone opens a direct link?**
+
+You can build the prettiest desktop in the world, but if someone arrives from Google looking for a project and gets a welcome screen instead, something might need another look.
+
+## A desktop isn't a website
+
+On an operating system, the desktop is usually where you start.
+
+On the web, it isn't.
+
+Someone can arrive directly at `/projects/`, `/architecture/`, or a blog post.
+
+They expect to find what they came for.
+
+Not a startup animation.
+
+Not an empty window.
+
+And preferably not a button saying “Click here to begin.”
+
+AntoñiOS had to reconcile two kinds of navigation.
+
+On one side, the visual experience: opening apps, minimizing windows, switching focus, and moving around the desktop.
+
+On the other, the browser's usual behavior: shareable URLs, history, the Back button, and pages that still work after a reload.
+
+The current solution combines Astro for static pages with Preact for the interactive layer.
+
+Two worlds that can coexist perfectly well.
+
+As long as neither tries to take over the other.
+
+## Window state is not the URL
+
+The window manager has its own state.
+
+It knows which apps are open, which one has focus, which are minimized, and their stacking order.
+
+It also manages positions and sizes.
+
+Nothing revolutionary.
+
+Until you connect it to navigation.
+
+Imagine I open Projects and then Architecture.
+
+Architecture is now in front.
+
+I press Back.
+
+What should happen?
+
+The browser wants to return to the previous route. The desktop still has its own open windows.
+
+If they operate independently, the URL can say one thing while the interface shows another.
+
+A frontend multiverse.
+
+And we have enough continuity problems without adding interdimensional travel.
+
+In AntoñiOS, desktop actions update the active route, and browser navigation can restore the corresponding app.
+
+History isn't decoration.
+
+It's part of the contract.
+
+## It also has to work when the magic disappears
+
+There's another detail I care about.
+
+An interface can be very convincing when everything works exactly as expected.
+
+But what if JavaScript isn't available?
+
+What if someone navigates by keyboard?
+
+What if they open the site on a phone, where dragging floating windows makes very little sense?
+
+AntoñiOS generates HTML for its routes at build time. The main content doesn't depend entirely on the interactive desktop running.
+
+On small screens, apps stop behaving like free-floating windows and use the available space.
+
+There isn't much point recreating Windows on a six-inch screen.
+
+Sometimes adapting an experience means giving part of it up.
+
+That's harder to accept than adding another animation.
+
+## Not everything needs to survive F5
+
+Another interesting decision concerns persistence.
+
+AntoñiOS remembers some preferences: wallpaper, effects, and sound.
+
+But it doesn't preserve every window's position and dimensions indefinitely.
+
+That feels like a sensible distinction.
+
+Remembering how I like my desktop is one thing. Turning every movement into data that must survive future visits is another.
+
+Persistence always sounds easy.
+
+Until you need to decide when data expires, how to restore it, or what happens when the device changes.
+
+Suddenly we have a synchronization problem just to remember that yesterday I left a window twenty pixels farther to the right.
+
+Some architectural battles are worth winning.
+
+Others are worth not starting.
+
+## The interface was the excuse
+
+What interests me most about AntoñiOS isn't making a website look like an operating system.
+
+It's how many decisions appear when you try to do that without losing what makes the web useful.
+
+Real routes, accessible content, predictable navigation, clearly bounded state.
+
+The desktop is the presentation.
+
+The architecture still has to work when you remove the scenery.
+
+Maybe that's the lesson I take from the project: **a good experience isn't about adding every possible interaction, but choosing which ones are worth complicating the system for**.
+
+Because building a fictional operating system is fun.
+
+Explaining why the Back button stopped working is considerably less so.
