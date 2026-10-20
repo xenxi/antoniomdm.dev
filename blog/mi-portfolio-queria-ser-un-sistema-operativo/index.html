@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mi portfolio quería ser un sistema operativo. El navegador tenía otros planes. · Out of Context · AntoñiOS</title><meta name="description" content="Una reflexión sobre AntoñiOS, un portfolio inspirado en un sistema operativo, y cómo conciliar ventanas interactivas con rutas, accesibilidad y navegación web."><meta name="theme-color" content="#0b100e"><link rel="canonical" href="https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/"><link rel="alternate" hreflang="es" href="https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/"><link rel="alternate" hreflang="en" href="https://antoniomdm.dev/en/blog/my-portfolio-wanted-to-be-an-operating-system/"><link rel="alternate" hreflang="x-default" href="https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/"><link rel="alternate" type="application/rss+xml" title="Out of Context · AntoñiOS RSS" href="/blog/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:locale" content="es_ES"><meta property="og:title" content="Mi portfolio quería ser un sistema operativo. El navegador tenía otros planes."><meta property="og:description" content="Una reflexión sobre AntoñiOS, un portfolio inspirado en un sistema operativo, y cómo conciliar ventanas interactivas con rutas, accesibilidad y navegación web."><meta property="og:type" content="article"><meta property="og:url" content="https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/"><meta property="og:site_name" content="Out of Context · AntoñiOS"><meta property="og:image" content="https://antoniomdm.dev/social.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Mi portfolio quería ser un sistema operativo. El navegador tenía otros planes."><meta name="twitter:description" content="Una reflexión sobre AntoñiOS, un portfolio inspirado en un sistema operativo, y cómo conciliar ventanas interactivas con rutas, accesibilidad y navegación web."><meta name="twitter:image" content="https://antoniomdm.dev/social.png"><meta property="article:published_time" content="2026-10-20T00:00:00.000Z"><meta property="article:tag" content="Astro"><meta property="article:tag" content="Preact"><meta property="article:tag" content="Frontend"><meta property="article:tag" content="Arquitectura"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Mi portfolio quería ser un sistema operativo. El navegador tenía otros planes.","description":"Una reflexión sobre AntoñiOS, un portfolio inspirado en un sistema operativo, y cómo conciliar ventanas interactivas con rutas, accesibilidad y navegación web.","datePublished":"2026-10-20T00:00:00.000Z","dateModified":"2026-10-20T00:00:00.000Z","inLanguage":"es","mainEntityOfPage":"https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/","url":"https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/","keywords":["Astro","Preact","Frontend","Arquitectura"],"author":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"},"publisher":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"}}</script><link rel="stylesheet" href="/_astro/global.Bxf2nCII.css"><link rel="stylesheet" href="/_astro/OutOfScopeLayout.BVd6fVjb.css"></head><body class="oos-body"><a class="oos-skip" href="#main">Saltar al contenido</a><header class="oos-site-header"><a class="oos-brand" href="/blog/" aria-label="Inicio de Out of Context"><b aria-hidden="true">▰</b> OUT OF CONTEXT<span>_</span></a><nav aria-label="Navegación de la publicación"><a href="/blog/">Artículos</a><a href="/blog/rss.xml">RSS</a><a data-language="en" lang="en" hreflang="en" href="https://antoniomdm.dev/en/blog/my-portfolio-wanted-to-be-an-operating-system/">EN</a><a data-article-portfolio href="/">Portfolio ↗</a></nav></header><main id="main"><article class="oos-article" data-oos-article="mi-portfolio-queria-ser-un-sistema-operativo" data-oos-language="es"><header class="oos-article__header"><a class="oos-back" href="/blog/">← Todos los artículos</a><p class="oos-log">LOG #2610 · EXPLORACIÓN</p><h1>Mi portfolio quería ser un sistema operativo. El navegador tenía otros planes.</h1><p class="oos-article__summary">Quería convertir mi portfolio en un pequeño sistema operativo, con ventanas, dock, terminal y modo Arcade. Pero ¿cómo mantener esa experiencia sin romper las URLs, el historial y la accesibilidad?</p><div class="oos-article__facts"><time datetime="2026-10-20T00:00:00.000Z">20 de octubre de 2026</time><span>4 min de lectura</span><span>Arquitectura</span></div><div class="oos-tags"><span>Astro</span><span>Preact</span><span>Frontend</span><span>Arquitectura</span></div></header><div class="oos-article__cover oos-article__cover--generated" aria-hidden="true"><span>OUT<br>OF<br>CONTEXT_</span><i>Exploración</i></div><div class="oos-article__layout"><div class="oos-article__body"><p>La idea parecía bastante sencilla: convertir mi portfolio en una especie de sistema operativo.</p>
+<p>Un escritorio, ventanas que se pueden mover, un dock, una terminal y hasta un modo Arcade.</p>
+<p>Porque, aparentemente, mostrar cuatro proyectos en una cuadrícula era demasiado convencional.</p>
+<p>Así nació AntoñiOS.</p>
+<p>Lo interesante apareció al pensar en algo bastante menos espectacular que las ventanas: <strong>qué debería ocurrir cuando alguien abre directamente un enlace</strong>.</p>
+<p>Porque puedes construir el escritorio más bonito del mundo, pero si alguien entra desde Google a un proyecto y termina viendo una pantalla de bienvenida, igual hay algo que revisar.</p>
+<h2 id="un-escritorio-no-es-una-página-web">Un escritorio no es una página web</h2>
+<p>En un sistema operativo, el escritorio suele ser el punto de partida.</p>
+<p>En una web, no.</p>
+<p>Alguien puede llegar directamente a <code>/projects/</code>, <code>/architecture/</code> o a un artículo del blog.</p>
+<p>Y espera encontrar lo que venía buscando.</p>
+<p>No una animación de arranque.</p>
+<p>No una ventana vacía.</p>
+<p>Y, preferiblemente, tampoco un botón que diga «Pulsa aquí para empezar».</p>
+<p>AntoñiOS tenía que conciliar dos formas de navegar.</p>
+<p>Por un lado, la experiencia visual: abrir aplicaciones, minimizar ventanas, cambiar el foco y moverse por el escritorio.</p>
+<p>Por otro, el comportamiento habitual del navegador: URLs compartibles, historial, botón Atrás y páginas que funcionan al recargarse.</p>
+<p>La solución actual combina Astro para generar páginas estáticas y Preact para gestionar la parte interactiva.</p>
+<p>Dos mundos que pueden convivir perfectamente.</p>
+<p>Siempre que ninguno intente hacerse dueño del otro.</p>
+<h2 id="el-estado-de-una-ventana-no-es-la-url">El estado de una ventana no es la URL</h2>
+<p>El gestor de ventanas tiene su propio estado.</p>
+<p>Sabe qué aplicaciones están abiertas, cuál tiene el foco, cuáles están minimizadas y en qué orden deben aparecer.</p>
+<p>También controla posiciones y tamaños.</p>
+<p>Nada especialmente revolucionario.</p>
+<p>Hasta que decides relacionarlo con la navegación.</p>
+<p>Imaginemos que abro Proyectos y después Arquitectura.</p>
+<p>Arquitectura queda en primer plano.</p>
+<p>Ahora pulso Atrás.</p>
+<p>¿Qué debería ocurrir?</p>
+<p>El navegador quiere volver a la ruta anterior. El escritorio, mientras tanto, tiene sus propias ventanas abiertas.</p>
+<p>Si cada uno funciona por su cuenta, podemos acabar con una URL que dice una cosa y una interfaz que muestra otra.</p>
+<p>Una especie de multiverso frontend.</p>
+<p>Y ya tenemos suficientes problemas de continuidad sin introducir viajes interdimensionales.</p>
+<p>En AntoñiOS, las acciones del escritorio actualizan la ruta activa y la navegación del navegador puede recuperar la aplicación correspondiente.</p>
+<p>El historial no es un elemento decorativo.</p>
+<p>Forma parte del contrato.</p>
+<h2 id="también-tiene-que-funcionar-cuando-desaparece-la-magia">También tiene que funcionar cuando desaparece la magia</h2>
+<p>Hay otro detalle que me interesa especialmente.</p>
+<p>Una interfaz puede resultar muy convincente mientras todo funciona exactamente como esperamos.</p>
+<p>Pero ¿qué ocurre si JavaScript no está disponible?</p>
+<p>¿Y si alguien necesita navegar con teclado?</p>
+<p>¿Y si abre la web desde un móvil donde mover ventanas flotantes deja de tener bastante sentido?</p>
+<p>En AntoñiOS, las rutas disponen de HTML generado durante la compilación. El contenido principal no depende exclusivamente de que el escritorio interactivo se ejecute.</p>
+<p>En pantallas pequeñas, las aplicaciones dejan de comportarse como ventanas libres y pasan a ocupar el espacio disponible.</p>
+<p>No tiene mucho sentido empeñarse en reproducir Windows en una pantalla de seis pulgadas.</p>
+<p>A veces adaptar una experiencia significa renunciar a parte de ella.</p>
+<p>Y eso cuesta más de aceptar que añadir otra animación.</p>
+<h2 id="no-todo-merece-sobrevivir-a-un-f5">No todo merece sobrevivir a un F5</h2>
+<p>Otra decisión interesante tiene que ver con la persistencia.</p>
+<p>AntoñiOS guarda determinadas preferencias: fondo, efectos y sonido.</p>
+<p>Pero no conserva indefinidamente las posiciones y dimensiones de todas las ventanas.</p>
+<p>Me parece una separación razonable.</p>
+<p>Una cosa es recordar cómo prefiero ver el escritorio y otra convertir cada movimiento en un dato que debe sobrevivir a las siguientes visitas.</p>
+<p>Persistir algo siempre parece sencillo.</p>
+<p>Hasta que hay que decidir cuándo caduca, cómo se restaura o qué ocurre al cambiar de dispositivo.</p>
+<p>Y, de repente, tenemos un problema de sincronización para recordar que ayer dejé una ventana veinte píxeles más a la derecha.</p>
+<p>Hay batallas arquitectónicas que merece la pena ganar.</p>
+<p>Y otras que merece la pena no empezar.</p>
+<h2 id="la-interfaz-era-la-excusa">La interfaz era la excusa</h2>
+<p>Lo que más me interesa de AntoñiOS no es haber conseguido que una web parezca un sistema operativo.</p>
+<p>Es la cantidad de decisiones que aparecen al intentar hacerlo sin perder lo que hace útil a la web.</p>
+<p>Rutas reales, contenido accesible, navegación predecible, estados bien delimitados.</p>
+<p>El escritorio es la presentación.</p>
+<p>La arquitectura tiene que seguir funcionando cuando quitamos el decorado.</p>
+<p>Y quizá esa sea la lección que me llevo de este proyecto: <strong>una buena experiencia no consiste en añadir todas las interacciones posibles, sino en saber cuáles merecen complicar el sistema</strong>.</p>
+<p>Porque montar un sistema operativo ficticio tiene su gracia.</p>
+<p>Tener que explicarle al usuario por qué el botón Atrás ha dejado de funcionar, bastante menos.</p></div></div></article><footer class="oos-article__footer" aria-label="Acciones del artículo"><div class="oos-article__actions"><button type="button" data-oos-share data-article-share>Compartir artículo</button><a data-article-contact href="/contact/">Contacto ↗</a><a data-article-portfolio href="/">Volver a AntoñiOS ↗</a></div><p role="status" aria-live="polite" data-oos-share-status></p></footer><script>(function(){const shareTitle = "Mi portfolio quería ser un sistema operativo. El navegador tenía otros planes.";
+const shareText = "Quería convertir mi portfolio en un pequeño sistema operativo, con ventanas, dock, terminal y modo Arcade. Pero ¿cómo mantener esa experiencia sin romper las URLs, el historial y la accesibilidad?";
+const shareUrl = "https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/";
+const copied = "Enlace copiado.";
+const copyFailed = "No se pudo copiar el enlace.";
+
+    const share = document.querySelector('[data-oos-share]');
+    const shareStatus = document.querySelector('[data-oos-share-status]');
+    share?.addEventListener('click', async () => {
+      try {
+        if (navigator.share) await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+        else { await navigator.clipboard.writeText(shareUrl); if (shareStatus) shareStatus.textContent = copied; }
+      } catch (error) { if (error?.name !== 'AbortError' && shareStatus) shareStatus.textContent = copyFailed; }
+    });
+  })();</script><script type="module">function e(e,t,n){let r=new Set;return i=>{for(let[a,o]of[[.5,`article_50_percent`],[.9,`article_complete`]])i>=a&&!r.has(o)&&n({name:o,params:{article_slug:e,language:t}})&&r.add(o);return r.size}}var t=document.querySelector(`[data-oos-article]`);if(t){let n=e(t.dataset.oosArticle??``,t.dataset.oosLanguage===`en`?`en`:`es`,e=>window.__ANTONIOS_ANALYTICS__?.track(e)??!1),r=()=>{let e=document.documentElement.scrollHeight-window.innerHeight,t=e<=0?1:window.scrollY/e;n(t)};addEventListener(`scroll`,r,{passive:!0}),addEventListener(`analytics-consent-changed`,r),r()}</script></main><footer class="oos-site-footer"><p>OUT OF CONTEXT_ <span>×</span> AntoñiOS</p><p>Preguntas, experimentos y notas de ingeniería.</p><p><a class="oos-footer-link" href="/privacy/">Privacidad</a></p></footer><div id="analytics-consent" class="analytics-consent no-print" data-analytics-consent-state="pending"><aside id="analytics-consent-panel" class="analytics-consent__panel" aria-labelledby="analytics-consent-title" aria-describedby="analytics-consent-description" tabindex="-1" hidden><div><p class="analytics-consent__eyebrow">GA4 / PRIVACY</p><h2 id="analytics-consent-title">Medición opcional</h2><p id="analytics-consent-description">Google Analytics me ayuda a conocer las visitas y las páginas consultadas. Google sólo se carga si aceptas; la medición no afecta a la navegación. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacidad de Google ↗</a></p></div><div class="analytics-consent__actions"><button type="button" data-analytics-consent="reject">Rechazar</button><button class="primary" type="button" data-analytics-consent="accept">Aceptar medición</button></div></aside><button id="analytics-consent-settings" class="analytics-consent__settings" type="button" hidden>Configurar analítica</button><p id="analytics-consent-status" class="analytics-consent__status" data-granted="Medición de Google Analytics activada." data-denied="Medición de Google Analytics desactivada." aria-live="polite"></p><script type="module" src="/_astro/AnalyticsConsent.astro_astro_type_script_index_0_lang.9i8arElP.js"></script></div></body></html>

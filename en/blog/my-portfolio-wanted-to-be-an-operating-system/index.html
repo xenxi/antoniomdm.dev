@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>My portfolio wanted to be an operating system. The browser had other plans. · Out of Context · AntoñiOS</title><meta name="description" content="AntoñiOS is a portfolio inspired by an operating system. A reflection on balancing interactive windows with real routes, accessibility, and browser navigation."><meta name="theme-color" content="#0b100e"><link rel="canonical" href="https://antoniomdm.dev/en/blog/my-portfolio-wanted-to-be-an-operating-system/"><link rel="alternate" hreflang="en" href="https://antoniomdm.dev/en/blog/my-portfolio-wanted-to-be-an-operating-system/"><link rel="alternate" hreflang="es" href="https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/"><link rel="alternate" hreflang="x-default" href="https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/"><link rel="alternate" type="application/rss+xml" title="Out of Context · AntoñiOS RSS" href="/en/blog/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:locale" content="en_GB"><meta property="og:title" content="My portfolio wanted to be an operating system. The browser had other plans."><meta property="og:description" content="AntoñiOS is a portfolio inspired by an operating system. A reflection on balancing interactive windows with real routes, accessibility, and browser navigation."><meta property="og:type" content="article"><meta property="og:url" content="https://antoniomdm.dev/en/blog/my-portfolio-wanted-to-be-an-operating-system/"><meta property="og:site_name" content="Out of Context · AntoñiOS"><meta property="og:image" content="https://antoniomdm.dev/en/social.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="My portfolio wanted to be an operating system. The browser had other plans."><meta name="twitter:description" content="AntoñiOS is a portfolio inspired by an operating system. A reflection on balancing interactive windows with real routes, accessibility, and browser navigation."><meta name="twitter:image" content="https://antoniomdm.dev/en/social.png"><meta property="article:published_time" content="2026-10-20T00:00:00.000Z"><meta property="article:tag" content="Astro"><meta property="article:tag" content="Preact"><meta property="article:tag" content="Frontend"><meta property="article:tag" content="Architecture"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"My portfolio wanted to be an operating system. The browser had other plans.","description":"AntoñiOS is a portfolio inspired by an operating system. A reflection on balancing interactive windows with real routes, accessibility, and browser navigation.","datePublished":"2026-10-20T00:00:00.000Z","dateModified":"2026-10-20T00:00:00.000Z","inLanguage":"en","mainEntityOfPage":"https://antoniomdm.dev/en/blog/my-portfolio-wanted-to-be-an-operating-system/","url":"https://antoniomdm.dev/en/blog/my-portfolio-wanted-to-be-an-operating-system/","keywords":["Astro","Preact","Frontend","Architecture"],"author":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"},"publisher":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"}}</script><link rel="stylesheet" href="/_astro/global.Bxf2nCII.css"><link rel="stylesheet" href="/_astro/OutOfScopeLayout.BVd6fVjb.css"></head><body class="oos-body"><a class="oos-skip" href="#main">Skip to content</a><header class="oos-site-header"><a class="oos-brand" href="/en/blog/" aria-label="Out of Context home"><b aria-hidden="true">▰</b> OUT OF CONTEXT<span>_</span></a><nav aria-label="Publication navigation"><a href="/en/blog/">Articles</a><a href="/en/blog/rss.xml">RSS</a><a data-language="es" lang="es" hreflang="es" href="https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/">ES</a><a data-article-portfolio href="/en/">Portfolio ↗</a></nav></header><main id="main"><article class="oos-article" data-oos-article="my-portfolio-wanted-to-be-an-operating-system" data-oos-language="en"><header class="oos-article__header"><a class="oos-back" href="/en/blog/">← All articles</a><p class="oos-log">LOG #2610 · EXPLORATION</p><h1>My portfolio wanted to be an operating system. The browser had other plans.</h1><p class="oos-article__summary">I wanted a portfolio with windows, a dock, a terminal, and an Arcade mode. But how do you preserve the desktop experience without breaking URLs, browser history, and accessibility?</p><div class="oos-article__facts"><time datetime="2026-10-20T00:00:00.000Z">20 October 2026</time><span>4 min read</span><span>Architecture</span></div><div class="oos-tags"><span>Astro</span><span>Preact</span><span>Frontend</span><span>Architecture</span></div></header><div class="oos-article__cover oos-article__cover--generated" aria-hidden="true"><span>OUT<br>OF<br>CONTEXT_</span><i>Exploration</i></div><div class="oos-article__layout"><div class="oos-article__body"><p>The idea sounded simple enough: turn my portfolio into something resembling an operating system.</p>
+<p>A desktop, draggable windows, a dock, a terminal, even an Arcade mode.</p>
+<p>Because apparently showing four projects in a grid was far too conventional.</p>
+<p>And so AntoñiOS was born.</p>
+<p>The interesting part came when I started thinking about something much less exciting than windows: <strong>what should happen when someone opens a direct link?</strong></p>
+<p>You can build the prettiest desktop in the world, but if someone arrives from Google looking for a project and gets a welcome screen instead, something might need another look.</p>
+<h2 id="a-desktop-isnt-a-website">A desktop isn’t a website</h2>
+<p>On an operating system, the desktop is usually where you start.</p>
+<p>On the web, it isn’t.</p>
+<p>Someone can arrive directly at <code>/projects/</code>, <code>/architecture/</code>, or a blog post.</p>
+<p>They expect to find what they came for.</p>
+<p>Not a startup animation.</p>
+<p>Not an empty window.</p>
+<p>And preferably not a button saying “Click here to begin.”</p>
+<p>AntoñiOS had to reconcile two kinds of navigation.</p>
+<p>On one side, the visual experience: opening apps, minimizing windows, switching focus, and moving around the desktop.</p>
+<p>On the other, the browser’s usual behavior: shareable URLs, history, the Back button, and pages that still work after a reload.</p>
+<p>The current solution combines Astro for static pages with Preact for the interactive layer.</p>
+<p>Two worlds that can coexist perfectly well.</p>
+<p>As long as neither tries to take over the other.</p>
+<h2 id="window-state-is-not-the-url">Window state is not the URL</h2>
+<p>The window manager has its own state.</p>
+<p>It knows which apps are open, which one has focus, which are minimized, and their stacking order.</p>
+<p>It also manages positions and sizes.</p>
+<p>Nothing revolutionary.</p>
+<p>Until you connect it to navigation.</p>
+<p>Imagine I open Projects and then Architecture.</p>
+<p>Architecture is now in front.</p>
+<p>I press Back.</p>
+<p>What should happen?</p>
+<p>The browser wants to return to the previous route. The desktop still has its own open windows.</p>
+<p>If they operate independently, the URL can say one thing while the interface shows another.</p>
+<p>A frontend multiverse.</p>
+<p>And we have enough continuity problems without adding interdimensional travel.</p>
+<p>In AntoñiOS, desktop actions update the active route, and browser navigation can restore the corresponding app.</p>
+<p>History isn’t decoration.</p>
+<p>It’s part of the contract.</p>
+<h2 id="it-also-has-to-work-when-the-magic-disappears">It also has to work when the magic disappears</h2>
+<p>There’s another detail I care about.</p>
+<p>An interface can be very convincing when everything works exactly as expected.</p>
+<p>But what if JavaScript isn’t available?</p>
+<p>What if someone navigates by keyboard?</p>
+<p>What if they open the site on a phone, where dragging floating windows makes very little sense?</p>
+<p>AntoñiOS generates HTML for its routes at build time. The main content doesn’t depend entirely on the interactive desktop running.</p>
+<p>On small screens, apps stop behaving like free-floating windows and use the available space.</p>
+<p>There isn’t much point recreating Windows on a six-inch screen.</p>
+<p>Sometimes adapting an experience means giving part of it up.</p>
+<p>That’s harder to accept than adding another animation.</p>
+<h2 id="not-everything-needs-to-survive-f5">Not everything needs to survive F5</h2>
+<p>Another interesting decision concerns persistence.</p>
+<p>AntoñiOS remembers some preferences: wallpaper, effects, and sound.</p>
+<p>But it doesn’t preserve every window’s position and dimensions indefinitely.</p>
+<p>That feels like a sensible distinction.</p>
+<p>Remembering how I like my desktop is one thing. Turning every movement into data that must survive future visits is another.</p>
+<p>Persistence always sounds easy.</p>
+<p>Until you need to decide when data expires, how to restore it, or what happens when the device changes.</p>
+<p>Suddenly we have a synchronization problem just to remember that yesterday I left a window twenty pixels farther to the right.</p>
+<p>Some architectural battles are worth winning.</p>
+<p>Others are worth not starting.</p>
+<h2 id="the-interface-was-the-excuse">The interface was the excuse</h2>
+<p>What interests me most about AntoñiOS isn’t making a website look like an operating system.</p>
+<p>It’s how many decisions appear when you try to do that without losing what makes the web useful.</p>
+<p>Real routes, accessible content, predictable navigation, clearly bounded state.</p>
+<p>The desktop is the presentation.</p>
+<p>The architecture still has to work when you remove the scenery.</p>
+<p>Maybe that’s the lesson I take from the project: <strong>a good experience isn’t about adding every possible interaction, but choosing which ones are worth complicating the system for</strong>.</p>
+<p>Because building a fictional operating system is fun.</p>
+<p>Explaining why the Back button stopped working is considerably less so.</p></div></div></article><footer class="oos-article__footer" aria-label="Article actions"><div class="oos-article__actions"><button type="button" data-oos-share data-article-share>Share article</button><a data-article-contact href="/en/contact/">Contact ↗</a><a data-article-portfolio href="/en/">Back to AntoñiOS ↗</a></div><p role="status" aria-live="polite" data-oos-share-status></p></footer><script>(function(){const shareTitle = "My portfolio wanted to be an operating system. The browser had other plans.";
+const shareText = "I wanted a portfolio with windows, a dock, a terminal, and an Arcade mode. But how do you preserve the desktop experience without breaking URLs, browser history, and accessibility?";
+const shareUrl = "https://antoniomdm.dev/en/blog/my-portfolio-wanted-to-be-an-operating-system/";
+const copied = "Link copied.";
+const copyFailed = "Could not copy the link.";
+
+    const share = document.querySelector('[data-oos-share]');
+    const shareStatus = document.querySelector('[data-oos-share-status]');
+    share?.addEventListener('click', async () => {
+      try {
+        if (navigator.share) await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+        else { await navigator.clipboard.writeText(shareUrl); if (shareStatus) shareStatus.textContent = copied; }
+      } catch (error) { if (error?.name !== 'AbortError' && shareStatus) shareStatus.textContent = copyFailed; }
+    });
+  })();</script><script type="module">function e(e,t,n){let r=new Set;return i=>{for(let[a,o]of[[.5,`article_50_percent`],[.9,`article_complete`]])i>=a&&!r.has(o)&&n({name:o,params:{article_slug:e,language:t}})&&r.add(o);return r.size}}var t=document.querySelector(`[data-oos-article]`);if(t){let n=e(t.dataset.oosArticle??``,t.dataset.oosLanguage===`en`?`en`:`es`,e=>window.__ANTONIOS_ANALYTICS__?.track(e)??!1),r=()=>{let e=document.documentElement.scrollHeight-window.innerHeight,t=e<=0?1:window.scrollY/e;n(t)};addEventListener(`scroll`,r,{passive:!0}),addEventListener(`analytics-consent-changed`,r),r()}</script></main><footer class="oos-site-footer"><p>OUT OF CONTEXT_ <span>×</span> AntoñiOS</p><p>Questions, experiments and engineering notes.</p><p><a class="oos-footer-link" href="/en/privacy/">Privacy</a></p></footer><div id="analytics-consent" class="analytics-consent no-print" data-analytics-consent-state="pending"><aside id="analytics-consent-panel" class="analytics-consent__panel" aria-labelledby="analytics-consent-title" aria-describedby="analytics-consent-description" tabindex="-1" hidden><div><p class="analytics-consent__eyebrow">GA4 / PRIVACY</p><h2 id="analytics-consent-title">Optional measurement</h2><p id="analytics-consent-description">Google Analytics helps me understand visits and viewed pages. Google only loads if you accept; measurement does not affect navigation. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google privacy ↗</a></p></div><div class="analytics-consent__actions"><button type="button" data-analytics-consent="reject">Reject</button><button class="primary" type="button" data-analytics-consent="accept">Allow measurement</button></div></aside><button id="analytics-consent-settings" class="analytics-consent__settings" type="button" hidden>Analytics settings</button><p id="analytics-consent-status" class="analytics-consent__status" data-granted="Google Analytics measurement enabled." data-denied="Google Analytics measurement disabled." aria-live="polite"></p><script type="module" src="/_astro/AnalyticsConsent.astro_astro_type_script_index_0_lang.9i8arElP.js"></script></div></body></html>
