@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import { render } from 'astro:content';
 import type { OutOfScopeEntry } from '../../data/out-of-scope';
 import { articleCanonical, findOutOfScopeTranslation } from '../../data/out-of-scope';
@@ -17,6 +17,8 @@ const canonical = articleCanonical(card);
 const alternateEntry = await findOutOfScopeTranslation(entry, en ? 'es' : 'en');
 const alternate = alternateEntry ? { locale: alternateEntry.data.locale, href: articleCanonical({ slug: alternateEntry.data.slug, locale: alternateEntry.data.locale }) } : undefined;
 const description = data.seo?.description ?? data.summary;
+const socialImage = data.cover ? await getImage({ src: data.cover, width: 1200, format: 'jpg', quality: 90 }) : undefined;
+const socialCover = socialImage && data.cover ? { src: socialImage.src, width: Number(socialImage.attributes.width), height: Number(socialImage.attributes.height), alt: data.coverAlt ?? '' } : undefined;
 const typeLabels = en ? { exploration: 'Exploration', experiment: 'Experiment', postmortem: 'Postmortem', notes: 'Notes' } : { exploration: 'Exploración', experiment: 'Experimento', postmortem: 'Postmortem', notes: 'Notas' };
 const schema = {
   '@context': 'https://schema.org', '@type': 'BlogPosting', headline: data.title, description,
@@ -24,10 +26,10 @@ const schema = {
   mainEntityOfPage: canonical, url: canonical, keywords: data.tags,
   author: { '@type': 'Person', name: 'Antonio Manuel Delgado Martín', url: 'https://antoniomdm.dev/' },
   publisher: { '@type': 'Person', name: 'Antonio Manuel Delgado Martín', url: 'https://antoniomdm.dev/' },
-  ...(data.cover ? { image: new URL(data.cover.src, Astro.site).href } : {}),
+  ...(socialCover ? { image: new URL(socialCover.src, Astro.site).href } : {}),
 };
 ---
-<OutOfScopeLayout locale={data.locale} title={data.title} description={description} canonical={canonical} alternate={alternate} kind="article" published={data.date.toISOString()} updated={data.updated?.toISOString()} tags={data.tags} schema={schema}>
+<OutOfScopeLayout locale={data.locale} title={data.title} description={description} canonical={canonical} alternate={alternate} kind="article" published={data.date.toISOString()} updated={data.updated?.toISOString()} tags={data.tags} schema={schema} socialCover={socialCover}>
   <article class="oos-article" data-oos-article={data.slug} data-oos-language={data.locale}>
     <header class="oos-article__header">
       <a class="oos-back" href={`${data.locale === 'en' ? '/en' : ''}/blog/`}>{en ? '← All articles' : '← Todos los artículos'}</a>

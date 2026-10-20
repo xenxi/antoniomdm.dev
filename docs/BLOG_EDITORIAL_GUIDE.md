@@ -73,6 +73,20 @@ Los componentes MDX existentes son opcionales. No se insertan para decorar ni fo
 
 `LOG` ya aparece como identificador visual automático en la cabecera del artículo; no existe como bloque MDX independiente. `POSTMORTEM` existe como tipo de artículo (`type: postmortem`), no como componente. No se añaden componentes nuevos hasta que un caso editorial repetido justifique su semántica y su mantenimiento.
 
+### Portadas
+
+Cada artículo publicado tiene una ilustración propia: pixel art de aventura gráfica retro, sombras ciruela, iluminación violeta y magenta, acentos cian/menta y luces cálidas. La escena representa una idea del artículo con humor sutil; compartir estética no significa repetir protagonista. **Claudio aparece únicamente en su artículo.** No reutilizarlo como mascota general del blog.
+
+Las portadas son horizontales (16:9), sin el título incrustado y con el motivo principal legible en miniatura. Evitar texto dentro de la ilustración; cuando sea necesario, crear una versión localizada por idioma. Declarar `cover` y un `coverAlt` natural en ES/EN. Guardar los recursos compartidos en `src/assets/blog/`; las tarjetas, la cabecera y los metadatos sociales usan la misma identidad visual.
+
+Dirección de las escenas actuales (generadas con ImageGen):
+
+- `claudio-es.webp` / `claudio-en.webp`: Claudio agotado, teléfono, archivadores legacy y la opción de terminar la conversación.
+- `portfolio.webp`: ventanas de escritorio que se atascan al atravesar el marco del navegador.
+- `cache.webp`: precio antiguo congelado junto a un precio vigente y un símbolo de rapidez.
+- `green-pr.webp`: check verde celebrado sobre un pedestal con el bug todavía debajo.
+- `question.webp`: interrogación que permanece sobre un portátil cerrado después de terminar el trabajo.
+
 ### Metadata y reutilización
 
 El artículo MDX es la única fuente de contenido. `summary` se escribe a mano y presenta la pregunta o el descubrimiento sin resolver todo el artículo. Alimenta tarjetas, listados, RSS y la copia social predeterminada; también actúa como descripción SEO cuando no existe `seo.description`. `linkedin.text` sólo se usa cuando la publicación necesita una adaptación deliberada. La URL canónica se deriva de `locale` y `slug`; no se copia dentro del artículo. `translationKey` relaciona las versiones ES/EN aunque sus slugs difieran.
@@ -155,6 +169,20 @@ Existing MDX components are optional. They are not decoration or a rigid article
 | Comparison or visual support | `Compare`, `Image`, `Gallery` | Used only when the visual relationship clarifies the reasoning. |
 
 `LOG` already appears as the automatic visual identifier in the article header; it is not a separate MDX block. `POSTMORTEM` exists as an article type (`type: postmortem`), not as a component. Add no new component until a repeated editorial need justifies its semantics and maintenance cost.
+
+### Covers
+
+Every published article has its own illustration: retro adventure-game pixel art, plum shadows, violet and magenta lighting, cyan/mint accents, and warm highlights. Each scene conveys an article idea with understated humour; a shared style does not mean a recurring protagonist. **Claudio appears only in his own article.** Do not reuse him as a general blog mascot.
+
+Covers are landscape (16:9), without an embedded title, and with a focal subject readable at thumbnail size. Avoid text inside artwork; when necessary, create a localised version for each language. Set `cover` and natural ES/EN `coverAlt` text. Store shared assets in `src/assets/blog/`; cards, article headers, and social metadata use the same visual identity.
+
+Current scene directions (generated with ImageGen):
+
+- `claudio-es.webp` / `claudio-en.webp`: exhausted Claudio, telephone, legacy binders, and the option to end the conversation.
+- `portfolio.webp`: desktop windows getting stuck while passing through a browser frame.
+- `cache.webp`: an old frozen price beside the current price and a speed symbol.
+- `green-pr.webp`: a celebrated green checkmark on a pedestal with the bug still underneath.
+- `question.webp`: a question mark remaining above a closed laptop after the work is finished.
 
 ### Metadata and reuse
 

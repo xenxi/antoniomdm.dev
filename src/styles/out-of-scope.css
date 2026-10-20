@@ -41,6 +41,7 @@
 .oos-card--featured { grid-template-columns: minmax(360px, 1.2fr) 1fr; border: 0; padding: 0; align-items: center; }
 .oos-card__cover { display: block; min-height: 260px; overflow: hidden; background: #15121e; border: 1px solid var(--oos-line); color: var(--oos-text) !important; }
 .oos-card--featured .oos-card__cover { min-height: 470px; }
+.oos-card .oos-card__cover.oos-card__cover--image { min-height: 0; aspect-ratio: 16 / 9; align-self: center; }
 .oos-card__cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .oos-card__cover > span { min-height: inherit; display: flex; flex-direction: column; justify-content: center; padding: clamp(1.4rem, 5vw, 4.5rem); background: radial-gradient(circle at 80% 20%, #49326c, transparent 45%), linear-gradient(135deg, #191521, #0c0b11); position: relative; box-shadow: inset 0 0 0 8px #111019, inset 0 0 0 9px var(--oos-line); }
 .oos-card__cover b { font: 800 clamp(2.7rem, 6vw, 6rem)/.78 var(--oos-sans); letter-spacing: -.075em; }

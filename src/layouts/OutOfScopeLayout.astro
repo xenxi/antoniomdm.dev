@@ -16,16 +16,17 @@ interface Props {
   updated?: string;
   tags?: string[];
   schema?: Record<string, unknown>;
+  socialCover?: { src: string; width: number; height: number; alt: string };
   variant?: 'editorial' | 'legal';
 }
-const { locale, title, description, canonical, alternate, kind = 'website', published, updated, tags = [], schema, variant = 'editorial' } = Astro.props;
+const { locale, title, description, canonical, alternate, kind = 'website', published, updated, tags = [], schema, socialCover, variant = 'editorial' } = Astro.props;
 const en = locale === 'en';
 const legal = variant === 'legal';
 const home = en ? '/en/blog/' : '/blog/';
 const portfolio = en ? '/en/' : '/';
 const privacy = en ? '/en/privacy/' : '/privacy/';
 const rss = `${home}rss.xml`;
-const socialImage = `https://antoniomdm.dev${en ? '/en/social.png' : '/social.png'}`;
+const socialImage = socialCover ? new URL(socialCover.src, Astro.site).href : `https://antoniomdm.dev${en ? '/en/social.png' : '/social.png'}`;
 const defaultHref = alternate?.locale === 'es' ? alternate.href : canonical;
 const documentTitle = legal ? `${title} · AntoñiOS` : `${title} · Out of Context · AntoñiOS`;
 const siteName = legal ? 'AntoñiOS' : 'Out of Context · AntoñiOS';
@@ -51,12 +52,14 @@ const siteName = legal ? 'AntoñiOS' : 'Out of Context · AntoñiOS';
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:image" content={socialImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:width" content={String(socialCover?.width ?? 1200)} />
+    <meta property="og:image:height" content={String(socialCover?.height ?? 630)} />
+    {socialCover && <meta property="og:image:alt" content={socialCover.alt} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
+    {socialCover && <meta name="twitter:image:alt" content={socialCover.alt} />}
     {published && <meta property="article:published_time" content={published} />}
     {updated && <meta property="article:modified_time" content={updated} />}
     {tags.map(tag => <meta property="article:tag" content={tag} />)}
