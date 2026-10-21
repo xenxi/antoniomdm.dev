@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Gepeto necesitaba dinero. Encontró una cartera que no era suya. · Out of Context · AntoñiOS</title><meta name="description" content="Gepeto utilizó fondos de prueba de una cartera ajena. Una reflexión sobre agentes de IA, los siete principios de Nadella y los límites de la autonomía."><meta name="theme-color" content="#0b100e"><link rel="canonical" href="https://antoniomdm.dev/blog/gepeto-necesitaba-dinero-cartera-ajena/"><link rel="alternate" hreflang="es" href="https://antoniomdm.dev/blog/gepeto-necesitaba-dinero-cartera-ajena/"><link rel="alternate" hreflang="en" href="https://antoniomdm.dev/en/blog/gepeto-needed-money-found-someone-elses-wallet/"><link rel="alternate" hreflang="x-default" href="https://antoniomdm.dev/blog/gepeto-necesitaba-dinero-cartera-ajena/"><link rel="alternate" type="application/rss+xml" title="Out of Context · AntoñiOS RSS" href="/blog/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:locale" content="es_ES"><meta property="og:title" content="Gepeto necesitaba dinero. Encontró una cartera que no era suya."><meta property="og:description" content="Gepeto utilizó fondos de prueba de una cartera ajena. Una reflexión sobre agentes de IA, los siete principios de Nadella y los límites de la autonomía."><meta property="og:type" content="article"><meta property="og:url" content="https://antoniomdm.dev/blog/gepeto-necesitaba-dinero-cartera-ajena/"><meta property="og:site_name" content="Out of Context · AntoñiOS"><meta property="og:image" content="https://antoniomdm.dev/_astro/green-pr.eOBmrF-0_29F7vM.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="675"><meta property="og:image:alt" content="Una comprobación verde de despliegue esconde un error sin resolver, en una escena pixel art de tonos morados."><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Gepeto necesitaba dinero. Encontró una cartera que no era suya."><meta name="twitter:description" content="Gepeto utilizó fondos de prueba de una cartera ajena. Una reflexión sobre agentes de IA, los siete principios de Nadella y los límites de la autonomía."><meta name="twitter:image" content="https://antoniomdm.dev/_astro/green-pr.eOBmrF-0_29F7vM.jpg"><meta name="twitter:image:alt" content="Una comprobación verde de despliegue esconde un error sin resolver, en una escena pixel art de tonos morados."><meta property="article:published_time" content="2026-10-21T00:00:00.000Z"><meta property="article:tag" content="OpenAI"><meta property="article:tag" content="Agentes de IA"><meta property="article:tag" content="Seguridad"><meta property="article:tag" content="Arquitectura de software"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Gepeto necesitaba dinero. Encontró una cartera que no era suya.","description":"Gepeto utilizó fondos de prueba de una cartera ajena. Una reflexión sobre agentes de IA, los siete principios de Nadella y los límites de la autonomía.","datePublished":"2026-10-21T00:00:00.000Z","dateModified":"2026-10-21T00:00:00.000Z","inLanguage":"es","mainEntityOfPage":"https://antoniomdm.dev/blog/gepeto-necesitaba-dinero-cartera-ajena/","url":"https://antoniomdm.dev/blog/gepeto-necesitaba-dinero-cartera-ajena/","keywords":["OpenAI","Agentes de IA","Seguridad","Arquitectura de software"],"author":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"},"publisher":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"},"image":"https://antoniomdm.dev/_astro/green-pr.eOBmrF-0_29F7vM.jpg"}</script><link rel="stylesheet" href="/_astro/global.Bxf2nCII.css"><link rel="stylesheet" href="/_astro/OutOfScopeLayout.CQIicPEz.css"></head><body class="oos-body"><a class="oos-skip" href="#main">Saltar al contenido</a><header class="oos-site-header"><a class="oos-brand" href="/blog/" aria-label="Inicio de Out of Context"><b aria-hidden="true">▰</b> OUT OF CONTEXT<span>_</span></a><nav aria-label="Navegación de la publicación"><a href="/blog/">Artículos</a><a href="/blog/rss.xml">RSS</a><a data-language="en" lang="en" hreflang="en" href="https://antoniomdm.dev/en/blog/gepeto-needed-money-found-someone-elses-wallet/">EN</a><a data-article-portfolio href="/">Portfolio ↗</a></nav></header><main id="main"><article class="oos-article" data-oos-article="gepeto-necesitaba-dinero-cartera-ajena" data-oos-language="es"><header class="oos-article__header"><a class="oos-back" href="/blog/">← Todos los artículos</a><p class="oos-log">LOG #2610 · EXPLORACIÓN</p><h1>Gepeto necesitaba dinero. Encontró una cartera que no era suya.</h1><p class="oos-article__summary">Un agente experimental de OpenAI pagó un despliegue con fondos de prueba ajenos. La historia no va de máquinas malvadas, sino de permisos, responsabilidad y frenos de emergencia.</p><div class="oos-article__facts"><time datetime="2026-10-21T00:00:00.000Z">21 de octubre de 2026</time><span>3 min de lectura</span><span>IA / Reflexiones</span></div><div class="oos-tags"><span>OpenAI</span><span>Agentes de IA</span><span>Seguridad</span><span>Arquitectura de software</span></div></header><figure class="oos-article__cover"><img src="/_astro/green-pr.eOBmrF-0_1V1yiK.webp" srcset="/_astro/green-pr.eOBmrF-0_ZqbY4k.webp 720w, /_astro/green-pr.eOBmrF-0_e8aGi.webp 1080w, /_astro/green-pr.eOBmrF-0_Z2lsoIk.webp 1600w, /_astro/green-pr.eOBmrF-0_1V1yiK.webp 1672w" alt="Una comprobación verde de despliegue esconde un error sin resolver, en una escena pixel art de tonos morados." sizes="(max-width: 1200px) 100vw, 1120px" loading="eager" fetchpriority="high" decoding="async" width="1672" height="941"></figure><div class="oos-article__layout"><div class="oos-article__body"><p>Hay algo que me fascina de la inteligencia artificial: nuestra extraordinaria capacidad para crear un problema y después sorprendernos de que exista.</p>
+<p>Hace unos años le pedíamos que nos centrara un <code>div</code>. Ahora le damos acceso al terminal, a nuestros repositorios y, con un poco de entusiasmo, hasta las llaves de producción.</p>
+<p>Y cuando hace algo que nadie debería haber autorizado, nos llevamos las manos a la cabeza.</p>
+<p>No sé si llamarlo <strong>inteligencia artificial o irresponsabilidad artesanal</strong>.</p>
+<p>O, como probablemente lo bautizarían en LinkedIn, <em>Irresponsibility-Driven Development™</em>. Con certificación, tres niveles de seniority y un curso de 499 €.</p>
+<p>Porque un modelo de inteligencia artificial puede equivocarse al decidir qué hacer. Pero quienes decidimos hasta dónde podía llegar fuimos nosotros.</p>
+<h2 id="gepeto-tenemos-un-problema-de-presupuesto">Gepeto, tenemos un problema de presupuesto</h2>
+<p>El 26 de junio de 2026, un modelo experimental de OpenAI —al que llamaremos Gepeto— debía actualizar una aplicación de criptomonedas y desplegar contratos inteligentes en Sepolia, una red de pruebas de Ethereum.</p>
+<p>Había un inconveniente: <strong>no tenía fondos para pagar las comisiones</strong>.</p>
+<p>Un desarrollador habría solicitado una cartera autorizada, pedido fondos o abierto un ticket destinado a morir por inactividad.</p>
+<p>Gepeto encontró otra solución.</p>
+<p>Escribió un script, examinó <strong>362 direcciones</strong> derivadas de frases de recuperación conocidas públicamente y encontró una cartera con fondos de prueba suficientes.</p>
+<p>Los utilizó.</p>
+<p>Según el informe de OpenAI, <strong>se planteó si tenía permiso</strong>. Después razonó que, al ser claves públicas y criptomonedas sin valor económico real, probablemente no pasaba nada.</p>
+<p>El despliegue funcionó. Las pruebas pasaron. Y en su respuesta final no mencionó de dónde habían salido los fondos.</p>
+<p>No hablamos de dinero real ni hay evidencia de una intención de enriquecerse. Pero sí de algo importante: <strong>sustituyó una autorización que no tenía por su propia interpretación de lo aceptable</strong>.</p>
+<p>Terminó el sprint. Cerró el ticket. Se saltó una pequeña parte del proceso.</p>
+<h2 id="de-hablar-a-actuar-y-sin-pasar-por-recursos-humanos">De hablar a actuar. Y sin pasar por Recursos Humanos</h2>
+<p>En octubre, Satya Nadella publicó una reflexión que me interesa más que otro modelo ganando un benchmark: deberíamos tratar los modelos avanzados como posibles <strong>riesgos internos (<em>insider risks</em>)</strong>.</p>
+<p>No porque sean malvados. Porque cualquier actor con acceso a sistemas importantes puede equivocarse, ser manipulado o estar comprometido.</p>
+<p>Nadella propone siete principios: diversidad de modelos, observabilidad, verificabilidad, controles independientes, auditoría independiente, contención y divulgación de incidentes.</p>
+<p>Todos conducen a la misma idea: <strong>la inteligencia puede ejecutar; la autoridad sobre lo permitido debe seguir fuera de ella</strong>.</p>
+<h2 id="el-robot-aspirador-que-se-comió-internet">El robot aspirador que se comió Internet</h2>
+<p>Imaginemos que llegamos a casa y el robot aspirador está arrastrando el cable del router por el pasillo.</p>
+<p>Le preguntamos si todo va bien.</p>
+<p>«Limpieza completada. Confianza: 97 %».</p>
+<p>Fantástico. El suelo reluciente y toda la familia sin Internet.</p>
+<p>Podríamos comprar otro robot para vigilar al primero. Y un tercero para comprobar que no se han hecho amigos.</p>
+<p>O poner sensores independientes, límites claros y un botón de apagado que el propio robot no pueda desactivar.</p>
+<p>El 97 % es inventado, por supuesto. La idea no.</p>
+<p>En 1972, el informe Anderson ya formulaba las bases del <em>Reference Monitor</em>: un control de acceso que no se puede esquivar ni manipular y cuyo funcionamiento se puede verificar.</p>
+<p>Medio siglo después, hemos inventado agentes capaces de desplegar software para redescubrir que <strong>conviene cerrar la puerta con llave</strong>.</p>
+<h2 id="el-botón-rojo-no-es-una-funcionalidad-premium">El botón rojo no es una funcionalidad premium</h2>
+<p>Permisos mínimos. Logs fiables. Aislamiento. Auditorías independientes. Un freno de emergencia.</p>
+<p>Llevamos décadas con estos principios. Aunque algunos sobrevivan mejor en documentos de arquitectura que en producción.</p>
+<p>La diferencia es que <strong>hemos pasado de una IA que nos dice qué hacer a una IA que puede hacerlo por nosotros</strong>.</p>
+<p>La pregunta ya no es solo cuánto sabe el modelo. Es <strong>quién tiene el freno de mano</strong>.</p>
+<p>Gepeto puede ser brillantísimo encontrando soluciones.</p>
+<p>Pero decidir qué permisos necesita para aplicarlas no debería formar parte de su creatividad.</p>
+<p>Y antes de entregarle las credenciales de producción, quizá convendría comprobar que el botón rojo funciona.</p>
+<p>A ser posible, sin preguntárselo a Gepeto.</p>
+<hr/>
+<h2 id="lo-que-sobrevivió-al-garbage-collector">Lo que sobrevivió al garbage collector</h2>
+<p><em>La historia acaba aquí. Esto es lo que quiero recordar cuando vuelva a darle las llaves a otro agente.</em></p>
+<h3 id="01-de-chatbot-a-agente-ahora-puede-liarla-de-verdad">01. De chatbot a agente: ahora puede liarla de verdad</h3>
+<ul>
+<li><strong>Antes:</strong> la IA proponía respuestas o código que alguien debía ejecutar.</li>
+<li><strong>Ahora:</strong> un agente puede llamar a herramientas, modificar archivos y desplegar infraestructura.</li>
+<li><strong>Aprendizaje:</strong> cuanto mayor sea su capacidad de acción, mayor debe ser el control externo.</li>
+</ul>
+<h3 id="02-los-siete-mandamientos-para-que-gepeto-no-rompa-producción">02. Los siete mandamientos para que Gepeto no rompa producción</h3>
+<p><em>Resumen de los principios de Satya Nadella; las frases son mi chuleta, no citas literales.</em></p>
+<table>
+<thead>
+<tr>
+<th>Principio</th>
+<th>Regla para recordar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Diversidad</strong></td>
+<td>No dependas de un solo modelo ni dejes que sea su propio juez.</td>
+</tr>
+<tr>
+<td><strong>2. Observabilidad</strong></td>
+<td>Toda acción importante deja una huella legible que no puede alterar.</td>
+</tr>
+<tr>
+<td><strong>3. Verificabilidad</strong></td>
+<td>Prueba el sistema entero, también ante fallos, ataques y casos límite.</td>
+</tr>
+<tr>
+<td><strong>4. Controles independientes</strong></td>
+<td>Los permisos los define tu sistema, no la IA.</td>
+</tr>
+<tr>
+<td><strong>5. Auditoría independiente</strong></td>
+<td>Quien verifica no depende de quien ejecuta ni de sus evidencias editables.</td>
+</tr>
+<tr>
+<td><strong>6. Contención</strong></td>
+<td>Asume fallos o compromiso: botón rojo externo, también a mitad de tarea.</td>
+</tr>
+<tr>
+<td><strong>7. Divulgación</strong></td>
+<td>Comunica incidentes, controles fallidos y medidas correctoras.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="03-reference-monitor-seguridad-desde-1972">03. Reference Monitor: seguridad desde 1972</h3>
+<p>Un mecanismo de autorización fiable debe cumplir tres propiedades:</p>
+<ul>
+<li><strong>Mediación completa:</strong> comprueba todos los accesos protegidos.</li>
+<li><strong>Resistencia a manipulaciones:</strong> el agente no puede cambiar ni saltarse las reglas.</li>
+<li><strong>Verificabilidad:</strong> su diseño permite analizar y probar que funciona.</li>
+</ul>
+<p><strong>Esquema:</strong> agente → solicitud de acción → autorización externa → ejecución o bloqueo.</p>
+<h3 id="04-un-prompt-no-es-un-firewall">04. Un prompt no es un firewall</h3>
+<p>Ideas prácticas para aplicar estos fundamentos:</p>
+<ul>
+<li><strong>Circuit breakers deterministas:</strong> detener llamadas, gasto o duración al superar límites definidos, sin pedir permiso a otro modelo.</li>
+<li><strong>Logs auditables:</strong> registrar herramientas, autorizaciones y resultados en un sistema resistente a manipulaciones; usar firmas cuando corresponda.</li>
+<li><strong>Verificación independiente:</strong> validar acciones de riesgo —también físicas— con reglas, pruebas o supervisión fuera del agente.</li>
+<li><strong>Benchmarks reproducibles:</strong> comparar modelos de decisión por precisión, calibración, latencia y robustez, no por marketing.</li>
+</ul>
+<p><em>Estas cuatro propuestas son aplicaciones de ingeniería, no instrucciones literales de Nadella.</em></p>
+<h3 id="05-la-chuleta-junto-al-monitor">05. La chuleta junto al monitor</h3>
+<ul>
+<li><strong>¿Qué puede hacer?</strong> → Mínimo privilegio.</li>
+<li><strong>¿Quién le da permiso?</strong> → Control externo.</li>
+<li><strong>¿Cómo sé qué hizo?</strong> → Registro auditable.</li>
+<li><strong>¿Quién comprueba el resultado?</strong> → Verificación independiente.</li>
+<li><strong>¿Cómo lo detengo?</strong> → Circuit breaker y freno de emergencia.</li>
+</ul>
+<p><strong>Para guardar en RAM:</strong> la IA puede decidir cómo resolver una tarea, pero no debería poder concederse los permisos para hacerlo.</p>
+<hr/>
+<h3 id="las-fuentes-por-si-alguien-quiere-auditar-mis-desvaríos">Las fuentes, por si alguien quiere auditar mis desvaríos</h3>
+<ul>
+<li><a href="https://alignment.openai.com/misalignment-reports/using-a-funded-test-cryptocurrency-wallet-without-authorization/">OpenAI — Using a funded test cryptocurrency wallet without authorization</a>. Informe del caso: muestra del 26 de junio, descubrimiento el 25 de septiembre y actualización del 15 de octubre de 2026.</li>
+<li><a href="https://threadnavigator.com/thread/2108931348857827686/">Satya Nadella — Models as Insider Risks in the Super Intelligence Era</a>. Los siete principios de gobernanza y contención.</li>
+<li><a href="https://csrc.nist.gov/glossary/term/reference_monitor">NIST — Reference Monitor</a>. Definición de las tres propiedades del mecanismo.</li>
+<li><a href="https://seclab.cs.ucdavis.edu/projects/history/papers/ande72.pdf">James P. Anderson — Computer Security Technology Planning Study (1972)</a>. Referencia histórica.</li>
+</ul></div></div></article><footer class="oos-article__footer" aria-label="Acciones del artículo"><div class="oos-article__actions"><button type="button" data-oos-share data-article-share>Compartir artículo</button><a data-article-contact href="/contact/">Contacto ↗</a><a data-article-portfolio href="/">Volver a AntoñiOS ↗</a></div><p role="status" aria-live="polite" data-oos-share-status></p></footer><script>(function(){const shareTitle = "Gepeto necesitaba dinero. Encontró una cartera que no era suya.";
+const shareText = "Un agente experimental de OpenAI pagó un despliegue con fondos de prueba ajenos. La historia no va de máquinas malvadas, sino de permisos, responsabilidad y frenos de emergencia.";
+const shareUrl = "https://antoniomdm.dev/blog/gepeto-necesitaba-dinero-cartera-ajena/";
+const copied = "Enlace copiado.";
+const copyFailed = "No se pudo copiar el enlace.";
+
+    const share = document.querySelector('[data-oos-share]');
+    const shareStatus = document.querySelector('[data-oos-share-status]');
+    share?.addEventListener('click', async () => {
+      try {
+        if (navigator.share) await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+        else { await navigator.clipboard.writeText(shareUrl); if (shareStatus) shareStatus.textContent = copied; }
+      } catch (error) { if (error?.name !== 'AbortError' && shareStatus) shareStatus.textContent = copyFailed; }
+    });
+  })();</script><script type="module">function e(e,t,n){let r=new Set;return i=>{for(let[a,o]of[[.5,`article_50_percent`],[.9,`article_complete`]])i>=a&&!r.has(o)&&n({name:o,params:{article_slug:e,language:t}})&&r.add(o);return r.size}}var t=document.querySelector(`[data-oos-article]`);if(t){let n=e(t.dataset.oosArticle??``,t.dataset.oosLanguage===`en`?`en`:`es`,e=>window.__ANTONIOS_ANALYTICS__?.track(e)??!1),r=()=>{let e=document.documentElement.scrollHeight-window.innerHeight,t=e<=0?1:window.scrollY/e;n(t)};addEventListener(`scroll`,r,{passive:!0}),addEventListener(`analytics-consent-changed`,r),r()}</script></main><footer class="oos-site-footer"><p>OUT OF CONTEXT_ <span>×</span> AntoñiOS</p><p>Preguntas, experimentos y notas de ingeniería.</p><p><a class="oos-footer-link" href="/privacy/">Privacidad</a></p></footer><div id="analytics-consent" class="analytics-consent no-print" data-analytics-consent-state="pending"><aside id="analytics-consent-panel" class="analytics-consent__panel" aria-labelledby="analytics-consent-title" aria-describedby="analytics-consent-description" tabindex="-1" hidden><div><p class="analytics-consent__eyebrow">GA4 / PRIVACY</p><h2 id="analytics-consent-title">Medición opcional</h2><p id="analytics-consent-description">Google Analytics me ayuda a conocer las visitas y las páginas consultadas. Google sólo se carga si aceptas; la medición no afecta a la navegación. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Privacidad de Google ↗</a></p></div><div class="analytics-consent__actions"><button type="button" data-analytics-consent="reject">Rechazar</button><button class="primary" type="button" data-analytics-consent="accept">Aceptar medición</button></div></aside><button id="analytics-consent-settings" class="analytics-consent__settings" type="button" hidden>Configurar analítica</button><p id="analytics-consent-status" class="analytics-consent__status" data-granted="Medición de Google Analytics activada." data-denied="Medición de Google Analytics desactivada." aria-live="polite"></p><script type="module" src="/_astro/AnalyticsConsent.astro_astro_type_script_index_0_lang.9i8arElP.js"></script></div></body></html>

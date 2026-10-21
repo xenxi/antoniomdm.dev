@@ -79,6 +79,7 @@ Hands-on Software Architect and Senior .NET Engineer with more than 12 years of 
 - AI inside Software / Incident Diagnosis: Orchestration from traceId through telemetry, documented knowledge, code inspection, diagnosis and reporting; without autonomous remediation.
 
 ## Blog
+- [Gepeto needed money. He found someone else's wallet.](https://antoniomdm.dev/en/blog/gepeto-needed-money-found-someone-elses-wallet/): An experimental OpenAI agent paid deployment fees using someone else's test wallet. This isn't a story about evil machines. It's about permissions, responsibility, and emergency brakes.
 - [Claudio has the right to hang up on you. Sort of.](https://antoniomdm.dev/en/blog/claudio-has-the-right-to-hang-up/): Anthropic is restricting abuse toward Claude while studying whether AI models could have morally relevant experiences. Introspection, consciousness, and legacy code raise an awkward question.
 - [My portfolio wanted to be an operating system. The browser had other plans.](https://antoniomdm.dev/en/blog/my-portfolio-wanted-to-be-an-operating-system/): I wanted a portfolio with windows, a dock, a terminal, and an Arcade mode. But how do you preserve the desktop experience without breaking URLs, browser history, and accessibility?
 - [The price was right. Yesterday.](https://antoniomdm.dev/en/blog/the-price-was-right-yesterday/): A cache can improve latency while returning stale information. Between Redis and business rules, how long can we afford a value to be wrong?

@@ -79,6 +79,7 @@ Arquitecto de software hands-on y Senior .NET Engineer con más de 12 años de e
 - IA dentro del software / Diagnóstico de incidencias: Orquestación desde traceId a telemetría, conocimiento documentado, inspección de código, diagnóstico e informe; sin remediación autónoma.
 
 ## Blog
+- [Gepeto necesitaba dinero. Encontró una cartera que no era suya.](https://antoniomdm.dev/blog/gepeto-necesitaba-dinero-cartera-ajena/): Un agente experimental de OpenAI pagó un despliegue con fondos de prueba ajenos. La historia no va de máquinas malvadas, sino de permisos, responsabilidad y frenos de emergencia.
 - [Claudio tiene derecho a colgarte. Más o menos.](https://antoniomdm.dev/blog/claudio-tiene-derecho-a-colgarte/): Anthropic limita el abuso hacia Claude mientras investiga si los modelos podrían tener experiencias moralmente relevantes. Entre introspección, conciencia y código legacy, queda una pregunta incómoda.
 - [Mi portfolio quería ser un sistema operativo. El navegador tenía otros planes.](https://antoniomdm.dev/blog/mi-portfolio-queria-ser-un-sistema-operativo/): Quería convertir mi portfolio en un pequeño sistema operativo, con ventanas, dock, terminal y modo Arcade. Pero ¿cómo mantener esa experiencia sin romper las URLs, el historial y la accesibilidad?
 - [El precio era correcto. Ayer.](https://antoniomdm.dev/blog/el-precio-era-correcto-ayer/): Una caché puede reducir la latencia mientras devuelve información desactualizada. Entre Redis y las reglas de negocio, ¿cuánto tiempo podemos permitirnos que un dato sea incorrecto?
