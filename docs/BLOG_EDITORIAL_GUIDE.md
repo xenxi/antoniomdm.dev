@@ -107,6 +107,10 @@ El artículo MDX es la única fuente de contenido. `summary` se escribe a mano y
 
 No se publican dos copias del cuerpo ni se traslada al artículo información interna sobre MDX, CMS, URLs indexables o implementación SEO.
 
+### Resúmenes para LinkedIn
+
+Los resúmenes deben funcionar como publicaciones autónomas: una idea, una pequeña historia o una reflexión con la voz del blog. Evitar fórmulas que anuncian o venden el artículo, como «en el artículo cuento/conecto/desarrollo», «aquí reflexiono» o «descubre cómo». Si hay transición al enlace, debe ser sutil y natural; por defecto, cerrar simplemente con el enlace directo, sin llamada promocional. No añadir llamadas genéricas a comentar.
+
 ### Lista de revisión
 
 Antes de publicar o dar por terminada una revisión:
@@ -217,6 +221,10 @@ When including sources or further reading, use a short, natural heading with und
 The MDX article is the single content source. `summary` is hand-written and presents the question or discovery without resolving the whole article. It feeds cards, listings, RSS, and default social copy; it also supplies the SEO description when `seo.description` is absent. Use `linkedin.text` only when the post needs a deliberate adaptation. The canonical URL is derived from `locale` and `slug`; it is not copied into the article. `translationKey` connects ES/EN versions even when their slugs differ.
 
 Do not publish duplicate article bodies or put internal MDX, CMS, indexable-URL, or SEO implementation details in the article.
+
+### LinkedIn summaries
+
+Summaries must work as standalone posts: an idea, a short story or a reflection in the blog's voice. Avoid announcing or selling the article with phrases such as “in this article I explore/connect/develop”, “here I reflect” or “discover how”. Any transition to the link should be subtle and natural; by default, end with the direct link alone, without promotional copy. Do not add generic engagement prompts.
 
 ### Review checklist
 
