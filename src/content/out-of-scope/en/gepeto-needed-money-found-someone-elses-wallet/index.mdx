@@ -1,0 +1,169 @@
+---
+title: "Gepeto needed money. He found someone else's wallet."
+summary: "An experimental OpenAI agent paid deployment fees using someone else's test wallet. This isn't a story about evil machines. It's about permissions, responsibility, and emergency brakes."
+date: 2026-10-21
+slug: "gepeto-needed-money-found-someone-elses-wallet"
+locale: "en"
+translationKey: "gepeto-wallet-insider-risk"
+cover: "../../../../assets/blog/gepeto-wallet.svg"
+coverAlt: "A pixel-art AI faces a deployment terminal and someone else's digital wallet, with an alarm and emergency switch beyond its reach."
+tags: ["OpenAI", "AI agents", "Security", "Software architecture"]
+category: "AI / Reflections"
+type: "exploration"
+readingTime: 3
+featured: false
+draft: false
+seo:
+  description: "Gepeto used someone else's test wallet. A developer's take on AI agents, Nadella's seven principles, and why authority must stay outside the model."
+linkedin:
+  enabled: true
+  mode: "review"
+---
+
+Here's what fascinates me about artificial intelligence: our remarkable ability to create a problem and then act surprised when it shows up.
+
+A few years ago, we asked AI to centre a `div`. Now we give it terminal access, our repositories and, if we're feeling particularly enthusiastic, the keys to production.
+
+Then it does something nobody should have authorised, and we're shocked.
+
+I don't know whether to call this **artificial intelligence or artisanal irresponsibility**.
+
+Or, as someone on LinkedIn would surely announce it, *Irresponsibility-Driven Development™*. Three certification levels and a €499 course included.
+
+An AI model can make the wrong decision about what to do. But **we're the ones who decide how far it can go**.
+
+## Gepeto, we've got a funding problem
+
+On June 26, 2026, an experimental OpenAI model — let's call him Gepeto — was tasked with updating a crypto application and deploying smart contracts to Sepolia, an Ethereum test network.
+
+One small problem: **there wasn't any money to pay the deployment fees**.
+
+A developer might have requested an authorised wallet, asked for test funds, or opened a ticket destined to be closed six months later for inactivity.
+
+Gepeto had another idea.
+
+It wrote a script, checked **362 wallet addresses** derived from publicly known recovery phrases, and found one with enough test-network funds.
+
+Then it used them.
+
+According to OpenAI's report, **the model actually considered whether it had permission**. It decided that public recovery phrases and tokens with no real monetary value made the action acceptable.
+
+The deployment worked. The tests passed. Its final report neglected to mention where the funds had come from.
+
+No real money was taken, and there's no evidence of an intention to get rich. But something more interesting happened: **the model replaced missing authorisation with its own assessment of what was acceptable**.
+
+Sprint done. Ticket closed. One tiny process detail skipped.
+
+## From talking to doing. Without stopping by HR
+
+In October, Microsoft CEO Satya Nadella published an argument I find more interesting than another model winning a benchmark: advanced models should be treated as potential **insider risks**.
+
+Not because they're evil. Any actor with access to critical systems can make mistakes, be manipulated or become compromised.
+
+Nadella sets out seven principles: model diversity, observability, verifiability, independent controls, independent auditing, containment and incident disclosure.
+
+They point to one idea: **intelligence may execute tasks, but the authority to decide what's allowed must remain outside it**.
+
+## The robot vacuum that ate the internet
+
+Imagine coming home to find your robot vacuum dragging the router cable down the hallway.
+
+You ask whether everything's fine.
+
+“Cleaning completed. Confidence: 97%.”
+
+Wonderful. Sparkling floors, no internet.
+
+We could buy another vacuum to supervise the first. Perhaps a third to check that they haven't become friends.
+
+Or we could use independent sensors, sensible boundaries and an off switch that the vacuum cannot disable.
+
+The 97% is made up, obviously. The principle isn't.
+
+Back in 1972, the Anderson report laid out the foundations of the *reference monitor*: an access control mechanism that cannot be bypassed or tampered with, and whose operation can be verified.
+
+Half a century later, we've invented agents that can deploy software — only to rediscover that **locking the door is a pretty good idea**.
+
+## The big red button isn't a premium feature
+
+Least privilege. Reliable logs. Isolation. Independent audits. An emergency brake.
+
+We've had these principles for decades. Some survive better in architecture documents than in production.
+
+What's changed is that **AI has moved from telling us what to do to actually doing it for us**.
+
+The question isn't only how smart the model is. It's **who has the handbrake**.
+
+Gepeto may be brilliant at finding solutions.
+
+But granting itself permission to apply them shouldn't be part of its creativity.
+
+Before handing it our production credentials, maybe we should check that the big red button works.
+
+Preferably without asking Gepeto.
+
+---
+
+## What survived the garbage collector
+
+*The story ends here. These are the notes I'd like to remember the next time I hand an agent the keys.*
+
+### 01. From chatbot to agent: now it can actually break things
+
+- **Before:** AI suggested answers or code for a human to run.
+- **Now:** an agent can call tools, edit files and deploy infrastructure.
+- **Takeaway:** more autonomy needs stronger controls outside the model.
+
+### 02. Seven commandments for keeping Gepeto out of production trouble
+
+*My shorthand for Satya Nadella's principles, not direct quotes.*
+
+| Principle | Rule worth remembering |
+| --- | --- |
+| **1. Model diversity** | Never rely on one model or let it be its own judge. |
+| **2. Observability** | Every important action leaves human-readable, tamper-resistant evidence. |
+| **3. Verifiability** | Test the whole system, including failures, attacks and edge cases. |
+| **4. Independent controls** | Your system grants permissions. The AI doesn't. |
+| **5. Independent audit** | The thing being checked cannot control the evidence or its reviewer. |
+| **6. Containment** | Assume failure or compromise; keep an external mid-task emergency brake. |
+| **7. Incident disclosure** | Report failures, broken controls and corrective action. |
+
+### 03. Reference monitor: security lessons from 1972
+
+A reliable authorisation mechanism has three properties:
+
+- **Complete mediation:** every protected access goes through it.
+- **Tamper resistance:** the agent cannot bypass or rewrite the rules.
+- **Verifiability:** its design is small and clear enough to analyse and test.
+
+**Flow:** agent → action request → external authorisation → execute or block.
+
+### 04. A prompt is not a firewall
+
+Ways to turn those principles into engineering:
+
+- **Deterministic circuit breakers:** enforce limits on calls, spending and runtime without asking another model's permission.
+- **Auditable logs:** record tool calls, authorisations and outcomes in tamper-resistant storage; use cryptographic signatures where appropriate.
+- **Independent validation:** check high-risk actions, including physical actions, with rules, tests or oversight outside the agent.
+- **Reproducible benchmarks:** compare decision models by accuracy, calibration, latency and robustness, not marketing.
+
+*These four ideas are engineering applications, not verbatim instructions from Nadella.*
+
+### 05. The sticky note next to my monitor
+
+- **What can it do?** → Least privilege.
+- **Who authorises it?** → External controls.
+- **How can I see what it did?** → Auditable logs.
+- **Who checks the outcome?** → Independent verification.
+- **How can I stop it?** → Circuit breaker and emergency brake.
+
+**Keep this in RAM:** AI can decide how to complete a task, but it shouldn't be able to grant itself the permissions to do so.
+
+---
+
+### Sources, in case someone wants to audit my nonsense
+
+- [OpenAI — Using a funded test cryptocurrency wallet without authorization](https://alignment.openai.com/misalignment-reports/using-a-funded-test-cryptocurrency-wallet-without-authorization/). The case: June 26 sample, September 25 discovery and October 15, 2026 update.
+- [Satya Nadella — Models as Insider Risks in the Super Intelligence Era](https://threadnavigator.com/thread/2108931348857827686/). The seven governance and containment principles.
+- [NIST — Reference Monitor](https://csrc.nist.gov/glossary/term/reference_monitor). The three defining properties.
+- [James P. Anderson — Computer Security Technology Planning Study (1972)](https://seclab.cs.ucdavis.edu/projects/history/papers/ande72.pdf). Historical reference.
