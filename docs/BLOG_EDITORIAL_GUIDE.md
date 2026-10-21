@@ -89,13 +89,15 @@ Dirección de las escenas actuales (generadas con ImageGen):
 
 ### Bloque de aprendizaje fuera de tiempo de lectura
 
-Tras el cierre narrativo de cada artículo se incluye una sección opcional de **aprendizajes para recordar**, antes de las fuentes. El encabezado debe cambiar entre entradas con humor discreto (por ejemplo, «Lo que sobrevivió al garbage collector», «Conocimiento desbloqueado» o «Lo que me llevo a RAM»); no se aleatoriza en cada visita.
+Tras el cierre narrativo de cada artículo se incluye una sección de **aprendizajes para recordar**, antes de las fuentes. El encabezado debe cambiar entre entradas con humor discreto (por ejemplo, «Lo que sobrevivió al garbage collector», «Conocimiento desbloqueado» o «Lo que me llevo a RAM»); no se aleatoriza en cada visita.
 
-- Extraer conceptos, reglas breves, definiciones técnicas, listas de comprobación y aplicaciones prácticas **sin repetir** el argumento del artículo.
+- Presentar habitualmente 3–5 aprendizajes esquemáticos, con un concepto en negrita y una breve explicación, más una idea final para recordar. Priorizar principios de alto nivel reutilizables en otros proyectos y ámbitos; la tecnología y el caso del artículo son ejemplos, no el límite del aprendizaje.
+- Incluir el bloque en el borrador presentado para revisión y obtener la aprobación del contenido antes de publicarlo o añadirlo a un artículo existente.
+- Extraer conceptos y criterios prácticos **sin repetir** el argumento del artículo.
 - Priorizar claridad, precisión y concisión. Incorporar esquemas o tablas sólo cuando permitan consultar la información más rápido.
 - Separar ideas documentadas de interpretaciones o propuestas propias; citar las referencias al final.
 - El bloque es un **anexo**: no computa para la longitud objetivo ni para `readingTime` del cuerpo narrativo, que se mantiene explícito en el frontmatter.
-- La sección de fuentes va después del aprendizaje. Si el artículo carece de aprendizajes concretos, no inventarlos.
+- La sección de fuentes va después del aprendizaje. Si el artículo carece de aprendizajes concretos, señalarlo durante la revisión antes de publicar; no inventarlos.
 
 ### Encabezado de fuentes
 
@@ -204,13 +206,15 @@ Current scene directions (generated with ImageGen):
 
 ### Learning notes excluded from reading time
 
-After the narrative ending, each article includes an optional **learning notes** section before the sources. Give it a different, mildly playful heading in each article (for example, "What survived the garbage collector", "Knowledge unlocked" or "What made it into RAM"); never randomise it on each visit.
+After the narrative ending, each article includes a **learning notes** section before the sources. Give it a different, mildly playful heading in each article (for example, "What survived the garbage collector", "Knowledge unlocked" or "What made it into RAM"); never randomise it on each visit.
 
-- Capture concepts, short rules, technical definitions, checklists and practical applications **rather than repeating** the story.
+- Normally present 3–5 structured learning points, each with a bold concept and a short explanation, plus one final takeaway. Prioritise high-level principles reusable across projects and domains; the technology and the article's case are examples, not the boundaries of the lesson.
+- Include the section in the draft presented for review and obtain content approval before publishing it or adding it to an existing article.
+- Capture concepts and practical judgement **rather than repeating** the story.
 - Prioritise clarity, accuracy and brevity. Add diagrams or tables only when they make the notes quicker to consult.
 - Distinguish sourced ideas from the author's interpretations and proposals; link sources at the end.
 - This is an **appendix**, excluded from both target narrative length and the main article's `readingTime` frontmatter field.
-- Place sources after the learning section. Never fabricate learning points just to fill a template.
+- Place sources after the learning section. If concrete lessons are missing, flag this during review before publication; never fabricate learning points just to fill a template.
 
 ### Sources heading
 
