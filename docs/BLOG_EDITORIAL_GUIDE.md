@@ -87,6 +87,16 @@ Dirección de las escenas actuales (generadas con ImageGen):
 - `green-pr.webp`: check verde celebrado sobre un pedestal con el bug todavía debajo.
 - `question.webp`: interrogación que permanece sobre un portátil cerrado después de terminar el trabajo.
 
+### Bloque de aprendizaje fuera de tiempo de lectura
+
+Tras el cierre narrativo de cada artículo se incluye una sección opcional de **aprendizajes para recordar**, antes de las fuentes. El encabezado debe cambiar entre entradas con humor discreto (por ejemplo, «Lo que sobrevivió al garbage collector», «Conocimiento desbloqueado» o «Lo que me llevo a RAM»); no se aleatoriza en cada visita.
+
+- Extraer conceptos, reglas breves, definiciones técnicas, listas de comprobación y aplicaciones prácticas **sin repetir** el argumento del artículo.
+- Priorizar claridad, precisión y concisión. Incorporar esquemas o tablas sólo cuando permitan consultar la información más rápido.
+- Separar ideas documentadas de interpretaciones o propuestas propias; citar las referencias al final.
+- El bloque es un **anexo**: no computa para la longitud objetivo ni para `readingTime` del cuerpo narrativo, que se mantiene explícito en el frontmatter.
+- La sección de fuentes va después del aprendizaje. Si el artículo carece de aprendizajes concretos, no inventarlos.
+
 ### Encabezado de fuentes
 
 Cuando haya fuentes o lecturas adicionales, usar un título breve, natural y con humor discreto. Variarlo entre artículos: «Las fuentes, por si acaso», «No me lo he inventado todo», «De dónde sale todo esto», «Para contrastar mis desvaríos» u otras frases del mismo estilo. Elegir una variante al editar y conservarla en el artículo; no cambiarla aleatoriamente en cada visita. Evitar «Para seguir por la madriguera» como fórmula recurrente. Para el artículo de Claudio queda fijado «No me lo he inventado todo».
@@ -187,6 +197,16 @@ Current scene directions (generated with ImageGen):
 - `cache.webp`: an old frozen price beside the current price and a speed symbol.
 - `green-pr.webp`: a celebrated green checkmark on a pedestal with the bug still underneath.
 - `question.webp`: a question mark remaining above a closed laptop after the work is finished.
+
+### Learning notes excluded from reading time
+
+After the narrative ending, each article includes an optional **learning notes** section before the sources. Give it a different, mildly playful heading in each article (for example, "What survived the garbage collector", "Knowledge unlocked" or "What made it into RAM"); never randomise it on each visit.
+
+- Capture concepts, short rules, technical definitions, checklists and practical applications **rather than repeating** the story.
+- Prioritise clarity, accuracy and brevity. Add diagrams or tables only when they make the notes quicker to consult.
+- Distinguish sourced ideas from the author's interpretations and proposals; link sources at the end.
+- This is an **appendix**, excluded from both target narrative length and the main article's `readingTime` frontmatter field.
+- Place sources after the learning section. Never fabricate learning points just to fill a template.
 
 ### Sources heading
 
