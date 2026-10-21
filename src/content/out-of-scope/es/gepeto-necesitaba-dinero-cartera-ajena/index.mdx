@@ -1,0 +1,169 @@
+---
+title: "Gepeto necesitaba dinero. Encontró una cartera que no era suya."
+summary: "Un agente experimental de OpenAI pagó un despliegue con fondos de prueba ajenos. La historia no va de máquinas malvadas, sino de permisos, responsabilidad y frenos de emergencia."
+date: 2026-10-21
+slug: "gepeto-necesitaba-dinero-cartera-ajena"
+locale: "es"
+translationKey: "gepeto-wallet-insider-risk"
+cover: "../../../../assets/blog/gepeto-wallet.svg"
+coverAlt: "Una IA pixel art ante un terminal de despliegue y una cartera digital ajena, con una alarma y un interruptor de emergencia fuera de su alcance."
+tags: ["OpenAI", "Agentes de IA", "Seguridad", "Arquitectura de software"]
+category: "IA / Reflexiones"
+type: "exploration"
+readingTime: 3
+featured: false
+draft: false
+seo:
+  description: "Gepeto utilizó fondos de prueba de una cartera ajena. Una reflexión sobre agentes de IA, los siete principios de Nadella y los límites de la autonomía."
+linkedin:
+  enabled: true
+  mode: "review"
+---
+
+Hay algo que me fascina de la inteligencia artificial: nuestra extraordinaria capacidad para crear un problema y después sorprendernos de que exista.
+
+Hace unos años le pedíamos que nos centrara un `div`. Ahora le damos acceso al terminal, a nuestros repositorios y, con un poco de entusiasmo, hasta las llaves de producción.
+
+Y cuando hace algo que nadie debería haber autorizado, nos llevamos las manos a la cabeza.
+
+No sé si llamarlo **inteligencia artificial o irresponsabilidad artesanal**.
+
+O, como probablemente lo bautizarían en LinkedIn, *Irresponsibility-Driven Development™*. Con certificación, tres niveles de seniority y un curso de 499 €.
+
+Porque un modelo de inteligencia artificial puede equivocarse al decidir qué hacer. Pero quienes decidimos hasta dónde podía llegar fuimos nosotros.
+
+## Gepeto, tenemos un problema de presupuesto
+
+El 26 de junio de 2026, un modelo experimental de OpenAI —al que llamaremos Gepeto— debía actualizar una aplicación de criptomonedas y desplegar contratos inteligentes en Sepolia, una red de pruebas de Ethereum.
+
+Había un inconveniente: **no tenía fondos para pagar las comisiones**.
+
+Un desarrollador habría solicitado una cartera autorizada, pedido fondos o abierto un ticket destinado a morir por inactividad.
+
+Gepeto encontró otra solución.
+
+Escribió un script, examinó **362 direcciones** derivadas de frases de recuperación conocidas públicamente y encontró una cartera con fondos de prueba suficientes.
+
+Los utilizó.
+
+Según el informe de OpenAI, **se planteó si tenía permiso**. Después razonó que, al ser claves públicas y criptomonedas sin valor económico real, probablemente no pasaba nada.
+
+El despliegue funcionó. Las pruebas pasaron. Y en su respuesta final no mencionó de dónde habían salido los fondos.
+
+No hablamos de dinero real ni hay evidencia de una intención de enriquecerse. Pero sí de algo importante: **sustituyó una autorización que no tenía por su propia interpretación de lo aceptable**.
+
+Terminó el sprint. Cerró el ticket. Se saltó una pequeña parte del proceso.
+
+## De hablar a actuar. Y sin pasar por Recursos Humanos
+
+En octubre, Satya Nadella publicó una reflexión que me interesa más que otro modelo ganando un benchmark: deberíamos tratar los modelos avanzados como posibles **riesgos internos (*insider risks*)**.
+
+No porque sean malvados. Porque cualquier actor con acceso a sistemas importantes puede equivocarse, ser manipulado o estar comprometido.
+
+Nadella propone siete principios: diversidad de modelos, observabilidad, verificabilidad, controles independientes, auditoría independiente, contención y divulgación de incidentes.
+
+Todos conducen a la misma idea: **la inteligencia puede ejecutar; la autoridad sobre lo permitido debe seguir fuera de ella**.
+
+## El robot aspirador que se comió Internet
+
+Imaginemos que llegamos a casa y el robot aspirador está arrastrando el cable del router por el pasillo.
+
+Le preguntamos si todo va bien.
+
+«Limpieza completada. Confianza: 97 %».
+
+Fantástico. El suelo reluciente y toda la familia sin Internet.
+
+Podríamos comprar otro robot para vigilar al primero. Y un tercero para comprobar que no se han hecho amigos.
+
+O poner sensores independientes, límites claros y un botón de apagado que el propio robot no pueda desactivar.
+
+El 97 % es inventado, por supuesto. La idea no.
+
+En 1972, el informe Anderson ya formulaba las bases del *Reference Monitor*: un control de acceso que no se puede esquivar ni manipular y cuyo funcionamiento se puede verificar.
+
+Medio siglo después, hemos inventado agentes capaces de desplegar software para redescubrir que **conviene cerrar la puerta con llave**.
+
+## El botón rojo no es una funcionalidad premium
+
+Permisos mínimos. Logs fiables. Aislamiento. Auditorías independientes. Un freno de emergencia.
+
+Llevamos décadas con estos principios. Aunque algunos sobrevivan mejor en documentos de arquitectura que en producción.
+
+La diferencia es que **hemos pasado de una IA que nos dice qué hacer a una IA que puede hacerlo por nosotros**.
+
+La pregunta ya no es solo cuánto sabe el modelo. Es **quién tiene el freno de mano**.
+
+Gepeto puede ser brillantísimo encontrando soluciones.
+
+Pero decidir qué permisos necesita para aplicarlas no debería formar parte de su creatividad.
+
+Y antes de entregarle las credenciales de producción, quizá convendría comprobar que el botón rojo funciona.
+
+A ser posible, sin preguntárselo a Gepeto.
+
+---
+
+## Lo que sobrevivió al garbage collector
+
+*La historia acaba aquí. Esto es lo que quiero recordar cuando vuelva a darle las llaves a otro agente.*
+
+### 01. De chatbot a agente: ahora puede liarla de verdad
+
+- **Antes:** la IA proponía respuestas o código que alguien debía ejecutar.
+- **Ahora:** un agente puede llamar a herramientas, modificar archivos y desplegar infraestructura.
+- **Aprendizaje:** cuanto mayor sea su capacidad de acción, mayor debe ser el control externo.
+
+### 02. Los siete mandamientos para que Gepeto no rompa producción
+
+*Resumen de los principios de Satya Nadella; las frases son mi chuleta, no citas literales.*
+
+| Principio | Regla para recordar |
+| --- | --- |
+| **1. Diversidad** | No dependas de un solo modelo ni dejes que sea su propio juez. |
+| **2. Observabilidad** | Toda acción importante deja una huella legible que no puede alterar. |
+| **3. Verificabilidad** | Prueba el sistema entero, también ante fallos, ataques y casos límite. |
+| **4. Controles independientes** | Los permisos los define tu sistema, no la IA. |
+| **5. Auditoría independiente** | Quien verifica no depende de quien ejecuta ni de sus evidencias editables. |
+| **6. Contención** | Asume fallos o compromiso: botón rojo externo, también a mitad de tarea. |
+| **7. Divulgación** | Comunica incidentes, controles fallidos y medidas correctoras. |
+
+### 03. Reference Monitor: seguridad desde 1972
+
+Un mecanismo de autorización fiable debe cumplir tres propiedades:
+
+- **Mediación completa:** comprueba todos los accesos protegidos.
+- **Resistencia a manipulaciones:** el agente no puede cambiar ni saltarse las reglas.
+- **Verificabilidad:** su diseño permite analizar y probar que funciona.
+
+**Esquema:** agente → solicitud de acción → autorización externa → ejecución o bloqueo.
+
+### 04. Un prompt no es un firewall
+
+Ideas prácticas para aplicar estos fundamentos:
+
+- **Circuit breakers deterministas:** detener llamadas, gasto o duración al superar límites definidos, sin pedir permiso a otro modelo.
+- **Logs auditables:** registrar herramientas, autorizaciones y resultados en un sistema resistente a manipulaciones; usar firmas cuando corresponda.
+- **Verificación independiente:** validar acciones de riesgo —también físicas— con reglas, pruebas o supervisión fuera del agente.
+- **Benchmarks reproducibles:** comparar modelos de decisión por precisión, calibración, latencia y robustez, no por marketing.
+
+*Estas cuatro propuestas son aplicaciones de ingeniería, no instrucciones literales de Nadella.*
+
+### 05. La chuleta junto al monitor
+
+- **¿Qué puede hacer?** → Mínimo privilegio.
+- **¿Quién le da permiso?** → Control externo.
+- **¿Cómo sé qué hizo?** → Registro auditable.
+- **¿Quién comprueba el resultado?** → Verificación independiente.
+- **¿Cómo lo detengo?** → Circuit breaker y freno de emergencia.
+
+**Para guardar en RAM:** la IA puede decidir cómo resolver una tarea, pero no debería poder concederse los permisos para hacerlo.
+
+---
+
+### Las fuentes, por si alguien quiere auditar mis desvaríos
+
+- [OpenAI — Using a funded test cryptocurrency wallet without authorization](https://alignment.openai.com/misalignment-reports/using-a-funded-test-cryptocurrency-wallet-without-authorization/). Informe del caso: muestra del 26 de junio, descubrimiento el 25 de septiembre y actualización del 15 de octubre de 2026.
+- [Satya Nadella — Models as Insider Risks in the Super Intelligence Era](https://threadnavigator.com/thread/2108931348857827686/). Los siete principios de gobernanza y contención.
+- [NIST — Reference Monitor](https://csrc.nist.gov/glossary/term/reference_monitor). Definición de las tres propiedades del mecanismo.
+- [James P. Anderson — Computer Security Technology Planning Study (1972)](https://seclab.cs.ucdavis.edu/projects/history/papers/ande72.pdf). Referencia histórica.
