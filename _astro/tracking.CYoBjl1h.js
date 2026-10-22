@@ -1,0 +1,1 @@
+function e(e){if(typeof window>`u`)return!1;try{return window.__ANTONIOS_ANALYTICS__?.track(e)??!1}catch{return!1}}function t(e){if(typeof window>`u`)return!1;try{return window.__ANTONIOS_ANALYTICS__?.trackPageView(e)??!1}catch{return!1}}export{t as n,e as t};

@@ -8,6 +8,7 @@
 const channel = 'antonios:godot:v1';
 const en = new URLSearchParams(location.search).get('lang') === 'en';
 const e2eDebug = new URLSearchParams(location.search).get('e2eDebug') === '1';
+const nativeRuntime = new URLSearchParams(location.search).get('runtime') === 'native';
 document.documentElement.lang = en ? 'en' : 'es';
 const canvas = document.getElementById('canvas');
 canvas.setAttribute('aria-label', en ? 'Pixel art map. Arrow keys or WASD to walk, E to interact, Escape to pause. Tab to leave the map.' : 'Mapa pixel art. Flechas o WASD para caminar, E para interactuar, Escape para pausar. Tab para salir del mapa.');
@@ -37,18 +38,42 @@ window.careerBridge = {
     debug('godot-forwarded', { seq: payload.seq, type: payload.type, chapterId: payload.chapterId, payload: payload.type === 'interact' ? { id: payload.id } : undefined });
   },
   e2eDebug() { return e2eDebug; },
+  nativeRuntime() { return nativeRuntime; },
+  embedded() { return parent !== window; },
+  configuration() { return JSON.stringify({ language: en ? 'en' : 'es', reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches }); },
+  readSave() {
+    try { return JSON.stringify({ ok: true, value: localStorage.getItem('antonios:career:v2') ?? '', legacy: localStorage.getItem('antonios:career:v1') ?? '' }); }
+    catch (error) { console.error('No se pudo leer la partida / Could not read save', error); return JSON.stringify({ ok: false }); }
+  },
+  writeSave(value) {
+    try { localStorage.setItem('antonios:career:v2', value); return true; }
+    catch (error) { console.error('No se pudo guardar la partida / Could not save game', error); return false; }
+  },
 };
 canvas.addEventListener('pointerdown', event => debug('pointer-received', {
   pointer: { clientX: event.clientX, clientY: event.clientY, offsetX: event.offsetX, offsetY: event.offsetY, pointerType: event.pointerType },
 }));
 window.addEventListener('message', event => {
+
+  if (event.origin === location.origin && event.source === parent && event.data?.channel === channel && event.data.type === 'command' && ['characterAction', 'characterStatus', 'coffeeStart', 'coffeeHit', 'coffeeCancel'].includes(event.data.command?.type)) {
+    receiver?.(JSON.stringify(event.data.command));
+    return;
+  }
+  if (nativeRuntime) {
+    if (event.origin !== location.origin || event.source !== parent || event.data?.channel !== channel || event.data.type !== 'command') return;
+    const command = event.data.command;
+    if (!command || typeof command !== 'object') return;
+    if (command.type === 'setLanguage' && ['es', 'en'].includes(command.language)) document.documentElement.lang = command.language;
+    receiver?.(JSON.stringify(command));
+    return;
+  }
   if (event.origin !== location.origin || event.source !== parent || event.data?.channel !== channel || event.data.type !== 'state') return;
   debug('react-state-received', { syncSequence: event.data.state.syncSequence, chapterId: event.data.state.chapterId, player: [event.data.state.x, event.data.state.y], positionOrigin: event.data.state.positionOrigin });
   document.documentElement.lang = event.data.state.locale;
   receiver?.(JSON.stringify(event.data.state));
   debug('react-state-forwarded', { syncSequence: event.data.state.syncSequence, chapterId: event.data.state.chapterId, player: [event.data.state.x, event.data.state.y], positionOrigin: event.data.state.positionOrigin });
 });
-const engine = new Engine({"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":28784,"index.wasm":39514754},"focusCanvas":false,"gdextensionLibs":[],"godotPoolSize":4});
+const engine = new Engine({"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":24863776,"index.wasm":39514754},"focusCanvas":false,"gdextensionLibs":[],"godotPoolSize":4});
 // Releasing the Godot main loop on document teardown prevents a closing iframe
 // from retaining a WebGL context and its animation frame in automated browsers.
 window.addEventListener('pagehide', () => engine.requestQuit(), { once: true });
