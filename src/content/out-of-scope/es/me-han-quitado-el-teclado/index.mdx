@@ -1,0 +1,253 @@
+---
+title: "Me han quitado el teclado. Me han dejado las decisiones."
+summary: "GitHub migró el runtime de Copilot a Rust con ayuda de agentes. Pero lo interesante no son las 800.000 líneas: es cómo cambia el tiempo, el criterio y el valor del desarrollador."
+slug: "me-han-quitado-el-teclado"
+locale: "es"
+tags: ["Ingeniería de software", "IA", "Agentes", "Carrera profesional"]
+category: "Ingeniería agéntica"
+seo:
+  description: "Los agentes escriben cada vez más código. ¿Qué hará el desarrollador con su tiempo? Reflexiones sobre criterio, aprendizaje y valor profesional."
+date: 2026-10-22
+translationKey: "keyboard-decisions-developer-role"
+type: "exploration"
+readingTime: 5
+featured: false
+draft: false
+linkedin:
+  enabled: true
+  mode: "review"
+  text: "GitHub migró el runtime de Copilot a Rust: más de 800.000 líneas y 128 pull requests.\n\nPero lo más interesante no son las líneas. Es lo que hacía el desarrollador mientras los agentes escribían.\n\nRevisar. Cuestionar decisiones. Insistir en que el trabajo estuviera realmente terminado.\n\nSi producir código deja de ser el mayor cuello de botella, ¿dónde aportamos valor?\n\nY otra pregunta bastante incómoda: ¿cómo aprendemos si delegamos precisamente las tareas con las que antes adquiríamos experiencia?\n\nMi reflexión en Out of Scope: https://antoniomdm.dev/blog/me-han-quitado-el-teclado/\n\n#SoftwareEngineering #AI #DeveloperExperience"
+---
+
+*Los agentes escriben cada vez más código. Nosotros seguimos siendo responsables de decidir qué construir, cómo y, sobre todo, para qué.*
+
+Llevo más de quince años desarrollando software.
+
+He aprendido lenguajes, frameworks, patrones de diseño y suficientes formas de centrar un `div` como para cuestionarme algunas decisiones vitales.
+
+Y ahora resulta que una IA puede escribir en minutos código que antes me llevaba horas.
+
+Estupendo.
+
+¿Y qué hago yo?
+
+Porque hasta hace relativamente poco tenía bastante clara mi profesión. Me daban un problema, diseñaba una solución y escribía código hasta que funcionaba. Luego descubría que el problema era otro, cambiaban los requisitos y volvíamos a empezar.
+
+Lo que viene siendo desarrollo de software.
+
+Pero después de leer cómo GitHub migró el runtime de Copilot de TypeScript a Rust, creo que estamos ante un cambio bastante más profundo que escribir código más rápido.
+
+**Está cambiando dónde invertimos nuestro tiempo. Y, con ello, dónde aportamos valor.**
+
+## 800.000 líneas y un señor haciendo preguntas
+
+Stephen Toub lideró una migración que terminó con más de 800.000 líneas de Rust en producción.
+
+128 pull requests. Unos tres meses y medio. Agentes escribiendo la mayor parte del código.
+
+Un trabajo que, según su estimación, habría requerido un equipo durante uno o dos años se completó principalmente bajo la dirección de un desarrollador, con contribuciones importantes del resto del equipo.
+
+Ya hablamos de los problemas de aquella migración en [«El PR estaba en verde. El problema seguía ahí.»](/blog/el-pr-estaba-en-verde/).
+
+Pero hay otro dato que me parece todavía más interesante.
+
+Toub analizó los 2.639 mensajes que había enviado a los agentes, clasificándolos por intención.
+
+- **31 %:** revisión, pruebas e integración continua.
+- **17,4 %:** cuestionar decisiones técnicas y de diseño.
+- **15 %:** exigir que el trabajo estuviera realmente terminado.
+
+El 63 % de sus intervenciones se concentraba en esas tres actividades.
+
+Son porcentajes de mensajes clasificados mediante Copilot, no una medición exacta del tiempo empleado. Pero revelan algo importante.
+
+La mayor parte de sus intervenciones no consistía en explicar cómo escribir una función.
+
+Consistía en comprobar, cuestionar y decidir.
+
+**El trabajo no desapareció. Cambió de sitio.**
+
+Pasó de construir directamente cada pieza a dirigir un sistema capaz de construirlas.
+
+Básicamente, de desarrollador a director de orquesta.
+
+Una orquesta donde los músicos improvisan, alguno se inventa la partitura y todos aseguran que los tests pasan.
+
+## El problema de fabricar tonterías a velocidad industrial
+
+Durante años, una parte importante de nuestro tiempo se ha ido en implementar soluciones.
+
+Y eso tenía un efecto secundario curioso: el coste de desarrollarlas nos obligaba, al menos de vez en cuando, a pensar si merecían la pena.
+
+Ahora podemos construir un prototipo en una tarde.
+
+O cinco.
+
+O pedirle a Gepeto que nos genere una arquitectura de microservicios para una aplicación que guarda tres preferencias y el nombre del usuario.
+
+Con Kubernetes, por supuesto. Que somos profesionales.
+
+El problema es que **hacer algo más barato no lo convierte en algo necesario**.
+
+Si antes dedicábamos el 70 % de nuestro esfuerzo a implementar y ahora podemos reducir drásticamente esa parte, tenemos una oportunidad extraordinaria.
+
+Podemos entender mejor el negocio, estudiar alternativas, probar ideas arriesgadas, simplificar sistemas y prestar atención a esos problemas que siempre aplazábamos.
+
+Pero también podemos llenar el mundo de funcionalidades que nadie pidió, nadie necesita y alguien tendrá que mantener.
+
+La velocidad de producción deja de ser necesariamente nuestra principal limitación.
+
+Empiezan a pesar más la capacidad de elegir y el criterio para descartar.
+
+Y descartar una mala idea puede aportar más valor que implementar diez buenas.
+
+Aunque sea bastante más difícil ponerlo en la retrospectiva del sprint.
+
+## Saber programar importa. Quizá más que antes.
+
+Aquí viene la paradoja.
+
+Si los agentes escriben cada vez más código, ¿necesitamos seguir aprendiendo a programar?
+
+Creo que sí. Muchísimo.
+
+Pero quizá tengamos que replantearnos para qué.
+
+Un agente puede proponerme una arquitectura. Para evaluarla necesito entender arquitectura.
+
+Puede optimizar una consulta. Para saber si ha mejorado algo necesito entender rendimiento.
+
+Puede introducir concurrencia, cachés, eventos y diecisiete capas de abstracción.
+
+Para detenerlo a tiempo necesito experiencia. Y, posiblemente, un extintor.
+
+**Delegar la ejecución no significa poder delegar el criterio.**
+
+De hecho, cuantas más soluciones podamos generar, más importante será distinguir las buenas de las que simplemente parecen buenas.
+
+Y aquí aparece otra pregunta incómoda.
+
+¿Cómo consigue experiencia un desarrollador junior si una IA resuelve continuamente los problemas de los que antes aprendíamos?
+
+No tengo una respuesta definitiva, pero sospecho que tendremos que separar dos actividades que hasta ahora iban bastante unidas: producir y aprender.
+
+En producción, utilizaremos las herramientas que nos permitan obtener mejores resultados.
+
+Para aprender, quizá necesitemos seguir resolviendo ciertos problemas por nosotros mismos, desmontar soluciones, experimentar y comprender por qué funcionan.
+
+Como usar una calculadora: magnífica herramienta, siempre que sepas detectar cuándo te está diciendo que dividir la cuenta del restaurante entre cuatro sale a 800 euros por persona.
+
+El objetivo no debería ser saber menos porque la máquina sabe más.
+
+Debería ser **aprovechar la máquina para poder llegar más lejos con lo que sabemos**.
+
+## ¿Qué será entonces un buen desarrollador?
+
+Creo que cada vez importará más nuestra capacidad para movernos entre tres responsabilidades.
+
+La primera es **entender el problema**.
+
+No limitarnos a recibir requisitos, sino comprender el contexto, las restricciones y las consecuencias de nuestras decisiones.
+
+La segunda es **dirigir la solución**.
+
+Elegir estrategias, dividir problemas, establecer límites, experimentar y coordinar herramientas y agentes sin perder la visión de conjunto.
+
+La tercera es **responder por el resultado**.
+
+No solo porque el código funcione, sino porque resuelva el problema correcto, sea sostenible y tenga sentido para quienes lo utilizan.
+
+Ninguna de estas responsabilidades es nueva.
+
+Lo novedoso es que, si automatizamos buena parte de la implementación, pueden pasar a ocupar el centro de nuestra jornada.
+
+Y eso cambia también cómo deberíamos medir nuestro trabajo.
+
+Un desarrollador que evita una funcionalidad innecesaria puede aportar más valor que otro que genera veinte pull requests.
+
+Un equipo que simplifica un sistema puede conseguir más que otro que duplica su producción.
+
+Y alguien que descubre que el problema se resuelve cambiando un proceso, sin tocar una sola línea, quizá haya hecho el mejor trabajo de todos.
+
+Aunque luego tenga que justificar en Jira qué ha estado haciendo toda la semana.
+
+## ¿Y cuando los agentes también tomen decisiones?
+
+Porque ese es el siguiente paso.
+
+Hoy los agentes implementan tareas, ejecutan pruebas y proponen soluciones.
+
+Es razonable pensar que progresivamente podrán asumir trabajos más completos: desde analizar una necesidad hasta desarrollar, validar y mantener una solución.
+
+Quizá veamos equipos más pequeños abordando proyectos mucho más ambiciosos. O profesionales capaces de crear productos que antes exigían una estructura considerable.
+
+Me entusiasma esa posibilidad.
+
+Pero no creo que implique automáticamente que desaparezcan los desarrolladores ni que todos acabemos convertidos en supervisores de máquinas.
+
+Habrá decisiones que también podamos automatizar. Aparecerán nuevas especialidades. Cambiarán los equipos y, seguramente, parte del trabajo actual perderá valor económico.
+
+Tampoco sabemos cuánto ni a qué velocidad.
+
+Y ahí está la cuestión que me parece realmente interesante.
+
+**Si las herramientas siguen asumiendo lo que hoy consideramos nuestro trabajo, tendremos que seguir descubriendo dónde podemos aportar más valor.**
+
+Eso exige aprender constantemente, pero también entender de producto, negocio, costes, riesgos y personas.
+
+Porque la ingeniería nunca ha consistido únicamente en encontrar una solución técnicamente posible.
+
+Consiste en encontrar una solución que merezca la pena.
+
+## El teclado nunca fue el objetivo
+
+Reconozco que hay algo de nostalgia en todo esto.
+
+Disfruto programando. Me gusta resolver un problema complicado, entender por qué algo falla y encontrar una solución elegante.
+
+No me gustaría que desapareciera esa parte del oficio.
+
+Pero tampoco quiero dedicar dos días a escribir código que una herramienta puede resolver en diez minutos solo para sentir que sigo siendo desarrollador.
+
+Prefiero invertir ese tiempo en construir algo que antes no podía permitirme intentar.
+
+En aprender algo nuevo.
+
+O en descubrir que llevamos tres sprints resolviendo perfectamente un problema que nadie tenía.
+
+Puede que dentro de unos años escribamos mucho menos código. Puede que nuestra jornada se parezca más a dirigir proyectos, tomar decisiones y experimentar con ideas.
+
+No sé exactamente cómo será.
+
+Lo que sí creo es que hemos confundido durante demasiado tiempo nuestra herramienta con nuestra profesión.
+
+**No nos pagan por escribir código. Nos pagan por resolver problemas utilizando nuestros conocimientos.**
+
+Y ahora tenemos herramientas capaces de multiplicar lo que podemos hacer con ellos.
+
+La pregunta ya no es cuánto código somos capaces de producir.
+
+Es qué vamos a hacer con esa capacidad.
+
+Aunque, por favor, que alguien nos deje seguir programando de vez en cuando.
+
+No he sobrevivido a quince años de JavaScript para terminar trabajando exclusivamente con PowerPoint.
+
+---
+
+## Lo que me llevo al siguiente sprint
+
+- **Producir no es aportar valor.** Que algo sea más fácil o barato de hacer no significa que merezca la pena hacerlo.
+- **El criterio gana protagonismo.** Cuantas más soluciones podamos generar, más importante será saber elegir, cuestionar y descartar.
+- **Delegar no sustituye aprender.** La automatización libera tiempo, pero el conocimiento sigue siendo necesario para tomar buenas decisiones.
+- **El trabajo cambia, no solo se acelera.** Automatizar tareas transforma nuestras responsabilidades, nuestras competencias y cómo medimos los resultados.
+- **El futuro no viene con un roadmap cerrado.** Adaptarse exige entender conceptos fundamentales y seguir aprendiendo, no perseguir cada herramienta nueva.
+
+**Para guardar en RAM:** no se trata de competir con la IA escribiendo código más rápido. Se trata de aprovecharla para resolver problemas que antes estaban fuera de nuestro alcance.
+
+---
+
+## Para contrastar mis desvaríos
+
+- [Stephen Toub — *Migrating the GitHub Copilot runtime to Rust, using Copilot*](https://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/). GitHub Blog, 16 de septiembre de 2026; actualizado el 23 de septiembre. Fuente de las cifras de la migración y del análisis de mensajes.
+- [Out of Scope — *El PR estaba en verde. El problema seguía ahí.*](/blog/el-pr-estaba-en-verde/). Artículo complementario sobre revisión y responsabilidad en el desarrollo con agentes.
