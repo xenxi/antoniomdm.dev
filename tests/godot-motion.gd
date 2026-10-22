@@ -1,15 +1,15 @@
 extends SceneTree
 ## Regression checks against the actual renderer, without a browser or GPU.
 var failures = 0
-var world = preload("res://world.gd").new()
+var world
 
 func check(condition: bool, message: String) -> void:
 	if not condition:
 		push_error(message)
 		failures += 1
 
-func receive(x: int, y: int, reduced = false, active = true) -> void:
-	world._receive([JSON.stringify({"x": x, "y": y, "active": active, "reducedMotion": reduced, "chapterId": "test", "zoom": 1})])
+func receive(x: int, y: int, reduced = false, active = true, origin = "external") -> void:
+	world._receive([JSON.stringify({"x": x, "y": y, "active": active, "reducedMotion": reduced, "chapterId": "test", "zoom": 1, "positionOrigin": origin})])
 
 func key(code: int, pressed: bool) -> void:
 	var event = InputEventKey.new()
@@ -18,6 +18,10 @@ func key(code: int, pressed: bool) -> void:
 	world._handle_input_event(event)
 
 func _initialize() -> void:
+	call_deferred("run")
+
+func run() -> void:
+	world = load("res://world.gd").new()
 	world.map = {"id": "test", "width": 6, "height": 6, "ox": 240, "oy": 90, "tile": 16, "projection": "isometric", "objects": []}
 	world.grid.region = Rect2i(0, 0, 6, 6)
 	world.grid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
@@ -59,6 +63,16 @@ func _initialize() -> void:
 		check(not world.grid.is_point_solid(tile) and absi(tile.x - previous.x) + absi(tile.y - previous.y) == 1, "Every route segment must be adjacent and clear")
 		previous = tile
 	check(previous == Vector2i(2, 0), "Click route must arrive at its destination")
+	# A slow host must not consume route entries while the current step awaits ACK.
+	# Un host lento no debe consumir la ruta mientras el paso actual espera su ACK.
+	var requested = world.route.pop_front()
+	world._step(requested)
+	var pending_route = world.route.duplicate()
+	world._process(.5)
+	check(world.waiting_ack and world.route == pending_route, "Delayed acknowledgement must preserve every unrequested waypoint")
+	receive(requested.x, requested.y, false, true, "godot-ack")
+	world._process(.5)
+	check(world.waiting_ack and world.route.size() == pending_route.size() - 1, "Route resumes at the next adjacent waypoint after acknowledgement")
 	# Overlapping object silhouettes follow visual depth; explicit markers take precedence.
 	world.map.objects = [{"id": "back", "x": 1, "y": 1, "hit": [0, 0, 20, 20], "marker": [5, 5]}, {"id": "front", "x": 3, "y": 3, "hit": [0, 0, 20, 20]}]
 	check(world._object_at(Vector2(19, 19)).id == "front", "Foreground silhouette must win overlapping clicks")

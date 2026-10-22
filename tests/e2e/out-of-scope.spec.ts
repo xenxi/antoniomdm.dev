@@ -17,7 +17,7 @@ test('publishes the unified bilingual Blog, article SEO, RSS and the AntoñiOS e
   await expect(page.locator('.oos-scope')).toBeVisible();
   await expect(page.locator('.oos-block')).toHaveCount(0);
   await expect(page.locator('.oos-article__facts')).toContainText('3 min de lectura');
-  await expect(page.locator('.oos-article__body > p').last()).toHaveText('La historia puede terminar sin llevarse la pregunta por delante.');
+  await expect(page.locator('.oos-article__body > p').last()).toHaveText('Para guardar en RAM: entregar algo suficientemente bueno no significa conformarme como profesional. Significa distinguir cuándo toca resolver y cuándo toca explorar.');
   await expect(page.locator('.oos-article')).not.toContainText('Seguir explorando.');
   await expect(page.locator('[data-ad-position]')).toHaveCount(0);
   expect((await new AxeBuilder({ page }).analyze()).violations.filter(item => item.impact === 'critical' || item.impact === 'serious')).toEqual([]);
@@ -25,7 +25,7 @@ test('publishes the unified bilingual Blog, article SEO, RSS and the AntoñiOS e
   await page.goto('/en/blog/the-question-remains/');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('The question remains');
   await expect(page.getByRole('link', { name: 'ES', exact: true })).toHaveAttribute('href', 'https://antoniomdm.dev/blog/la-pregunta-se-queda/');
-  await expect(page.locator('.oos-article__body > p').last()).toHaveText('The story can end without taking the question with it.');
+  await expect(page.locator('.oos-article__body > p').last()).toHaveText('To keep in RAM: delivering something good enough does not mean settling as a professional. It means distinguishing when to solve and when to explore.');
 
   const rss = await request.get('/blog/rss.xml');
   expect(rss.ok()).toBe(true);

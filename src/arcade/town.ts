@@ -1,4 +1,5 @@
 import { chapters, text } from './campaign';
+import { insidePolygon, waterfrontBoundary, waterfrontSites, waterfrontDecor, waterfrontGardens, waterfrontProject, waterfrontTile } from './waterfront-layout';
 
 export const townCopy = {
   title: text('Villa Trayectoria', 'Career Town'),
@@ -20,7 +21,7 @@ export const townCopy = {
   earned: text('Demostrado', 'Demonstrated'),
   outstanding: text('Pendiente', 'Outstanding'),
   available: text('Puerta abierta', 'Door open'),
-  hint: text('Camina hasta una puerta y pulsa E, o toca un edificio para acercarte. Empieza por la casa freelance, con tejado de tejas, al noroeste.', 'Walk to a door and press E, or tap a building to approach it. Start at the freelance home, with its tiled roof, in the northwest.'),
+  hint: text('Camina hasta una puerta y pulsa E, o toca un edificio para acercarte. Empieza en AntoñiOS, el gran edificio frente a la plaza del globo.', 'Walk to a door and press E, or tap a building to approach it. Start at AntoñiOS, the large building facing the globe plaza.'),
   park: text('Parque del primer commit', 'First Commit Park'),
   garden: text('Jardín de las ideas', 'Garden of Ideas'),
   unlocked: text('Etapa completada. Vuelve a la ciudad: la siguiente puerta ya está abierta.', 'Chapter complete. Return to town: the next door is now open.'),
@@ -29,23 +30,17 @@ export const townCopy = {
   destination: text('Destino', 'Destination'),
   district: text('EMPRESAS / PARQUES / HISTORIAS', 'COMPANIES / PARKS / STORIES'),
 };
-export const townSize = { width: 30, height: 20 };
-export const townSpawn = { x: 4, y: 6 };
-export const buildings = chapters.map((chapter, index) => {
-  const x = 2 + (index % 5) * 5;
-  const y = index < 5 ? 2 : 13;
-  return { id: chapter.id, x, y, width: 4, height: 3, door: { x: x + 2, y: y + 3 } };
+export const townSize = { width: 64, height: 64 };
+export const townSpawn = { x: 34, y: 28 };
+export const buildings = chapters.map(chapter => {
+  const site = waterfrontSites.find(site => site.id === chapter.id)!;
+  return { ...site, door: waterfrontTile(site.approach[0], site.approach[1]) };
 });
-export const pond = { x: 18, y: 8, width: 5, height: 3 };
-export const trees = [
-  ...Array.from({ length: 15 }, (_, i) => ({ x: i * 2, y: 0 })),
-  ...Array.from({ length: 15 }, (_, i) => ({ x: i * 2, y: 18 })),
-  ...[0, 28].flatMap(x => [2, 4, 6, 8, 10, 12, 14, 16].map(y => ({ x, y }))),
-  ...[3, 6, 10, 24, 26].map(x => ({ x, y: 8 })),
-];
+const obstacles = [...waterfrontSites, ...waterfrontDecor].map(site => site.footprint).concat(waterfrontGardens);
 export function townWalkable(x: number, y: number) {
-  return Number.isInteger(x) && Number.isInteger(y) && x >= 1 && x <= 28 && y >= 1 && y <= 18
-    && !buildings.some(b => x >= b.x && x < b.x + b.width && y >= b.y && y < b.y + b.height)
-    && !(x >= pond.x && x < pond.x + pond.width && y >= pond.y && y < pond.y + pond.height)
-    && !trees.some(t => x >= t.x && x < t.x + 2 && y >= t.y && y < t.y + 2);
+  if (!Number.isInteger(x) || !Number.isInteger(y) || x < 0 || y < 0 || x >= 64 || y >= 64) return false;
+  const [sx, sy] = waterfrontProject(x + .5, y + .5);
+  // ES: Reserva espacio para los pies junto a muros y bordes de jardineras.
+  // EN: Leave foot clearance along walls and planter edges.
+  return [[0, 0], [-2, 0], [2, 0], [0, -2], [0, 2]].every(([dx, dy]) => insidePolygon(sx + dx, sy + dy, waterfrontBoundary) && !obstacles.some(polygon => insidePolygon(sx + dx, sy + dy, polygon)));
 }

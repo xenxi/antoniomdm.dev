@@ -32,8 +32,7 @@ for (const locale of ['es', 'en']) test(`detailed Godot office ${locale}: art, n
   await canvas.focus(); await canvas.press('o');
   await expect(page.locator('.career-paused')).toBeVisible();
   await page.locator('.career-paused button').click();
-  await canvas.focus(); await canvas.press('ArrowUp');
-  await expect(world).toHaveAttribute('data-player', '4,6');
+  await expect(world).toHaveAttribute('data-player', '39,43');
 
   await clickCompanyObject(page, 'freelance', 'terminal');
   await waitForGodotInteraction(page, 'terminal', locale === 'es' ? 'Solo es cambiar un botón' : 'Just change one button');

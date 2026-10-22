@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ArcadeDialogue" load_steps=2 format=3]
+[ext_resource type="Script" path="res://components/dialogue/dialogue_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "flatmate"
+speaker = {"es": "Compañero músico", "en": "Musician flatmate"}
+lines = Array[Dictionary]([{"es": "Prepara la web para la entrega y resuelve las incidencias del piso para recuperar concentración. Ahora ensayo trompeta; después, guitarra. ¡Prometo bajar el volumen!", "en": "Prepare the website for delivery and resolve flat incidents to regain focus. I am rehearsing trumpet now; guitar comes next. I promise to turn it down!"}, {"es": "Puedes consultar la experiencia freelance en el portfolio y después continuar la partida.", "en": "You can explore the freelance experience in the portfolio and then continue the game."}])
+start_quest = "first_visit"
+objective_event = "flatmate_conversation"
+portfolio_kind = "experience"
+content_id = "freelance"
+

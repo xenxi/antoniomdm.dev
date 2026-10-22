@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ArcadeDialogue" load_steps=2 format=3]
+[ext_resource type="Script" path="res://components/dialogue/dialogue_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "hairy"
+speaker = {"es":"Compañero ciclista · bilirrubina","en":"Cyclist flatmate · bilirubin"}
+lines = Array[Dictionary]([{"es":"Me está subiendo la bilirrubina… ¡necesito soltar los nervios bailando! Luego vuelvo a estudiar.","en":"My bilirubin is rising… I need to dance these nerves away! Then I can get back to studying."}])

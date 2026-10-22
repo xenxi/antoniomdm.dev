@@ -120,7 +120,7 @@ test('project filters, Blog editor, lab concepts and languages reading view', as
   await expect(page).toHaveURL(/\/projects\/platform934\/$/);
   await page.locator('[data-desktop-app="blog"]').click();
   await expect(page.locator('.blog-editor')).toBeVisible();
-  await expect(page.getByRole('link', { name: /Open article/ })).toHaveAttribute('href', /\/en\/blog\/the-question-remains\//);
+  await expect(page.getByRole('link', { name: /Open article/ })).toHaveAttribute('href', /\/en\/blog\/they-took-my-keyboard\//);
   await page.locator('[data-desktop-app="lab"]').click();
   await expect(page).toHaveURL(/\/ai-lab\/$/);
   await expect(page.locator('.ai-lab-axis')).toHaveCount(2);

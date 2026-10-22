@@ -1,0 +1,3252 @@
+[gd_resource type="Resource" script_class="CampaignCatalog" load_steps=2 format=3]
+[ext_resource type="Script" path="res://systems/quest/campaign_catalog.gd" id="1"]
+[resource]
+script = ExtResource("1")
+chapters = Array[Dictionary]([
+	{
+		"id": "freelance",
+		"experienceId": "freelance",
+		"scenario": "bedroom",
+		"missions": [
+			"button",
+			"responsive",
+			"layout-a11y",
+			"client-handoff"
+		]
+	},
+	{
+		"id": "xul",
+		"experienceId": "xul",
+		"scenario": "office",
+		"missions": [
+			"mobile",
+			"xul-learn",
+			"xul-lifecycle",
+			"xul-review"
+		]
+	},
+	{
+		"id": "signlab",
+		"experienceId": "signlab",
+		"scenario": "office",
+		"missions": [
+			"image",
+			"signlab-coordinates",
+			"signlab-overlap",
+			"signlab-delivery"
+		]
+	},
+	{
+		"id": "la-salle",
+		"experienceId": "la-salle",
+		"scenario": "office",
+		"missions": [
+			"systems",
+			"school-permissions",
+			"school-backup",
+			"school-inventory"
+		]
+	},
+	{
+		"id": "alcatel-lucent",
+		"experienceId": "alcatel-lucent",
+		"scenario": "network",
+		"missions": [
+			"validation",
+			"alcatel-desk",
+			"alcatel-statue",
+			"alcatel-platform"
+		]
+	},
+	{
+		"id": "nokia",
+		"experienceId": "nokia",
+		"scenario": "network",
+		"missions": [
+			"network",
+			"nokia-connectivity",
+			"nokia-snake",
+			"nokia-geometry"
+		]
+	},
+	{
+		"id": "vector-itc",
+		"experienceId": "vector-itc",
+		"scenario": "office",
+		"missions": [
+			"pipeline",
+			"vector-report",
+			"vector-nlp",
+			"vector-workflow"
+		]
+	},
+	{
+		"id": "anexia",
+		"experienceId": "anexia",
+		"scenario": "city",
+		"missions": [
+			"application",
+			"anexia-requirements",
+			"anexia-mobile",
+			"anexia-valuation"
+		]
+	},
+	{
+		"id": "domingo-alonso",
+		"experienceId": "domingo-alonso",
+		"scenario": "city",
+		"missions": [
+			"distributed",
+			"architecture",
+			"dag-tests",
+			"dag-ai"
+		]
+	},
+	{
+		"id": "system-recovery",
+		"experienceId": "domingo-alonso",
+		"scenario": "city",
+		"missions": [
+			"observe",
+			"distributed",
+			"application",
+			"prioritize",
+			"contain",
+			"fix",
+			"verify"
+		]
+	}
+])
+missions = Array[Dictionary]([
+	{
+		"id": "responsive",
+		"target": "terminal",
+		"seconds": 45,
+		"mechanic": "bug",
+		"title": {
+			"es": "Maquetación contra reloj",
+			"en": "Layout against the clock"
+		},
+		"briefing": {
+			"es": "El cliente revisa la web en un móvil de 360 px. La columna fija de 960 px desborda. ¿Qué cambio probarías?",
+			"en": "The client reviews the site on a 360 px phone. A fixed 960 px column overflows. What would you test?"
+		},
+		"choices": [
+			{
+				"id": "responsive-0",
+				"label": {
+					"es": "Ocultar todo el desbordamiento",
+					"en": "Hide all overflow"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El contenido queda recortado y parte del formulario sigue inaccesible.",
+					"en": "Content is clipped and part of the form remains inaccessible."
+				}
+			},
+			{
+				"id": "responsive-1",
+				"label": {
+					"es": "width: 100%; max-width: 960px y revisar el contenido",
+					"en": "width: 100%; max-width: 960px and check the content"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "El contenedor se adapta. Comprueba también imágenes, espaciado y navegación en móvil.",
+					"en": "The container adapts. Also check images, spacing and navigation on mobile."
+				}
+			},
+			{
+				"id": "responsive-2",
+				"label": {
+					"es": "Reducir todo el texto a 8 px",
+					"en": "Shrink all text to 8 px"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El texto pierde legibilidad y la columna sigue siendo demasiado ancha.",
+					"en": "Text becomes unreadable and the column is still too wide."
+				}
+			}
+		]
+	},
+	{
+		"id": "layout-a11y",
+		"target": "review",
+		"seconds": 75,
+		"mechanic": "bug",
+		"title": {
+			"es": "La entrega también se usa con teclado",
+			"en": "Delivery works with a keyboard too"
+		},
+		"briefing": {
+			"es": "El menú solo se abre al pasar el ratón. ¿Cómo permites acceder sin ratón?",
+			"en": "The menu only opens on hover. How do you make it usable without a mouse?"
+		},
+		"choices": [
+			{
+				"id": "layout-a11y-0",
+				"label": {
+					"es": "Botón real, foco visible y estado expandido",
+					"en": "A real button, visible focus and expanded state"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "La interacción debe poder operarse con teclado y comunicar su estado.",
+					"en": "The interaction must work with a keyboard and communicate its state."
+				}
+			},
+			{
+				"id": "layout-a11y-1",
+				"label": {
+					"es": "Un div con un icono más grande",
+					"en": "A div with a larger icon"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El elemento sigue sin ofrecer interacción de teclado ni comunicar su estado.",
+					"en": "The element still offers no keyboard interaction or state information."
+				}
+			},
+			{
+				"id": "layout-a11y-2",
+				"label": {
+					"es": "Explicar que hace falta un ratón",
+					"en": "Explain that a mouse is required"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Quien usa teclado sigue sin poder abrir el menú.",
+					"en": "Keyboard users still cannot open the menu."
+				}
+			}
+		]
+	},
+	{
+		"id": "client-handoff",
+		"target": "team",
+		"seconds": 75,
+		"mechanic": "priority",
+		"title": {
+			"es": "Cerrar alcance, abrir la puerta",
+			"en": "Close scope, open the door"
+		},
+		"briefing": {
+			"es": "La web está lista. Llega un «ya que estamos» con cinco páginas nuevas. ¿Cómo cierras la entrega?",
+			"en": "The site is ready. A “while you are at it” request adds five pages. How do you close delivery?"
+		},
+		"choices": [
+			{
+				"id": "client-handoff-0",
+				"label": {
+					"es": "Añadirlo todo sin cambiar la fecha",
+					"en": "Add everything without changing the date"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El alcance crece sin ajustar el plazo: la entrega queda comprometida.",
+					"en": "Scope grows without a deadline adjustment, putting delivery at risk."
+				}
+			},
+			{
+				"id": "client-handoff-1",
+				"label": {
+					"es": "Ignorar el mensaje",
+					"en": "Ignore the message"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El cliente no sabe qué incluye la entrega y no puede validarla.",
+					"en": "The client does not know what delivery includes and cannot validate it."
+				}
+			},
+			{
+				"id": "client-handoff-2",
+				"label": {
+					"es": "Validar lo acordado y presupuestar la ampliación",
+					"en": "Validate the agreed scope and estimate the extension"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Una entrega verificable y un alcance explícito protegen al cliente y al proyecto.",
+					"en": "Verifiable delivery and explicit scope protect the client and the project."
+				}
+			}
+		]
+	},
+	{
+		"id": "xul-learn",
+		"target": "team",
+		"seconds": 75,
+		"mechanic": "priority",
+		"title": {
+			"es": "Un componente por conocer",
+			"en": "An unfamiliar component"
+		},
+		"briefing": {
+			"es": "Debes corregir un fallo en un componente Android que todavía no conoces. ¿Por dónde empiezas?",
+			"en": "You must fix a failure in an Android component you do not yet know. Where do you start?"
+		},
+		"choices": [
+			{
+				"id": "xul-learn-0",
+				"label": {
+					"es": "Reescribirlo de memoria",
+					"en": "Rewrite it from memory"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La reescritura elimina comportamiento que todavía no has identificado.",
+					"en": "The rewrite removes behavior you have not yet identified."
+				}
+			},
+			{
+				"id": "xul-learn-1",
+				"label": {
+					"es": "Reproducir el caso y pedir una revisión guiada",
+					"en": "Reproduce the case and ask for a guided review"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Un ejemplo mínimo y una revisión convierten la tarea en aprendizaje compartido.",
+					"en": "A minimal example and a review turn the task into shared learning."
+				}
+			},
+			{
+				"id": "xul-learn-2",
+				"label": {
+					"es": "Cambiar varias cosas hasta que compile",
+					"en": "Change several things until it builds"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Aunque compile, no sabes qué cambio corrige el fallo ni qué ha roto.",
+					"en": "Even if it builds, you cannot tell which change fixes the bug or what broke."
+				}
+			}
+		]
+	},
+	{
+		"id": "xul-lifecycle",
+		"target": "terminal",
+		"seconds": 75,
+		"mechanic": "bug",
+		"title": {
+			"es": "El museo gira",
+			"en": "The museum rotates"
+		},
+		"briefing": {
+			"es": "Al girar el móvil, la ficha seleccionada vuelve a la primera. ¿Qué hay que conservar?",
+			"en": "Rotating the phone resets the selected exhibit to the first one. What should survive?"
+		},
+		"choices": [
+			{
+				"id": "xul-lifecycle-0",
+				"label": {
+					"es": "La selección como estado restaurable",
+					"en": "The selection as restorable state"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Conserva el identificador seleccionado y restaura la vista desde ese estado.",
+					"en": "Keep the selected identifier and restore the view from that state."
+				}
+			},
+			{
+				"id": "xul-lifecycle-1",
+				"label": {
+					"es": "Una referencia permanente a la pantalla destruida",
+					"en": "A permanent reference to the destroyed screen"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La referencia apunta a una pantalla destruida y no restaura la nueva.",
+					"en": "The reference points to a destroyed screen and does not restore the new one."
+				}
+			},
+			{
+				"id": "xul-lifecycle-2",
+				"label": {
+					"es": "La orientación bloqueada como único arreglo",
+					"en": "Locked orientation as the only fix"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Bloquear el giro oculta el síntoma; al recrear la pantalla se pierde la selección.",
+					"en": "Locking rotation hides the symptom; recreating the screen still loses the selection."
+				}
+			}
+		]
+	},
+	{
+		"id": "xul-review",
+		"target": "review",
+		"seconds": 75,
+		"mechanic": "priority",
+		"title": {
+			"es": "Preparar el cambio para revisión",
+			"en": "Prepare the change for review"
+		},
+		"briefing": {
+			"es": "Has corregido un fallo de navegación. Otra persona debe comprobarlo antes de integrar el cambio. ¿Qué le entregas?",
+			"en": "You fixed a navigation failure. Someone else must check it before merging the change. What do you hand over?"
+		},
+		"choices": [
+			{
+				"id": "xul-review-0",
+				"label": {
+					"es": "Solo una captura de pantalla",
+					"en": "Just a screenshot"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La captura no permite repetir el caso ni verificar la corrección.",
+					"en": "The screenshot cannot reproduce the case or verify the fix."
+				}
+			},
+			{
+				"id": "xul-review-1",
+				"label": {
+					"es": "Que funcione una vez en mi móvil",
+					"en": "It worked once on my phone"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Una ejecución aislada no comprueba que el fallo haya desaparecido.",
+					"en": "One isolated run does not verify that the failure is gone."
+				}
+			},
+			{
+				"id": "xul-review-2",
+				"label": {
+					"es": "Caso reproducible, cambio pequeño y revisión",
+					"en": "A reproducible case, a small change and a review"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "El equipo reproduce el caso y verifica el cambio antes de integrarlo.",
+					"en": "The team reproduces the case and verifies the change before merging it."
+				}
+			}
+		]
+	},
+	{
+		"id": "signlab-coordinates",
+		"target": "exhibit",
+		"seconds": 75,
+		"mechanic": "routing",
+		"title": {
+			"es": "Una imagen, muchas zonas",
+			"en": "One image, many regions"
+		},
+		"briefing": {
+			"es": "La imagen del museo se reduce a la mitad. Los puntos táctiles siguen en coordenadas originales. ¿Cómo los alineas?",
+			"en": "The museum image is scaled down by half. Touch points still use original coordinates. How do you align them?"
+		},
+		"choices": [
+			{
+				"id": "signlab-coordinates-0",
+				"label": {
+					"es": "Transformar el toque al sistema de coordenadas de la imagen",
+					"en": "Transform the touch into image coordinates"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Aplica la transformación inversa de escala y desplazamiento antes de consultar las zonas.",
+					"en": "Apply the inverse scale and offset transformation before looking up regions."
+				}
+			},
+			{
+				"id": "signlab-coordinates-1",
+				"label": {
+					"es": "Duplicar todas las zonas a ojo",
+					"en": "Duplicate every region by eye"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El ajuste manual solo coincide en una escala y vuelve a fallar al redimensionar.",
+					"en": "The manual adjustment only matches one scale and fails again when resized."
+				}
+			},
+			{
+				"id": "signlab-coordinates-2",
+				"label": {
+					"es": "Escalar el tamaño de las zonas sin mover su origen",
+					"en": "Scale region sizes without moving their origin"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Cambiar solo el tamaño de las zonas deja sus posiciones desalineadas.",
+					"en": "Changing only region sizes leaves their positions misaligned."
+				}
+			}
+		]
+	},
+	{
+		"id": "signlab-overlap",
+		"target": "review",
+		"seconds": 75,
+		"mechanic": "bug",
+		"title": {
+			"es": "Dos salas bajo el mismo dedo",
+			"en": "Two rooms under one finger"
+		},
+		"briefing": {
+			"es": "Dos regiones interactivas se solapan. El visitante recibe dos acciones. ¿Qué falta definir?",
+			"en": "Two interactive regions overlap. A visitor gets two actions. What must be defined?"
+		},
+		"choices": [
+			{
+				"id": "signlab-overlap-0",
+				"label": {
+					"es": "Un retraso aleatorio",
+					"en": "A random delay"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El retraso no decide qué región gana: ambas acciones siguen siendo posibles.",
+					"en": "The delay does not decide which region wins: both actions remain possible."
+				}
+			},
+			{
+				"id": "signlab-overlap-1",
+				"label": {
+					"es": "Una prioridad determinista y una sola acción por gesto",
+					"en": "Deterministic priority and one action per gesture"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Una regla de prioridad probada evita respuestas ambiguas en los bordes.",
+					"en": "A tested priority rule avoids ambiguous responses at boundaries."
+				}
+			},
+			{
+				"id": "signlab-overlap-2",
+				"label": {
+					"es": "Desactivar todas las regiones",
+					"en": "Disable every region"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Evitas la duplicidad, pero dejas al visitante sin interacción.",
+					"en": "You avoid duplicate actions but leave visitors with no interaction."
+				}
+			}
+		]
+	},
+	{
+		"id": "signlab-delivery",
+		"target": "team",
+		"seconds": 75,
+		"mechanic": "trace",
+		"title": {
+			"es": "Museo listo para abrir",
+			"en": "Museum ready to open"
+		},
+		"briefing": {
+			"es": "El componente ya responde. ¿Qué conjunto de pruebas representa mejor la visita?",
+			"en": "The component responds now. Which checks best represent a visit?"
+		},
+		"choices": [
+			{
+				"id": "signlab-delivery-0",
+				"label": {
+					"es": "Solo tocar el centro una vez",
+					"en": "Only tap the center once"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La prueba no detecta errores en los bordes ni al cambiar de escala.",
+					"en": "The test misses boundary and scaling errors."
+				}
+			},
+			{
+				"id": "signlab-delivery-1",
+				"label": {
+					"es": "Solo comprobar que instala",
+					"en": "Only check installation"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La instalación no verifica que los gestos activen la región correcta.",
+					"en": "Installation does not verify that gestures activate the correct region."
+				}
+			},
+			{
+				"id": "signlab-delivery-2",
+				"label": {
+					"es": "Bordes, escalas y gestos repetidos",
+					"en": "Boundaries, scales and repeated gestures"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Verifica las interacciones reales, incluidos los casos límite.",
+					"en": "Verify real interactions, including edge cases."
+				}
+			}
+		]
+	},
+	{
+		"id": "school-permissions",
+		"target": "server",
+		"seconds": 75,
+		"mechanic": "trace",
+		"title": {
+			"es": "La llave de la sala de servidores",
+			"en": "The server room key"
+		},
+		"briefing": {
+			"es": "Una cuenta de aula no abre una carpeta compartida. La red responde. ¿Qué revisas?",
+			"en": "A classroom account cannot open a shared folder. The network responds. What do you inspect?"
+		},
+		"choices": [
+			{
+				"id": "school-permissions-0",
+				"label": {
+					"es": "Dar administración a todo el alumnado",
+					"en": "Give every pupil admin rights"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Abres permisos innecesarios sin identificar el acceso que falta.",
+					"en": "You grant unnecessary permissions without identifying the missing access."
+				}
+			},
+			{
+				"id": "school-permissions-1",
+				"label": {
+					"es": "La cuenta, su grupo y los permisos necesarios",
+					"en": "The account, its group and required permissions"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Comprueba permisos con una cuenta representativa y concede solo lo necesario.",
+					"en": "Check permissions with a representative account and grant only what is needed."
+				}
+			},
+			{
+				"id": "school-permissions-2",
+				"label": {
+					"es": "Quitar la contraseña del servidor",
+					"en": "Remove the server password"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Eliminar la contraseña expone el servidor y no corrige los permisos de la carpeta.",
+					"en": "Removing the password exposes the server and does not fix folder permissions."
+				}
+			}
+		]
+	},
+	{
+		"id": "school-backup",
+		"target": "review",
+		"seconds": 75,
+		"mechanic": "priority",
+		"title": {
+			"es": "Antes de tocar el servidor",
+			"en": "Before changing the server"
+		},
+		"briefing": {
+			"es": "Una actualización requiere reinicio durante las clases. ¿Cómo la preparas?",
+			"en": "An update requires a reboot during lessons. How do you prepare it?"
+		},
+		"choices": [
+			{
+				"id": "school-backup-0",
+				"label": {
+					"es": "Acordar ventana, verificar copia y planificar recuperación",
+					"en": "Agree a window, verify the backup and plan recovery"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "La continuidad de las clases necesita coordinación y una recuperación comprobable.",
+					"en": "Lesson continuity needs coordination and verifiable recovery."
+				}
+			},
+			{
+				"id": "school-backup-1",
+				"label": {
+					"es": "Reiniciar sin avisar",
+					"en": "Reboot without notice"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El reinicio interrumpe las clases sin dar tiempo a guardar el trabajo.",
+					"en": "The reboot interrupts lessons without time to save work."
+				}
+			},
+			{
+				"id": "school-backup-2",
+				"label": {
+					"es": "Borrar los registros para liberar espacio",
+					"en": "Delete logs to free space"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Pierdes registros útiles para diagnosticar un fallo de actualización.",
+					"en": "You lose logs needed to diagnose an update failure."
+				}
+			}
+		]
+	},
+	{
+		"id": "school-inventory",
+		"target": "team",
+		"seconds": 75,
+		"mechanic": "priority",
+		"title": {
+			"es": "El siguiente turno también cuenta",
+			"en": "The next shift matters too"
+		},
+		"briefing": {
+			"es": "Has recuperado el servicio del aula. ¿Qué dejas al equipo?",
+			"en": "You restored the classroom service. What do you leave for the team?"
+		},
+		"choices": [
+			{
+				"id": "school-inventory-0",
+				"label": {
+					"es": "Nada, ya funciona",
+					"en": "Nothing, it works now"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El siguiente turno debe repetir el diagnóstico desde cero.",
+					"en": "The next shift must repeat the diagnosis from scratch."
+				}
+			},
+			{
+				"id": "school-inventory-1",
+				"label": {
+					"es": "La contraseña en la pared",
+					"en": "The password on the wall"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Expones credenciales sin documentar cómo se recuperó el servicio.",
+					"en": "You expose credentials without documenting how service was restored."
+				}
+			},
+			{
+				"id": "school-inventory-2",
+				"label": {
+					"es": "Síntomas, diagnóstico, cambio y comprobación",
+					"en": "Symptoms, diagnosis, change and verification"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Documenta la intervención sin exponer credenciales.",
+					"en": "Document the intervention without exposing credentials."
+				}
+			}
+		]
+	},
+	{
+		"id": "alcatel-desk",
+		"target": "urgent-desk",
+		"seconds": 90,
+		"mechanic": "bug",
+		"title": {
+			"es": "Una fibra sin destino",
+			"en": "A fiber without a destination"
+		},
+		"briefing": {
+			"es": "El equipo de B-12 detecta que el diseño admite una fibra sin destino. ¿Qué validación debe bloquear la publicación?",
+			"en": "The B-12 team finds that the design permits a fiber with no destination. Which validation must block publication?"
+		},
+		"choices": [
+			{
+				"id": "alcatel-desk-0",
+				"label": {
+					"es": "Validar que ambos extremos referencian nodos existentes",
+					"en": "Validate that both ends reference existing nodes"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Una conexión necesita extremos válidos; el aspecto del plano no garantiza continuidad.",
+					"en": "A connection needs valid endpoints; the drawing’s appearance does not guarantee continuity."
+				}
+			},
+			{
+				"id": "alcatel-desk-1",
+				"label": {
+					"es": "Ocultar la fibra en el dibujo",
+					"en": "Hide the fiber in the drawing"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La fibra sigue sin destino en el modelo aunque no se vea.",
+					"en": "The fiber still has no destination in the model even if it is hidden."
+				}
+			},
+			{
+				"id": "alcatel-desk-2",
+				"label": {
+					"es": "Cambiar el color del cable",
+					"en": "Change the cable color"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El color no crea el extremo que falta; el diseño sigue inválido.",
+					"en": "Color does not create the missing endpoint; the design remains invalid."
+				}
+			}
+		]
+	},
+	{
+		"id": "alcatel-statue",
+		"target": "statue",
+		"seconds": 75,
+		"mechanic": "routing",
+		"title": {
+			"es": "Calcular el material del tendido",
+			"en": "Calculate cabling materials"
+		},
+		"briefing": {
+			"es": "El diseño validado incluye tramos de distinta longitud y material. ¿Cómo calculas cuánto comprar de cada material?",
+			"en": "The validated design contains segments of different lengths and materials. How do you calculate how much of each material to buy?"
+		},
+		"choices": [
+			{
+				"id": "alcatel-statue-0",
+				"label": {
+					"es": "Número de tramos por el más largo",
+					"en": "Segment count times the longest segment"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Asignas a todos los tramos la longitud máxima y sobreestimas el material.",
+					"en": "You assign the maximum length to every segment and overestimate materials."
+				}
+			},
+			{
+				"id": "alcatel-statue-1",
+				"label": {
+					"es": "Sumar longitudes válidas agrupadas por material",
+					"en": "Sum valid lengths grouped by material"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "El presupuesto depende de cantidades y materiales del diseño validado.",
+					"en": "The estimate depends on quantities and materials in the validated design."
+				}
+			},
+			{
+				"id": "alcatel-statue-2",
+				"label": {
+					"es": "Usar una longitud media global para cada material",
+					"en": "Use a global average length for each material"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La media global mezcla materiales distintos y pierde sus cantidades reales.",
+					"en": "The global average mixes different materials and loses their actual quantities."
+				}
+			}
+		]
+	},
+	{
+		"id": "alcatel-platform",
+		"target": "review",
+		"seconds": 75,
+		"mechanic": "architecture",
+		"title": {
+			"es": "De herramientas sueltas a plataforma",
+			"en": "From separate tools to a platform"
+		},
+		"briefing": {
+			"es": "Dos herramientas calculan distinto la misma regla de cableado. ¿Cómo reduces la divergencia?",
+			"en": "Two tools calculate the same cabling rule differently. How do you reduce divergence?"
+		},
+		"choices": [
+			{
+				"id": "alcatel-platform-0",
+				"label": {
+					"es": "Copiar una tercera versión",
+					"en": "Copy a third version"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Añades otra copia que también puede divergir cuando cambie la regla.",
+					"en": "You add another copy that can also diverge when the rule changes."
+				}
+			},
+			{
+				"id": "alcatel-platform-1",
+				"label": {
+					"es": "Aceptar ambos resultados",
+					"en": "Accept both results"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El mismo diseño sigue produciendo resultados incompatibles.",
+					"en": "The same design still produces incompatible results."
+				}
+			},
+			{
+				"id": "alcatel-platform-2",
+				"label": {
+					"es": "Acordar la regla, centralizarla y probar casos comunes",
+					"en": "Agree the rule, centralize it and test common cases"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Compartir comportamiento de dominio evita que cada interfaz invente su propia regla.",
+					"en": "Shared domain behavior prevents each interface from inventing its own rule."
+				}
+			}
+		]
+	},
+	{
+		"id": "nokia-connectivity",
+		"target": "server",
+		"seconds": 75,
+		"mechanic": "trace",
+		"title": {
+			"es": "La fibra que no llega",
+			"en": "The fiber that goes nowhere"
+		},
+		"briefing": {
+			"es": "El plano parece continuo, pero dos extremos no comparten nodo. ¿Qué comprueba la conectividad?",
+			"en": "The drawing looks continuous, but two endpoints share no node. What checks connectivity?"
+		},
+		"choices": [
+			{
+				"id": "nokia-connectivity-0",
+				"label": {
+					"es": "Que las líneas tengan el mismo color",
+					"en": "That lines have the same color"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El color compartido no demuestra que exista una conexión entre nodos.",
+					"en": "A shared color does not prove that nodes are connected."
+				}
+			},
+			{
+				"id": "nokia-connectivity-1",
+				"label": {
+					"es": "Recorrer el grafo de conexiones reales",
+					"en": "Traverse the graph of actual connections"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "La topología expresa conexiones; la proximidad visual no basta.",
+					"en": "Topology expresses connections; visual proximity is not enough."
+				}
+			},
+			{
+				"id": "nokia-connectivity-2",
+				"label": {
+					"es": "Que el dibujo esté centrado",
+					"en": "That the drawing is centered"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Centrar el plano no enlaza los extremos desconectados.",
+					"en": "Centering the drawing does not link disconnected endpoints."
+				}
+			}
+		]
+	},
+	{
+		"id": "nokia-snake",
+		"target": "statue",
+		"seconds": 75,
+		"mechanic": "routing",
+		"title": {
+			"es": "3310: una ruta indestructible",
+			"en": "3310: an indestructible route"
+		},
+		"briefing": {
+			"es": "La estatua del 3310 tiene Snake. Recoge cuatro paquetes sin salirte ni cruzar tu ruta. Puedes jugar por pasos, sin reflejos rápidos.",
+			"en": "The 3310 statue has Snake. Collect four packets without leaving the board or crossing your route. Play one step at a time; fast reflexes are not needed."
+		},
+		"choices": [
+			{
+				"id": "nokia-snake-0",
+				"label": {
+					"es": "Verificar la ruta recogida",
+					"en": "Verify the collected route"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Ruta completada: el simulador comprueba límites, ocupación y llegada a destino.",
+					"en": "Route complete: the simulator checks boundaries, occupancy and arrival."
+				}
+			},
+			{
+				"id": "nokia-snake-1",
+				"label": {
+					"es": "Dar por conectados todos los nodos",
+					"en": "Assume every node is connected"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Declarar conectividad no comprueba el recorrido de los paquetes.",
+					"en": "Declaring connectivity does not verify the packet route."
+				}
+			},
+			{
+				"id": "nokia-snake-2",
+				"label": {
+					"es": "Ignorar las colisiones",
+					"en": "Ignore collisions"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Una ruta que se cruza no cumple los límites del tablero.",
+					"en": "A route that crosses itself does not satisfy the board constraints."
+				}
+			}
+		],
+		"challenge": "snake"
+	},
+	{
+		"id": "nokia-geometry",
+		"target": "review",
+		"seconds": 75,
+		"mechanic": "bug",
+		"title": {
+			"es": "Cobertura sin atajos",
+			"en": "Coverage without shortcuts"
+		},
+		"briefing": {
+			"es": "Un tramo cruza el borde de una zona de cobertura. ¿Qué pruebas hacen falta para la intersección?",
+			"en": "A segment crosses a coverage boundary. Which intersection tests do you need?"
+		},
+		"choices": [
+			{
+				"id": "nokia-geometry-0",
+				"label": {
+					"es": "Cruce, tangencia, extremos y ausencia de cruce",
+					"en": "Crossing, tangency, endpoints and no crossing"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Los casos geométricos límite evitan validar coberturas incorrectas.",
+					"en": "Geometric boundary cases prevent incorrect coverage validation."
+				}
+			},
+			{
+				"id": "nokia-geometry-1",
+				"label": {
+					"es": "Solo un tramo horizontal",
+					"en": "Only one horizontal segment"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Un único tramo horizontal deja sin comprobar tangencias y extremos.",
+					"en": "One horizontal segment leaves tangencies and endpoints unchecked."
+				}
+			},
+			{
+				"id": "nokia-geometry-2",
+				"label": {
+					"es": "Redondear todas las posiciones a cero",
+					"en": "Round every position to zero"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Redondear coordenadas altera la geometría que intentas validar.",
+					"en": "Rounding coordinates changes the geometry you are trying to validate."
+				}
+			}
+		]
+	},
+	{
+		"id": "vector-report",
+		"target": "terminal",
+		"seconds": 75,
+		"mechanic": "trace",
+		"title": {
+			"es": "El informe que se hacía a mano",
+			"en": "The report that used to be manual"
+		},
+		"briefing": {
+			"es": "Automatizas un informe recurrente. ¿Qué demuestra que conserva el significado de los datos?",
+			"en": "You automate a recurring report. What demonstrates that data meaning is preserved?"
+		},
+		"choices": [
+			{
+				"id": "vector-report-0",
+				"label": {
+					"es": "Más colores en la cabecera",
+					"en": "More colors in the header"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La cabecera no comprueba si han cambiado los datos del informe.",
+					"en": "The header does not verify whether report data changed."
+				}
+			},
+			{
+				"id": "vector-report-1",
+				"label": {
+					"es": "Comparar casos conocidos y totales con el informe validado",
+					"en": "Compare known cases and totals with the validated report"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Comprueba equivalencia y casos sin datos antes de sustituir el proceso manual.",
+					"en": "Check equivalence and empty-data cases before replacing the manual process."
+				}
+			},
+			{
+				"id": "vector-report-2",
+				"label": {
+					"es": "Solo medir lo rápido que termina",
+					"en": "Only measure how fast it finishes"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Puedes producir antes un informe con totales incorrectos.",
+					"en": "You may produce a report with incorrect totals faster."
+				}
+			}
+		]
+	},
+	{
+		"id": "vector-nlp",
+		"target": "review",
+		"seconds": 75,
+		"mechanic": "trace",
+		"title": {
+			"es": "Palabras con contexto",
+			"en": "Words with context"
+		},
+		"briefing": {
+			"es": "Un clasificador de sentimiento debe evaluarse. ¿Qué evita medirlo con respuestas que ya ha visto?",
+			"en": "A sentiment classifier needs evaluation. What avoids measuring it against answers it has already seen?"
+		},
+		"choices": [
+			{
+				"id": "vector-nlp-0",
+				"label": {
+					"es": "Separar entrenamiento y evaluación antes de ajustar",
+					"en": "Separate training and evaluation before fitting"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Reserva datos de evaluación independientes para estimar la generalización.",
+					"en": "Hold out independent evaluation data to estimate generalization."
+				}
+			},
+			{
+				"id": "vector-nlp-1",
+				"label": {
+					"es": "Entrenar y evaluar con los mismos textos",
+					"en": "Train and evaluate on the same texts"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La evaluación reutiliza ejemplos aprendidos y sobreestima el resultado.",
+					"en": "Evaluation reuses learned examples and overestimates performance."
+				}
+			},
+			{
+				"id": "vector-nlp-2",
+				"label": {
+					"es": "Eliminar todos los ejemplos difíciles",
+					"en": "Remove every difficult example"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Excluir casos difíciles sesga la evaluación frente al uso real.",
+					"en": "Excluding difficult cases biases evaluation against real use."
+				}
+			}
+		]
+	},
+	{
+		"id": "vector-workflow",
+		"target": "team",
+		"seconds": 75,
+		"mechanic": "priority",
+		"title": {
+			"es": "Automatización que se puede detener",
+			"en": "Automation you can stop"
+		},
+		"briefing": {
+			"es": "Una campaña automática supera su límite configurado. ¿Qué debería hacer el flujo?",
+			"en": "An automated campaign exceeds its configured limit. What should the workflow do?"
+		},
+		"choices": [
+			{
+				"id": "vector-workflow-0",
+				"label": {
+					"es": "Seguir indefinidamente",
+					"en": "Continue indefinitely"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El flujo continúa consumiendo recursos por encima del límite.",
+					"en": "The workflow keeps consuming resources above the limit."
+				}
+			},
+			{
+				"id": "vector-workflow-1",
+				"label": {
+					"es": "Ocultar el consumo",
+					"en": "Hide consumption"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El exceso sigue ocurriendo y el equipo pierde visibilidad para detenerlo.",
+					"en": "The overrun continues and the team loses visibility needed to stop it."
+				}
+			},
+			{
+				"id": "vector-workflow-2",
+				"label": {
+					"es": "Detener la acción, registrar el motivo y avisar",
+					"en": "Stop the action, record the reason and notify"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Los límites y la trazabilidad hacen que la automatización sea controlable.",
+					"en": "Limits and traceability make automation controllable."
+				}
+			}
+		]
+	},
+	{
+		"id": "anexia-requirements",
+		"target": "team",
+		"seconds": 75,
+		"mechanic": "priority",
+		"title": {
+			"es": "Diez mesas, un producto entero",
+			"en": "Ten desks, a whole product"
+		},
+		"briefing": {
+			"es": "Un cliente pide «gestionar llaves». ¿Qué convierte esa frase en un requisito implementable?",
+			"en": "A client asks to “manage keys”. What turns that phrase into an implementable requirement?"
+		},
+		"choices": [
+			{
+				"id": "anexia-requirements-0",
+				"label": {
+					"es": "Definir primero el esquema de datos sin validar el flujo",
+					"en": "Define the data schema before validating the workflow"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El esquema no aclara quién puede entregar o recibir una llave.",
+					"en": "The schema does not clarify who may hand over or receive a key."
+				}
+			},
+			{
+				"id": "anexia-requirements-1",
+				"label": {
+					"es": "Aclarar quién entrega, recibe y registra cada movimiento",
+					"en": "Clarify who hands over, receives and records each movement"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Actores, estados y criterios de aceptación guían el diseño de extremo a extremo.",
+					"en": "Actors, states and acceptance criteria guide end-to-end design."
+				}
+			},
+			{
+				"id": "anexia-requirements-2",
+				"label": {
+					"es": "Crear una tabla sin preguntar",
+					"en": "Create a table without asking"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La tabla fija supuestos que el cliente todavía no ha validado.",
+					"en": "The table locks in assumptions the client has not validated."
+				}
+			}
+		]
+	},
+	{
+		"id": "anexia-mobile",
+		"target": "device",
+		"seconds": 75,
+		"mechanic": "architecture",
+		"title": {
+			"es": "Del móvil a producción",
+			"en": "From mobile to production"
+		},
+		"briefing": {
+			"es": "La app Flutter envía dos veces una operación al reconectar. ¿Qué protege la operación en el servidor?",
+			"en": "The Flutter app sends an operation twice after reconnecting. What protects the operation on the server?"
+		},
+		"choices": [
+			{
+				"id": "anexia-mobile-0",
+				"label": {
+					"es": "Una clave de operación e idempotencia verificada",
+					"en": "An operation key and verified idempotency"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "La interfaz puede reducir dobles toques; el servidor debe controlar reintentos.",
+					"en": "The interface can reduce double taps; the server must handle retries."
+				}
+			},
+			{
+				"id": "anexia-mobile-1",
+				"label": {
+					"es": "Deshabilitar el botón solo en la interfaz",
+					"en": "Disable the button only in the interface"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Deshabilitar el botón no detiene una reentrega de red.",
+					"en": "Disabling the button does not stop a network redelivery."
+				}
+			},
+			{
+				"id": "anexia-mobile-2",
+				"label": {
+					"es": "Añadir un retraso fijo antes de cada reintento",
+					"en": "Add a fixed delay before each retry"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El retraso cambia cuándo llega el duplicado, pero no evita su efecto.",
+					"en": "The delay changes when the duplicate arrives but does not prevent its effect."
+				}
+			}
+		]
+	},
+	{
+		"id": "anexia-valuation",
+		"target": "review",
+		"seconds": 75,
+		"mechanic": "trace",
+		"title": {
+			"es": "Una valoración con evidencia",
+			"en": "A valuation with evidence"
+		},
+		"briefing": {
+			"es": "El modelo inmobiliario funciona bien en entrenamiento y mal con viviendas nuevas. ¿Qué investigas?",
+			"en": "The property model performs well in training and poorly on new homes. What do you investigate?"
+		},
+		"choices": [
+			{
+				"id": "anexia-valuation-0",
+				"label": {
+					"es": "Publicar solo la métrica de entrenamiento",
+					"en": "Publish only the training metric"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "La métrica de entrenamiento oculta el fallo sobre viviendas nuevas.",
+					"en": "The training metric hides the failure on new homes."
+				}
+			},
+			{
+				"id": "anexia-valuation-1",
+				"label": {
+					"es": "Aumentar los decimales de la predicción",
+					"en": "Increase decimal places in the prediction"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Más decimales no mejoran la capacidad de predecir viviendas nuevas.",
+					"en": "More decimal places do not improve predictions on new homes."
+				}
+			},
+			{
+				"id": "anexia-valuation-2",
+				"label": {
+					"es": "Sobreajuste, distribución y separación de evaluación",
+					"en": "Overfitting, distribution and evaluation separation"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "La evaluación debe representar los inmuebles sobre los que se va a predecir.",
+					"en": "Evaluation must represent the properties on which predictions will be made."
+				}
+			}
+		]
+	},
+	{
+		"id": "dag-tests",
+		"target": "review",
+		"seconds": 75,
+		"mechanic": "architecture",
+		"title": {
+			"es": "Feedback antes de la siguiente reunión",
+			"en": "Feedback before the next meeting"
+		},
+		"briefing": {
+			"es": "La suite de integración retrasa cada cambio. ¿Qué mejora su utilidad sin debilitar las pruebas?",
+			"en": "The integration suite delays every change. What improves usefulness without weakening tests?"
+		},
+		"choices": [
+			{
+				"id": "dag-tests-0",
+				"label": {
+					"es": "Borrar las pruebas lentas",
+					"en": "Delete slow tests"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Al borrar pruebas dejas comportamientos sin verificar.",
+					"en": "Deleting tests leaves behavior unverified."
+				}
+			},
+			{
+				"id": "dag-tests-1",
+				"label": {
+					"es": "Aislar dependencias y preparar datos reutilizables",
+					"en": "Isolate dependencies and prepare reusable test data"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "Infraestructura de pruebas y límites claros aceleran feedback conservando comprobaciones.",
+					"en": "Test infrastructure and clear boundaries speed up feedback while preserving checks."
+				}
+			},
+			{
+				"id": "dag-tests-2",
+				"label": {
+					"es": "Marcar todos los resultados como correctos",
+					"en": "Mark every result as passing"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "Un resultado forzado oculta regresiones y deja de servir como comprobación.",
+					"en": "A forced result hides regressions and no longer serves as a check."
+				}
+			}
+		]
+	},
+	{
+		"id": "dag-ai",
+		"target": "team",
+		"seconds": 75,
+		"mechanic": "trace",
+		"title": {
+			"es": "El agente investiga; el equipo decide",
+			"en": "The agent investigates; the team decides"
+		},
+		"briefing": {
+			"es": "Un asistente correlaciona una traza, documentación y código. ¿Qué salida respeta el alcance de diagnóstico?",
+			"en": "An assistant correlates a trace, documentation and code. Which output respects a diagnostic scope?"
+		},
+		"choices": [
+			{
+				"id": "dag-ai-0",
+				"label": {
+					"es": "Informe con evidencia, hipótesis y siguiente comprobación",
+					"en": "A report with evidence, hypotheses and the next check"
+				},
+				"accepted": true,
+				"feedback": {
+					"es": "El diagnóstico apoya la decisión supervisada del equipo; no autoriza una remediación autónoma.",
+					"en": "Diagnosis supports the team’s supervised decision; it does not authorize autonomous remediation."
+				}
+			},
+			{
+				"id": "dag-ai-1",
+				"label": {
+					"es": "Cambiar producción sin revisión",
+					"en": "Change production without review"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El cambio excede el diagnóstico y aplica una hipótesis sin validar.",
+					"en": "The change exceeds diagnosis and applies an unverified hypothesis."
+				}
+			},
+			{
+				"id": "dag-ai-2",
+				"label": {
+					"es": "Presentar una hipótesis como certeza",
+					"en": "Present a hypothesis as certainty"
+				},
+				"accepted": false,
+				"feedback": {
+					"es": "El equipo toma decisiones con una certeza que la evidencia no demuestra.",
+					"en": "The team makes decisions based on certainty the evidence does not support."
+				}
+			}
+		]
+	},
+	{
+		"id": "button",
+		"mechanic": "bug",
+		"title": {
+			"es": "Solo es cambiar un botón",
+			"en": "Just change one button"
+		},
+		"briefing": {
+			"es": "El cliente no puede enviar el formulario. Inspecciona el HTML y selecciona la línea que lo bloquea.",
+			"en": "The client cannot submit the form. Inspect the HTML and select the line that blocks it."
+		},
+		"evidence": "<form>\n  <input name=\"message\" required />\n  <button type=\"button\">OK</button>\n</form>",
+		"choices": [
+			{
+				"id": "input",
+				"label": {
+					"es": "<input required />",
+					"en": "<input required />"
+				},
+				"feedback": {
+					"es": "El campo obligatorio es intencional. Mira cómo se envía el formulario.",
+					"en": "The required field is intentional. Look at how the form submits."
+				},
+				"accepted": false
+			},
+			{
+				"id": "button",
+				"label": {
+					"es": "<button type=\"button\"> → type=\"submit\"",
+					"en": "<button type=\"button\"> → type=\"submit\""
+				},
+				"feedback": {
+					"es": "El formulario ya se envía. El cliente añade: «Y ya que estamos…».",
+					"en": "The form submits now. The client adds: “While you are at it…”"
+				},
+				"accepted": true
+			}
+		]
+	},
+	{
+		"id": "mobile",
+		"mechanic": "bug",
+		"title": {
+			"es": "El primer bug",
+			"en": "The first bug"
+		},
+		"briefing": {
+			"es": "La última tarjeta de esta app de museo se pierde. Encuentra el límite incorrecto.",
+			"en": "The last card in this museum app is missing. Find the incorrect boundary."
+		},
+		"evidence": "cards = [0, 1, 2]\nfor (i = 0; i < cards.length - 1; i++)\n  render(cards[i])",
+		"choices": [
+			{
+				"id": "loop",
+				"label": {
+					"es": "i < cards.length",
+					"en": "i < cards.length"
+				},
+				"feedback": {
+					"es": "Ahora se muestran las tres tarjetas. Pequeños cambios, comportamiento verificable.",
+					"en": "All three cards now appear. Small changes, verifiable behavior."
+				},
+				"accepted": true
+			},
+			{
+				"id": "start",
+				"label": {
+					"es": "i = 1",
+					"en": "i = 1"
+				},
+				"feedback": {
+					"es": "Eso también omitiría la primera tarjeta. Revisa el final del bucle.",
+					"en": "That would also skip the first card. Check the end of the loop."
+				},
+				"accepted": false
+			}
+		]
+	},
+	{
+		"id": "image",
+		"mechanic": "routing",
+		"title": {
+			"es": "Conecta la interacción",
+			"en": "Connect the interaction"
+		},
+		"briefing": {
+			"es": "Construye el recorrido desde el gesto del visitante hasta la imagen actualizada. Selecciona los nodos en orden.",
+			"en": "Build the route from the visitor’s gesture to the updated image. Select the nodes in order."
+		},
+		"sequence": [
+			"touch",
+			"handler",
+			"state",
+			"render"
+		],
+		"choices": [
+			{
+				"id": "render",
+				"label": {
+					"es": "04 · Dibujar imagen",
+					"en": "04 · Render image"
+				},
+				"feedback": {
+					"es": "La vista refleja el estado actualizado.",
+					"en": "The view reflects the updated state."
+				},
+				"accepted": true
+			},
+			{
+				"id": "state",
+				"label": {
+					"es": "03 · Actualizar estado",
+					"en": "03 · Update state"
+				},
+				"feedback": {
+					"es": "El estado cambia antes de dibujar.",
+					"en": "State changes before rendering."
+				},
+				"accepted": true
+			},
+			{
+				"id": "touch",
+				"label": {
+					"es": "01 · Gesto",
+					"en": "01 · Gesture"
+				},
+				"feedback": {
+					"es": "Todo empieza con la intención del visitante.",
+					"en": "It starts with the visitor’s intent."
+				},
+				"accepted": true
+			},
+			{
+				"id": "handler",
+				"label": {
+					"es": "02 · Manejador",
+					"en": "02 · Handler"
+				},
+				"feedback": {
+					"es": "El manejador interpreta el gesto.",
+					"en": "The handler interprets the gesture."
+				},
+				"accepted": true
+			}
+		]
+	},
+	{
+		"id": "systems",
+		"mechanic": "trace",
+		"title": {
+			"es": "¿Dónde se corta la conexión?",
+			"en": "Where does the connection break?"
+		},
+		"briefing": {
+			"es": "El equipo no llega al servicio. Sigue la ruta del diagnóstico, desde el dispositivo hasta el servidor.",
+			"en": "The workstation cannot reach the service. Follow the diagnostic route, from device to server."
+		},
+		"sequence": [
+			"device",
+			"network",
+			"dns",
+			"server"
+		],
+		"choices": [
+			{
+				"id": "dns",
+				"label": {
+					"es": "DNS · 10.0.0.8",
+					"en": "DNS · 10.0.0.8"
+				},
+				"feedback": {
+					"es": "El nombre resuelve a la dirección esperada.",
+					"en": "The name resolves to the expected address."
+				},
+				"accepted": true
+			},
+			{
+				"id": "device",
+				"label": {
+					"es": "PC · ping localhost",
+					"en": "PC · ping localhost"
+				},
+				"feedback": {
+					"es": "La interfaz local responde.",
+					"en": "The local interface responds."
+				},
+				"accepted": true
+			},
+			{
+				"id": "server",
+				"label": {
+					"es": "SERVER · :443 CLOSED",
+					"en": "SERVER · :443 CLOSED"
+				},
+				"feedback": {
+					"es": "Encontrado: el servicio no escucha en el puerto esperado.",
+					"en": "Found it: the service is not listening on the expected port."
+				},
+				"accepted": true
+			},
+			{
+				"id": "network",
+				"label": {
+					"es": "LAN · gateway OK",
+					"en": "LAN · gateway OK"
+				},
+				"feedback": {
+					"es": "La puerta de enlace responde.",
+					"en": "The gateway responds."
+				},
+				"accepted": true
+			}
+		]
+	},
+	{
+		"id": "validation",
+		"mechanic": "bug",
+		"title": {
+			"es": "Una regla de ingeniería",
+			"en": "An engineering rule"
+		},
+		"briefing": {
+			"es": "En esta simulación, una distancia debe ser positiva. El validador acepta cero. Corrige la condición.",
+			"en": "In this simulation, a distance must be positive. The validator accepts zero. Fix the condition."
+		},
+		"evidence": "bool Valid(double distance) {\n  return distance >= 0;\n}",
+		"choices": [
+			{
+				"id": "positive",
+				"label": {
+					"es": "return distance > 0;",
+					"en": "return distance > 0;"
+				},
+				"feedback": {
+					"es": "La regla rechaza cero y negativos. Añade casos de frontera a la revisión.",
+					"en": "The rule rejects zero and negative values. Add boundary cases to the review."
+				},
+				"accepted": true
+			},
+			{
+				"id": "nonzero",
+				"label": {
+					"es": "return distance != 0;",
+					"en": "return distance != 0;"
+				},
+				"feedback": {
+					"es": "Eso admite distancias negativas. El requisito es positivo, no solo distinto de cero.",
+					"en": "That permits negative distances. The requirement is positive, not merely nonzero."
+				},
+				"accepted": false
+			}
+		]
+	},
+	{
+		"id": "network",
+		"mechanic": "routing",
+		"title": {
+			"es": "Del dibujo al sistema",
+			"en": "From drawing to system"
+		},
+		"briefing": {
+			"es": "Organiza este flujo ficticio de diseño de red: primero importa, después valida, calcula y publica.",
+			"en": "Arrange this fictional network design flow: import, validate, calculate, then publish."
+		},
+		"sequence": [
+			"import",
+			"validate",
+			"calculate",
+			"publish"
+		],
+		"choices": [
+			{
+				"id": "calculate",
+				"label": {
+					"es": "Calcular costes",
+					"en": "Calculate costs"
+				},
+				"feedback": {
+					"es": "Los cálculos parten de un diseño validado.",
+					"en": "Calculations use a validated design."
+				},
+				"accepted": true
+			},
+			{
+				"id": "publish",
+				"label": {
+					"es": "Publicar diseño",
+					"en": "Publish design"
+				},
+				"feedback": {
+					"es": "El diseño está listo para revisión.",
+					"en": "The design is ready for review."
+				},
+				"accepted": true
+			},
+			{
+				"id": "validate",
+				"label": {
+					"es": "Validar reglas",
+					"en": "Validate rules"
+				},
+				"feedback": {
+					"es": "Detectar errores antes evita propagarlos.",
+					"en": "Finding errors early prevents propagation."
+				},
+				"accepted": true
+			},
+			{
+				"id": "import",
+				"label": {
+					"es": "Importar geometría",
+					"en": "Import geometry"
+				},
+				"feedback": {
+					"es": "Ya tenemos un modelo sobre el que trabajar.",
+					"en": "We now have a model to work with."
+				},
+				"accepted": true
+			}
+		]
+	},
+	{
+		"id": "pipeline",
+		"mechanic": "priority",
+		"title": {
+			"es": "La entrega y sus dependencias",
+			"en": "Delivery and its dependencies"
+		},
+		"briefing": {
+			"es": "La compilación falla, un informe está pendiente y el cliente necesita saber cuándo llegará. Decide el orden: comunica el bloqueo, recupera la compilación y valida el informe.",
+			"en": "The build is broken, a report is pending and the client needs an ETA. Order the work: communicate the blocker, recover the build and validate the report."
+		},
+		"sequence": [
+			"communicate",
+			"build",
+			"report"
+		],
+		"choices": [
+			{
+				"id": "report",
+				"label": {
+					"es": "Validar informe",
+					"en": "Validate report"
+				},
+				"feedback": {
+					"es": "La salida ya puede verificarse con una compilación reproducible.",
+					"en": "The output can now be verified with a reproducible build."
+				},
+				"accepted": true
+			},
+			{
+				"id": "build",
+				"label": {
+					"es": "Reparar compilación",
+					"en": "Repair build"
+				},
+				"feedback": {
+					"es": "La entrega vuelve a tener una base verificable.",
+					"en": "Delivery has a verifiable foundation again."
+				},
+				"accepted": true
+			},
+			{
+				"id": "communicate",
+				"label": {
+					"es": "Comunicar bloqueo",
+					"en": "Communicate blocker"
+				},
+				"feedback": {
+					"es": "El equipo y el cliente ya comparten expectativas.",
+					"en": "The team and client now share expectations."
+				},
+				"accepted": true
+			}
+		]
+	},
+	{
+		"id": "application",
+		"mechanic": "bottleneck",
+		"title": {
+			"es": "La aplicación va lenta",
+			"en": "The application is slow"
+		},
+		"briefing": {
+			"es": "En este laboratorio, el plan de ejecución muestra un escaneo repetido por petición. Localiza el recurso a investigar antes de añadir servidores.",
+			"en": "In this lab, the execution plan shows a repeated scan per request. Locate the resource to investigate before adding servers."
+		},
+		"metrics": [
+			{
+				"label": "CPU",
+				"value": 31
+			},
+			{
+				"label": "RAM",
+				"value": 48
+			},
+			{
+				"label": "SQL",
+				"value": 97
+			},
+			{
+				"label": "POOL",
+				"value": 99
+			},
+			{
+				"label": "CACHE HIT",
+				"value": 14
+			}
+		],
+		"choices": [
+			{
+				"id": "cpu",
+				"label": {
+					"es": "CPU · Añadir instancias",
+					"en": "CPU · Add instances"
+				},
+				"feedback": {
+					"es": "La CPU tiene margen. Más instancias podrían aumentar las consultas a SQL.",
+					"en": "CPU has headroom. More instances could increase SQL queries."
+				},
+				"accepted": false
+			},
+			{
+				"id": "sql",
+				"label": {
+					"es": "SQL · Revisar consulta y plan",
+					"en": "SQL · Inspect query and plan"
+				},
+				"feedback": {
+					"es": "El escaneo presiona SQL y retiene conexiones. El pool es un síntoma relacionado.",
+					"en": "The scan pressures SQL and holds connections. The pool is a related symptom."
+				},
+				"accepted": true
+			},
+			{
+				"id": "ram",
+				"label": {
+					"es": "RAM · Ampliar memoria",
+					"en": "RAM · Add memory"
+				},
+				"feedback": {
+					"es": "La memoria no está saturada. Usa también la evidencia del plan.",
+					"en": "Memory is not saturated. Use the execution-plan evidence too."
+				},
+				"accepted": false
+			}
+		]
+	},
+	{
+		"id": "distributed",
+		"mechanic": "trace",
+		"title": {
+			"es": "Sigue el traceId",
+			"en": "Follow the traceId"
+		},
+		"briefing": {
+			"es": "traceId a7f2 cruza cinco servicios. Sigue sus spans desde WEB para localizar el origen, no solo el lugar donde aparece el error.",
+			"en": "traceId a7f2 crosses five services. Follow its spans from WEB to find the origin, not just where the error appears."
+		},
+		"sequence": [
+			"web",
+			"api",
+			"orders",
+			"pricing",
+			"sql"
+		],
+		"choices": [
+			{
+				"id": "pricing",
+				"label": {
+					"es": "PRICING · a7f2 · 2,410 ms",
+					"en": "PRICING · a7f2 · 2,410 ms"
+				},
+				"feedback": {
+					"es": "Pricing espera su dependencia.",
+					"en": "Pricing waits for its dependency."
+				},
+				"accepted": true
+			},
+			{
+				"id": "web",
+				"label": {
+					"es": "WEB · a7f2 · 2,500 ms",
+					"en": "WEB · a7f2 · 2,500 ms"
+				},
+				"feedback": {
+					"es": "La petición comienza aquí.",
+					"en": "The request starts here."
+				},
+				"accepted": true
+			},
+			{
+				"id": "sql",
+				"label": {
+					"es": "SQL · a7f2 · 2,390 ms",
+					"en": "SQL · a7f2 · 2,390 ms"
+				},
+				"feedback": {
+					"es": "La mayor parte del tiempo está en la consulta. Ya tienes una hipótesis comprobable.",
+					"en": "Most time is spent in the query. You now have a testable hypothesis."
+				},
+				"accepted": true
+			},
+			{
+				"id": "orders",
+				"label": {
+					"es": "ORDERS · a7f2 · 2,430 ms",
+					"en": "ORDERS · a7f2 · 2,430 ms"
+				},
+				"feedback": {
+					"es": "Orders llama a Pricing.",
+					"en": "Orders calls Pricing."
+				},
+				"accepted": true
+			},
+			{
+				"id": "noise",
+				"label": {
+					"es": "CACHE · b9c1 · 4 ms",
+					"en": "CACHE · b9c1 · 4 ms"
+				},
+				"feedback": {
+					"es": "Ese span pertenece a otra petición. Comprueba el traceId.",
+					"en": "That span belongs to another request. Check the traceId."
+				},
+				"accepted": false
+			},
+			{
+				"id": "api",
+				"label": {
+					"es": "API · a7f2 · 2,460 ms",
+					"en": "API · a7f2 · 2,460 ms"
+				},
+				"feedback": {
+					"es": "El siguiente span pertenece a Orders.",
+					"en": "The next span belongs to Orders."
+				},
+				"accepted": true
+			}
+		]
+	},
+	{
+		"id": "architecture",
+		"mechanic": "architecture",
+		"title": {
+			"es": "Diseña la transición",
+			"en": "Design the transition"
+		},
+		"briefing": {
+			"es": "El sistema heredado debe seguir funcionando. Hay lecturas frecuentes que toleran consistencia eventual y operaciones que necesitan el estado exacto. Elige una transición y asume su coste.",
+			"en": "The legacy system must keep running. Frequent reads tolerate eventual consistency; some operations require exact state. Choose a transition and accept its cost."
+		},
+		"choices": [
+			{
+				"id": "rewrite",
+				"label": {
+					"es": "Reescribir y cortar hoy",
+					"en": "Rewrite and cut over today"
+				},
+				"feedback": {
+					"es": "Sin convivencia ni red de seguridad, incumples la continuidad requerida.",
+					"en": "Without coexistence or a safety net, this violates the continuity requirement."
+				},
+				"accepted": false
+			},
+			{
+				"id": "projection",
+				"label": {
+					"es": "Proyección de lectura + Outbox",
+					"en": "Read projection + Outbox"
+				},
+				"feedback": {
+					"es": "Descargas lecturas tolerantes a retrasos. Coste: sincronización y reconciliación; el estado exacto sigue en la fuente autoritativa.",
+					"en": "You offload reads that tolerate lag. Cost: synchronization and reconciliation; exact state stays at the authoritative source."
+				},
+				"accepted": true
+			},
+			{
+				"id": "strangler",
+				"label": {
+					"es": "Extraer una capacidad cada vez",
+					"en": "Extract one capability at a time"
+				},
+				"feedback": {
+					"es": "Reduces el alcance de cada cambio. Coste: convivencia temporal y contratos entre sistemas; la mejora de lecturas llega gradualmente.",
+					"en": "You reduce the scope of each change. Cost: temporary coexistence and cross-system contracts; read improvements arrive gradually."
+				},
+				"accepted": true
+			}
+		]
+	},
+	{
+		"id": "observe",
+		"mechanic": "bottleneck",
+		"title": {
+			"es": "01 / Observa",
+			"en": "01 / Observe"
+		},
+		"briefing": {
+			"es": "El simulador de AntoñiOS marca errores en varios servicios. ¿Qué evidencia permite estimar el impacto antes de tocar el sistema?",
+			"en": "The AntoñiOS simulator reports errors across services. What evidence helps estimate impact before changing the system?"
+		},
+		"metrics": [
+			{
+				"label": "SQL",
+				"value": 97
+			},
+			{
+				"label": "POOL",
+				"value": 96
+			},
+			{
+				"label": "ERROR %",
+				"value": 31
+			}
+		],
+		"choices": [
+			{
+				"id": "dashboard",
+				"label": {
+					"es": "Correlacionar errores, latencia y usuarios afectados",
+					"en": "Correlate errors, latency and affected users"
+				},
+				"feedback": {
+					"es": "El impacto está delimitado. Sigue ahora una petición fallida.",
+					"en": "Impact is scoped. Now follow a failed request."
+				},
+				"accepted": true
+			},
+			{
+				"id": "restart",
+				"label": {
+					"es": "Reiniciar todo",
+					"en": "Restart everything"
+				},
+				"feedback": {
+					"es": "Perderías evidencia y podrías ampliar el impacto. Primero observa.",
+					"en": "You would lose evidence and might broaden impact. Observe first."
+				},
+				"accepted": false
+			}
+		]
+	},
+	{
+		"id": "prioritize",
+		"mechanic": "priority",
+		"title": {
+			"es": "04 / Prioriza",
+			"en": "04 / Prioritize"
+		},
+		"briefing": {
+			"es": "Clientes afectados, pipeline rojo y una PR pendiente. Ordena: pide cobertura al equipo, contiene el incidente, recupera el pipeline y revisa la PR.",
+			"en": "Customers are affected, the pipeline is red and a PR is pending. Order: ask the team for cover, contain the incident, recover the pipeline and review the PR."
+		},
+		"sequence": [
+			"team",
+			"incident",
+			"ci",
+			"pr"
+		],
+		"choices": [
+			{
+				"id": "pr",
+				"label": {
+					"es": "PR pendiente",
+					"en": "Pending PR"
+				},
+				"feedback": {
+					"es": "La revisión vuelve a tener su espacio.",
+					"en": "Review gets its time again."
+				},
+				"accepted": true
+			},
+			{
+				"id": "ci",
+				"label": {
+					"es": "Pipeline fallando",
+					"en": "Failing pipeline"
+				},
+				"feedback": {
+					"es": "Restauras la vía de entrega después de contener el impacto.",
+					"en": "You restore delivery after containing impact."
+				},
+				"accepted": true
+			},
+			{
+				"id": "team",
+				"label": {
+					"es": "Pedir cobertura al equipo",
+					"en": "Ask the team for cover"
+				},
+				"feedback": {
+					"es": "Coordinación y comunicación delegadas: ya no estás solo.",
+					"en": "Coordination and communication delegated: you are no longer alone."
+				},
+				"accepted": true
+			},
+			{
+				"id": "incident",
+				"label": {
+					"es": "Contener producción",
+					"en": "Contain production"
+				},
+				"feedback": {
+					"es": "La prioridad es limitar el daño actual a clientes.",
+					"en": "The priority is limiting current customer impact."
+				},
+				"accepted": true
+			}
+		]
+	},
+	{
+		"id": "contain",
+		"mechanic": "architecture",
+		"title": {
+			"es": "05 / Contén",
+			"en": "05 / Contain"
+		},
+		"briefing": {
+			"es": "Los eventos duplicados multiplican efectos y una caché sirve valores obsoletos. Existe un modo degradado probado. Elige una contención reversible.",
+			"en": "Duplicate events multiply effects and a cache serves stale values. A tested degraded mode exists. Choose reversible containment."
+		},
+		"choices": [
+			{
+				"id": "degrade",
+				"label": {
+					"es": "Activar modo degradado y pausar el consumidor afectado",
+					"en": "Enable degraded mode and pause the affected consumer"
+				},
+				"feedback": {
+					"es": "El alcance baja. Conservas eventos para reproducirlos después de corregir la idempotencia.",
+					"en": "Impact narrows. You retain events for replay after fixing idempotency."
+				},
+				"accepted": true
+			},
+			{
+				"id": "delete",
+				"label": {
+					"es": "Borrar la cola y todos los datos",
+					"en": "Delete the queue and all data"
+				},
+				"feedback": {
+					"es": "Destruirías información necesaria para recuperar el servicio.",
+					"en": "You would destroy information needed for recovery."
+				},
+				"accepted": false
+			}
+		]
+	},
+	{
+		"id": "fix",
+		"mechanic": "routing",
+		"title": {
+			"es": "06 / Corrige",
+			"en": "06 / Fix"
+		},
+		"briefing": {
+			"es": "Construye una ruta de procesamiento que tolere reentregas: recibir, comprobar Inbox, aplicar una vez e invalidar caché. En esta simulación, Inbox y efecto comparten transacción.",
+			"en": "Build a processing route that tolerates redelivery: receive, check Inbox, apply once and invalidate cache. In this simulation, Inbox and effect share a transaction."
+		},
+		"sequence": [
+			"receive",
+			"inbox",
+			"apply",
+			"cache"
+		],
+		"choices": [
+			{
+				"id": "cache",
+				"label": {
+					"es": "Invalidar caché",
+					"en": "Invalidate cache"
+				},
+				"feedback": {
+					"es": "La lectura siguiente vuelve a consultar la fuente.",
+					"en": "The next read consults the source again."
+				},
+				"accepted": true
+			},
+			{
+				"id": "apply",
+				"label": {
+					"es": "Aplicar efecto una vez",
+					"en": "Apply effect once"
+				},
+				"feedback": {
+					"es": "Una entrega duplicada no duplica el efecto.",
+					"en": "A duplicate delivery does not duplicate the effect."
+				},
+				"accepted": true
+			},
+			{
+				"id": "receive",
+				"label": {
+					"es": "Recibir evento",
+					"en": "Receive event"
+				},
+				"feedback": {
+					"es": "Cada evento conserva su identificador.",
+					"en": "Every event retains its identifier."
+				},
+				"accepted": true
+			},
+			{
+				"id": "inbox",
+				"label": {
+					"es": "Comprobar Inbox",
+					"en": "Check Inbox"
+				},
+				"feedback": {
+					"es": "La transacción protege la deduplicación y el efecto.",
+					"en": "The transaction protects deduplication and the effect."
+				},
+				"accepted": true
+			}
+		]
+	},
+	{
+		"id": "verify",
+		"mechanic": "priority",
+		"title": {
+			"es": "07 / Verifica",
+			"en": "07 / Verify"
+		},
+		"briefing": {
+			"es": "El cambio está aplicado. Ordena la recuperación: pruebas de reentrega, canary con métricas, reanudar tráfico y comunicar seguimiento.",
+			"en": "The change is applied. Order recovery: redelivery tests, a canary with metrics, resume traffic and communicate follow-up."
+		},
+		"sequence": [
+			"test",
+			"canary",
+			"resume",
+			"communicate"
+		],
+		"choices": [
+			{
+				"id": "resume",
+				"label": {
+					"es": "Reanudar tráfico y consumidores",
+					"en": "Resume traffic and consumers"
+				},
+				"feedback": {
+					"es": "La recuperación se amplía de forma controlada.",
+					"en": "Recovery expands in a controlled way."
+				},
+				"accepted": true
+			},
+			{
+				"id": "communicate",
+				"label": {
+					"es": "Comunicar recuperación y seguimiento",
+					"en": "Communicate recovery and follow-up"
+				},
+				"feedback": {
+					"es": "Sistema recuperado. La carrera sigue en curso.",
+					"en": "System recovered. The career remains in progress."
+				},
+				"accepted": true
+			},
+			{
+				"id": "test",
+				"label": {
+					"es": "Probar reentregas y consistencia",
+					"en": "Test redelivery and consistency"
+				},
+				"feedback": {
+					"es": "Las pruebas verifican el comportamiento, no solo el despliegue.",
+					"en": "Tests verify behavior, not just deployment."
+				},
+				"accepted": true
+			},
+			{
+				"id": "canary",
+				"label": {
+					"es": "Canary · comprobar errores y latencia",
+					"en": "Canary · check errors and latency"
+				},
+				"feedback": {
+					"es": "La muestra recupera valores estables en este simulador.",
+					"en": "The sample returns to stable values in this simulator."
+				},
+				"accepted": true
+			}
+		]
+	}
+])
+side_quests = Array[Dictionary]([
+	{
+		"id": "leak",
+		"chapter": "freelance",
+		"target": "sink",
+		"title": {
+			"es": "Una fuga antes de la entrega",
+			"en": "A leak before delivery"
+		},
+		"briefing": {
+			"es": "Sale agua de la tubería del fregadero y el charco crece. La llave de paso está accesible. ¿Qué haces primero para poder volver al trabajo?",
+			"en": "Water is leaking from the sink pipe and the puddle is growing. The shutoff valve is accessible. What do you do first so you can get back to work?"
+		},
+		"options": [
+			{
+				"es": "Cerrar la llave y organizar la recogida del agua",
+				"en": "Close the valve and organize the cleanup"
+			},
+			{
+				"es": "Recoger el agua sin cerrar la llave",
+				"en": "Mop up without closing the valve"
+			},
+			{
+				"es": "Esperar al mantenimiento sin contener la fuga",
+				"en": "Wait for maintenance without containing the leak"
+			}
+		],
+		"correct": 0,
+		"result": {
+			"es": "La fuga está contenida y la reparación queda avisada. Puedes retomar la entrega.",
+			"en": "The leak is contained and a repair has been requested. You can resume delivery."
+		},
+		"failures": {
+			"1": {
+				"es": "El agua sigue saliendo: tienes que repetir la limpieza.",
+				"en": "Water keeps flowing: you have to repeat the cleanup."
+			},
+			"2": {
+				"es": "El charco se extiende mientras esperas y retrasa la vuelta al trabajo.",
+				"en": "The puddle spreads while you wait, delaying your return to work."
+			}
+		}
+	},
+	{
+		"id": "cat",
+		"chapter": "freelance",
+		"target": "router",
+		"title": {
+			"es": "Sin conexión para enviar la entrega",
+			"en": "No connection to send the delivery"
+		},
+		"briefing": {
+			"es": "La entrega está lista, pero el router no detecta el cable de red. Ves una marca de mordisco y tienes un cable de repuesto. ¿Qué compruebas primero?",
+			"en": "The delivery is ready, but the router cannot detect the network cable. You see a bite mark and have a spare cable. What do you check first?"
+		},
+		"options": [
+			{
+				"es": "Reiniciar el servidor de la web",
+				"en": "Restart the web server"
+			},
+			{
+				"es": "Apartar al gato, sustituir el cable y verificar el enlace",
+				"en": "Move the cat away, replace the cable and verify the link"
+			},
+			{
+				"es": "Cambiar el servidor DNS",
+				"en": "Change the DNS server"
+			}
+		],
+		"correct": 1,
+		"result": {
+			"es": "El enlace vuelve y compruebas que la entrega llega a su destino.",
+			"en": "The link is restored and you verify that the delivery reaches its destination."
+		},
+		"failures": {
+			"0": {
+				"es": "El reinicio no repara el cable. La entrega sigue sin salir.",
+				"en": "Restarting does not repair the cable. The delivery still cannot leave."
+			},
+			"2": {
+				"es": "Sin enlace físico, el nuevo DNS tampoco responde.",
+				"en": "Without a physical link, the new DNS server cannot respond either."
+			}
+		}
+	},
+	{
+		"id": "foam",
+		"chapter": "freelance",
+		"target": "washer",
+		"after": 1,
+		"title": {
+			"es": "La lavadora pierde espuma",
+			"en": "The washer is leaking foam"
+		},
+		"briefing": {
+			"es": "Han usado jabón de vajilla en la lavadora y sale espuma durante el ciclo. El manual indica detenerlo y seguir el vaciado previsto. ¿Cómo contienes la incidencia?",
+			"en": "Dish soap was used in the washer and foam is escaping during the cycle. The manual says to stop it and follow the drainage procedure. How do you contain the incident?"
+		},
+		"options": [
+			{
+				"es": "Dejar terminar el ciclo antes de actuar",
+				"en": "Let the cycle finish before acting"
+			},
+			{
+				"es": "Abrir la puerta para retirar la espuma",
+				"en": "Open the door to remove the foam"
+			},
+			{
+				"es": "Parar el ciclo y coordinar la limpieza siguiendo el manual",
+				"en": "Stop the cycle and coordinate cleanup following the manual"
+			}
+		],
+		"correct": 2,
+		"result": {
+			"es": "El ciclo queda detenido y la zona limpia. La incidencia deja de interrumpir el trabajo.",
+			"en": "The cycle is stopped and the area cleaned. The incident stops interrupting work."
+		},
+		"failures": {
+			"0": {
+				"es": "El ciclo sigue produciendo espuma y aumenta la limpieza pendiente.",
+				"en": "The cycle keeps producing foam, increasing the cleanup needed."
+			},
+			"1": {
+				"es": "Abrir antes del vaciado deja salir más agua y espuma.",
+				"en": "Opening before drainage releases more water and foam."
+			}
+		}
+	},
+	{
+		"id": "noise",
+		"chapter": "freelance",
+		"target": "team",
+		"title": {
+			"es": "Media hora para revisar la entrega",
+			"en": "Half an hour to review the delivery"
+		},
+		"briefing": {
+			"es": "Necesitas treinta minutos para revisar la entrega de hoy. El ensayo del salón te impide concentrarte y puede aplazarse. ¿Cómo consigues ese tiempo sin dejar la revisión pendiente?",
+			"en": "You need thirty minutes to review today’s delivery. Rehearsal in the living room is breaking your concentration and can be rescheduled. How do you make time without leaving the review unfinished?"
+		},
+		"options": [
+			{
+				"es": "Acordar treinta minutos de silencio y retomar después el ensayo",
+				"en": "Agree on thirty quiet minutes, then resume rehearsal"
+			},
+			{
+				"es": "Enviar la entrega y revisarla después",
+				"en": "Send the delivery and review it afterwards"
+			},
+			{
+				"es": "Esperar a que termine el ensayo sin acordar una hora",
+				"en": "Wait for rehearsal to end without agreeing on a time"
+			}
+		],
+		"correct": 0,
+		"result": {
+			"es": "La revisión queda terminada antes del envío y el ensayo tiene un nuevo horario.",
+			"en": "The review is finished before sending and rehearsal has a new time slot."
+		},
+		"failures": {
+			"1": {
+				"es": "La entrega sale sin comprobar: toca recuperarla y rehacer la revisión.",
+				"en": "The delivery goes out unchecked: you must recall it and redo the review."
+			},
+			"2": {
+				"es": "Sin una hora acordada, consumes el margen de la entrega esperando.",
+				"en": "Without an agreed time, you use up the delivery buffer waiting."
+			}
+		}
+	},
+	{
+		"id": "xul-lunch",
+		"chapter": "xul",
+		"target": "coffee",
+		"title": {
+			"es": "Un relevo antes de la pausa",
+			"en": "A handoff before the break"
+		},
+		"briefing": {
+			"es": "Otra persona continuará tu diagnóstico mientras comes. El fallo solo aparece tras girar el móvil. ¿Qué le dejas para que pueda reproducirlo?",
+			"en": "Someone else will continue your diagnosis during lunch. The failure only appears after rotating the phone. What do you leave so they can reproduce it?"
+		},
+		"options": [
+			{
+				"es": "Una captura del error sin los pasos anteriores",
+				"en": "An error screenshot without the preceding steps"
+			},
+			{
+				"es": "Pasos, dispositivo y resultados esperado y observado",
+				"en": "Steps, device and expected and observed results"
+			},
+			{
+				"es": "El último registro sin indicar qué sesión falló",
+				"en": "The latest log without identifying the failed session"
+			}
+		],
+		"correct": 1,
+		"result": {
+			"es": "El relevo reproduce el fallo y puede continuar el diagnóstico.",
+			"en": "Your colleague reproduces the failure and can continue the diagnosis."
+		},
+		"failures": {
+			"0": {
+				"es": "La captura no explica cómo llegar al fallo. El relevo queda bloqueado.",
+				"en": "The screenshot does not explain how to trigger the failure. The handoff is blocked."
+			},
+			"2": {
+				"es": "Sin identificar la sesión, el relevo investiga registros que no corresponden.",
+				"en": "Without the session identifier, your colleague investigates unrelated logs."
+			}
+		}
+	},
+	{
+		"id": "alcatel-coffee",
+		"chapter": "alcatel-lucent",
+		"target": "coffee",
+		"title": {
+			"es": "Guardar el punto del diagnóstico",
+			"en": "Save your place in the diagnosis"
+		},
+		"briefing": {
+			"es": "Has descartado dos causas del fallo y necesitas una pausa. Al volver debes comprobar los extremos de la fibra. ¿Cómo evitas repetir el trabajo?",
+			"en": "You have ruled out two causes and need a break. On return, you must check the fiber endpoints. How do you avoid repeating work?"
+		},
+		"options": [
+			{
+				"es": "Guardar solo el mensaje original del error",
+				"en": "Save only the original error message"
+			},
+			{
+				"es": "Dejar varias ventanas abiertas sin anotar lo descartado",
+				"en": "Leave several windows open without recording what was ruled out"
+			},
+			{
+				"es": "Anotar lo descartado y la siguiente comprobación antes de parar",
+				"en": "Record what was ruled out and the next check before stopping"
+			}
+		],
+		"correct": 2,
+		"result": {
+			"es": "Retomas el diagnóstico por los extremos de la fibra, sin repetir las comprobaciones.",
+			"en": "You resume at the fiber endpoints without repeating checks."
+		},
+		"failures": {
+			"0": {
+				"es": "El mensaje no conserva tus descartes: repites las dos comprobaciones.",
+				"en": "The message does not preserve your findings: you repeat both checks."
+			},
+			"1": {
+				"es": "Las ventanas no indican qué está comprobado. Pierdes tiempo reconstruyendo el diagnóstico.",
+				"en": "The windows do not show what was checked. You lose time reconstructing the diagnosis."
+			}
+		}
+	},
+	{
+		"id": "family-visit",
+		"chapter": "domingo-alonso",
+		"target": "family",
+		"title": {
+			"es": "Una interrupción en la llamada",
+			"en": "An interruption during the call"
+		},
+		"briefing": {
+			"es": "Una interrupción familiar requiere un minuto de atención. El equipo espera tu actualización, pero no hay una urgencia en curso. ¿Cómo coordinas la pausa?",
+			"en": "A family interruption needs a minute of attention. The team is waiting for your update, but there is no active emergency. How do you coordinate the pause?"
+		},
+		"options": [
+			{
+				"es": "Pedir un minuto, atender y retomar con un resumen",
+				"en": "Ask for a minute, attend to it and resume with a summary"
+			},
+			{
+				"es": "Apartarte sin avisar al equipo",
+				"en": "Step away without telling the team"
+			},
+			{
+				"es": "Seguir dando la actualización mientras atiendes la interrupción",
+				"en": "Keep giving the update while handling the interruption"
+			}
+		],
+		"correct": 0,
+		"result": {
+			"es": "El equipo conoce la pausa y recibe una actualización completa al volver.",
+			"en": "The team knows about the pause and receives a complete update when you return."
+		},
+		"failures": {
+			"1": {
+				"es": "El equipo sigue esperando sin saber si vas a volver y hay que reorganizar el turno.",
+				"en": "The team waits without knowing whether you will return and must rearrange speaking turns."
+			},
+			"2": {
+				"es": "La actualización queda incompleta y hay que repetirla para acordar el siguiente paso.",
+				"en": "The update is incomplete and must be repeated to agree on the next step."
+			}
+		}
+	}
+])
+personal_events = Array[Dictionary]([
+	{
+		"id": "wedding",
+		"occursDuringExperienceId": "nokia",
+		"type": "personal",
+		"unlocks": [
+			"wedding-ring",
+			"married"
+		],
+		"title": {
+			"es": "Una aventura cooperativa",
+			"en": "A cooperative adventure"
+		},
+		"description": {
+			"es": "Llegar. Recordar los anillos. Decir «sí». Antonio y Marga comienzan una nueva aventura compartida.",
+			"en": "Arrive. Remember the rings. Say “I do”. Antonio and Marga begin a new shared adventure."
+		}
+	},
+	{
+		"id": "emma-born",
+		"occursDuringExperienceId": "domingo-alonso",
+		"type": "personal",
+		"unlocks": [
+			"family-first"
+		],
+		"title": {
+			"es": "Se une una nueva jugadora",
+			"en": "New player joined"
+		},
+		"description": {
+			"es": "Emma. Un pequeño nombre, un mundo nuevo. La familia ahora suma tres.",
+			"en": "Emma. A small name, a new world. The family now numbers three."
+		}
+	}
+])
+copy = {
+	"campaignMode": {
+		"es": "Campaña · explora la ciudad",
+		"en": "Campaign · explore the town"
+	},
+	"quickMode": {
+		"es": "Arcade · misión rápida",
+		"en": "Arcade · quick mission"
+	},
+	"quickIntro": {
+		"es": "Elige cualquier misión y entra directamente al reto. Tu campaña conserva su progreso.",
+		"en": "Choose any mission and jump straight into the challenge. Your campaign keeps its progress."
+	},
+	"selectCompany": {
+		"es": "Elegir escenario",
+		"en": "Choose a setting"
+	},
+	"selectMission": {
+		"es": "Elegir misión",
+		"en": "Choose a mission"
+	},
+	"launchMission": {
+		"es": "Jugar esta misión",
+		"en": "Play this mission"
+	},
+	"quickDone": {
+		"es": "¡Misión superada!",
+		"en": "Mission cleared!"
+	},
+	"quickAgain": {
+		"es": "Repetir misión",
+		"en": "Replay mission"
+	},
+	"quickNext": {
+		"es": "Siguiente misión",
+		"en": "Next mission"
+	},
+	"quickBack": {
+		"es": "Volver al selector",
+		"en": "Back to mission select"
+	},
+	"subtitle": {
+		"es": "Tu carrera es la campaña.",
+		"en": "Your career is the campaign."
+	},
+	"intro": {
+		"es": "Una ciudad a color, parques y una empresa por etapa. Recorre sus calles y abre nuevas puertas a medida que avanzas por el CV.",
+		"en": "A colorful town, parks and a company for every chapter. Walk its streets and unlock new doors as you progress through the CV."
+	},
+	"premise": {
+		"es": "El mundo es ficción. La carrera que contiene no.",
+		"en": "The world is fiction. The career within it is real."
+	},
+	"simulation": {
+		"es": "Misiones, diálogos y métricas son simulaciones, no resultados históricos ni valoraciones profesionales.",
+		"en": "Missions, dialogue and metrics are simulations, not historical results or professional ratings."
+	},
+	"start": {
+		"es": "Nueva partida",
+		"en": "New game"
+	},
+	"continue": {
+		"es": "Continuar",
+		"en": "Continue"
+	},
+	"tour": {
+		"es": "Tour de 30 segundos",
+		"en": "30-second tour"
+	},
+	"profile": {
+		"es": "Ver perfil completo",
+		"en": "View full profile"
+	},
+	"exit": {
+		"es": "← Volver al escritorio",
+		"en": "← Return to desktop"
+	},
+	"chapters": {
+		"es": "Empresas de la ciudad",
+		"en": "Town companies"
+	},
+	"independent": {
+		"es": "Explora libremente; completa cada etapa para abrir la siguiente empresa.",
+		"en": "Explore freely; finish each chapter to unlock the next company."
+	},
+	"prologue": {
+		"es": "Prólogo · después volvemos a los comienzos",
+		"en": "Prologue · then back to the beginnings"
+	},
+	"play": {
+		"es": "Jugar capítulo",
+		"en": "Play chapter"
+	},
+	"menu": {
+		"es": "Menú",
+		"en": "Menu"
+	},
+	"pause": {
+		"es": "Pausar",
+		"en": "Pause"
+	},
+	"paused": {
+		"es": "En pausa",
+		"en": "Paused"
+	},
+	"resume": {
+		"es": "Volver al juego",
+		"en": "Resume game"
+	},
+	"replay": {
+		"es": "Repetir este capítulo",
+		"en": "Replay this chapter"
+	},
+	"controls": {
+		"es": "Flechas / WASD para caminar · pulsa el suelo para elegir destino o un objeto para acercarte · E / espacio para interactuar · M para el mapa · mantén pulsados los controles táctiles.",
+		"en": "Arrows / WASD to walk · tap the floor to choose a destination or an object to approach it · E / space to interact · M for the map · hold the touch controls to walk."
+	},
+	"map": {
+		"es": "Mapa de ciudad visto desde arriba. Usa las flechas para caminar y E junto a puertas, personas u objetos.",
+		"en": "Top-down town map. Use arrows to walk and E near doors, people or objects."
+	},
+	"move": {
+		"es": "Movimiento",
+		"en": "Movement"
+	},
+	"up": {
+		"es": "Caminar al norte",
+		"en": "Walk north"
+	},
+	"down": {
+		"es": "Caminar al sur",
+		"en": "Walk south"
+	},
+	"left": {
+		"es": "Caminar al oeste",
+		"en": "Walk west"
+	},
+	"right": {
+		"es": "Caminar al este",
+		"en": "Walk east"
+	},
+	"interact": {
+		"es": "Interactuar",
+		"en": "Interact"
+	},
+	"accessible": {
+		"es": "Interacción directa accesible",
+		"en": "Accessible direct interaction"
+	},
+	"workstation": {
+		"es": "Abrir misión del terminal",
+		"en": "Open terminal mission"
+	},
+	"npc": {
+		"es": "Hablar con el equipo",
+		"en": "Talk to the team"
+	},
+	"coffee": {
+		"es": "Tomar café",
+		"en": "Have coffee"
+	},
+	"secret": {
+		"es": "Examinar caja negra",
+		"en": "Inspect black box"
+	},
+	"walkCloser": {
+		"es": "Acércate al objeto marcado en el plano y pulsa E.",
+		"en": "Approach the object marked on the map and press E."
+	},
+	"npcLine": {
+		"es": "EQUIPO · «Comprueba una hipótesis cada vez. Y avisa si necesitas cobertura».",
+		"en": "TEAM · “Test one hypothesis at a time. And let us know if you need cover.”"
+	},
+	"coffeeLine": {
+		"es": "Café adquirido. +1 taza, ninguna habilidad profesional inventada.",
+		"en": "Coffee acquired. +1 cup, no invented professional skills."
+	},
+	"secretLine": {
+		"es": "THE INTERNET · No dejar caer. Parece una caja sorprendentemente pequeña.",
+		"en": "THE INTERNET · Do not drop. It looks surprisingly small."
+	},
+	"terminalHint": {
+		"es": "Consulta el objetivo marcado en el plano: cada misión tiene su lugar.",
+		"en": "Check the marked objective on the map: every mission has its own location."
+	},
+	"main": {
+		"es": "Misión principal",
+		"en": "Main quest"
+	},
+	"step": {
+		"es": "Paso",
+		"en": "Step"
+	},
+	"complete": {
+		"es": "Etapa completada",
+		"en": "Level complete"
+	},
+	"next": {
+		"es": "Siguiente capítulo",
+		"en": "Next chapter"
+	},
+	"experience": {
+		"es": "Ver experiencia completa",
+		"en": "View full experience"
+	},
+	"abilities": {
+		"es": "Competencias descubiertas",
+		"en": "Abilities discovered"
+	},
+	"noAbilities": {
+		"es": "Explora el perfil completo para conocer la trayectoria.",
+		"en": "Explore the full profile to discover the career."
+	},
+	"journal": {
+		"es": "Diario de campaña",
+		"en": "Campaign journal"
+	},
+	"inventory": {
+		"es": "Inventario",
+		"en": "Inventory"
+	},
+	"achievements": {
+		"es": "Logros del juego",
+		"en": "Game achievements"
+	},
+	"progress": {
+		"es": "Capítulos completados",
+		"en": "Completed chapters"
+	},
+	"phone": {
+		"es": "Teléfono",
+		"en": "Phone"
+	},
+	"knowledge": {
+		"es": "Conocimiento",
+		"en": "Knowledge"
+	},
+	"ring": {
+		"es": "Anillo de boda",
+		"en": "Wedding ring"
+	},
+	"family": {
+		"es": "Familia",
+		"en": "Family"
+	},
+	"bugs": {
+		"es": "Bugs resueltos",
+		"en": "Bugs resolved"
+	},
+	"event": {
+		"es": "Evento inesperado",
+		"en": "Unexpected event"
+	},
+	"freelance": {
+		"es": "22:47 · Cliente freelance",
+		"en": "22:47 · Freelance client"
+	},
+	"call": {
+		"es": "«Perdona que te escriba tan tarde… Solo es una cosilla. La web ha dejado de funcionar».",
+		"en": "“Sorry to message so late… Just one little thing. The website stopped working.”"
+	},
+	"accept": {
+		"es": "Aceptar",
+		"en": "Accept"
+	},
+	"acceptAnyway": {
+		"es": "Aceptar porque sabes que vas a aceptar",
+		"en": "Accept because you know you will anyway"
+	},
+	"sideFix": {
+		"es": "La configuración apunta a localhost. Selecciona la corrección para cerrar la secundaria.",
+		"en": "Configuration points to localhost. Select the fix to close the side quest."
+	},
+	"fixConfig": {
+		"es": "Restaurar la URL pública verificada",
+		"en": "Restore the verified public URL"
+	},
+	"sideDone": {
+		"es": "Secundaria resuelta. Recompensa: «¿Puedes cambiar también el botón?».",
+		"en": "Side quest solved. Reward: “Can you change the button too?”"
+	},
+	"incident": {
+		"es": "La entrega sigue pendiente. Producción acaba de caer y el pipeline está rojo.",
+		"en": "Delivery is still pending. Production just went down and the pipeline is red."
+	},
+	"investigate": {
+		"es": "Investigar producción",
+		"en": "Investigate production"
+	},
+	"delegate": {
+		"es": "Avisar al equipo y pedir cobertura",
+		"en": "Notify the team and ask for cover"
+	},
+	"defer": {
+		"es": "Continuar la tarea",
+		"en": "Continue the task"
+	},
+	"investigateResult": {
+		"es": "Impacto contenido. El pipeline queda pendiente en el diario: vuelve a él antes de entregar.",
+		"en": "Impact contained. The pipeline stays pending in the journal: return to it before delivery."
+	},
+	"deferResult": {
+		"es": "El impacto sigue abierto. La tarea puede esperar: investiga o pide cobertura.",
+		"en": "Impact remains open. The task can wait: investigate or ask for cover."
+	},
+	"coverResult": {
+		"es": "EQUIPO · «Nos encargamos». La incidencia y la comunicación tienen responsables.",
+		"en": "TEAM · “We’ve got this.” The incident and communication now have owners."
+	},
+	"pipelinePending": {
+		"es": "Pendiente · recuperar pipeline",
+		"en": "Pending · recover pipeline"
+	},
+	"repair": {
+		"es": "Reparar y verificar pipeline",
+		"en": "Repair and verify pipeline"
+	},
+	"personal": {
+		"es": "Evento personal",
+		"en": "Personal event"
+	},
+	"weddingAction": {
+		"es": "Recordar los anillos → decir «sí»",
+		"en": "Remember the rings → say “I do”"
+	},
+	"weddingDone": {
+		"es": "Casados · +∞ aventuras compartidas. Un guiño personal, no una valoración profesional.",
+		"en": "Married · +∞ shared adventures. A personal wink, not a professional rating."
+	},
+	"welcomeEmma": {
+		"es": "Bienvenida, Emma",
+		"en": "Welcome, Emma"
+	},
+	"familyDone": {
+		"es": "La familia primero · equipo de tres.",
+		"en": "Family first · party of three."
+	},
+	"friday": {
+		"es": "Viernes, 18:43. Estás a punto de desplegar. MARGA: «¿Vienes?».",
+		"en": "Friday, 18:43. You are about to deploy. MARGA: “Coming?”"
+	},
+	"home": {
+		"es": "Ir a casa",
+		"en": "Go home"
+	},
+	"deploy": {
+		"es": "Desplegar con cobertura acordada",
+		"en": "Deploy with agreed cover"
+	},
+	"homeResult": {
+		"es": "El despliegue espera a una ventana con cobertura. Hay vida fuera del código.",
+		"en": "Deployment waits for a staffed window. There is life beyond code."
+	},
+	"baby": {
+		"es": "Emma necesita a papá. Puedes parar: el equipo está ahí.",
+		"en": "Emma needs Dad. You can stop: the team is there."
+	},
+	"silence": {
+		"es": "22:47 · … … … Nadie llama. La cadena freelance termina al llegar a Nokia.",
+		"en": "22:47 · … … … No calls. The freelance chain ends on reaching Nokia."
+	},
+	"returnMission": {
+		"es": "Volver a la misión",
+		"en": "Return to mission"
+	},
+	"close": {
+		"es": "Cerrar",
+		"en": "Close"
+	},
+	"retry": {
+		"es": "Revisa el orden indicado por la evidencia y vuelve a intentarlo.",
+		"en": "Check the order indicated by the evidence and try again."
+	},
+	"saved": {
+		"es": "Guardado local automático",
+		"en": "Automatic local save"
+	},
+	"saveError": {
+		"es": "No se puede guardar en este navegador. La partida sigue disponible durante esta sesión.",
+		"en": "This browser cannot save. Your game remains available for this session."
+	},
+	"invalidSave": {
+		"es": "La partida guardada no era compatible. Puedes iniciar una nueva.",
+		"en": "The saved game was incompatible. You can start a new one."
+	},
+	"reset": {
+		"es": "¿Empezar de nuevo y reemplazar la partida guardada?",
+		"en": "Start over and replace the saved game?"
+	},
+	"confirmReset": {
+		"es": "Sí, nueva partida",
+		"en": "Yes, new game"
+	},
+	"cancel": {
+		"es": "Cancelar",
+		"en": "Cancel"
+	},
+	"recovered": {
+		"es": "Sistema recuperado",
+		"en": "System recovered"
+	},
+	"current": {
+		"es": "Nivel actual",
+		"en": "Current level"
+	},
+	"ongoing": {
+		"es": "Carrera en curso",
+		"en": "Career in progress"
+	},
+	"perspective": {
+		"es": "La misma persona. Otra perspectiva.",
+		"en": "Same person. Different perspective."
+	},
+	"tourIntro": {
+		"es": "Todo empieza con un problema pequeño. Caminar, preguntar, probar.",
+		"en": "It starts with a small problem. Walk, ask, test."
+	},
+	"tourMiddle": {
+		"es": "Los proyectos crecen. Freelance comparte espacio con el trabajo. La vida también ocurre.",
+		"en": "Projects grow. Freelance shares space with work. Life happens too."
+	},
+	"tourEnd": {
+		"es": "Ahora ves el sistema completo. El CV siempre está a un clic; esta carrera continúa.",
+		"en": "Now you see the whole system. The CV is always one click away; this career continues."
+	},
+	"tourSkip": {
+		"es": "Terminar tour",
+		"en": "Finish tour"
+	},
+	"bugLabel": {
+		"es": "Busca el bug",
+		"en": "Bug hunt"
+	},
+	"traceLabel": {
+		"es": "Sigue la traza",
+		"en": "Trace hunt"
+	},
+	"bottleneckLabel": {
+		"es": "Encuentra el cuello de botella",
+		"en": "Bottleneck"
+	},
+	"routingLabel": {
+		"es": "Conecta el flujo",
+		"en": "Flow routing"
+	},
+	"priorityLabel": {
+		"es": "Ordena las prioridades",
+		"en": "Prioritization"
+	},
+	"architectureLabel": {
+		"es": "Decisiones y consecuencias",
+		"en": "Architecture decisions"
+	}
+}
+quest_copy = {
+	"fiction": {
+		"es": "Escenarios y anécdotas recreados con humor. Las misiones son simulaciones; la experiencia profesional está enlazada por separado.",
+		"en": "Settings and anecdotes recreated with humor. Missions are simulations; professional experience is linked separately."
+	},
+	"energy": {
+		"es": "Energía",
+		"en": "Energy"
+	},
+	"optional": {
+		"es": "Incidencias opcionales",
+		"en": "Optional incidents"
+	},
+	"timer": {
+		"es": "Contrarreloj",
+		"en": "Time challenge"
+	},
+	"untimed": {
+		"es": "Sin límite de tiempo",
+		"en": "No time limit"
+	},
+	"timeout": {
+		"es": "Tiempo agotado: −15 energía y reinicio del intento actual. Las misiones completadas se conservan. Reinicia el reloj o continúa sin límite.",
+		"en": "Time is up: −15 energy and the current attempt resets. Completed missions are preserved. Restart the timer or continue without a limit."
+	},
+	"retry": {
+		"es": "Reiniciar reloj",
+		"en": "Restart timer"
+	},
+	"reach": {
+		"es": "Ve al objetivo marcado y pulsa E, o usa el acceso directo.",
+		"en": "Go to the marked objective and press E, or use the shortcut."
+	},
+	"route": {
+		"es": "Misiones de esta etapa",
+		"en": "Chapter missions"
+	},
+	"rules": {
+		"es": "Cada fallo cuesta 15 de energía y, en contrarreloj, 10 segundos. Reinicia la secuencia o ruta actual. Con energía a cero debes descansar antes de continuar.",
+		"en": "Each mistake costs 15 energy and, in timed mode, 10 seconds. It resets the current sequence or route. At zero energy you must rest before continuing."
+	},
+	"penalty": {
+		"es": "−15 energía (mínimo 0); −10 s en contrarreloj. El intento actual vuelve al principio.",
+		"en": "−15 energy (minimum 0); −10 s in timed mode. The current attempt starts over."
+	},
+	"sideRules": {
+		"es": "Hasta +20 energía si resuelves sin fallos. Si fallas, pierdes 15 de energía, 10 s en contrarreloj y la recompensa de esta incidencia durante la etapa; el intento principal vuelve al principio. La incidencia sigue pendiente.",
+		"en": "Up to +20 energy if solved without mistakes. A mistake costs 15 energy, 10 s in timed mode and this incident’s reward for the chapter; the main attempt starts over. The incident remains unresolved."
+	},
+	"noReward": {
+		"es": "Recompensa perdida por un fallo anterior: resolver esta incidencia ya no recupera energía.",
+		"en": "Reward lost due to an earlier mistake: resolving this incident no longer restores energy."
+	},
+	"exhausted": {
+		"es": "Sin energía. Descansa para recuperar 100 de energía y reiniciar el intento actual; conservas las misiones terminadas y las recompensas perdidas.",
+		"en": "Out of energy. Rest to recover 100 energy and restart the current attempt; completed missions and lost rewards are preserved."
+	},
+	"rest": {
+		"es": "Descansar y reiniciar el intento",
+		"en": "Rest and restart the attempt"
+	},
+	"coffee": {
+		"es": "Pausa en la sala de café: energía al máximo.",
+		"en": "A break in the coffee room: energy restored to maximum."
+	},
+	"infinite": {
+		"es": "Café gratis e infinito. El 3310 aprueba esta pausa: energía al máximo.",
+		"en": "Free, unlimited coffee. The 3310 approves this break: energy restored to maximum."
+	},
+	"tired": {
+		"es": "Energía baja: visita la cocina o la sala de café. Al llegar a cero, las respuestas quedan bloqueadas hasta descansar.",
+		"en": "Low energy: visit the kitchen or coffee room. At zero, answers are blocked until you rest."
+	},
+	"focus": {
+		"es": "Concentración: las distracciones del piso consumen energía. Resolverlas devuelve la calma.",
+		"en": "Focus: flat distractions consume energy. Resolving them restores calm."
+	},
+	"snake": {
+		"es": "Recoge 4 paquetes. Flechas o botones: un paso cada vez. R reinicia.",
+		"en": "Collect 4 packets. Arrows or buttons: one step at a time. R restarts."
+	},
+	"snakeFail": {
+		"es": "Colisión. El 3310 sigue entero; reinicia la ruta.",
+		"en": "Collision. The 3310 is still intact; restart the route."
+	},
+	"snakeDone": {
+		"es": "4 paquetes conectados. Ya puedes verificar la ruta.",
+		"en": "4 packets connected. You can now verify the route."
+	},
+	"snakeRestart": {
+		"es": "Reiniciar Snake",
+		"en": "Restart Snake"
+	},
+	"snakeBoard": {
+		"es": "Tablero Snake; usa las flechas para moverte",
+		"en": "Snake board; use arrow keys to move"
+	},
+	"sideDone": {
+		"es": "Resuelta",
+		"en": "Resolved"
+	},
+	"shortcut": {
+		"es": "Acceso directo accesible",
+		"en": "Accessible shortcut"
+	}
+}
+freelance_chapter_ids = Array[String](["freelance","la-salle","alcatel-lucent"])

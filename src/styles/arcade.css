@@ -399,6 +399,13 @@
 .job-route .town-directory { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .job-route .career-controls-help { font-size: .65rem; }
 .job-route .job-objective .job-play-status { display: flex; justify-content: space-between; gap: 12px; color: #bee5c7; border-top: 1px solid #41596b; padding-top: 5px; }
+.job-route .job-hud.is-flat .job-objective { position: absolute; left: 26%; right: 26%; bottom: 0; max-width: none; padding: 8px 12px; }
+.job-route .job-hud.is-flat .job-objective > div { width: 100%; }
+.job-route .job-hud.is-flat .job-objective p, .job-hud.is-flat .job-quest-icon { display: none; }
+.job-route .job-hud.is-flat .job-objective small { margin-top: 3px; }
+.job-route .job-hud.is-flat .job-minimap { left: 0; right: auto; width: 14%; padding: 6px; }
+.job-route .job-hud.is-flat .job-shortcuts { width: 105px; }
+.job-route .job-hud.is-flat .job-shortcuts button { gap: 5px; font-size: .5rem; min-height: 26px; }
 .job-play-status .is-expired { color: #ffc0b7; }
 .chapter-setting { border-left: 3px solid #9ae1d5; padding-left: 16px; margin-bottom: 20px; }
 .chapter-setting > p { max-width: 75ch; }
@@ -490,4 +497,7 @@
   .job-shortcuts kbd { min-width: 24px; font-size: .68rem; }
   .job-route .world-interaction-hint { left: 8px; bottom: 8px; font-size: .5rem; padding: 5px 7px; max-width: 55%; }
   .job-route .career-quest-panel { padding: 15px; }
+  .job-route .job-hud.is-flat .job-objective { display: none; }
+  .job-route .job-hud.is-flat .job-shortcuts { width: auto; }
+  .job-route .job-hud.is-flat .job-shortcuts button { font-size: 0; }
 }

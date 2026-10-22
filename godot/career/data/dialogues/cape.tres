@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="ArcadeDialogue" load_steps=2 format=3]
+[ext_resource type="Script" path="res://components/dialogue/dialogue_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "cape"
+speaker = {"es":"Compañero de la capa y el fuet","en":"Cape and fuet flatmate"}
+lines = Array[Dictionary]([{"es":"La capa no se lava con los calzoncillos. Y el fuet es mi plan de emergencia para cualquier deadline.","en":"The cape does not go in the wash with my boxers. And fuet is my emergency plan for every deadline."}])

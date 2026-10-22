@@ -1,4 +1,4 @@
-import { townProject } from '../../src/arcade/town-scene';
+import { companyArt } from '../../src/arcade/company-art';
 import { test, expect } from '@playwright/test';
 import { chapters, missionById } from '../../src/arcade/campaign';
 import { unlockBefore, clickCanvasPoint, clickCompanyObject, dumpGodotDebugBestEffort, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
@@ -41,7 +41,7 @@ for (const locale of ['es', 'en']) test(`Godot ${locale}: real WASM, walking, mi
   await waitForGodotInteraction(page, 'portal');
   await expect(world).toHaveAttribute('data-map', 'town', { timeout: 30_000 });
   await expect(world).toHaveAttribute('data-godot-map', 'town');
-  await clickCanvasPoint(page, { x: townProject(14.5, 5.5)[0], y: townProject(14.5, 5.5)[1] - 5 }, 'town-signlab');
+  await clickCanvasPoint(page, { x: companyArt.signlab.door[0], y: companyArt.signlab.door[1] - 7 }, 'town-signlab');
   await expect(page.locator('.career-game-heading h1')).toContainText('Signlab', { timeout: 10000 });
   await expect(world).toHaveAttribute('data-player', '4,7');
   await canvas.focus(); await canvas.press('Escape');
@@ -85,13 +85,13 @@ test.describe('Godot on a touch screen', () => {
     await expect(world).toHaveAttribute('data-engine', 'ready', { timeout: 60000 });
     const canvas = page.frameLocator('.godot-frame').locator('canvas');
     await page.getByRole('button', { name: 'Caminar al norte', exact: true }).tap();
-    await expect(world).toHaveAttribute('data-player', '4,6');
+    await expect(world).toHaveAttribute('data-player', '39,42');
     await canvas.scrollIntoViewIfNeeded();
 
     await clickCompanyObject(page, 'freelance', 'terminal', false, true);
     await waitForGodotInteraction(page, 'terminal', 'Solo es cambiar un botón');
     await page.getByRole('button', { name: 'Cerrar', exact: true }).tap();
-    await expect(world).toHaveAttribute('data-player', '3,7');
+    await expect(world).toHaveAttribute('data-player', '32,10');
     await canvas.screenshot({ path: 'test-results/godot-room.png' });
     await page.locator('.career-game-heading').scrollIntoViewIfNeeded();
     await page.screenshot({ path: 'test-results/godot-mobile.png' });
@@ -100,7 +100,7 @@ test.describe('Godot on a touch screen', () => {
     await expect(page).toHaveURL('/en/arcade/?career=continue');
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
     await expect(world).toHaveAttribute('data-engine', 'ready', { timeout: 60000 });
-    await expect(world).toHaveAttribute('data-player', '3,7');
+    await expect(world).toHaveAttribute('data-player', '32,10');
     expect((await new AxeBuilder({ page }).include('.career-world').withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
   });
 });

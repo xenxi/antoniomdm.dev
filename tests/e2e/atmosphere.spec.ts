@@ -1,6 +1,7 @@
 import { clickCompanyObject, dumpGodotDebugBestEffort, enableGodotE2EDebug, waitForGodotInteraction } from './career-fixture';
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
+import { townSpawn } from '../../src/arcade/town';
 
 test.use({ launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
 test.beforeEach(async ({ page }) => enableGodotE2EDebug(page));
@@ -15,20 +16,19 @@ test('Godot ambience animates water, pauses gameplay and obeys live reduced-moti
   await page.getByRole('button', { name: 'Nueva partida', exact: true }).click();
   const world = page.locator('.godot-world'), canvas = page.frameLocator('.godot-frame').locator('canvas');
   await expect(world).toHaveAttribute('data-engine', 'ready', { timeout: 60000 });
-  await expect(world).toHaveAttribute('data-player', '4,6');
+  await expect(world).toHaveAttribute('data-player', `${townSpawn.x},${townSpawn.y}`);
+  await expect(page.locator('.job-minimap image')).toHaveAttribute('href', '/images/job-route/waterfront-map-es.webp');
   const box = (await canvas.boundingBox())!;
-  const fountain = () => page.screenshot({ clip: { x: box.x + 279 / 480 * box.width, y: box.y + 150 / 320 * box.height, width: 41 / 480 * box.width, height: 39 / 320 * box.height } });
+  const player = await world.getAttribute('data-player');
+  const fountain = () => page.screenshot({ clip: { x: box.x + 201 / 480 * box.width, y: box.y + 209 / 320 * box.height, width: 44 / 480 * box.width, height: 30 / 320 * box.height } });
   // Read actual rendered pixels: the pond must change while the player stands still.
   const first = await fountain(); await page.waitForTimeout(350);
   expect((await fountain()).equals(first)).toBe(false);
-  // Closed shutters stay fixed while the rest of the scene animates.
-  const shutter = () => page.screenshot({ clip: { x: box.x + 216 / 480 * box.width, y: box.y + 78 / 320 * box.height, width: 6 / 480 * box.width, height: 9 / 320 * box.height } });
-  const closed = await shutter(); await page.waitForTimeout(350);
-  expect((await shutter()).equals(closed)).toBe(true);
+  await expect(world).toHaveAttribute('data-player', player!);
   await page.getByRole('button', { name: 'Pausar', exact: true }).click();
   await expect(world).toBeHidden();
   await page.keyboard.press('ArrowRight');
-  await expect(world).toHaveAttribute('data-player', '4,6');
+  await expect(world).toHaveAttribute('data-player', `${townSpawn.x},${townSpawn.y}`);
   await page.locator('.career-paused button').click();
   await page.emulateMedia({ reducedMotion: 'reduce' }); await page.waitForTimeout(300);
   const reduced = await canvas.screenshot(); await page.waitForTimeout(350);

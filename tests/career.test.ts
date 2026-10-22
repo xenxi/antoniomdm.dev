@@ -5,7 +5,7 @@ import { chapters, missions, missionById, copy, personalEvents, freelanceChapter
 import { newGame, getProgress, selectChapter, choose, isComplete, parseSave, updateProgress, eligibleEvents, beginEvent, completeEvent, move, pathTo, objects, isWalkable } from '../src/arcade/engine';
 import { getExperience } from '../src/data/professional';
 import { getUiData } from '../src/data/ui';
-import { render } from 'preact-render-to-string';
+import { renderToStringAsync } from 'preact-render-to-string';
 import CareerGame from '../src/arcade/CareerGame';
 import { LocaleContext } from '../src/i18n/context';
 import { h } from 'preact';
@@ -21,15 +21,15 @@ describe('Career Mode professional data boundary', () => {
     expect(new Set(missions.map(mission => mission.mechanic)).size).toBe(6);
     expect(chapters.at(-1)?.missions).toHaveLength(7);
   });
-  it('reflects a canonical description or date edit without changing game configuration', () => {
+  it('reflects a canonical description or date edit without changing game configuration', async () => {
     const data = getUiData('es', { notes: [], outOfScope: [] });
     data.professionalExperience.find(job => job.id === 'nokia')!.company = 'CANONICAL COMPANY EDIT';
     data.professionalExperience.find(job => job.id === 'nokia')!.period = 'CANONICAL PERIOD EDIT';
-    const output = render(h(LocaleContext.Provider, { value: 'es', children: h(CareerGame, { data, content: { notes: [], outOfScope: [] }, preferences: defaults, exit() {}, navigate() {} }) }));
+    const output = await renderToStringAsync(h(LocaleContext.Provider, { value: 'es', children: h(CareerGame, { data, content: { notes: [], outOfScope: [] }, preferences: defaults, exit() {}, navigate() {} }) }));
     expect(output).toContain('CANONICAL COMPANY EDIT');
     expect(output).toContain('CANONICAL PERIOD EDIT');
-    expect(readFileSync('src/arcade/CareerGame.tsx', 'utf8')).toContain('job.summary');
-    expect(readFileSync('src/arcade/CareerGame.tsx', 'utf8')).not.toMatch(/from ['"].*professional\/(model|selectors)/);
+    expect(readFileSync('src/arcade/ExistingCareerGame.tsx', 'utf8')).toContain('job.summary');
+    for (const file of ['CareerGame', 'ExistingCareerGame', 'NativeArcade']) expect(readFileSync(`src/arcade/${file}.tsx`, 'utf8')).not.toMatch(/from ['"].*professional\/(model|selectors)/);
   });
   it('requires both languages throughout the narrative and no professional fields in personal events', () => {
     function check(value: unknown) {

@@ -7,17 +7,12 @@ import { avatarFrames } from './avatar';
 import { copy } from './campaign';
 import { prepareSceneArt } from './scene-art';
 import { townCopy } from './town';
+import CharacterActivities from './CharacterActivities';
 
-export const worldCopy = {
-  loading: { es: 'Preparando el mundo…', en: 'Preparing the world…' },
-  failed: { es: 'No se pudo iniciar el juego. Tu progreso está guardado. Reintenta la carga.', en: 'The game could not start. Your progress is saved. Try loading again.' },
-  retry: { es: 'Reintentar', en: 'Try again' },
-  title: { es: 'Ciudad pixel art: camina con flechas e interactúa con E', en: 'Pixel art town: walk with arrows and interact with E' },
-  license: { es: 'Licencia de Godot', en: 'Godot license' },
-  zoom: { es: 'Acercar al personaje', en: 'Follow the character' },
-  overview: { es: 'Ver mapa completo', en: 'View full map' },
-};
-interface Props { onReady?: () => void; map: PixelMap; x: number; y: number; locale: Locale; active: boolean; objective?: string; onMove: (x: number, y: number) => void; onInteract: (id: string) => void; onPause: () => void; onShortcut: (key: 'I' | 'J' | 'O') => void }
+import { worldCopy } from './world-copy';
+export { worldCopy } from './world-copy';
+
+interface Props { onActivityBusy?: (busy: boolean) => void; presentationActive?: boolean; onReady?: () => void; map: PixelMap; x: number; y: number; locale: Locale; active: boolean; objective?: string; onMove: (x: number, y: number) => void; onInteract: (id: string) => void; onPause: () => void; onShortcut: (key: 'I' | 'J' | 'O') => void }
 export default function GodotWorld(props: Props) {
   const { x, y, locale, map, active } = props;
   const frame = useRef<HTMLIFrameElement>(null), current = useRef(props); current.current = props;
@@ -74,6 +69,7 @@ export default function GodotWorld(props: Props) {
     const sequence = ++syncSequence.current;
     const state = {
       x: p.x, y: p.y, chapterId: p.map.id, active: p.active, locale: p.locale,
+      presentationActive: p.presentationActive ?? p.active,
       zoom: currentZoom.current, objective: p.objective ?? '',
       reducedMotion,
       syncSequence: sequence, positionOrigin,
@@ -94,6 +90,7 @@ export default function GodotWorld(props: Props) {
     lastSentPosition.current = { x: current.current.x, y: current.current.y, map: current.current.map.id };
     const receive = (event: MessageEvent) => {
       if (event.origin !== location.origin || event.source !== frame.current?.contentWindow || event.data?.channel !== bridgeChannel) return;
+      if (event.data.type === 'characterState') { current.current.onActivityBusy?.(event.data.value?.coffee?.phase === 'playing'); return; }
       recordBridge('react-window-received', { sequence: event.data.seq, type: event.data.type, chapterId: event.data.chapterId, currentChapterId: current.current.map.id, payload: event.data.type === 'interact' ? { id: event.data.id, position: event.data.position } : undefined });
       if (event.data.type === 'engine-ready') {
         // La escena puede rasterizarse antes de que el iframe registre el receptor.
@@ -179,7 +176,7 @@ export default function GodotWorld(props: Props) {
     const timer = window.setTimeout(() => { if (!ready.current) setStatus(value => value === 'loading' ? 'failed' : value); }, 60000);
     return () => { clearTimeout(timer); window.removeEventListener('message', receive); };
   }, [attempt]);
-  useLayoutEffect(() => { if (ready.current) sync(); }, [x, y, locale, map, active, zoom, reducedMotion, props.objective]);
+  useLayoutEffect(() => { if (ready.current) sync(); }, [x, y, locale, map, active, zoom, reducedMotion, props.objective, props.presentationActive]);
   useEffect(() => {
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     // Keep the bridge state reactive so an in-session preference change is
@@ -204,5 +201,6 @@ export default function GodotWorld(props: Props) {
       {active && status === 'ready' && mapNearby(map, x, y) && <div class="world-interaction-hint"><kbd>E</kbd><span>{mapNearby(map, x, y)!.locked ? townCopy.requirements[locale] : copy.interact[locale]} · {mapNearby(map, x, y)!.label}</span></div>}
     </div>
     <div class="godot-toolbar"><a class="godot-badge" href="/licenses/godot.txt" target="_blank" rel="noopener" aria-label={c('license')}>GODOT</a><button class="godot-zoom" disabled={status !== 'ready'} aria-pressed={zoom === 2} onClick={() => setZoom(value => value === 1 ? 2 : 1)}>{c(zoom === 1 ? 'zoom' : 'overview')}</button></div>
+    <CharacterActivities frame={frame} locale={locale} active={active && status === 'ready'} />
   </div>;
 }

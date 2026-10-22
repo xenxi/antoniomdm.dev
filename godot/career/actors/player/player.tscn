@@ -1,0 +1,122 @@
+[gd_scene load_steps=38 format=3]
+[ext_resource type="Script" path="res://actors/player/player.gd" id="1"]
+[ext_resource type="Script" path="res://components/animation/actor_visual.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/characters/antonio-green-walk.webp" id="3"]
+[sub_resource type="AtlasTexture" id="Frame0"]
+atlas = ExtResource("3")
+region = Rect2(0, 0, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame1"]
+atlas = ExtResource("3")
+region = Rect2(256, 0, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame2"]
+atlas = ExtResource("3")
+region = Rect2(512, 0, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame3"]
+atlas = ExtResource("3")
+region = Rect2(768, 0, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame4"]
+atlas = ExtResource("3")
+region = Rect2(1024, 0, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame5"]
+atlas = ExtResource("3")
+region = Rect2(1280, 0, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame6"]
+atlas = ExtResource("3")
+region = Rect2(1536, 0, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame7"]
+atlas = ExtResource("3")
+region = Rect2(1792, 0, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame8"]
+atlas = ExtResource("3")
+region = Rect2(0, 256, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame9"]
+atlas = ExtResource("3")
+region = Rect2(256, 256, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame10"]
+atlas = ExtResource("3")
+region = Rect2(512, 256, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame11"]
+atlas = ExtResource("3")
+region = Rect2(768, 256, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame12"]
+atlas = ExtResource("3")
+region = Rect2(1024, 256, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame13"]
+atlas = ExtResource("3")
+region = Rect2(1280, 256, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame14"]
+atlas = ExtResource("3")
+region = Rect2(1536, 256, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame15"]
+atlas = ExtResource("3")
+region = Rect2(1792, 256, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame16"]
+atlas = ExtResource("3")
+region = Rect2(0, 512, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame17"]
+atlas = ExtResource("3")
+region = Rect2(256, 512, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame18"]
+atlas = ExtResource("3")
+region = Rect2(512, 512, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame19"]
+atlas = ExtResource("3")
+region = Rect2(768, 512, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame20"]
+atlas = ExtResource("3")
+region = Rect2(1024, 512, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame21"]
+atlas = ExtResource("3")
+region = Rect2(1280, 512, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame22"]
+atlas = ExtResource("3")
+region = Rect2(1536, 512, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame23"]
+atlas = ExtResource("3")
+region = Rect2(1792, 512, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame24"]
+atlas = ExtResource("3")
+region = Rect2(0, 768, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame25"]
+atlas = ExtResource("3")
+region = Rect2(256, 768, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame26"]
+atlas = ExtResource("3")
+region = Rect2(512, 768, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame27"]
+atlas = ExtResource("3")
+region = Rect2(768, 768, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame28"]
+atlas = ExtResource("3")
+region = Rect2(1024, 768, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame29"]
+atlas = ExtResource("3")
+region = Rect2(1280, 768, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame30"]
+atlas = ExtResource("3")
+region = Rect2(1536, 768, 256, 256)
+[sub_resource type="AtlasTexture" id="Frame31"]
+atlas = ExtResource("3")
+region = Rect2(1792, 768, 256, 256)
+[sub_resource type="SpriteFrames" id="Frames"]
+animations = [{"frames": [{"duration": 1.0, "texture": SubResource("Frame0")}, {"duration": 1.0, "texture": SubResource("Frame1")}, {"duration": 1.0, "texture": SubResource("Frame2")}, {"duration": 1.0, "texture": SubResource("Frame3")}, {"duration": 1.0, "texture": SubResource("Frame4")}, {"duration": 1.0, "texture": SubResource("Frame5")}, {"duration": 1.0, "texture": SubResource("Frame6")}, {"duration": 1.0, "texture": SubResource("Frame7")}], "loop": true, "name": &"down", "speed": 16.0}, {"frames": [{"duration": 1.0, "texture": SubResource("Frame8")}, {"duration": 1.0, "texture": SubResource("Frame9")}, {"duration": 1.0, "texture": SubResource("Frame10")}, {"duration": 1.0, "texture": SubResource("Frame11")}, {"duration": 1.0, "texture": SubResource("Frame12")}, {"duration": 1.0, "texture": SubResource("Frame13")}, {"duration": 1.0, "texture": SubResource("Frame14")}, {"duration": 1.0, "texture": SubResource("Frame15")}], "loop": true, "name": &"right", "speed": 16.0}, {"frames": [{"duration": 1.0, "texture": SubResource("Frame16")}, {"duration": 1.0, "texture": SubResource("Frame17")}, {"duration": 1.0, "texture": SubResource("Frame18")}, {"duration": 1.0, "texture": SubResource("Frame19")}, {"duration": 1.0, "texture": SubResource("Frame20")}, {"duration": 1.0, "texture": SubResource("Frame21")}, {"duration": 1.0, "texture": SubResource("Frame22")}, {"duration": 1.0, "texture": SubResource("Frame23")}], "loop": true, "name": &"up", "speed": 16.0}, {"frames": [{"duration": 1.0, "texture": SubResource("Frame24")}, {"duration": 1.0, "texture": SubResource("Frame25")}, {"duration": 1.0, "texture": SubResource("Frame26")}, {"duration": 1.0, "texture": SubResource("Frame27")}, {"duration": 1.0, "texture": SubResource("Frame28")}, {"duration": 1.0, "texture": SubResource("Frame29")}, {"duration": 1.0, "texture": SubResource("Frame30")}, {"duration": 1.0, "texture": SubResource("Frame31")}], "loop": true, "name": &"left", "speed": 16.0}]
+[sub_resource type="CircleShape2D" id="Shape"]
+radius = 3.0
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1")
+collision_layer = 2
+collision_mask = 1
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("Shape")
+[node name="Visual" type="Node2D" parent="."]
+script = ExtResource("2")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual"]
+position = Vector2(0, -12.53)
+scale = Vector2(0.116, 0.116)
+sprite_frames = SubResource("Frames")
+animation = &"down"
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("Shape")

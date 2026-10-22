@@ -4,6 +4,7 @@ import type { PixelMap } from './pixel-map';
 import { roomDetail, furnitureDetail } from './interior-detail';
 import { npcAsset, furnitureAsset } from './npc-art';
 import { sceneImage } from './scene-art';
+import { makeStudentFlat, paintStudentFlat } from './student-flat';
 
 const localized = (es: string, en: string): LocalizedText => ({ es, en });
 type Kind = 'bookcase' | 'lamp' | 'partition-h' | 'partition' | 'desk' | 'sofa' | 'bed' | 'plant' | 'rack' | 'coffee' | 'washer' | 'sink' | 'router' | 'phone-green' | 'phone-blue' | 'person' | 'doctor' | 'musician' | 'dancer' | 'child' | 'cat' | 'skeleton' | 'ball' | 'table' | 'board';
@@ -16,7 +17,7 @@ const zone = (x: number, y: number, w: number, h: number, es: string, en: string
 const work = localized('Puesto de trabajo', 'Workstation'), review = localized('Panel de revisión', 'Review board'), team = localized('Equipo', 'Team'), coffee = localized('Cocina / café', 'Kitchen / coffee');
 
 export const companyScenes: Record<string, CompanyScene> = {
-  freelance: { title: localized('Piso compartido · alquiler y deadlines', 'Shared rental · rent and deadlines'), description: localized('Prepara la web para la entrega y resuelve las incidencias del piso para recuperar concentración.', 'Prepare the website for delivery and resolve flat incidents to regain focus.'), width: 12, height: 12, accent: '#edb97d', floor: '#9b785e', wall: '#586878', zones: [zone(0, 0, 5, 4, 'COCINA', 'KITCHEN', '#b9bcb0'), zone(6, 0, 6, 4, 'DORMITORIOS', 'BEDROOMS', '#927d91'), zone(0, 5, 6, 7, 'ESTUDIO', 'WORK CORNER', '#947863'), zone(6, 5, 6, 7, 'SALÓN', 'LIVING ROOM', '#b59475')], furniture: [f('desk', 3, 8, 'terminal', work), f('board', 1, 6, 'review', review), f('musician', 8, 7, 'team', localized('Compañero de piso', 'Flatmate')), f('sink', 1, 1, 'sink', localized('Fuga de agua', 'Water leak')), f('washer', 4, 1, 'washer', localized('Lavadora de espuma', 'Foam washer')), f('router', 5, 5, 'router', localized('Router y gato', 'Router and cat')), f('coffee', 1, 3, 'coffee', coffee), f('doctor', 4, 3), f('dancer', 8, 10), f('person', 3, 1), f('sofa', 9, 7), f('table', 9, 9), f('bed', 7, 1), f('bed', 10, 1), f('bed', 7, 3), f('bed', 10, 3), f('plant', 1, 10)] },
+  freelance: { title: localized('Piso de estudiantes · cuatro compañeros', 'Student flat · four flatmates'), description: localized('Trabaja desde tu habitación y prepara la web para la entrega. Explora las cuatro habitaciones y resuelve las incidencias del piso para recuperar concentración.', 'Work from your bedroom and prepare the website for delivery. Explore the four bedrooms and resolve flat incidents to regain focus.'), width: 80, height: 54, accent: '#edb97d', floor: '#9b785e', wall: '#586878', zones: [], furniture: [f('desk', 31, 10, 'terminal', work), f('board', 31, 11, 'review', review), f('musician', 46, 10, 'team', localized('Compañero músico', 'Musician flatmate')), f('sink', 18, 32, 'sink', localized('Fuga de agua', 'Water leak')), f('washer', 13, 33, 'washer', localized('Lavadora de espuma', 'Foam washer')), f('router', 62, 34, 'router', localized('Router y gato', 'Router and cat')), f('coffee', 30, 32, 'coffee', coffee), f('person', 61, 41, 'cape', localized('Compañero de la capa', 'Caped flatmate')), f('dancer', 31, 22, 'hairy', localized('Compañero ciclista', 'Cyclist flatmate'))] },
   xul: { title: localized('Estudio creativo · la cueva del fondo', 'Creative studio · the cave at the back'), description: localized('Corrige la navegación de la app, conserva su estado y prepara los cambios para revisión con el equipo.', 'Fix app navigation, preserve its state and prepare changes for team review.'), width: 12, height: 11, accent: '#a7cf93', floor: '#b39f80', wall: '#607a70', zones: [zone(0, 0, 7, 4, 'LA CUEVA', 'THE CAVE', '#344656'), zone(8, 0, 4, 5, 'COCINA', 'KITCHEN', '#ad9876'), zone(0, 5, 12, 6, 'ESTUDIO CREATIVO', 'CREATIVE STUDIO', '#b1a087')], furniture: [f('desk', 2, 2, 'terminal', work), f('person', 5, 2, 'team', team), f('board', 1, 5, 'review', review), f('coffee', 10, 1, 'coffee', coffee), f('table', 9, 3), f('skeleton', 3, 2), f('ball', 3, 3), f('ball', 5, 3), f('sofa', 8, 7), f('plant', 1, 1), f('plant', 10, 8), f('desk', 6, 2)] },
   signlab: { title: localized('Laboratorio móvil · museo en miniatura', 'Mobile lab · a miniature museum'), description: localized('Un estudio pequeño con mesa de dispositivos, imágenes interactivas y una zona de pruebas para visitantes.', 'A small studio with a device bench, interactive images and a visitor testing area.'), width: 11, height: 12, accent: '#db91c4', floor: '#8a8196', wall: '#685275', zones: [zone(0, 0, 6, 5, 'LABORATORIO', 'LAB', '#4e5877'), zone(7, 0, 4, 8, 'GALERÍA TÁCTIL', 'TOUCH GALLERY', '#a291a4')], furniture: [f('desk', 3, 2, 'terminal', work), f('board', 8, 2, 'exhibit', localized('Imagen interactiva', 'Interactive image')), f('board', 8, 5, 'review', review), f('person', 5, 5, 'team', team), f('coffee', 1, 9, 'coffee', coffee), f('desk', 1, 2), f('table', 3, 5), f('sofa', 8, 9), f('plant', 1, 1), f('plant', 9, 1)] },
   'la-salle': { title: localized('El colegio · del aula al servidor', 'The school · from classroom to server'), description: localized('Cruza las aulas y el pasillo hasta la sala técnica. Diagnostica, configura y deja documentada la intervención.', 'Cross the classrooms and corridor to the technical room. Diagnose, configure and document the intervention.'), width: 14, height: 12, accent: '#87c9e0', floor: '#a2a899', wall: '#657f91', zones: [zone(0, 0, 7, 5, 'AULA', 'CLASSROOM', '#a0acac'), zone(8, 0, 6, 5, 'SERVIDORES', 'SERVERS', '#40566c'), zone(0, 8, 14, 4, 'PASILLO', 'CORRIDOR', '#b5ac95')], furniture: [f('desk', 2, 2, 'terminal', work), ...desks([4, 6], [2, 4]), f('desk', 2, 4), f('rack', 11, 2, 'server', localized('Windows Server', 'Windows Server')), f('rack', 9, 2), f('rack', 12, 2), f('board', 11, 5, 'review', review), f('person', 7, 7, 'team', team), f('coffee', 2, 9, 'coffee', coffee), f('board', 1, 1), f('plant', 12, 9)] },
@@ -29,19 +30,14 @@ export const companyScenes: Record<string, CompanyScene> = {
 };
 
 // Interior partitions leave explicit doorways; all free tiles are reachability-tested.
-companyScenes.freelance.furniture.push(
-  ...[6, 9].flatMap(x => [0, 1, 2, 3].map(y => f('partition', x, y))),
-  ...[7, 10].map(x => f('partition-h', x, 2)),
-  ...[0, 1, 2, 3].map(x => f('partition-h', x, 4)),
-  ...[6, 7, 8].map(y => f('partition', 6, y)),
-);
 companyScenes['domingo-alonso'].furniture.push(...[0, 1, 2, 4].map(y => f('partition', 6, y)), ...[0, 1, 4].map(x => f('partition-h', x, 6)));
 companyScenes['la-salle'].furniture.push(...[0, 1, 2, 4].map(y => f('partition', 8, y)));
 
 export function makeCompanyMap(id: string, locale: Locale, company: string, resolved: string[] = [], mission = 0): PixelMap {
+  if (id === 'freelance') return makeStudentFlat(locale, company, resolved, mission);
   const scene = companyScenes[id];
   const tile = Math.min(17, 410 / (scene.width + scene.height));
-  const map: PixelMap = { id, width: scene.width, height: scene.height, tile, ox: 240 - (scene.width - scene.height) * tile / 2, oy: 90, projection: 'isometric', rects: [], labels: [], blocked: [], objects: [], locale, company, sprite: '/images/job-route/antonio-atlas.webp', spriteScale: tile / 23, scene: { resolved, mission } };
+  const map: PixelMap = { id, width: scene.width, height: scene.height, tile, ox: 240 - (scene.width - scene.height) * tile / 2, oy: 90, projection: 'isometric', rects: [], labels: [], blocked: [], objects: [], locale, company, sprite: '/images/job-route/antonio-green-walk.webp', spriteScale: tile / 23, scene: { resolved, mission } };
   const project = (x: number, y: number) => ({ x: map.ox + (x - y) * tile, y: map.oy + (x + y) * tile / 2 });
   for (const item of scene.furniture) {
     map.blocked.push({ x: item.x, y: item.y });
@@ -70,6 +66,7 @@ export function makeCompanyMap(id: string, locale: Locale, company: string, reso
 // The same furniture definitions drive art, depth sorting, hit areas and collisions.
 // Native canvas art keeps every room legible at any zoom and needs no image downloads.
 export function paintCompanyScene(map: PixelMap) {
+  if (map.id === 'freelance') return paintStudentFlat(map);
   const scene = companyScenes[map.id], s = map.tile;
   const canvas = () => { const c = document.createElement('canvas'); c.width = 1440; c.height = 960; return c; };
   const background = canvas(), ctx = background.getContext('2d')!; ctx.scale(3, 3);

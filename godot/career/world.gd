@@ -23,6 +23,10 @@ var state: Dictionary = {"x": 4, "y": 6, "active": false, "reducedMotion": false
 var map: Dictionary = {}
 var frames: Dictionary = {}
 var travel = 0.0
+var character_motion := CharacterMotion.new()
+var living_town: Node2D
+var student_residents: Node2D
+var apartment_doors: Node2D
 var waiting_ack = false
 var queued_direction = Vector2i.ZERO
 var pressed_keys: Array[int] = []
@@ -56,6 +60,7 @@ var facing = Vector2i.DOWN
 var atmosphere = preload("res://atmosphere.gd").new()
 
 func _ready() -> void:
+	CharacterActions.changed.connect(func(): _emit({"type": "characterState", "value": CharacterActions.snapshot()}))
 	atmosphere.z_index = 2
 	add_child(atmosphere)
 	if OS.has_feature("web"):
@@ -68,7 +73,13 @@ func _ready() -> void:
 func _receive(args: Array) -> void:
 	var incoming = JSON.parse_string(args[0])
 	if not incoming is Dictionary: return
+	if incoming.get("type", "") in ["characterAction", "characterStatus", "coffeeStart", "coffeeHit", "coffeeCancel"]:
+		CharacterActions.command(incoming)
+		return
+	CharacterActions.legacy_active = bool(incoming.get("presentationActive", incoming.get("active", false)))
+	CharacterActions.legacy_reduced = bool(incoming.get("reducedMotion", false))
 	var changed = state.chapterId != incoming.chapterId
+	if changed: CharacterActions.reset_world()
 	var position_origin = str(incoming.get("positionOrigin", "external"))
 	var incoming_position = Vector2i(incoming.x, incoming.y)
 	# React can post the previous position while a legal move is awaiting its
@@ -111,6 +122,30 @@ func _receive(args: Array) -> void:
 		grid.update()
 		grid.fill_solid_region(grid.region, false)
 		for tile in map.blocked: grid.set_point_solid(Vector2i(tile.x, tile.y))
+		if map.id == "town":
+			atmosphere.z_index = 2048
+			if not is_instance_valid(living_town):
+				living_town = load("res://components/ambience/living_town.gd").new()
+				add_child(living_town)
+				living_town.configure(grid, func(tile: Vector2): return _project(tile.x, tile.y), false)
+		else:
+			atmosphere.z_index = 2
+			if is_instance_valid(living_town): living_town.free()
+		if map.id == "freelance":
+			if not is_instance_valid(apartment_doors):
+				apartment_doors = load("res://components/animation/apartment_doors.gd").new()
+				apartment_doors.z_index = -1
+				add_child(apartment_doors)
+				apartment_doors.configure(map.get("doors", []), false)
+			atmosphere.z_index = 2048
+			if not is_instance_valid(student_residents):
+				student_residents = load("res://components/ambience/student_residents.gd").new()
+				add_child(student_residents)
+				student_residents.configure(false)
+			student_residents.quiet = "noise" in map.scene.resolved
+		else:
+			if is_instance_valid(student_residents): student_residents.free()
+			if is_instance_valid(apartment_doors): apartment_doors.free()
 	if not incoming.active or changed:
 		atmosphere.hovered = ""
 		Input.set_default_cursor_shape(Input.CURSOR_ARROW)
@@ -155,6 +190,7 @@ func _clear_pending_interaction(reason: String, detail: Dictionary = {}) -> void
 	goal = ""
 
 func _debug(data: Dictionary) -> void:
+	if is_instance_valid(apartment_doors): data["doors"] = apartment_doors.snapshot()
 	if not e2e_debug: return
 	data.player = [state.x, state.y]
 	data.camera = [camera_position.x, camera_position.y]
@@ -193,6 +229,7 @@ func _publish_movement_state() -> void:
 		"logicalPosition": [state.x, state.y],
 		"visualPosition": [player.x, player.y],
 	})
+	if next_state == "idle": _debug({"stage": "movement-finished"})
 
 func _record_movement_tick(delta: float, before: Vector2) -> void:
 	if not e2e_debug: return
@@ -214,8 +251,14 @@ func _record_movement_tick(delta: float, before: Vector2) -> void:
 	if debug_ticks.size() > DEBUG_TICK_LIMIT: debug_ticks.pop_front()
 
 func _process(delta: float) -> void:
-	if not state.active or map.is_empty(): return
-	tick += delta
+	if not state.active or map.is_empty():
+		CharacterActions.motion(false)
+		character_motion.advance(delta, false, 0.0, bool(state.reducedMotion), CharacterActions.active())
+		if is_instance_valid(living_town): living_town.advance(0.0, false, bool(state.reducedMotion), player)
+		if is_instance_valid(student_residents): student_residents.advance(0.0, false, bool(state.reducedMotion), _project(player.x + .5, player.y + .5), state.locale)
+		queue_redraw()
+		return
+	tick += delta * CharacterActions.world_speed()
 	cooldown = maxf(0, cooldown - delta)
 	destination_time = maxf(0, destination_time - delta)
 	blocked_time = maxf(0, blocked_time - delta)
@@ -225,8 +268,10 @@ func _process(delta: float) -> void:
 	var before = player
 	var speed = 8.0
 	var budget = delta * speed
+	if is_instance_valid(apartment_doors): apartment_doors.advance(delta, true, bool(state.reducedMotion), _project(player.x + .5, player.y + .5))
 	while not visual_route.is_empty() and budget > 0:
 		var waypoint = visual_route[0]
+		if is_instance_valid(apartment_doors) and not apartment_doors.request_crossing(_project(player.x + .5, player.y + .5), _project(waypoint.x + .5, waypoint.y + .5), bool(state.reducedMotion)): break
 		var distance = player.distance_to(waypoint)
 		var direction = waypoint - player
 		if direction.length_squared() > 0.001: facing = Vector2i(signf(direction.x), signf(direction.y))
@@ -237,6 +282,10 @@ func _process(delta: float) -> void:
 	_record_movement_tick(delta, before)
 	var last_stride = floori(travel * 2)
 	travel += player.distance_to(before)
+	CharacterActions.motion(player.distance_to(before) > .001)
+	character_motion.advance(delta, player.distance_to(before) > .001, player.distance_to(before), bool(state.reducedMotion), CharacterActions.active())
+	if is_instance_valid(living_town): living_town.advance(delta * CharacterActions.world_speed(), true, bool(state.reducedMotion), player)
+	if is_instance_valid(student_residents): student_residents.advance(delta * CharacterActions.world_speed(), true, bool(state.reducedMotion), _project(player.x + .5, player.y + .5), state.locale)
 	if not state.reducedMotion and floori(travel * 2) != last_stride:
 		footfalls.append({"point": _project(player.x + .5, player.y + .5), "life": 0.28})
 	camera_position = _camera_target() if state.reducedMotion else camera_position.lerp(_camera_target(), 1.0 - exp(-delta * 14.0))
@@ -250,7 +299,7 @@ func _process(delta: float) -> void:
 		if _interact(interaction):
 			_clear_pending_interaction("interaction-dispatched")
 			_publish_movement_state()
-	elif cooldown == 0 and visual_route.is_empty() and player.distance_to(target) < 0.05:
+	elif not waiting_ack and cooldown == 0 and visual_route.is_empty() and player.distance_to(target) < 0.05:
 		if queued_direction != Vector2i.ZERO:
 			var next_direction = queued_direction
 			queued_direction = Vector2i.ZERO
@@ -264,7 +313,8 @@ func _process(delta: float) -> void:
 		else:
 			var direction = _held_direction()
 			if direction != Vector2i.ZERO: _step(Vector2i(state.x, state.y) + direction)
-	atmosphere.present(map, state, player, camera_position, tick, delta)
+	atmosphere.present(map, state, player, camera_position, tick, delta * CharacterActions.world_speed())
+	_publish_movement_state()
 	queue_redraw()
 
 func _step(tile: Vector2i) -> void:
@@ -369,6 +419,9 @@ func _object_hit(object: Dictionary, screen: Vector2) -> bool:
 		inside = Geometry2D.is_point_in_polygon(screen, polygon)
 	if object.has("marker") and not object.get("locked", false):
 		inside = inside or screen.distance_to(Vector2(object.marker[0], object.marker[1])) < 8
+	if object.has("entrance"):
+		var entry = object.entrance
+		inside = inside or Rect2(Vector2(entry.anchor[0] - entry.width / 2.0, entry.anchor[1] - entry.height), Vector2(entry.width, entry.height + 3)).has_point(screen)
 	return inside
 
 func _object_at(screen: Vector2) -> Dictionary:
@@ -482,6 +535,15 @@ func _draw() -> void:
 	atmosphere.present(map, state, player, camera_position, tick, 0)
 	var zoom = float(state.get("zoom", 1))
 	draw_set_transform(-camera_position.round() * zoom, 0, Vector2(zoom, zoom))
+	if is_instance_valid(living_town):
+		living_town.position = -camera_position.round() * zoom
+		living_town.scale = Vector2(zoom, zoom)
+	if is_instance_valid(student_residents):
+		student_residents.position = -camera_position.round() * zoom
+		student_residents.scale = Vector2(zoom, zoom)
+	if is_instance_valid(apartment_doors):
+		apartment_doors.position = -camera_position.round() * zoom
+		apartment_doors.scale = Vector2(zoom, zoom)
 	for layer in artwork:
 		layer.position = -camera_position.round() * zoom
 		layer.scale = Vector2(zoom, zoom)
@@ -495,7 +557,12 @@ func _draw() -> void:
 				layer.rotation = sin(phase) * layer.motion[6]
 				layer.scale.y *= 1 + sin(phase * .7) * layer.motion[7]
 				layer.position += pivot * zoom - (pivot * layer.scale).rotated(layer.rotation)
-		layer.z_index = -2 if layer.depth == -100 else (1 if layer.depth > player.x + player.y + 1 else -1)
+		if map.get("screenDepth", false):
+			layer.z_index = -2048 if layer.depth == -100 else clampi(int((layer.depth - _project(player.x + .5, player.y + .5).y) * 16), -1000, 1000)
+		elif map.id == "town":
+			layer.z_index = -2048 if layer.depth == -100 else clampi(int((layer.depth - player.x - player.y - 1) * 16), -1000, 1000)
+		else:
+			layer.z_index = -2 if layer.depth == -100 else (1 if layer.depth > player.x + player.y + 1 else -1)
 	if destination_time > 0 or not route.is_empty(): _tile_outline(destination, Color("8ce5cd"))
 	if blocked_time > 0: _tile_outline(blocked_tile, Color("efa58f"), .26)
 	if not state.reducedMotion:
@@ -521,13 +588,21 @@ func _draw() -> void:
 		draw_set_transform((-camera_position.round() + point) * zoom, 0, Vector2(zoom, zoom) * sprite_scale)
 		point = Vector2.ZERO
 		var index = ["down", "right", "up", "left"].find(direction)
-		var stride = sin(travel * TAU) * 1.4 if moving and not state.reducedMotion else 0.0
-		var bob = absf(sin(travel * TAU)) * .55 if moving and not state.reducedMotion else (0.0 if state.reducedMotion else sin(tick * 1.8) * 0.18)
-		draw_texture_rect_region(sprite_texture, Rect2(point.x - 12, point.y - 43 - bob, 24, 30.5), Rect2(index * 96, 0, 96, 122))
-		draw_texture_rect_region(sprite_texture, Rect2(point.x - 12, point.y - 12.5 + stride, 12, 13.5), Rect2(index * 96, 122, 48, 54))
-		draw_texture_rect_region(sprite_texture, Rect2(point.x, point.y - 12.5 - stride, 12, 13.5), Rect2(index * 96 + 48, 122, 48, 54))
+		# Whole authored poses prevent detached legs and a sliding torso.
+		# Poses completas evitan separar las piernas del torso.
+		var pose = character_motion.frame()
+		var body = Rect2(-25, -46.1 + character_motion.offset_y() * 1.7, 50, 50)
+		if CharacterActions.action.is_empty():
+			if not character_motion.walking():
+				draw_texture_rect_region(ActionArt.standing_texture(direction), body, ActionArt.standing_region(direction, character_motion.blink()))
+			else:
+				draw_texture_rect_region(sprite_texture, body, Rect2(pose * 256, index * 256, 256, 256))
+		else:
+			var action_id = CharacterActions.presentation_action()
+			draw_texture_rect_region(ActionArt.texture(action_id), body, ActionArt.region(action_id, CharacterActions.frame()))
+		if CharacterActions.coffee.phase == "playing": draw_arc(Vector2(0, -22), 28, 0, TAU, 32, Color(.25, .85, 1.0, .5), 1.0)
 	elif frames.has(direction):
 		for r in frames[direction][frame]: draw_rect(Rect2(px + r[0], py + r[1], r[2], r[3]), Color(r[4]))
-	if state.chapterId == "town" and not state.reducedMotion:
+	if state.chapterId == "town" and not state.reducedMotion and not is_instance_valid(living_town):
 		draw_set_transform(-camera_position.round() * zoom, 0, Vector2(zoom, zoom))
 		for i in range(45): draw_rect(Rect2(floorf(fmod(i * 71 + tick * 9, 480)), floorf(fmod(i * 53 + tick * 62, 320)), 1, 3), Color("b6d3f026"))

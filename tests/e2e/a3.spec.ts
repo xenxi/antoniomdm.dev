@@ -121,7 +121,7 @@ for (const [locale, label, closing] of [
 test('A3 Blog editor exposes a real published article link', async ({ page }) => {
   await page.goto('/en/blog/app/'); await expect(page.locator('[data-ready="true"]')).toBeVisible();
   await expect(page.locator('.blog-editor__explorer')).toBeVisible();
-  await expect(page.getByRole('link', { name: /Open article/ })).toHaveAttribute('href', /\/en\/blog\/the-question-remains\//);
+  await expect(page.getByRole('link', { name: /Open article/ })).toHaveAttribute('href', /\/en\/blog\/they-took-my-keyboard\//);
 });
 
 for (const width of [390, 820]) test(`A3 inactive apps leave keyboard navigation at ${width}px`, async ({ page }) => {

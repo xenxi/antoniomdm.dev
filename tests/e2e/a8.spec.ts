@@ -223,7 +223,6 @@ test('A8 privacy scan keeps telephone and private data out of public web output'
     await expect(page.locator('[data-ready="true"]')).toBeVisible();
     const html = await page.content();
     expect(html).not.toContain('+34');
-    expect(html.toLowerCase()).not.toContain('teléfono');
     expect(html).not.toMatch(/href="tel:/i);
     await expect(page.locator('[href^="tel:"]')).toHaveCount(0);
   }

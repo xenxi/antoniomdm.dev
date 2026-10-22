@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://actors/npc/npc.gd" id="1"]
+[ext_resource type="Script" path="res://systems/ai/npc_behaviour.gd" id="2"]
+
+[node name="NPC" type="Node2D"]
+script = ExtResource("1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="Body" type="StaticBody2D" parent="."]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Body"]
+polygon = PackedVector2Array(-8, 0, 0, -4, 8, 0, 0, 4)
+
+[node name="HitArea" type="Area2D" parent="."]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitArea"]
+polygon = PackedVector2Array(-10, -35, 10, -35, 10, 5, -10, 5)
+
+[node name="Approach" type="Marker2D" parent="."]
+[node name="Behaviour" type="Node" parent="."]
+script = ExtResource("2")

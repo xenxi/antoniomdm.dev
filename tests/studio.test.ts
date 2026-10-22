@@ -3,6 +3,7 @@ import { choose, newGame, parseSave, updateProgress } from '../src/arcade/engine
 import { makePixelMap, mapPath, mapWalkable } from '../src/arcade/pixel-map';
 import { readMapAction } from '../src/arcade/godot-bridge';
 import { studioObjects } from '../src/arcade/studio-layout';
+import { flatSpawn } from '../src/arcade/student-flat';
 
 describe('Illustrated Godot office', () => {
   const map = makePixelMap('office', [], 'es', 'Example');
@@ -25,9 +26,9 @@ describe('Illustrated Godot office', () => {
     const old = { ...updateProgress(choose(newGame(), 'button').state, { x: 9, y: 1 }), layout: undefined };
     const migrated = parseSave(JSON.stringify(old))!;
     expect(migrated.layout).toBe(3);
-    expect(migrated.chapters.freelance).toMatchObject({ x: 4, y: 7, mission: 1 });
-    const current = updateProgress(newGame(), { x: 0, y: 2 });
-    expect(parseSave(JSON.stringify(current))?.chapters.freelance).toMatchObject({ x: 0, y: 2 });
+    expect(migrated.chapters.freelance).toMatchObject({ ...flatSpawn, mission: 1 });
+    const current = updateProgress(newGame(), flatSpawn);
+    expect(parseSave(JSON.stringify(current))?.chapters.freelance).toMatchObject(flatSpawn);
     expect(parseSave(JSON.stringify(updateProgress(newGame(), { x: 3, y: 8 })))).toBeNull();
   });
 });

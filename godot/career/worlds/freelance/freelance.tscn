@@ -1,0 +1,310 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://worlds/world.gd" id="World"]
+[ext_resource type="Script" path="res://components/navigation/world_grid.gd" id="Grid"]
+[ext_resource type="Script" path="res://components/interaction/interactable.gd" id="Interaction"]
+[ext_resource type="Script" path="res://components/animation/apartment_doors.gd" id="Doors"]
+[ext_resource type="Script" path="res://components/ambience/student_residents.gd" id="Residents"]
+[ext_resource type="PackedScene" path="res://actors/player/player.tscn" id="Player"]
+[ext_resource type="PackedScene" path="res://actors/npc/npc.tscn" id="NPC"]
+[ext_resource type="Resource" path="res://data/npcs/flatmate.tres" id="Flatmate"]
+[ext_resource type="Texture2D" path="res://assets/environments/freelance/background-es.png" id="Es"]
+[ext_resource type="Texture2D" path="res://assets/environments/freelance/background-en.png" id="En"]
+
+[sub_resource type="Resource" id="Layout"]
+script = ExtResource("Grid")
+size = Vector2i(80, 54)
+origin = Vector2(0, 0)
+axis_x = Vector2(6, 0)
+axis_y = Vector2(0, 6)
+[node name="Freelance" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("World")
+world_id = "freelance"
+layout = SubResource("Layout")
+background_es = ExtResource("Es")
+background_en = ExtResource("En")
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -10
+texture = ExtResource("Es")
+centered = false
+scale = Vector2(0.3125, 0.3125)
+[node name="WalkableArea" type="Polygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(134.6875, 10.9375, 350, 10.9375, 385.3125, 140.625, 403.4375, 140.625, 456.25, 267.8125, 418.75, 272.1875, 267.1875, 260.625, 263.125, 276.25, 206.875, 276.25, 205.9375, 250.625, 69.375, 245, 18.75, 216.5625, 43.75, 142.1875, 86.5625, 139.375, 109.375, 72.1875)
+[node name="Spawns" type="Node2D" parent="."]
+[node name="Entry" type="Marker2D" parent="Spawns"]
+position = Vector2(237, 261)
+[node name="Player" parent="." instance=ExtResource("Player")]
+position = Vector2(237, 261)
+[node name="Residents" type="Node2D" parent="."]
+y_sort_enabled = true
+script = ExtResource("Residents")
+[node name="Doors" type="Node2D" parent="."]
+z_index = -1
+script = ExtResource("Doors")
+doorways = Array[Dictionary]([{"id":"bedroom-player","hinge":[213,58],"side":-1,"threshold":[207,58,12,12]},{"id":"bedroom-music","hinge":[260,58],"side":1,"threshold":[254,58,14,12]},{"id":"bedroom-cyclist","hinge":[203,122],"side":-1,"threshold":[197,122,15,10]},{"id":"bedroom-medicine","hinge":[265,122],"side":1,"threshold":[258,122,16,10]}])
+[node name="Furniture0" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture0"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture0/Body"]
+polygon = PackedVector2Array(210, 9.375, 217.5, 9.375, 217.5, 57.8125, 210, 57.8125)
+[node name="Furniture1" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture1"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture1/Body"]
+polygon = PackedVector2Array(198.75, 70.3125, 211.875, 70.3125, 211.875, 123.125, 198.75, 123.125)
+[node name="Furniture2" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture2"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture2/Body"]
+polygon = PackedVector2Array(190.625, 131.25, 205, 131.25, 205, 159.375, 190.625, 159.375)
+[node name="Furniture3" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture3"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture3/Body"]
+polygon = PackedVector2Array(255, 9.375, 265.625, 9.375, 265.625, 57.8125, 255, 57.8125)
+[node name="Furniture4" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture4"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture4/Body"]
+polygon = PackedVector2Array(258.75, 70.3125, 271.5625, 70.3125, 271.5625, 123.125, 258.75, 123.125)
+[node name="Furniture5" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture5"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture5/Body"]
+polygon = PackedVector2Array(263.75, 131.25, 276.25, 131.25, 276.25, 159.375, 263.75, 159.375)
+[node name="Furniture6" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture6"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture6/Body"]
+polygon = PackedVector2Array(110, 70, 205.625, 70, 205.625, 76.875, 110, 76.875)
+[node name="Furniture7" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture7"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture7/Body"]
+polygon = PackedVector2Array(266.875, 69.6875, 373.4375, 69.6875, 373.4375, 76.875, 266.875, 76.875)
+[node name="Furniture8" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture8"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture8/Body"]
+polygon = PackedVector2Array(86.25, 138.125, 198.4375, 138.125, 198.4375, 145, 86.25, 145)
+[node name="Furniture9" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture9"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture9/Body"]
+polygon = PackedVector2Array(273.75, 138.125, 389.6875, 138.125, 389.6875, 145, 273.75, 145)
+[node name="Furniture10" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture10"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture10/Body"]
+polygon = PackedVector2Array(399.0625, 141.875, 404.6875, 141.875, 404.6875, 182.5, 399.0625, 182.5)
+[node name="Furniture11" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture11"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture11/Body"]
+polygon = PackedVector2Array(405.3125, 210.625, 412.8125, 210.625, 412.8125, 259.0625, 405.3125, 259.0625)
+[node name="Furniture12" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture12"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture12/Body"]
+polygon = PackedVector2Array(145.3125, 21.875, 200.625, 21.875, 200.625, 57.1875, 145.3125, 57.1875)
+[node name="Furniture13" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture13"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture13/Body"]
+polygon = PackedVector2Array(118.125, 51.25, 162.1875, 51.25, 162.1875, 70, 118.125, 70)
+[node name="Furniture14" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture14"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture14/Body"]
+polygon = PackedVector2Array(277.1875, 22.5, 334.0625, 22.5, 334.0625, 35.625, 277.1875, 35.625)
+[node name="Furniture15" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture15"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture15/Body"]
+polygon = PackedVector2Array(294.6875, 45.3125, 330.9375, 45.3125, 330.9375, 68.75, 294.6875, 68.75)
+[node name="Furniture16" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture16"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture16/Body"]
+polygon = PackedVector2Array(113.125, 103.125, 145.625, 103.125, 145.625, 131.25, 113.125, 131.25)
+[node name="Furniture17" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture17"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture17/Body"]
+polygon = PackedVector2Array(143.125, 85.625, 197.8125, 85.625, 197.8125, 123.4375, 143.125, 123.4375)
+[node name="Furniture18" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture18"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture18/Body"]
+polygon = PackedVector2Array(283.75, 82.1875, 313.75, 82.1875, 313.75, 97.5, 283.75, 97.5)
+[node name="Furniture19" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture19"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture19/Body"]
+polygon = PackedVector2Array(306.875, 109.375, 337.1875, 109.375, 337.1875, 130, 306.875, 130)
+[node name="Furniture20" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture20"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture20/Body"]
+polygon = PackedVector2Array(338.75, 97.1875, 369.6875, 97.1875, 369.6875, 122.1875, 338.75, 122.1875)
+[node name="Furniture21" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture21"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture21/Body"]
+polygon = PackedVector2Array(83.4375, 142.1875, 188.75, 142.1875, 188.75, 192.1875, 83.4375, 192.1875)
+[node name="Furniture22" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture22"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture22/Body"]
+polygon = PackedVector2Array(97.5, 198.4375, 165.625, 198.4375, 165.625, 239.375, 97.5, 239.375)
+[node name="Furniture23" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture23"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture23/Body"]
+polygon = PackedVector2Array(45.9375, 160, 74.375, 160, 74.375, 195.9375, 45.9375, 195.9375)
+[node name="Furniture24" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture24"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture24/Body"]
+polygon = PackedVector2Array(275.625, 194.0625, 308.75, 179.0625, 331.875, 194.375, 300, 228.125, 272.5, 215.625)
+[node name="Furniture25" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture25"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture25/Body"]
+polygon = PackedVector2Array(329.375, 217.5, 368.75, 217.5, 368.75, 232.8125, 329.375, 232.8125)
+[node name="Furniture26" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture26"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture26/Body"]
+polygon = PackedVector2Array(336.875, 167.5, 387.5, 167.5, 387.5, 200.3125, 336.875, 200.3125)
+[node name="Furniture27" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture27"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture27/Body"]
+polygon = PackedVector2Array(367.1875, 155.625, 390.625, 155.625, 390.625, 173.125, 367.1875, 173.125)
+[node name="Furniture28" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture28"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture28/Body"]
+polygon = PackedVector2Array(411.25, 185.3125, 433.75, 185.3125, 433.75, 219.6875, 411.25, 219.6875)
+[node name="Furniture29" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture29"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture29/Body"]
+polygon = PackedVector2Array(220.625, 9.375, 260.3125, 9.375, 260.3125, 55.625, 220.625, 55.625)
+[node name="Furniture30" type="Node2D" parent="."]
+y_sort_enabled = true
+[node name="Body" type="StaticBody2D" parent="Furniture30"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Furniture30/Body"]
+polygon = PackedVector2Array(345.9375, 21.25, 368.125, 21.25, 368.125, 64.0625, 345.9375, 64.0625)
+[node name="Object_terminal" type="Node2D" parent="."]
+position = Vector2(191, 65)
+script = ExtResource("Interaction")
+interaction_id = "terminal"
+label = {"es":"Puesto de trabajo · tu habitación","en":"Workstation · your bedroom"}
+action = "campaign"
+destination = "town"
+[node name="Approach" type="Marker2D" parent="Object_terminal"]
+[node name="HitArea" type="Area2D" parent="Object_terminal"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Object_terminal/HitArea"]
+polygon = PackedVector2Array(-44, -34, 11, -34, 11, -8, -44, -8)
+[node name="Object_review" type="Node2D" parent="."]
+position = Vector2(190, 66)
+script = ExtResource("Interaction")
+interaction_id = "review"
+label = {"es":"Panel de revisión","en":"Review board"}
+action = "campaign"
+destination = "town"
+[node name="Approach" type="Marker2D" parent="Object_review"]
+[node name="HitArea" type="Area2D" parent="Object_review"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Object_review/HitArea"]
+polygon = PackedVector2Array(4, -29, 19, -29, 19, -11, 4, -11)
+[node name="Object_team" parent="." instance=ExtResource("NPC")]
+position = Vector2(280, 65)
+configuration = ExtResource("Flatmate")
+[node name="Body" parent="Object_team" index="1"]
+collision_layer = 0
+[node name="CollisionPolygon2D" parent="Object_team/Body" index="0"]
+disabled = true
+[node name="Object_sink" type="Node2D" parent="."]
+position = Vector2(110, 195)
+script = ExtResource("Interaction")
+interaction_id = "sink"
+label = {"es":"Fuga de agua","en":"Water leak"}
+action = "campaign"
+destination = "town"
+[node name="Approach" type="Marker2D" parent="Object_sink"]
+[node name="HitArea" type="Area2D" parent="Object_sink"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Object_sink/HitArea"]
+polygon = PackedVector2Array(0, -38, 27, -38, 27, -5, 0, -5)
+[node name="Object_washer" type="Node2D" parent="."]
+position = Vector2(78, 204)
+script = ExtResource("Interaction")
+interaction_id = "washer"
+label = {"es":"Lavadora de espuma","en":"Foam washer"}
+action = "campaign"
+destination = "town"
+[node name="Approach" type="Marker2D" parent="Object_washer"]
+[node name="HitArea" type="Area2D" parent="Object_washer"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Object_washer/HitArea"]
+polygon = PackedVector2Array(-30, -49, -3, -49, -3, -12, -30, -12)
+[node name="Object_router" type="Node2D" parent="."]
+position = Vector2(376, 209)
+script = ExtResource("Interaction")
+interaction_id = "router"
+label = {"es":"Router y gato","en":"Router and cat"}
+action = "campaign"
+destination = "town"
+[node name="Approach" type="Marker2D" parent="Object_router"]
+[node name="HitArea" type="Area2D" parent="Object_router"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Object_router/HitArea"]
+polygon = PackedVector2Array(-29, -36, 2, -36, 2, -8, -29, -8)
+[node name="Object_coffee" type="Node2D" parent="."]
+position = Vector2(182, 196)
+script = ExtResource("Interaction")
+interaction_id = "coffee"
+label = {"es":"Cocina / café","en":"Kitchen / coffee"}
+action = "campaign"
+destination = "town"
+[node name="Approach" type="Marker2D" parent="Object_coffee"]
+[node name="HitArea" type="Area2D" parent="Object_coffee"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Object_coffee/HitArea"]
+polygon = PackedVector2Array(-10, -43, 7, -43, 7, -4, -10, -4)
+[node name="Object_portal" type="Node2D" parent="."]
+position = Vector2(237, 267)
+script = ExtResource("Interaction")
+interaction_id = "portal"
+label = {"es":"Volver a la ciudad","en":"Return to town"}
+action = "world"
+destination = "town"
+[node name="Approach" type="Marker2D" parent="Object_portal"]
+[node name="HitArea" type="Area2D" parent="Object_portal"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Object_portal/HitArea"]
+polygon = PackedVector2Array(-18, -25, 22, -25, 22, 5, -18, 5)
+[node name="Object_cape" type="Node2D" parent="."]
+position = Vector2(371, 246)
+script = ExtResource("Interaction")
+interaction_id = "cape"
+label = {"es":"Compañero de la capa y el fuet","en":"Cape and fuet flatmate"}
+action = "dialogue"
+destination = "town"
+dialogue_path = "res://data/dialogues/cape.tres"
+[node name="Approach" type="Marker2D" parent="Object_cape"]
+[node name="HitArea" type="Area2D" parent="Object_cape"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Object_cape/HitArea"]
+polygon = PackedVector2Array(-22, -30, 13, -30, 13, 1, -22, 1)
+[node name="Object_hairy" type="Node2D" parent="."]
+position = Vector2(183, 133)
+script = ExtResource("Interaction")
+interaction_id = "hairy"
+label = {"es":"Compañero ciclista · bilirrubina","en":"Cyclist flatmate · bilirubin"}
+action = "dialogue"
+destination = "town"
+dialogue_path = "res://data/dialogues/hairy.tres"
+[node name="Approach" type="Marker2D" parent="Object_hairy"]
+[node name="HitArea" type="Area2D" parent="Object_hairy"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Object_hairy/HitArea"]
+polygon = PackedVector2Array(-12, -23, 13, -23, 13, -2, -12, -2)
+
+[editable path="Object_team"]

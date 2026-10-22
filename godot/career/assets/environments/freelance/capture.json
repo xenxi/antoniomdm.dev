@@ -1,0 +1,905 @@
+{
+  "map": {
+    "id": "freelance",
+    "width": 12,
+    "height": 12,
+    "tile": 17,
+    "ox": 240,
+    "oy": 90,
+    "projection": "isometric",
+    "rects": [],
+    "labels": [],
+    "blocked": [
+      {
+        "x": 3,
+        "y": 8
+      },
+      {
+        "x": 1,
+        "y": 6
+      },
+      {
+        "x": 8,
+        "y": 7
+      },
+      {
+        "x": 1,
+        "y": 1
+      },
+      {
+        "x": 4,
+        "y": 1
+      },
+      {
+        "x": 5,
+        "y": 5
+      },
+      {
+        "x": 1,
+        "y": 3
+      },
+      {
+        "x": 4,
+        "y": 3
+      },
+      {
+        "x": 8,
+        "y": 10
+      },
+      {
+        "x": 3,
+        "y": 1
+      },
+      {
+        "x": 9,
+        "y": 7
+      },
+      {
+        "x": 9,
+        "y": 9
+      },
+      {
+        "x": 7,
+        "y": 1
+      },
+      {
+        "x": 10,
+        "y": 1
+      },
+      {
+        "x": 7,
+        "y": 3
+      },
+      {
+        "x": 10,
+        "y": 3
+      },
+      {
+        "x": 1,
+        "y": 10
+      },
+      {
+        "x": 6,
+        "y": 0
+      },
+      {
+        "x": 6,
+        "y": 1
+      },
+      {
+        "x": 6,
+        "y": 2
+      },
+      {
+        "x": 6,
+        "y": 3
+      },
+      {
+        "x": 9,
+        "y": 0
+      },
+      {
+        "x": 9,
+        "y": 1
+      },
+      {
+        "x": 9,
+        "y": 2
+      },
+      {
+        "x": 9,
+        "y": 3
+      },
+      {
+        "x": 7,
+        "y": 2
+      },
+      {
+        "x": 10,
+        "y": 2
+      },
+      {
+        "x": 0,
+        "y": 4
+      },
+      {
+        "x": 1,
+        "y": 4
+      },
+      {
+        "x": 2,
+        "y": 4
+      },
+      {
+        "x": 3,
+        "y": 4
+      },
+      {
+        "x": 6,
+        "y": 6
+      },
+      {
+        "x": 6,
+        "y": 7
+      },
+      {
+        "x": 6,
+        "y": 8
+      }
+    ],
+    "objects": [
+      {
+        "id": "terminal",
+        "x": 3,
+        "y": 8,
+        "label": "Puesto de trabajo",
+        "hit": [
+          139.7,
+          161.4,
+          30.6,
+          37.400000000000006
+        ],
+        "marker": [
+          155,
+          158.4
+        ]
+      },
+      {
+        "id": "review",
+        "x": 1,
+        "y": 6,
+        "label": "Panel de revisión",
+        "hit": [
+          139.7,
+          127.4,
+          30.6,
+          37.400000000000006
+        ],
+        "marker": [
+          155,
+          124.4
+        ]
+      },
+      {
+        "id": "team",
+        "x": 8,
+        "y": 7,
+        "label": "Compañero de piso",
+        "hit": [
+          241.7,
+          195.4,
+          30.6,
+          37.400000000000006
+        ],
+        "marker": [
+          257,
+          192.4
+        ]
+      },
+      {
+        "id": "sink",
+        "x": 1,
+        "y": 1,
+        "label": "Fuga de agua",
+        "hit": [
+          224.7,
+          84.9,
+          30.6,
+          37.400000000000006
+        ],
+        "marker": [
+          240,
+          81.9
+        ]
+      },
+      {
+        "id": "washer",
+        "x": 4,
+        "y": 1,
+        "label": "Lavadora de espuma",
+        "hit": [
+          275.7,
+          110.4,
+          30.6,
+          37.400000000000006
+        ],
+        "marker": [
+          291,
+          107.4
+        ]
+      },
+      {
+        "id": "router",
+        "x": 5,
+        "y": 5,
+        "label": "Router y gato",
+        "hit": [
+          224.7,
+          152.9,
+          30.6,
+          37.400000000000006
+        ],
+        "marker": [
+          240,
+          149.9
+        ]
+      },
+      {
+        "id": "coffee",
+        "x": 1,
+        "y": 3,
+        "label": "Cocina / café",
+        "hit": [
+          190.7,
+          101.9,
+          30.6,
+          37.400000000000006
+        ],
+        "marker": [
+          206,
+          98.9
+        ]
+      },
+      {
+        "id": "portal",
+        "x": 0,
+        "y": 7,
+        "label": "Volver a la ciudad",
+        "hit": [
+          104,
+          141,
+          34,
+          25.5
+        ],
+        "marker": [
+          121,
+          141
+        ]
+      }
+    ],
+    "locale": "es",
+    "company": "freelance",
+    "sprite": "/images/job-route/antonio-atlas.webp",
+    "spriteScale": 0.7391304347826086,
+    "scene": {
+      "resolved": [],
+      "mission": 0
+    },
+    "effects": {
+      "fountains": [],
+      "fans": [],
+      "lights": [],
+      "screens": [
+        [
+          149.39,
+          173.64
+        ]
+      ],
+      "steam": [
+        [
+          206,
+          115.5
+        ]
+      ]
+    },
+    "ambience": {
+      "notes": [
+        [
+          257,
+          200.5
+        ]
+      ],
+      "puddles": [
+        [
+          240,
+          124
+        ]
+      ]
+    }
+  },
+  "furniture": [
+    {
+      "kind": "desk",
+      "x": 3,
+      "y": 8,
+      "id": "terminal",
+      "label": {
+        "es": "Puesto de trabajo",
+        "en": "Workstation"
+      }
+    },
+    {
+      "kind": "board",
+      "x": 1,
+      "y": 6,
+      "id": "review",
+      "label": {
+        "es": "Panel de revisión",
+        "en": "Review board"
+      }
+    },
+    {
+      "kind": "musician",
+      "x": 8,
+      "y": 7,
+      "id": "team",
+      "label": {
+        "es": "Compañero de piso",
+        "en": "Flatmate"
+      }
+    },
+    {
+      "kind": "sink",
+      "x": 1,
+      "y": 1,
+      "id": "sink",
+      "label": {
+        "es": "Fuga de agua",
+        "en": "Water leak"
+      }
+    },
+    {
+      "kind": "washer",
+      "x": 4,
+      "y": 1,
+      "id": "washer",
+      "label": {
+        "es": "Lavadora de espuma",
+        "en": "Foam washer"
+      }
+    },
+    {
+      "kind": "router",
+      "x": 5,
+      "y": 5,
+      "id": "router",
+      "label": {
+        "es": "Router y gato",
+        "en": "Router and cat"
+      }
+    },
+    {
+      "kind": "coffee",
+      "x": 1,
+      "y": 3,
+      "id": "coffee",
+      "label": {
+        "es": "Cocina / café",
+        "en": "Kitchen / coffee"
+      }
+    },
+    {
+      "kind": "doctor",
+      "x": 4,
+      "y": 3
+    },
+    {
+      "kind": "dancer",
+      "x": 8,
+      "y": 10
+    },
+    {
+      "kind": "person",
+      "x": 3,
+      "y": 1
+    },
+    {
+      "kind": "sofa",
+      "x": 9,
+      "y": 7
+    },
+    {
+      "kind": "table",
+      "x": 9,
+      "y": 9
+    },
+    {
+      "kind": "bed",
+      "x": 7,
+      "y": 1
+    },
+    {
+      "kind": "bed",
+      "x": 10,
+      "y": 1
+    },
+    {
+      "kind": "bed",
+      "x": 7,
+      "y": 3
+    },
+    {
+      "kind": "bed",
+      "x": 10,
+      "y": 3
+    },
+    {
+      "kind": "plant",
+      "x": 1,
+      "y": 10
+    },
+    {
+      "kind": "partition",
+      "x": 6,
+      "y": 0
+    },
+    {
+      "kind": "partition",
+      "x": 6,
+      "y": 1
+    },
+    {
+      "kind": "partition",
+      "x": 6,
+      "y": 2
+    },
+    {
+      "kind": "partition",
+      "x": 6,
+      "y": 3
+    },
+    {
+      "kind": "partition",
+      "x": 9,
+      "y": 0
+    },
+    {
+      "kind": "partition",
+      "x": 9,
+      "y": 1
+    },
+    {
+      "kind": "partition",
+      "x": 9,
+      "y": 2
+    },
+    {
+      "kind": "partition",
+      "x": 9,
+      "y": 3
+    },
+    {
+      "kind": "partition-h",
+      "x": 7,
+      "y": 2
+    },
+    {
+      "kind": "partition-h",
+      "x": 10,
+      "y": 2
+    },
+    {
+      "kind": "partition-h",
+      "x": 0,
+      "y": 4
+    },
+    {
+      "kind": "partition-h",
+      "x": 1,
+      "y": 4
+    },
+    {
+      "kind": "partition-h",
+      "x": 2,
+      "y": 4
+    },
+    {
+      "kind": "partition-h",
+      "x": 3,
+      "y": 4
+    },
+    {
+      "kind": "partition",
+      "x": 6,
+      "y": 6
+    },
+    {
+      "kind": "partition",
+      "x": 6,
+      "y": 7
+    },
+    {
+      "kind": "partition",
+      "x": 6,
+      "y": 8
+    }
+  ],
+  "entities": [
+    {
+      "depth": 3.5,
+      "bounds": [
+        206,
+        47,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 5.5,
+      "bounds": [
+        172,
+        64,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 5.5,
+      "bounds": [
+        240,
+        64,
+        68,
+        80
+      ],
+      "motion": [
+        0,
+        0,
+        1.5,
+        4.6000000000000005,
+        274,
+        132.5,
+        0.009,
+        0.006
+      ]
+    },
+    {
+      "depth": 5.5,
+      "bounds": [
+        138,
+        64,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 6.5,
+      "bounds": [
+        257,
+        73,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 6.5,
+      "bounds": [
+        155,
+        73,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 7.5,
+      "bounds": [
+        308,
+        81,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 7.5,
+      "bounds": [
+        172,
+        81,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 8.5,
+      "bounds": [
+        121,
+        90,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 8.5,
+      "bounds": [
+        223,
+        90,
+        68,
+        80
+      ],
+      "motion": [
+        0,
+        0,
+        1.5,
+        7.3,
+        257,
+        158,
+        0.009,
+        0.006
+      ]
+    },
+    {
+      "depth": 8.5,
+      "bounds": [
+        291,
+        90,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 8.5,
+      "bounds": [
+        189,
+        90,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 9.5,
+      "bounds": [
+        308,
+        98,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 9.5,
+      "bounds": [
+        274,
+        98,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 10.5,
+      "bounds": [
+        257,
+        107,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 10.5,
+      "bounds": [
+        359,
+        107,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 10.5,
+      "bounds": [
+        291,
+        107,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 11.5,
+      "bounds": [
+        206,
+        115,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 11.5,
+      "bounds": [
+        274,
+        115,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 11.5,
+      "bounds": [
+        342,
+        115,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 12.5,
+      "bounds": [
+        121,
+        124,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 12.5,
+      "bounds": [
+        359,
+        124,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 12.5,
+      "bounds": [
+        53,
+        124,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 12.5,
+      "bounds": [
+        325,
+        124,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 13.5,
+      "bounds": [
+        308,
+        132,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 13.5,
+      "bounds": [
+        342,
+        132,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 13.5,
+      "bounds": [
+        206,
+        132,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 14.5,
+      "bounds": [
+        325,
+        141,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 14.5,
+      "bounds": [
+        189,
+        141,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 15.5,
+      "bounds": [
+        172,
+        149,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 16.5,
+      "bounds": [
+        223,
+        158,
+        68,
+        80
+      ],
+      "motion": [
+        0,
+        0,
+        1.5,
+        15.3,
+        257,
+        226,
+        0.009,
+        0.006
+      ]
+    },
+    {
+      "depth": 17.5,
+      "bounds": [
+        240,
+        166,
+        68,
+        80
+      ],
+      "motion": []
+    },
+    {
+      "depth": 19.5,
+      "bounds": [
+        172,
+        183,
+        68,
+        80
+      ],
+      "motion": [
+        0,
+        0,
+        3.5,
+        17.4,
+        206,
+        251.5,
+        0.04,
+        0.014
+      ]
+    },
+    {
+      "depth": 19.5,
+      "bounds": [
+        206,
+        183,
+        68,
+        80
+      ],
+      "motion": []
+    }
+  ]
+}

@@ -1,5 +1,15 @@
 # Godot · Ciudad RPG / RPG Town
 
+> **ES:** Hay una migración incremental en curso. `main.tscn` permite ejecutar
+> el nuevo slice directamente en Godot. La ruta web habitual conserva por ahora
+> la campaña descrita aquí. Estado, autoría y límites en
+> [ARCADE_MIGRATION.md](ARCADE_MIGRATION.md).
+>
+> **EN:** An incremental migration is in progress. `main.tscn` runs the new
+> slice directly in Godot. The regular website currently retains the campaign
+> described here. See [ARCADE_MIGRATION.md](ARCADE_MIGRATION.md) for status,
+> authoring instructions and limitations.
+
 ## Español
 
 La partida empieza en una ciudad isométrica de 30 × 20 casillas lógicas, con una ilustración de 1536 × 1024 píxeles. Dos avenidas conectan nueve experiencias y el edificio del desafío final. Hay parques, árboles, bancos, flores y un estanque. El avatar tiene pelo castaño corto y ondulado, barba y gafas. La ciudad comparte con la oficina la paleta nocturna de cian, violeta y ámbar y el mismo atlas de personaje. Edificios y árboles se separan en capas recortadas para ocultar al personaje cuando pasa detrás. La proyección, las entradas y el minimapa siguen la perspectiva de la ilustración. El prompt y las referencias se registran en `TOWN_ART.json`. Las oficinas usan una ilustración de 1536 × 1024 basada en la referencia del usuario, un atlas transparente de cuatro orientaciones y capas de oclusión; los prompts se registran en `OFFICE_ART.json`. Los interiores son oficinas isométricas de 11 × 11 casillas, con recepción, sala acristalada, monitores, plantas y profundidad entre muebles y personaje. La portada y el retrato usan ilustraciones originales generadas; los archivos y sus prompts están en `JOB_ROUTE_ART.json`.

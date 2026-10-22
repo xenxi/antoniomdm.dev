@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { townProject } from '../../src/arcade/town-scene';
+import { buildings } from '../../src/arcade/town';
 import { clickCanvasPoint, clickCompanyObject, dumpGodotDebugBestEffort, enableGodotE2EDebug, unlockBefore, waitForGodotInteraction } from './career-fixture';
 
 // Focused, single-route reproductions. Run either with --repeat-each=100 to
@@ -29,6 +29,7 @@ test('focused town signlab route records Godot dispatch and the React map transi
   const world = page.locator('.godot-world');
   await expect(world).toHaveAttribute('data-map', 'town');
   await expect(world).toHaveAttribute('data-engine', 'ready', { timeout: 60_000 });
-  await clickCanvasPoint(page, { x: townProject(14.5, 5.5)[0], y: townProject(14.5, 5.5)[1] - 5 }, 'signlab');
+  const signlab = buildings.find(building => building.id === 'signlab')!;
+  await clickCanvasPoint(page, { x: signlab.sign[0], y: signlab.sign[1] }, 'signlab');
   await expect(page.locator('.career-game-heading h1')).toContainText('Signlab', { timeout: 30_000 });
 });

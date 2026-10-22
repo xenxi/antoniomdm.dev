@@ -11,8 +11,20 @@ config_version=5
 [application]
 
 config/name="AntoñiOS Pixel World"
-run/main_scene="res://world.tscn"
+run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[autoload]
+
+EventBus="*res://autoload/event_bus.gd"
+GameState="*res://autoload/game_state.gd"
+SceneManager="*res://autoload/scene_manager.gd"
+SaveManager="*res://autoload/save_manager.gd"
+QuestSystem="*res://systems/quest/quest_system.gd"
+DialogueSystem="*res://systems/dialogue/dialogue_system.gd"
+WebBridge="*res://autoload/web_bridge.gd"
+GameSession="*res://systems/quest/game_session.gd"
+CharacterActions="*res://autoload/character_actions.gd"
 
 [display]
 

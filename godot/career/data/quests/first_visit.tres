@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ArcadeQuest" load_steps=2 format=3]
+[ext_resource type="Script" path="res://systems/quest/quest_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "first_visit"
+title = {"es": "Conocer la etapa freelance", "en": "Explore the freelance chapter"}
+description = {"es": "Habla con el compañero de piso y consulta la experiencia profesional.", "en": "Talk to the flatmate and explore the professional experience."}
+objectives = Array[String](["flatmate_conversation"])
+

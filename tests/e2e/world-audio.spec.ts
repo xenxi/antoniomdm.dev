@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { townSpawn, townWalkable, buildings } from '../../src/arcade/town';
 
 test.use({ reducedMotion: 'reduce', launchOptions: { args: ['--enable-unsafe-swiftshader'] } });
 for (const locale of ['es', 'en']) test(`world sounds ${locale}: valid steps, doors, mute and cleanup`, async ({ page }) => {
@@ -26,8 +27,12 @@ for (const locale of ['es', 'en']) test(`world sounds ${locale}: valid steps, do
   await page.getByRole('button', { name: l('Caminar al este', 'Walk east'), exact: true }).click();
   await expect.poll(starts).toBe(2);
   // The building blocks this move, so it must not sound like a footstep.
-  await world.focus(); await page.keyboard.press('ArrowUp'); await page.keyboard.press('ArrowUp');
-  await expect(world).toHaveAttribute('data-player', '5,5');
+  await world.focus();
+  let wallY = townSpawn.y;
+  while (townWalkable(townSpawn.x + 1, wallY - 1)) {
+    await page.keyboard.press('ArrowUp'); wallY--;
+    await expect(world).toHaveAttribute('data-player', `${townSpawn.x + 1},${wallY}`);
+  }
   const beforeWall = await starts();
   await page.keyboard.press('ArrowUp'); expect(await starts()).toBe(beforeWall);
   await page.locator('[data-company="freelance"]').click();
@@ -47,7 +52,8 @@ for (const locale of ['es', 'en']) test(`world sounds ${locale}: valid steps, do
   await page.getByRole('button', { name: l('Pasos y puertas: activados', 'Footsteps and doors: on'), exact: true }).click();
   const muted = await starts();
   await page.getByRole('button', { name: l('Caminar al este', 'Walk east'), exact: true }).click();
-  await expect(world).toHaveAttribute('data-player', '5,6');
+  const returned = buildings.find(b => b.id === 'freelance')!.door;
+  await expect(world).toHaveAttribute('data-player', `${returned.x + 1},${returned.y}`);
   expect(await starts()).toBe(muted);
   await page.getByRole('button', { name: l('← Volver al escritorio', '← Return to desktop'), exact: true }).click();
   await expect.poll(() => page.evaluate(() => (window as unknown as { worldAudioStats: { closed: number } }).worldAudioStats.closed)).toBe(1);

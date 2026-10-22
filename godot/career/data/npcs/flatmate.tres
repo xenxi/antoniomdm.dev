@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="NpcData" load_steps=5 format=3]
+[ext_resource type="Script" path="res://actors/npc/npc_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/dialogues/flatmate.tres" id="2"]
+[ext_resource type="Texture2D" path="res://assets/characters/flatmate.webp" id="3"]
+[sub_resource type="SpriteFrames" id="Frames"]
+animations = [{"frames": [{"duration": 1.0, "texture": ExtResource("3")}], "loop": true, "name": &"default", "speed": 5.0}]
+[resource]
+script = ExtResource("1")
+id = "flatmate"
+display_name = {"es": "Compañero músico", "en": "Musician flatmate"}
+dialogue = ExtResource("2")
+sprite_frames = SubResource("Frames")
+quests = Array[String](["first_visit"])

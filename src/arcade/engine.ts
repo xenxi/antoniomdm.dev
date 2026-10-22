@@ -5,23 +5,24 @@ import { mapWalkable } from './pixel-map';
 import { sideQuests } from './quest-content';
 import { validSnake, type SnakeState } from './snake';
 import { studioWalkable } from './studio-layout';
+import { flatSpawn, flatWalkable } from './student-flat';
 
 export const saveKey = 'antonios:career:v1';
 export type EventId = 'freelance' | 'incident' | 'wedding' | 'emma-born' | 'friday' | 'family';
 export interface Progress { side?: string[]; failedSide?: string[]; energy?: number; remaining?: number; snake?: SnakeState; mission: number; sequence: string[]; x: number; y: number; seen: EventId[]; completedEvents: EventId[]; pendingPipeline: boolean; choices: string[] }
-export interface GameState { version: 1; layout?: 2 | 3; timed?: boolean; chapterId: string; chapters: Record<string, Progress>; coffee: boolean; secret: boolean; world?: { x: number; y: number; inside: boolean }; cleared?: string[] }
-export const freshProgress = (): Progress => ({ mission: 0, sequence: [], x: 4, y: 7, seen: [], completedEvents: [], pendingPipeline: false, choices: [], side: [], energy: 100 });
-export const newGame = (): GameState => ({ version: 1, layout: 3, chapterId: chapters[0].id, chapters: { [chapters[0].id]: freshProgress() }, coffee: false, secret: false, world: { ...townSpawn, inside: false } });
+export interface GameState { version: 1; layout?: 2 | 3; townLayout?: 2; flatLayout?: 2 | 3; timed?: boolean; chapterId: string; chapters: Record<string, Progress>; coffee: boolean; secret: boolean; world?: { x: number; y: number; inside: boolean }; cleared?: string[] }
+export const freshProgress = (chapterId = 'freelance'): Progress => ({ mission: 0, sequence: [], ...(chapterId === 'freelance' ? flatSpawn : {x:4,y:7}), seen: [], completedEvents: [], pendingPipeline: false, choices: [], side: [], energy: 100 });
+export const newGame = (): GameState => ({ version: 1, layout: 3, townLayout: 2, flatLayout: 3, chapterId: chapters[0].id, chapters: { [chapters[0].id]: freshProgress() }, coffee: false, secret: false, world: { ...townSpawn, inside: false } });
 // Standalone runs never grant campaign unlocks or write to the campaign save.
 export function newQuickMission(missionId: string, chapterId?: string): GameState | null {
   const chapter = chapters.find(chapter => (!chapterId || chapter.id === chapterId) && chapter.missions.includes(missionId));
   if (!chapter) return null;
-  return { ...newGame(), chapterId: chapter.id, chapters: { [chapter.id]: { ...freshProgress(), mission: chapter.missions.indexOf(missionId) } }, world: { ...townSpawn, inside: true } };
+  return { ...newGame(), chapterId: chapter.id, chapters: { [chapter.id]: { ...freshProgress(chapter.id), mission: chapter.missions.indexOf(missionId) } }, world: { ...townSpawn, inside: true } };
 }
-export function getProgress(state: GameState) { return state.chapters[state.chapterId] ?? freshProgress(); }
+export function getProgress(state: GameState) { return state.chapters[state.chapterId] ?? freshProgress(state.chapterId); }
 export function selectChapter(state: GameState, chapterId: string): GameState {
   if (!chapters.some(chapter => chapter.id === chapterId)) return state;
-  return { ...state, chapterId, chapters: { ...state.chapters, [chapterId]: state.chapters[chapterId] ?? freshProgress() } };
+  return { ...state, chapterId, chapters: { ...state.chapters, [chapterId]: state.chapters[chapterId] ?? freshProgress(chapterId) } };
 }
 export function updateProgress(state: GameState, patch: Partial<Progress>): GameState { return { ...state, chapters: { ...state.chapters, [state.chapterId]: { ...getProgress(state), ...patch } } }; }
 export const isComplete = (state: GameState, chapterId = state.chapterId) => (state.chapters[chapterId]?.mission ?? 0) >= chapters.find(chapter => chapter.id === chapterId)!.missions.length;
@@ -92,7 +93,7 @@ export function enterCompany(state: GameState, id: string): GameState {
 export function replayChapter(state: GameState): GameState {
   if (!chapterCleared(state, state.chapterId)) return state;
   const p = getProgress(state);
-  return updateProgress({ ...state, cleared: [...new Set([...(state.cleared ?? []), state.chapterId])] }, { ...freshProgress(), failedSide: undefined, remaining: undefined, snake: undefined, seen: p.seen, completedEvents: p.completedEvents });
+  return updateProgress({ ...state, cleared: [...new Set([...(state.cleared ?? []), state.chapterId])] }, { ...freshProgress(state.chapterId), failedSide: undefined, remaining: undefined, snake: undefined, seen: p.seen, completedEvents: p.completedEvents });
 }
 
 const events: EventId[] = ['freelance', 'incident', 'wedding', 'emma-born', 'friday', 'family'];
@@ -102,11 +103,19 @@ export function parseSave(value: string | null): GameState | null {
     const saved = JSON.parse(value);
     if (saved?.version !== 1 || !chapters.some(chapter => chapter.id === saved.chapterId) || !saved.chapters || typeof saved.chapters !== 'object' || Array.isArray(saved.chapters) || typeof saved.coffee !== 'boolean' || typeof saved.secret !== 'boolean') return null;
     if (saved.layout !== undefined && saved.layout !== 2 && saved.layout !== 3) return null;
-    const result: GameState = { version: 1, layout: 3, chapterId: saved.chapterId, chapters: {}, coffee: saved.coffee, secret: saved.secret };
+    if (saved.townLayout !== undefined && saved.townLayout !== 2) return null;
+    if (saved.flatLayout !== undefined && saved.flatLayout !== 2 && saved.flatLayout !== 3) return null;
+    const result: GameState = { version: 1, layout: 3, townLayout: 2, flatLayout: 3, chapterId: saved.chapterId, chapters: {}, coffee: saved.coffee, secret: saved.secret };
     if (saved.timed !== undefined) { if (typeof saved.timed !== 'boolean') return null; result.timed = saved.timed; }
     if (saved.world !== undefined) {
-      if (!saved.world || !townWalkable(saved.world.x, saved.world.y) || typeof saved.world.inside !== 'boolean') return null;
-      result.world = { x: saved.world.x, y: saved.world.y, inside: saved.world.inside };
+      if (!saved.world || typeof saved.world.inside !== 'boolean') return null;
+      if (saved.townLayout === 2) {
+        if (!Number.isInteger(saved.world.x) || !Number.isInteger(saved.world.y) || saved.world.x < 0 || saved.world.x >= 64 || saved.world.y < 0 || saved.world.y >= 64) return null;
+        result.world = { ...(townWalkable(saved.world.x, saved.world.y) ? { x: saved.world.x, y: saved.world.y } : townSpawn), inside: saved.world.inside };
+      } else {
+        if (!Number.isInteger(saved.world.x) || !Number.isInteger(saved.world.y) || saved.world.x < 0 || saved.world.x >= 30 || saved.world.y < 0 || saved.world.y >= 20) return null;
+        result.world = { ...townSpawn, inside: saved.world.inside };
+      }
     }
     if (saved.cleared !== undefined) {
       if (!Array.isArray(saved.cleared) || saved.cleared.length > chapters.length || saved.cleared.some((id: unknown) => !chapters.some(chapter => chapter.id === id))) return null;
@@ -114,7 +123,9 @@ export function parseSave(value: string | null): GameState | null {
     }
     for (const [id, raw] of Object.entries(saved.chapters)) {
       const chapter = chapters.find(chapter => chapter.id === id); const p = raw as Progress;
-      if (!chapter || !p || !Number.isInteger(p.mission) || p.mission < 0 || p.mission > chapter.missions.length || !(saved.layout === 3 ? mapWalkable(makeCompanyMap(id, 'es', id), p.x, p.y) : saved.layout === 2 ? studioWalkable(p.x, p.y) : isWalkable(p.x, p.y, chapter.scenario)) || typeof p.pendingPipeline !== 'boolean') return null;
+      const flat = id === 'freelance' && saved.layout === 3;
+      const validPosition = flat ? Number.isInteger(p?.x) && Number.isInteger(p?.y) && p.x >= 0 && p.y >= 0 && p.x < (saved.flatLayout ? 80 : 12) && p.y < (saved.flatLayout ? 54 : 12) && (saved.flatLayout !== 3 || flatWalkable(p.x,p.y)) : saved.layout === 3 ? mapWalkable(makeCompanyMap(id, 'es', id), p?.x, p?.y) : saved.layout === 2 ? studioWalkable(p?.x, p?.y) : isWalkable(p?.x, p?.y, chapter?.scenario ?? '');
+      if (!chapter || !p || !Number.isInteger(p.mission) || p.mission < 0 || p.mission > chapter.missions.length || !validPosition || typeof p.pendingPipeline !== 'boolean') return null;
       if (![p.seen, p.completedEvents, p.sequence, p.choices].every(Array.isArray)) return null;
       if (p.seen.some(id => !events.includes(id)) || p.completedEvents.some(id => !p.seen.includes(id)) || p.choices.length > 100) return null;
       const sequence = missionById[chapter.missions[p.mission]]?.sequence ?? [];
@@ -125,8 +136,9 @@ export function parseSave(value: string | null): GameState | null {
       if (p.energy !== undefined && (!Number.isFinite(p.energy) || p.energy < 0 || p.energy > 100)) return null;
       if (p.remaining !== undefined && (!Number.isInteger(p.remaining) || p.remaining < 0 || p.remaining > (missionById[chapter.missions[p.mission]]?.seconds ?? 90))) return null;
       if (p.snake !== undefined && (!validSnake(p.snake) || missionById[chapter.missions[p.mission]]?.challenge !== 'snake')) return null;
-      const sameLayout = saved.layout === 3;
-      result.chapters[id] = { mission: p.mission, sequence: [...p.sequence], x: sameLayout ? p.x : 4, y: sameLayout ? p.y : 7, seen: [...new Set(p.seen)], completedEvents: [...new Set(p.completedEvents)], pendingPipeline: p.pendingPipeline, choices: [...p.choices], side: [...new Set(p.side ?? [])], energy: p.energy ?? 100, ...(p.remaining !== undefined ? { remaining: p.remaining } : {}), ...(p.snake ? { snake: p.snake } : {}) };
+      const sameLayout = saved.layout === 3 && (id !== 'freelance' || saved.flatLayout === 3);
+      const position = sameLayout ? {x:p.x,y:p.y} : id === 'freelance' ? flatSpawn : {x:4,y:7};
+      result.chapters[id] = { mission: p.mission, sequence: [...p.sequence], ...position, seen: [...new Set(p.seen)], completedEvents: [...new Set(p.completedEvents)], pendingPipeline: p.pendingPipeline, choices: [...p.choices], side: [...new Set(p.side ?? [])], energy: p.energy ?? 100, ...(p.remaining !== undefined ? { remaining: p.remaining } : {}), ...(p.snake ? { snake: p.snake } : {}) };
       if (p.failedSide) result.chapters[id].failedSide = [...new Set(p.failedSide)];
     }
     if (saved.layout !== 3) {

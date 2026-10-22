@@ -1,0 +1,13 @@
+.character-activities { padding: .75rem; color: #edf6ff; background: #142032; border: 1px solid #456078; border-radius: .5rem; margin: .5rem 0; }
+.character-activities summary { cursor: pointer; font-weight: 700; }
+.character-action-buttons { display: flex; flex-wrap: wrap; gap: .5rem; margin: .75rem 0; }
+.character-activities button { min-height: 44px; padding: .5rem .75rem; margin: .2rem; color: #eefbff; background: #233c50; border: 1px solid #749eb3; border-radius: .3rem; }
+.character-activities button:disabled { opacity: .55; }
+.character-activities button[aria-pressed=true] { border-color: #88f5df; background: #235253; }
+.character-activities :focus-visible { outline: 3px solid #ffdc8a; outline-offset: 3px; }
+.coffee-challenge h2 { font-size: 1.1rem; margin: .8rem 0; }
+.coffee-challenge p { max-width: 65ch; font-size: .9rem; }
+.coffee-challenge label { display: block; margin: .75rem 0; }
+.coffee-track { position: relative; height: 24px; margin: 1rem .5rem; background: #081421; border: 1px solid #91acc2; border-radius: .3rem; overflow: hidden; }
+.coffee-target { position: absolute; inset: 0 35%; background: #3d806b; border-inline: 2px solid #b7f7dc; }
+.coffee-cursor { position: absolute; top: 0; bottom: 0; width: 4px; transform: translateX(-50%); background: #fff0b0; }

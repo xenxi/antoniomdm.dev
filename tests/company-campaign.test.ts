@@ -21,7 +21,7 @@ describe('Distinct company scenarios and four-mission campaign', () => {
   });
   it('provides every main and side objective in a connected, collision-aware scene', () => {
     for (const chapter of chapters) {
-      const map = makeCompanyMap(chapter.id, 'es', chapter.id), spawn = { x: 4, y: 7 };
+      const map = makeCompanyMap(chapter.id, 'es', chapter.id), spawn = map.spawn ?? { x: 4, y: 7 };
       expect(mapWalkable(map, spawn.x, spawn.y)).toBe(true);
       expect(new Set(map.objects.map(o => o.id)).size).toBe(map.objects.length);
       expect(new Set(map.blocked.map(o => `${o.x},${o.y}`)).size).toBe(map.blocked.length);
@@ -32,15 +32,20 @@ describe('Distinct company scenarios and four-mission campaign', () => {
         expect(object, `${chapter.id}/${id}`).toBeDefined();
         expect([[0, 1], [1, 0], [-1, 0], [0, -1]].some(([dx, dy]) => mapPath(map, spawn, { x: object.x + dx, y: object.y + dy }).length > 0), `${chapter.id}/${id}`).toBe(true);
       }
+      const queue=[spawn], reachable=new Set([`${spawn.x},${spawn.y}`]);
+      for(let i=0;i<queue.length;i++)for(const [dx,dy] of [[0,1],[1,0],[0,-1],[-1,0]]) {
+        const next={x:queue[i].x+dx,y:queue[i].y+dy}, key=`${next.x},${next.y}`;
+        if(mapWalkable(map,next.x,next.y)&&!reachable.has(key)){reachable.add(key);queue.push(next);}
+      }
       for (let y = 0; y < map.height; y++) for (let x = 0; x < map.width; x++) {
         if (!mapWalkable(map, x, y) || x === spawn.x && y === spawn.y) continue;
-        expect(mapPath(map, spawn, { x, y }).length, `${chapter.id}/${x},${y}`).toBeGreaterThan(0);
+        expect(reachable.has(`${x},${y}`), `${chapter.id}/${x},${y}`).toBe(true);
         const projected = mapProject(map, x + .5, y + .5);
         expect(mapTile(map, projected.x, projected.y)).toEqual({ x, y });
       }
     }
     expect(companyScenes.anexia.furniture.filter(f => f.kind === 'desk')).toHaveLength(10);
-    expect(companyScenes['alcatel-lucent'].width).toBeGreaterThan(companyScenes.freelance.width);
+    expect(makeCompanyMap('freelance','es','freelance').art).toContain('student-flat');
     expect(new Set(Object.values(companyScenes).map(s => JSON.stringify(s.furniture))).size).toBe(chapters.length);
   });
   it('has bilingual scenarios, options, results and interface copy', () => {
@@ -61,11 +66,13 @@ describe('Distinct company scenarios and four-mission campaign', () => {
   });
   it('migrates old office coordinates and preserves already earned company access', () => {
     const old = { ...selectChapter(newGame(), 'nokia'), layout: 2, cleared: ['freelance'] };
+    old.chapters.freelance = {...old.chapters.freelance,x:4,y:7};
     const migrated = parseSave(JSON.stringify(old))!;
     expect(migrated.layout).toBe(3);
     expect(migrated.chapters.nokia).toMatchObject({ x: 4, y: 7, mission: 0 });
     expect(chapterUnlocked(migrated, 'nokia')).toBe(true);
     const oldFirstComplete = { ...completeEvent(choose(newGame(), 'button').state, 'freelance'), layout: 2 };
+    oldFirstComplete.chapters.freelance = {...oldFirstComplete.chapters.freelance,x:4,y:7};
     expect(chapterUnlocked(parseSave(JSON.stringify(oldFirstComplete))!, 'xul')).toBe(true);
   });
   it('replaying an earned chapter resets a partially played challenge and clock', () => {

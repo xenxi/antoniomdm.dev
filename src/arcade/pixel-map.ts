@@ -9,7 +9,7 @@ import { companyArt } from './company-art';
 
 export type PixelRect = [number, number, number, number, string];
 export interface MapObject { id: string; x: number; y: number; label: string; locked?: boolean; complete?: boolean; marker?: number[]; entrance?: { anchor: number[]; width: number; height: number; color: string }; hit?: [number, number, number, number]; hitPolygon?: number[][] }
-export interface PixelMap { ambience?: { notes: number[][]; puddles: number[][] }; scene?: { resolved: string[]; mission: number }; effects?: ReturnType<typeof sceneEffects>; art?: string; sprite?: string; spriteScale?: number; signs?: CompanySign[]; company?: string; locale?: Locale; axes?: number[]; projection?: 'isometric'; entities?: { depth: number; rects: PixelRect[] }[]; id: string; width: number; height: number; tile: number; ox: number; oy: number; rects: PixelRect[]; labels: { x: number; y: number; text: string; color: string }[]; blocked: { x: number; y: number }[]; objects: MapObject[] }
+export interface PixelMap { doors?: { id:string; hinge:number[]; side:number; threshold:number[] }[]; spawn?: { x: number; y: number }; screenDepth?: boolean; residents?: number[][]; ambience?: { notes: number[][]; puddles: number[][] }; scene?: { resolved: string[]; mission: number }; effects?: ReturnType<typeof sceneEffects>; art?: string; overview?: string; sprite?: string; spriteScale?: number; signs?: CompanySign[]; company?: string; locale?: Locale; axes?: number[]; projection?: 'isometric'; entities?: { depth: number; rects: PixelRect[] }[]; id: string; width: number; height: number; tile: number; ox: number; oy: number; rects: PixelRect[]; labels: { x: number; y: number; text: string; color: string }[]; blocked: { x: number; y: number }[]; objects: MapObject[] }
 export interface CompanySign { id: string; name: string; unlocked: boolean; complete: boolean }
 export const playerSprite = [
   '.....hh.hh......', '....hHHhHHh.....', '...hHHLHHHHh....', '...hHHHHHHHh....',
@@ -23,11 +23,11 @@ export const spriteColors: Record<string, string> = { h: '#503325', H: '#775039'
 export function makePixelMap(scenario: string, signs: CompanySign[], locale: Locale, company = ''): PixelMap {
   const town = scenario === 'town';
   const map: PixelMap = { id: scenario, width: town ? townSize.width : 11, height: town ? townSize.height : 11, tile: town ? 16 : 24, ox: town ? 0 : 108, oy: town ? 0 : 28, rects: [], labels: [], blocked: [], objects: [] };
-  map.sprite = '/images/job-route/antonio-atlas.webp'; map.locale = locale;
+  map.sprite = '/images/job-route/antonio-green-walk.webp'; map.locale = locale;
   map.effects = sceneEffects(town);
   const label = (x: number, y: number, text: string, color = '#91e9df') => map.labels.push({ x, y, text, color });
   if (town) {
-    map.art = '/images/job-route/company-district.webp'; map.spriteScale = .58; map.signs = signs;
+    map.art = '/images/job-route/waterfront-city.webp'; map.overview = `/images/job-route/waterfront-map-${locale}.webp`; map.spriteScale = .58; map.signs = signs;
     map.projection = 'isometric'; Object.assign(map, townProjection);
     map.rects = [[0, 0, 480, 320, '#101a31']];
     map.objects = buildings.map(b => {
@@ -40,7 +40,7 @@ export function makePixelMap(scenario: string, signs: CompanySign[], locale: Loc
     label(park[0], park[1], townCopy.park[locale]); label(garden[0], garden[1], townCopy.garden[locale]);
   } else {
     map.art = '/images/job-route/neon-office.webp';
-    map.sprite = '/images/job-route/antonio-atlas.webp';
+    map.sprite = '/images/job-route/antonio-green-walk.webp';
     map.company = company || 'JOB ROUTE'; map.locale = locale;
     map.projection = 'isometric'; map.ox = 288; map.oy = 84; map.tile = 16;
     map.rects = [[0, 0, 480, 320, '#10182a']];
@@ -52,7 +52,12 @@ export function makePixelMap(scenario: string, signs: CompanySign[], locale: Loc
   return map;
 }
 
-export const mapWalkable = (map: PixelMap, x: number, y: number) => Number.isInteger(x) && Number.isInteger(y) && x >= 0 && y >= 0 && x < map.width && y < map.height && !map.blocked.some(t => t.x === x && t.y === y);
+const blockedTiles = new WeakMap<PixelMap, Set<string>>();
+export const mapWalkable = (map: PixelMap, x: number, y: number) => {
+  let blocked = blockedTiles.get(map);
+  if (!blocked) { blocked = new Set(map.blocked.map(t => `${t.x},${t.y}`)); blockedTiles.set(map, blocked); }
+  return Number.isInteger(x) && Number.isInteger(y) && x >= 0 && y >= 0 && x < map.width && y < map.height && !blocked.has(`${x},${y}`);
+};
 export const mapNearby = (map: PixelMap, x: number, y: number) => map.objects.find(o => Math.abs(x - o.x) + Math.abs(y - o.y) <= 1);
 export function mapProject(map: PixelMap, x: number, y: number) {
   if (map.axes) { const [ax, ay, bx, by] = map.axes; return { x: map.ox + ax * x + bx * y, y: map.oy + ay * x + by * y }; }
