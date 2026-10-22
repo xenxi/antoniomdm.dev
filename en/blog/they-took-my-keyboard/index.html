@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>They took my keyboard. They left me the decisions. · Out of Context · AntoñiOS</title><meta name="description" content="AI agents write more code every day. What does a developer do with the time saved? A reflection on judgement, learning and professional value."><meta name="theme-color" content="#0b100e"><link rel="canonical" href="https://antoniomdm.dev/en/blog/they-took-my-keyboard/"><link rel="alternate" hreflang="en" href="https://antoniomdm.dev/en/blog/they-took-my-keyboard/"><link rel="alternate" hreflang="es" href="https://antoniomdm.dev/blog/me-han-quitado-el-teclado/"><link rel="alternate" hreflang="x-default" href="https://antoniomdm.dev/blog/me-han-quitado-el-teclado/"><link rel="alternate" type="application/rss+xml" title="Out of Context · AntoñiOS RSS" href="/en/blog/rss.xml"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><meta property="og:locale" content="en_GB"><meta property="og:title" content="They took my keyboard. They left me the decisions."><meta property="og:description" content="AI agents write more code every day. What does a developer do with the time saved? A reflection on judgement, learning and professional value."><meta property="og:type" content="article"><meta property="og:url" content="https://antoniomdm.dev/en/blog/they-took-my-keyboard/"><meta property="og:site_name" content="Out of Context · AntoñiOS"><meta property="og:image" content="https://antoniomdm.dev/en/social.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="They took my keyboard. They left me the decisions."><meta name="twitter:description" content="AI agents write more code every day. What does a developer do with the time saved? A reflection on judgement, learning and professional value."><meta name="twitter:image" content="https://antoniomdm.dev/en/social.png"><meta property="article:published_time" content="2026-10-22T00:00:00.000Z"><meta property="article:tag" content="Software engineering"><meta property="article:tag" content="AI"><meta property="article:tag" content="Agents"><meta property="article:tag" content="Career development"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"They took my keyboard. They left me the decisions.","description":"AI agents write more code every day. What does a developer do with the time saved? A reflection on judgement, learning and professional value.","datePublished":"2026-10-22T00:00:00.000Z","dateModified":"2026-10-22T00:00:00.000Z","inLanguage":"en","mainEntityOfPage":"https://antoniomdm.dev/en/blog/they-took-my-keyboard/","url":"https://antoniomdm.dev/en/blog/they-took-my-keyboard/","keywords":["Software engineering","AI","Agents","Career development"],"author":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"},"publisher":{"@type":"Person","name":"Antonio Manuel Delgado Martín","url":"https://antoniomdm.dev/"}}</script><link rel="stylesheet" href="/_astro/global.Bxf2nCII.css"><link rel="stylesheet" href="/_astro/OutOfScopeLayout.CQIicPEz.css"></head><body class="oos-body"><a class="oos-skip" href="#main">Skip to content</a><header class="oos-site-header"><a class="oos-brand" href="/en/blog/" aria-label="Out of Context home"><b aria-hidden="true">▰</b> OUT OF CONTEXT<span>_</span></a><nav aria-label="Publication navigation"><a href="/en/blog/">Articles</a><a href="/en/blog/rss.xml">RSS</a><a data-language="es" lang="es" hreflang="es" href="https://antoniomdm.dev/blog/me-han-quitado-el-teclado/">ES</a><a data-article-portfolio href="/en/">Portfolio ↗</a></nav></header><main id="main"><article class="oos-article" data-oos-article="they-took-my-keyboard" data-oos-language="en"><header class="oos-article__header"><a class="oos-back" href="/en/blog/">← All articles</a><p class="oos-log">LOG #2610 · EXPLORATION</p><h1>They took my keyboard. They left me the decisions.</h1><p class="oos-article__summary">GitHub migrated the Copilot runtime to Rust with AI agents. The interesting part is not the 800,000 lines of code: it is how a developer&#39;s time, judgement, and value are changing.</p><div class="oos-article__facts"><time datetime="2026-10-22T00:00:00.000Z">22 October 2026</time><span>5 min read</span><span>Agentic engineering</span></div><div class="oos-tags"><span>Software engineering</span><span>AI</span><span>Agents</span><span>Career development</span></div></header><div class="oos-article__cover oos-article__cover--generated" aria-hidden="true"><span>OUT<br>OF<br>CONTEXT_</span><i>Exploration</i></div><div class="oos-article__layout"><div class="oos-article__body"><p><em>Agents are writing more and more code. We’re still responsible for deciding what to build, how to build it, and—above all—why.</em></p>
+<p>I’ve been developing software for more than fifteen years.</p>
+<p>I’ve learned languages, frameworks, design patterns, and enough ways to centre a <code>div</code> to question a few of my life choices.</p>
+<p>And now an AI can write in minutes code that used to take me hours.</p>
+<p>Wonderful.</p>
+<p>So what am I supposed to do?</p>
+<p>Until fairly recently, my job description seemed straightforward enough. Someone gave me a problem, I designed a solution, and I wrote code until it worked. Then we discovered the problem was something else, the requirements changed, and we started again.</p>
+<p>Software development, in other words.</p>
+<p>But after reading how GitHub migrated the Copilot runtime from TypeScript to Rust, I think we’re facing a much deeper change than writing code faster.</p>
+<p><strong>Where we spend our time is changing. And with it, where we create value.</strong></p>
+<h2 id="800000-lines-and-one-guy-asking-questions">800,000 lines and one guy asking questions</h2>
+<p>Stephen Toub led a migration that produced more than 800,000 lines of production Rust.</p>
+<p>128 pull requests. About three and a half months. Agents writing most of the code.</p>
+<p>A project he estimates would previously have required a team for one or two years was completed largely under one developer’s direction, with important contributions from the rest of the team.</p>
+<p>We already covered the migration’s problems in <a href="/en/blog/the-pr-was-green/">“The PR was green. The problem was still there.”</a>.</p>
+<p>But there’s another detail I find even more interesting.</p>
+<p>Toub analysed the 2,639 messages he had sent to the agents, classifying them by intent.</p>
+<ul>
+<li><strong>31%:</strong> reviews, testing, and continuous integration.</li>
+<li><strong>17.4%:</strong> challenging technical and design decisions.</li>
+<li><strong>15%:</strong> pushing to get the job properly finished.</li>
+</ul>
+<p>Those three activities accounted for 63% of his interactions.</p>
+<p>These are percentages of messages classified with Copilot, not an exact record of hours worked. But they tell us something.</p>
+<p>Most of his interventions weren’t explanations of how to write a function.</p>
+<p>They were about checking, challenging, and deciding.</p>
+<p><strong>The work didn’t disappear. It moved.</strong></p>
+<p>Instead of building every component himself, he was directing a system capable of building them.</p>
+<p>A developer turned orchestra conductor, basically.</p>
+<p>Except the musicians improvise, someone invents a new score, and everyone insists the tests pass.</p>
+<h2 id="manufacturing-nonsense-at-industrial-speed">Manufacturing nonsense at industrial speed</h2>
+<p>For years, implementation has consumed a substantial part of our working time.</p>
+<p>That had a curious side effect: building things was expensive enough that, occasionally, we had to ask whether they were worth building.</p>
+<p>Now we can create a prototype in an afternoon.</p>
+<p>Or five.</p>
+<p>Or ask Gepeto to design a microservices architecture for an application that stores three preferences and a username.</p>
+<p>With Kubernetes, naturally. We’re professionals.</p>
+<p>The problem is that <strong>making something cheaper does not make it necessary</strong>.</p>
+<p>If implementation once consumed 70% of our effort, and we can drastically reduce that share, we have an extraordinary opportunity.</p>
+<p>We can understand the business better, investigate alternatives, try risky ideas, simplify systems, and tackle the problems we always postponed.</p>
+<p>Or we can fill the world with features nobody asked for, nobody needs, and somebody will have to maintain.</p>
+<p>Production speed is no longer necessarily our main constraint.</p>
+<p>Choosing wisely—and knowing what to reject—starts to matter more.</p>
+<p>Rejecting one bad idea can create more value than implementing ten good ones.</p>
+<p>Although it’s rather harder to explain in a sprint retrospective.</p>
+<h2 id="knowing-how-to-code-matters-perhaps-more-than-ever">Knowing how to code matters. Perhaps more than ever.</h2>
+<p>Here’s the paradox.</p>
+<p>If agents write more and more code, do we still need to learn programming?</p>
+<p>I think so. Very much so.</p>
+<p>But perhaps we need to rethink what we’re learning it for.</p>
+<p>An agent can propose an architecture. I need to understand architecture to judge it.</p>
+<p>It can optimise a query. I need to understand performance to know whether anything improved.</p>
+<p>It can introduce concurrency, caching, events, and seventeen layers of abstraction.</p>
+<p>I need experience to stop it in time. Possibly a fire extinguisher.</p>
+<p><strong>Delegating execution does not mean delegating judgement.</strong></p>
+<p>In fact, the more solutions we can generate, the more important it becomes to distinguish good ones from those that merely look good.</p>
+<p>And that raises another uncomfortable question.</p>
+<p>How does a junior developer gain experience if AI keeps solving the problems that used to teach us?</p>
+<p>I don’t have a definitive answer, but I suspect we’ll need to separate two activities that used to go hand in hand: producing and learning.</p>
+<p>In production, we’ll use the tools that deliver the best results.</p>
+<p>To learn, we may need to keep solving certain problems ourselves, taking solutions apart, experimenting, and understanding why they work.</p>
+<p>Like using a calculator: an excellent tool, provided you can spot when it says splitting the restaurant bill four ways will cost €800 per person.</p>
+<p>The goal shouldn’t be to know less because the machine knows more.</p>
+<p>It should be <strong>to use the machine to go further with what we know</strong>.</p>
+<h2 id="so-what-makes-a-good-developer-now">So what makes a good developer now?</h2>
+<p>I think our ability to move between three responsibilities will matter increasingly.</p>
+<p>The first is <strong>understanding the problem</strong>.</p>
+<p>Not merely receiving requirements, but understanding the context, constraints, and consequences of our decisions.</p>
+<p>The second is <strong>directing the solution</strong>.</p>
+<p>Choosing strategies, breaking down problems, setting boundaries, experimenting, and coordinating tools and agents without losing sight of the bigger picture.</p>
+<p>The third is <strong>owning the outcome</strong>.</p>
+<p>Not just ensuring the code works, but that it solves the right problem, remains sustainable, and makes sense to the people using it.</p>
+<p>None of these responsibilities is new.</p>
+<p>What’s new is that, as we automate much of implementation, they may become the centre of our working day.</p>
+<p>That also changes how we should measure our work.</p>
+<p>A developer who prevents an unnecessary feature may create more value than someone who generates twenty pull requests.</p>
+<p>A team that simplifies a system may achieve more than one that doubles its output.</p>
+<p>And someone who discovers that a process change solves the problem—without touching a single line of code—may have done the best work of all.</p>
+<p>Even if they then have to explain in Jira what they were doing all week.</p>
+<h2 id="and-when-agents-start-making-the-decisions-too">And when agents start making the decisions too?</h2>
+<p>Because that’s the next step.</p>
+<p>Today agents implement tasks, run tests, and propose solutions.</p>
+<p>It’s reasonable to think they’ll gradually take on more complete jobs: from analysing a need to developing, validating, and maintaining a solution.</p>
+<p>Perhaps we’ll see smaller teams tackling far more ambitious projects. Or individual professionals building products that previously required a substantial organisation.</p>
+<p>That possibility excites me.</p>
+<p>But I don’t think it automatically means developers will disappear, or that we’ll all turn into machine supervisors.</p>
+<p>Some decisions will be automated too. New specialisations will emerge. Teams will change and, quite probably, some of today’s work will lose economic value.</p>
+<p>We don’t know how much, or how quickly.</p>
+<p>And that’s the part I find genuinely interesting.</p>
+<p><strong>If tools keep taking on what we currently call our job, we’ll have to keep discovering where we can contribute more value.</strong></p>
+<p>That requires continuous learning, but also understanding products, business, costs, risks, and people.</p>
+<p>Because engineering has never been merely about finding a technically possible solution.</p>
+<p>It’s about finding one worth pursuing.</p>
+<h2 id="the-keyboard-was-never-the-point">The keyboard was never the point</h2>
+<p>I admit there’s a little nostalgia involved.</p>
+<p>I enjoy programming. I like solving a hard problem, working out why something fails, and finding an elegant solution.</p>
+<p>I wouldn’t want that part of the job to disappear.</p>
+<p>But I also don’t want to spend two days writing code a tool can produce in ten minutes just to feel like I’m still a developer.</p>
+<p>I’d rather invest that time in building something I couldn’t previously afford to attempt.</p>
+<p>In learning something new.</p>
+<p>Or in discovering that we’ve spent three sprints perfectly solving a problem nobody had.</p>
+<p>Maybe we’ll write far less code in a few years. Maybe our days will look more like directing projects, making decisions, and experimenting with ideas.</p>
+<p>I don’t know exactly what it will look like.</p>
+<p>What I do believe is that we’ve spent too long confusing our tool with our profession.</p>
+<p><strong>We’re not paid to write code. We’re paid to solve problems using our expertise.</strong></p>
+<p>And now we have tools capable of multiplying what we can do with that expertise.</p>
+<p>The question is no longer how much code we can produce.</p>
+<p>It’s what we’re going to do with that capability.</p>
+<p>Although, please, let us keep coding occasionally.</p>
+<p>I didn’t survive fifteen years of JavaScript just to end up working exclusively in PowerPoint.</p>
+<hr/>
+<h2 id="what-im-taking-into-the-next-sprint">What I’m taking into the next sprint</h2>
+<ul>
+<li><strong>Output isn’t the same as value.</strong> Just because something is easier or cheaper to produce doesn’t mean it’s worth producing.</li>
+<li><strong>Judgement moves centre stage.</strong> The more solutions we can generate, the more important it is to choose, challenge, and reject wisely.</li>
+<li><strong>Delegation doesn’t replace learning.</strong> Automation frees up time, but knowledge remains essential to making good decisions.</li>
+<li><strong>Work is changing, not just accelerating.</strong> Automating tasks changes responsibilities, skills, and how we measure results.</li>
+<li><strong>The future doesn’t come with a fixed roadmap.</strong> Adapting means understanding fundamentals and continuing to learn, not chasing every new tool.</li>
+</ul>
+<p><strong>To keep in RAM:</strong> the goal isn’t to compete with AI at writing code faster. It’s to use it to solve problems that used to be beyond our reach.</p>
+<hr/>
+<h2 id="sources-before-you-blame-my-imagination">Sources, before you blame my imagination</h2>
+<ul>
+<li><a href="https://github.blog/ai-and-ml/generative-ai/migrating-the-github-copilot-runtime-to-rust-using-copilot/">Stephen Toub — <em>Migrating the GitHub Copilot runtime to Rust, using Copilot</em></a>. GitHub Blog, September 16, 2026; updated September 23. Source for the migration figures and message analysis.</li>
+<li><a href="/en/blog/the-pr-was-green/">Out of Scope — <em>The PR was green. The problem was still there.</em></a>. Companion article on review and accountability in agent-assisted development.</li>
+</ul></div></div></article><footer class="oos-article__footer" aria-label="Article actions"><div class="oos-article__actions"><button type="button" data-oos-share data-article-share>Share article</button><a data-article-contact href="/en/contact/">Contact ↗</a><a data-article-portfolio href="/en/">Back to AntoñiOS ↗</a></div><p role="status" aria-live="polite" data-oos-share-status></p></footer><script>(function(){const shareTitle = "They took my keyboard. They left me the decisions.";
+const shareText = "GitHub migrated the Copilot runtime to Rust with AI agents. The interesting part is not the 800,000 lines of code: it is how a developer's time, judgement, and value are changing.";
+const shareUrl = "https://antoniomdm.dev/en/blog/they-took-my-keyboard/";
+const copied = "Link copied.";
+const copyFailed = "Could not copy the link.";
+
+    const share = document.querySelector('[data-oos-share]');
+    const shareStatus = document.querySelector('[data-oos-share-status]');
+    share?.addEventListener('click', async () => {
+      try {
+        if (navigator.share) await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+        else { await navigator.clipboard.writeText(shareUrl); if (shareStatus) shareStatus.textContent = copied; }
+      } catch (error) { if (error?.name !== 'AbortError' && shareStatus) shareStatus.textContent = copyFailed; }
+    });
+  })();</script><script type="module">function e(e,t,n){let r=new Set;return i=>{for(let[a,o]of[[.5,`article_50_percent`],[.9,`article_complete`]])i>=a&&!r.has(o)&&n({name:o,params:{article_slug:e,language:t}})&&r.add(o);return r.size}}var t=document.querySelector(`[data-oos-article]`);if(t){let n=e(t.dataset.oosArticle??``,t.dataset.oosLanguage===`en`?`en`:`es`,e=>window.__ANTONIOS_ANALYTICS__?.track(e)??!1),r=()=>{let e=document.documentElement.scrollHeight-window.innerHeight,t=e<=0?1:window.scrollY/e;n(t)};addEventListener(`scroll`,r,{passive:!0}),addEventListener(`analytics-consent-changed`,r),r()}</script></main><footer class="oos-site-footer"><p>OUT OF CONTEXT_ <span>×</span> AntoñiOS</p><p>Questions, experiments and engineering notes.</p><p><a class="oos-footer-link" href="/en/privacy/">Privacy</a></p></footer><div id="analytics-consent" class="analytics-consent no-print" data-analytics-consent-state="pending"><aside id="analytics-consent-panel" class="analytics-consent__panel" aria-labelledby="analytics-consent-title" aria-describedby="analytics-consent-description" tabindex="-1" hidden><div><p class="analytics-consent__eyebrow">GA4 / PRIVACY</p><h2 id="analytics-consent-title">Optional measurement</h2><p id="analytics-consent-description">Google Analytics helps me understand visits and viewed pages. Google only loads if you accept; measurement does not affect navigation. <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Google privacy ↗</a></p></div><div class="analytics-consent__actions"><button type="button" data-analytics-consent="reject">Reject</button><button class="primary" type="button" data-analytics-consent="accept">Allow measurement</button></div></aside><button id="analytics-consent-settings" class="analytics-consent__settings" type="button" hidden>Analytics settings</button><p id="analytics-consent-status" class="analytics-consent__status" data-granted="Google Analytics measurement enabled." data-denied="Google Analytics measurement disabled." aria-live="polite"></p><script type="module" src="/_astro/AnalyticsConsent.astro_astro_type_script_index_0_lang.9i8arElP.js"></script></div></body></html>
