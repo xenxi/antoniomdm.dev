@@ -1,59 +1,90 @@
-# Out of Context · Guía editorial / Editorial guide
+# Out of Scope / Out of Context · Guía editorial v2.1 / Editorial guide
 
-Esta guía es la fuente de verdad editorial para Out of Context. Se aplica a cualquier creación, reescritura o revisión de artículos. La arquitectura técnica, las rutas y el flujo de publicación se documentan en [`OUT_OF_SCOPE.md`](OUT_OF_SCOPE.md).
+**Estado / Status:** Aprobada el 23 de octubre de 2026 / Approved on October 23, 2026.
 
-This guide is the editorial source of truth for Out of Context. It applies whenever an article is created, rewritten, or reviewed. Technical architecture, routes, and the publishing workflow are documented in [`OUT_OF_SCOPE.md`](OUT_OF_SCOPE.md).
+Esta guía es la **fuente de verdad editorial** del blog para los **artículos nuevos creados a partir de la aprobación de v2.1**. No es retroactiva: los artículos ya publicados conservan íntegros texto, extensión, portadas, categorías, metadatos, conclusiones y aprendizajes. Sólo caben correcciones puntuales y justificadas de errores factuales, enlaces o problemas técnicos; nunca reescrituras o rediseños encubiertos. La arquitectura, rutas y publicación se explican en [`OUT_OF_SCOPE.md`](OUT_OF_SCOPE.md).
 
-## Referencia práctica / Practical reference
+This is the blog's **editorial source of truth** for **new articles written after v2.1 approval**. It is not retroactive: existing published articles keep their copy, length, covers, categories, metadata, conclusions and lessons unchanged. Only narrowly scoped corrections of factual errors, broken links or technical problems are allowed—not covert editorial rewrites or redesigns. Architecture, routes and publishing remain documented in [`OUT_OF_SCOPE.md`](OUT_OF_SCOPE.md).
 
-La guía explica las reglas editoriales. [`La pregunta se queda`](../src/content/out-of-scope/es/la-pregunta-se-queda/index.mdx) es el artículo de referencia editorial (*golden sample*) que demuestra cómo suenan en la práctica. Deben consultarse juntos cuando resulte útil para crear o revisar un artículo; en caso de duda, esta guía conserva la autoridad normativa.
+**Nombre / Naming:** «Out of Scope» es el nombre editorial usado en estas decisiones; el repositorio y partes de la interfaz todavía muestran «Out of Context». Aprobar esta guía **no autoriza un cambio de marca o de rutas**. / “Out of Scope” is the editorial name used for these decisions; the repository and parts of the UI still say “Out of Context”. Approving this guide **does not authorize a brand or URL migration**.
 
-This guide explains the editorial rules. [`The question remains`](../src/content/out-of-scope/en/the-question-remains/index.mdx) is the editorial reference article (*golden sample*) showing how they sound in practice. Consult them together when useful for writing or reviewing an article; when in doubt, this guide remains the normative authority.
+## Referencias prácticas / Practical references
+
+Esta guía es normativa; los artículos existentes son referencias de cualidades, **no plantillas que haya que reproducir ni piezas que deban actualizarse**. [`La pregunta se queda`](../src/content/out-of-scope/es/la-pregunta-se-queda/index.mdx) conserva su condición de *golden sample* de autenticidad y reflexión. [`El PR estaba en verde`](../src/content/out-of-scope/es/el-pr-estaba-en-verde/index.mdx) es referencia de ritmo, ironía y claridad. [`Claudio tiene derecho a colgarte`](../src/content/out-of-scope/es/claudio-tiene-derecho-a-colgarte/index.mdx) inspira humor con rigor e incertidumbre, y [`Me han quitado el teclado`](../src/content/out-of-scope/es/me-han-quitado-el-teclado/index.mdx) perspectiva profesional y ambición conceptual; **sus extensiones actuales no son objetivos de la v2.1**.
+
+This guide is normative; existing articles are references for specific qualities, **not templates to imitate or posts to update**. [`The question remains`](../src/content/out-of-scope/en/the-question-remains/index.mdx) remains the authenticity-and-reflection *golden sample*. [`The PR was green`](../src/content/out-of-scope/en/the-pr-was-green/index.mdx) models pace, irony and clarity. [`Claudio has the right to hang up`](../src/content/out-of-scope/en/claudio-has-the-right-to-hang-up/index.mdx) models humour with scientific care; [`They took my keyboard`](../src/content/out-of-scope/en/they-took-my-keyboard/index.mdx) models professional perspective and conceptual ambition. **Their current lengths are not v2.1 targets**.
 
 ## Español
 
-### Identidad
+### Identidad y promesa al lector
 
-Out of Context es un cuaderno de campo de ingeniería, no un blog de tutoriales. Cuenta pequeñas historias de ingeniería de software desde la experiencia personal de Antonio. Una entrada suele nacer de una pregunta surgida durante el trabajo, un comportamiento inesperado, una decisión de arquitectura, un experimento, un fallo, una limitación o una solución que funcionó por motivos que merecían una segunda mirada.
+Out of Scope es una columna personal de ingeniería, tecnología y decisiones que parecían estupendas hasta que alguien hizo una pregunta incómoda. No es un agregador de noticias, academia, catálogo de tutoriales ni máquina de rellenar buscadores. El portfolio responde «qué he construido»; el blog muestra **cómo pienso, qué cuestiono, cuándo me equivoco y qué aprendo**. Más de quince años de oficio deben notarse en el criterio, no porque repita mi biografía.
 
-La tecnología concreta no es el hilo conductor. El hilo conductor es la manera de enfrentarse a un problema: qué llamó la atención, qué se probó, qué evidencia apareció y qué cambió después. El portfolio responde principalmente «qué he hecho»; el blog cuenta qué ocurrió mientras lo hacía y qué aprendí por el camino. Un proyecto real puede aportar contexto, pero el artículo debe resultar interesante sin conocer previamente ese proyecto.
+**Promesa:** una historia con personalidad en tres minutos, que deje (1) una sonrisa, (2) una reflexión o tensión interesante y (3) un aprendizaje real. No todos los textos tienen que hacer reír constantemente, pero ninguno se publica sólo para mantener actividad.
 
-### Voz y personalidad
+**Regla de selección:** antes de escribir, completar «Esto me interesa porque revela ____, y merece la pena entenderlo porque ____». Una noticia sólo se convierte en artículo si aporta una contradicción, una consecuencia poco evidente, una interpretación propia o un principio transferible.
 
-- Escribir predominantemente en primera persona. Debe percibirse una persona detrás del texto.
-- Transmitir experiencia sin solemnidad, criterio sin dogmatismo, curiosidad, pragmatismo y comodidad ante la incertidumbre o el error.
-- Preferir «me encontré con esto, probé aquello y cambié de opinión por este motivo» a «voy a enseñarte la forma correcta».
-- Distinguir hechos y observaciones de decisiones contextuales y opiniones personales.
-- Usar humor cuando nazca de lo ocurrido. La ironía ocasional y el entusiasmo por investigar más de lo estrictamente necesario encajan; una sucesión de chistes no.
-- Las referencias geek y expresiones de AntoñiOS —`DAME CINCO MINUTOS...`, `SIDE QUEST EN CURSO`, madrigueras, videojuegos, bugs, procesos o compilaciones— son una segunda capa opcional. No son muletillas ni requisitos de marca.
-- Evitar lenguaje corporativo, tono académico innecesario, falsa autoridad y frases que suenen a contenido genérico o generado en serie.
+### Voz, autenticidad y humor
 
-Prueba de autenticidad: **si el artículo podría haberlo escrito cualquier desarrollador, todavía no está terminado**. Debe contener al menos una experiencia, observación, decisión, prueba, error, cambio de opinión o razonamiento propio. Nunca se inventan anécdotas para cumplir esta regla; si falta información real, se señala durante la edición.
+- **Veterano, no dinosaurio.** Experiencia para reconocer patrones, no autoridad infalible; actualizar la opinión cuando cambie la evidencia.
+- **Mordaz, no arrogante.** Ironía incisiva contra hype, burocracia, malas decisiones y exageraciones corporativas, no contra personas vulnerables, usuarios o profesionales que aprenden.
+- **Humano, no personaje.** Primera persona natural, dudas, curiosidad, entusiasmo, contradicciones, errores y autocrítica. No hace falta parecer brillante en cada frase.
+- **Friki, no diccionario de memes.** Jira, Kubernetes, legacy, videojuegos, bots y la jerga dev pueden enriquecer una historia; evitar muletillas y remates reciclados.
+- **Reflexivo, no predicador.** Tomar posición, ofrecer razones y reconocer límites; nunca disfrazar una preferencia contextual de ley universal.
 
-### Alcance, título y extensión
+Escribir como alguien que cuenta una historia interesante durante un café, no como un comunicado ni una charla de venta. Se admiten expresiones coloquiales, sarcasmo contundente y, excepcionalmente, una palabrota orgánica. **El humor revela contradicciones; no es relleno.** Si al eliminar un chiste el texto mejora, el chiste sobra. No poner uno por párrafo ni rebajar hechos o consecuencias humanas serias a simples bromas.
 
-**Un artículo desarrolla una idea principal.** Se prefiere una pregunta o un descubrimiento concreto a un tema enciclopédico. El título despierta curiosidad sin clickbait y sin prometer una guía definitiva que el texto no ofrece.
+La personalidad no consiste en insertar «yo creo» ante información ajena. Explicar qué me llamó la atención, por qué discrepo, qué habría pensado antes, qué cambiaría en mi práctica o qué incertidumbre persiste. **Nunca inventar proyectos, experiencias, experimentos ni conversaciones** para parecer cercano. Diferenciar lo observado personalmente de lo leído en otras fuentes; no divulgar información privada por autenticidad.
 
-El objetivo habitual es una lectura de 3–5 minutos: aproximadamente 600–1.000 palabras, con un límite blando de 1.200. No se añade relleno para alcanzar una cifra. Si la idea queda bien contada en 500 palabras, se publican 500. Si supera claramente las 1.200, se comprueba antes si contiene dos artículos.
+Apodos de IA: «Gepeto», «Claudio» y «Gema» cuando encajen respectivamente con OpenAI, Claude y Gemini; sin alternancia mecánica ni mascota omnipresente. En pasajes que exijan precisión, utilizar los nombres reales. Las referencias de AntoñiOS son una segunda capa opcional, no un requisito.
 
-### Ritmo narrativo
+### Temas, titulares y tres minutos
 
-No existe una plantilla obligatoria, pero el ritmo habitual es:
+**Una tesis por artículo.** El título despierta curiosidad con preguntas incómodas, contradicciones o remates naturales, sin clickbait ni promesas de «guía definitiva». `summary` plantea el conflicto, no adelanta toda la resolución.
 
-1. **Gancho.** Una frase o un párrafo corto que introduce una situación, contradicción, problema o pregunta. Nunca «En este artículo vamos a…».
-2. **Contexto.** Sólo lo necesario para entender qué estaba haciendo y por qué importaba; no documentación completa del proyecto.
-3. **Pregunta.** El detalle que hizo que mereciera la pena seguir investigando.
-4. **Madriguera.** Pruebas, código, arquitectura, mediciones, hipótesis, errores, alternativas y trade-offs. La experiencia y la evidencia van antes que la teoría genérica.
-5. **Lo que me llevo.** La conclusión, regla personal, decisión, cambio de práctica, incertidumbre o pregunta mejor que dejó la investigación.
-6. **Remate.** Cuando encaje, una frase breve que cierre la historia. No una conclusión académica ni una pregunta genérica al lector.
+**Extensión para artículos nuevos:** objetivo **400–460 palabras** y techo editorial **480 palabras**, contando narración, encabezados, conclusiones y bloque de aprendizaje. Las fuentes externas no cuentan en la estimación; código, esquemas y gráficos que demanden lectura sí se consideran. Calcular `readingTime` del contenido completo a un ritmo conservador de alrededor de **160 palabras/minuto**, con ajustes razonables por idioma y complejidad. Nunca excluir el bloque de aprendizaje del tiempo declarado para una nueva pieza.
 
-Los encabezados y las listas se usan sólo si mejoran la lectura, especialmente en móvil. La progresión debe sentirse narrativa, no como un esquema rellenado.
+No rellenar por llegar a una cifra; eliminar introducciones protocolarias, redundancias y vueltas sobre la misma idea. Si una explicación no cabe con rigor, acotar la tesis, separar investigaciones distintas o registrar de forma explícita una excepción justificada; **nunca falsear los minutos**.
 
-### Rigor técnico
+### Familias temáticas y nueva categoría
 
-El recorrido preferido es **problema → razonamiento → experimento → resultado → aprendizaje**, no **definición → teoría → tutorial → conclusión**. Código, logs, benchmarks, diagramas y resultados sólo aparecen cuando ayudan a contar la historia, reducidos al fragmento mínimo necesario. Se separa la observación de su interpretación, no se inventan resultados y una experiencia concreta no se presenta como ley universal.
+Las categorías editoriales principales para nuevos artículos son:
 
-No se explican conceptos básicos que el lector técnico puede consultar en la documentación oficial salvo que sean imprescindibles para seguir la historia. SEO, metadata y semántica HTML siguen siendo importantes en la implementación, pero no condicionan la voz visible.
+| Categoría ES | Categoría EN | Perspectiva |
+| --- | --- | --- |
+| Arquitectura | Architecture | Sistemas, decisiones, rendimiento, costes, calidad y pragmatismo. |
+| Ingeniería agéntica | Agentic engineering | Agentes, automatización, delegación, validación y desarrollo. |
+| IA / Reflexiones | AI / Reflections | Investigación, ética, capacidades, límites y dilemas de IA. |
+| Side quests | Side quests | Curiosidad, descubrimientos, aprendizajes fuera del ticket. |
+| **Salseo con logs** | **Drama with Receipts** | Polémicas tecnológicas, meteduras de pata públicas, marketing desbocado y contradicciones empresariales explicadas con evidencia. |
+
+**«Salseo con logs» no es un sitio para rumores o humillación.** El escándalo atrae; el análisis justifica entrar. Partir de hechos contrastados, explicar qué decisiones y mecanismos hicieron posible el problema y extraer un aprendizaje útil. Por ejemplo, un ejecutivo entusiasmado con un prototipo de IA que confunde «se ve en el navegador» con «es seguro en producción» es un ángulo narrativo; **no atribuir incidentes concretos a alguien sin verificación**. Que algo aparezca en el frontend no implica por sí solo una filtración: evaluar la sensibilidad de los datos y los controles reales de acceso y autorización.
+
+En cuestiones sensibles, contrastar fuentes primarias e independientes, distinguir acusaciones de hechos probados, no inferir intenciones, no reproducir datos privados ni credenciales, y evitar detalles técnicos que faciliten abuso. Reírse de decisiones cuestionables, no de sus víctimas.
+
+La categoría responde al **enfoque** y las etiquetas a las tecnologías y asuntos secundarios. Un fallo relacionado con IA puede ser «Salseo con logs» si el eje es la decisión empresarial, o «IA / Reflexiones» si el eje es conceptual. No duplicar artículos para aparecer en varias categorías.
+
+**Implementación:** el campo actual `category` es texto libre, así que las categorías nuevas podrán aparecer al publicar artículos que las utilicen. La guía por sí sola no crea contenido ni filtros vacíos en la web. No cambiar la clasificación histórica.
+
+### Ritmo narrativo sin plantilla
+
+La estructura no debe sonar a un formulario rellenado. Preferir este recorrido flexible:
+
+1. **Gancho:** tensión o contradicción en las dos o tres primeras frases; nunca «En este artículo vamos a…».
+2. **Conflicto:** sólo los hechos y el contexto necesarios para comprender qué ocurre.
+3. **Mi mirada:** interpretación y criterio del autor; qué resulta absurdo, qué cuestiono, por qué me importa o qué haría de otro modo.
+4. **Resolución:** una idea fuerte, una decisión práctica o una incertidumbre bien delimitada.
+5. **Remate:** cuando proceda, una frase memorable, mordaz, irónica o humana, sin repetir la moraleja.
+
+Las pruebas, números o ejemplos sirven a la historia. Los encabezados sólo se utilizan si agilizan la lectura móvil; no imponer un número fijo. Humor, profundidad y sarcasmo pueden variar entre artículos, pero la voz no debe parecer escrita en serie.
+
+### Rigor, utilidad y límites
+
+Seguir cuando resulte aplicable **problema → razonamiento → evidencia/experimento → resultado → aprendizaje**, no definición → teoría → tutorial → conclusión. Hechos verificados, interpretaciones, opiniones e hipótesis deben diferenciarse; un resultado contextual no es una ley universal. Evitar atribuir causalidad sin respaldo o convertir estimaciones en mediciones. Recoger contraargumentos relevantes con honestidad.
+
+Código, datos, logs, tablas y diagramas aparecen únicamente si ayudan a comprender la tesis, en su versión mínima útil. No explicar obviedades técnicas ni publicar instrucciones excesivas donde basten referencias a documentación oficial. El lector debe obtener una perspectiva, un criterio o una aplicación aprovechable en otro contexto.
+
+**No hay obligación de publicar.** Descartar notas de prensa resumidas sin opinión propia, refritos de tendencias, tutoriales genéricos, chistes con una moraleja postiza y artículos que repiten aprendizajes recientes. La periodicidad no excusa la falta de valor.
 
 ### Bloques editoriales disponibles
 
@@ -73,104 +104,146 @@ Los componentes MDX existentes son opcionales. No se insertan para decorar ni fo
 
 `LOG` ya aparece como identificador visual automático en la cabecera del artículo; no existe como bloque MDX independiente. `POSTMORTEM` existe como tipo de artículo (`type: postmortem`), no como componente. No se añaden componentes nuevos hasta que un caso editorial repetido justifique su semántica y su mantenimiento.
 
-### Portadas
+### Portadas: misma colección, cinco familias reconocibles
 
-Cada artículo publicado tiene una ilustración propia: pixel art de aventura gráfica retro, sombras ciruela, iluminación violeta y magenta, acentos cian/menta y luces cálidas. La escena representa una idea del artículo con humor sutil; compartir estética no significa repetir protagonista. **Claudio aparece únicamente en su artículo.** No reutilizarlo como mascota general del blog.
+**Sólo para artículos nuevos.** Conservar el lenguaje compartido de pixel art de aventura gráfica retro, escenas narrativas, iluminación cinematográfica, sombras ciruela, alto contraste y textura coherente con AntoñiOS. **Diferenciar por temática** mediante tres elementos: color dominante, atmósfera y tipo de escena; no basta aplicar un filtro de color a una imagen genérica.
 
-Las portadas son horizontales (16:9), sin el título incrustado y con el motivo principal legible en miniatura. Evitar texto dentro de la ilustración; cuando sea necesario, crear una versión localizada por idioma. Declarar `cover` y un `coverAlt` natural en ES/EN. Guardar los recursos compartidos en `src/assets/blog/`; las tarjetas, la cabecera y los metadatos sociales usan la misma identidad visual.
+| Familia | Dominante de referencia | Atmósfera y motivos |
+| --- | --- | --- |
+| Arquitectura | Azul tecnológico `#397BD5` | Planos, estructuras, sistemas, conexiones, salas técnicas. |
+| Ingeniería agéntica | Cian/turquesa `#30C7CF` | Bots, terminales, automatización y caos organizado. |
+| IA / Reflexiones | Violeta/lavanda `#9874DE` | Laboratorios, preguntas, símbolos conceptuales, dilemas. |
+| Side quests | Ámbar/dorado `#E9B458` | Exploración, descubrimientos, talleres y aventuras. |
+| Salseo con logs | Coral/rojo rosado `#F16577` | Oficinas absurdas, alertas, celebraciones prematuras y caos corporativo. |
 
-Dirección de las escenas actuales (generadas con ImageGen):
+Los hexadecimales orientan la **dirección artística**, no prescriben cada píxel ni alteran automáticamente los colores de la interfaz. Mantener un fondo oscuro compartido, pero evitar que todas las portadas vuelvan a quedar dominantemente moradas. El personaje, la iluminación y la historia han de variar de una categoría a otra. Una escena debe contar una situación, no limitarse a ilustrar el nombre de la tecnología.
 
-- `claudio-es.webp` / `claudio-en.webp`: Claudio agotado, teléfono, archivadores legacy y la opción de terminar la conversación.
-- `portfolio.webp`: ventanas de escritorio que se atascan al atravesar el marco del navegador.
-- `cache.webp`: precio antiguo congelado junto a un precio vigente y un símbolo de rapidez.
-- `green-pr.webp`: check verde celebrado sobre un pedestal con el bug todavía debajo.
-- `question.webp`: interrogación que permanece sobre un portátil cerrado después de terminar el trabajo.
+Formato **16:9**, motivo principal legible en miniatura, composición apta para tarjetas/cabeceras/social, sin títulos incrustados y sin texto innecesario. Usar `cover` y `coverAlt` naturales en ES/EN; si hay texto indispensable, localizar la imagen. Recursos compartidos en `src/assets/blog/`. Una ilustración por artículo, con personalidad propia. Claudio aparece exclusivamente en su propio artículo; ni él ni otros personajes son mascotas generales. En casos de salseo, caricaturizar comportamientos, no fabricar supuestas pruebas ni mostrar información sensible o retratos engañosos de personas reales.
 
-### Bloque de aprendizaje fuera de tiempo de lectura
+**Compatibilidad:** las ilustraciones y metadatos de todos los artículos ya publicados permanecen intactos. El esquema actual **no incluye** un campo `visualTheme`: puede añadirse en una implementación futura, opcional y con fallback para el histórico, si se requiere automatizar los acentos por familia. Esta aprobación **no implica** cambiar esquema, CSS ni la interfaz existente.
 
-Tras el cierre narrativo de cada artículo se incluye una sección de **aprendizajes para recordar**, antes de las fuentes. El encabezado debe cambiar entre entradas con humor discreto (por ejemplo, «Lo que sobrevivió al garbage collector», «Conocimiento desbloqueado» o «Lo que me llevo a RAM»); no se aleatoriza en cada visita.
+### El aprendizaje que merece subrayarse
 
-- Presentar habitualmente 3–5 aprendizajes esquemáticos, con un concepto en negrita y una breve explicación, más una idea final para recordar. Priorizar principios de alto nivel reutilizables en otros proyectos y ámbitos; la tecnología y el caso del artículo son ejemplos, no el límite del aprendizaje.
-- Incluir el bloque en el borrador presentado para revisión y obtener la aprobación del contenido antes de publicarlo o añadirlo a un artículo existente.
-- Extraer conceptos y criterios prácticos **sin repetir** el argumento del artículo.
-- Priorizar claridad, precisión y concisión. Incorporar esquemas o tablas sólo cuando permitan consultar la información más rápido.
-- Separar ideas documentadas de interpretaciones o propuestas propias; citar las referencias al final.
-- El bloque es un **anexo**: no computa para la longitud objetivo ni para `readingTime` del cuerpo narrativo, que se mantiene explícito en el frontmatter.
-- La sección de fuentes va después del aprendizaje. Si el artículo carece de aprendizajes concretos, señalarlo durante la revisión antes de publicar; no inventarlos.
+Cada artículo **nuevo** cierra con un bloque de aprendizajes **dentro de los tres minutos**, después del remate narrativo y antes de las fuentes. Debe funcionar como apuntes de estudio: **tres conceptos orientativos** (se admiten dos o cuatro si el contenido lo exige), cada uno con **nombre en negrita** y **una frase clara** que explique el principio, su uso o su límite. Extensión orientativa **70–95 palabras incluyendo la síntesis final**.
+
+Encabezado variable, con humor natural («Lo que sobrevivió al garbage collector», «Conocimiento desbloqueado», «Lo que me llevo a RAM»); elegirlo al editar, nunca aleatorizarlo durante la visita. Cerrar normalmente con **«Para guardar en RAM»** o una variante que encaje.
+
+Priorizar principios **transversales**, no repetir el caso técnico ni introducir afirmaciones nuevas que el artículo no haya fundamentado. No inventar conceptos para completar una lista. Ejemplo:
+
+- **Coste ≠ valor.** Que una solución sea barata de construir no significa que compense mantenerla.
+- **Delegar exige verificar.** La responsabilidad por el resultado sigue siendo humana aunque otra herramienta ejecute el trabajo.
+- **Aprender no es producir.** Optimizar la entrega y desarrollar criterio son objetivos diferentes.
+
+**Para guardar en RAM:** cuando construir se abarata, elegir bien qué construir cobra más importancia.
+
+La aprobación editorial incluye este bloque y el cálculo actualizado de `readingTime`. **No modificar** los anexos históricos ni sus tiempos de lectura antiguos.
 
 ### Encabezado de fuentes
 
 Cuando haya fuentes o lecturas adicionales, usar un título breve, natural y con humor discreto. Variarlo entre artículos: «Las fuentes, por si acaso», «No me lo he inventado todo», «De dónde sale todo esto», «Para contrastar mis desvaríos» u otras frases del mismo estilo. Elegir una variante al editar y conservarla en el artículo; no cambiarla aleatoriamente en cada visita. Evitar «Para seguir por la madriguera» como fórmula recurrente. Para el artículo de Claudio queda fijado «No me lo he inventado todo».
 
-### Metadata y reutilización
+### Metadatos, idiomas y reutilización
 
-El artículo MDX es la única fuente de contenido. `summary` se escribe a mano y presenta la pregunta o el descubrimiento sin resolver todo el artículo. Alimenta tarjetas, listados, RSS y la copia social predeterminada; también actúa como descripción SEO cuando no existe `seo.description`. `linkedin.text` sólo se usa cuando la publicación necesita una adaptación deliberada. La URL canónica se deriva de `locale` y `slug`; no se copia dentro del artículo. `translationKey` relaciona las versiones ES/EN aunque sus slugs difieran.
+El MDX es la única fuente del artículo. `summary` se escribe a mano para tarjetas, listados, RSS y copia social predeterminada; también cubre la descripción SEO si no existe `seo.description`. `linkedin.text` permite una adaptación deliberada; la URL canónica depende de `locale` y `slug`, nunca se copia en el cuerpo. `translationKey` conecta ES/EN incluso cuando los slugs difieren.
 
-No se publican dos copias del cuerpo ni se traslada al artículo información interna sobre MDX, CMS, URLs indexables o implementación SEO.
+**Toda nueva publicación se revisa en español e inglés.** Traducir la tesis y el rigor; adaptar las bromas y giros culturales con naturalidad. Mantener categorías pareadas e identidad cromática compartida. Cada versión debe respetar su lectura completa y su `readingTime` real. Evitar cuerpos duplicados o información interna sobre CMS, SEO o rutas dentro de la narración.
 
-### Resúmenes para LinkedIn
+### LinkedIn: conversación, no anuncio
 
-Los resúmenes deben funcionar como publicaciones autónomas: una idea, una pequeña historia o una reflexión con la voz del blog. Evitar fórmulas que anuncian o venden el artículo, como «en el artículo cuento/conecto/desarrollo», «aquí reflexiono» o «descubre cómo». Si hay transición al enlace, debe ser sutil y natural; por defecto, cerrar simplemente con el enlace directo, sin llamada promocional. No añadir llamadas genéricas a comentar.
+Un resumen de LinkedIn funciona **de manera autónoma**: cuenta una idea, una historia o reflexión con la voz del blog, aunque nadie abra el enlace. Evitar «he escrito un artículo», «descubre cómo» y llamadas artificiosas a comentar. Si aparece un enlace, incorporarlo con naturalidad, por defecto directo y sin eslogan comercial. Emojis y hashtags sólo cuando aporten.
 
-### Lista de revisión
+No publicar nuevos artículos ni sus adaptaciones sociales sin la revisión y aprobación establecidas. El archivo publicado no se reescribe para encajar con estas pautas.
 
-Antes de publicar o dar por terminada una revisión:
+### Revisión editorial y de publicación
 
-- confirmar una idea principal, un primer párrafo con tensión y una progresión narrativa;
-- comprobar que la primera persona es natural y que hay evidencia de por qué Antonio cuenta esta historia;
-- eliminar repeticiones, explicaciones evidentes, frases largas, encabezados y listas innecesarios;
-- comprobar que el humor no parece añadido y que la tecnología no eclipsa la pregunta;
-- evitar «En el vertiginoso mundo de…», «En este artículo exploraremos…», «Como desarrolladores…», «En conclusión…», «Es importante destacar que…» y «A continuación veremos…»;
-- evitar keyword stuffing, introducciones SEO artificiales, moralejas, clickbait y llamadas genéricas a comentar;
-- revisar la longitud y dividir el texto si contiene dos investigaciones;
-- revisar conjuntamente ES y EN, con el mismo significado, metadata equivalente y lectura natural en cada idioma;
-- validar frontmatter, HTML estático, navegación, cambio de idioma, canonical, RSS, sitemap, SEO, vista móvil, tests, lint, typecheck y build.
+Antes de aprobar un artículo **nuevo**:
+
+- **Firma:** ¿hay perspectiva personal o podría firmarlo cualquier desarrollador?
+- **Café:** ¿lo contaría así a un colega, sin jerga corporativa ni tono académico impostado?
+- **Gancho y tensión:** ¿engancha desde el principio sin clickbait? ¿Hay una única tesis?
+- **Tijeras:** ¿podemos suprimir repeticiones, contexto innecesario o el chiste menos inspirado?
+- **Verdad:** ¿están los hechos contrastados y separados de hipótesis, opiniones e interpretaciones?
+- **Subrayador:** ¿los aprendizajes son claros, fundamentados, transversales y consultables?
+- **Tres minutos:** ¿narración + cierre + aprendizajes caben en ≤480 palabras y `readingTime` es honesto?
+- **Archivo:** ¿evita reciclar argumentos y respeta íntegros los artículos publicados?
+- **Miniatura:** ¿conserva pixel art compartido y se reconoce la familia temática a primera vista?
+- **ES/EN:** ¿ambos idiomas transmiten la misma tesis con humor natural y metadatos equivalentes?
+- **Salseo:** si hay acusaciones o fallos públicos, ¿se han verificado y protegido datos y víctimas?
+- **Técnico:** comprobar frontmatter, HTML estático, navegación, idioma, canonical, RSS, sitemap, SEO, móvil, tests, lint, typecheck y build antes de dar por terminada una publicación.
+
+Evitar «En el vertiginoso mundo de…», «En este artículo exploraremos…», «Como desarrolladores…», «En conclusión…», keyword stuffing, moralejas forzadas y preguntas artificiales de engagement. No perseguir cuota de publicaciones: **tres minutos, una historia, algo de mala leche y una idea que merezca quedarse.**
 
 ## English
 
-### Identity
+### Identity and reader promise
 
-Out of Context is an engineering field notebook, not a tutorial blog. It tells small software-engineering stories from Antonio's personal experience. An entry will usually begin with a question that surfaced at work, unexpected behaviour, an architectural decision, an experiment, a failure, a limitation, or a solution that worked for reasons worth a second look.
+Out of Scope is a personal column about engineering, technology and choices that seemed brilliant until somebody asked an awkward question. Not a news aggregator, course, generic tutorial archive or search-traffic factory. The portfolio shows **what I built**; the blog reveals **how I think, what I challenge, where I get things wrong and what I learn**. More than fifteen years of experience should be evident in judgement, not repeated biography.
 
-No particular technology is the connecting thread. The thread is the way a problem is approached: what drew attention, what was tested, what evidence appeared, and what changed afterwards. The portfolio primarily answers “what have I done?”; the blog tells what happened while doing it and what I learned along the way. A real project may provide context, but the article must remain interesting to someone who does not know that project.
+**Reader promise:** a distinctive three-minute story that ideally leaves (1) a smile, (2) a worthwhile thought or tension and (3) a practical lesson. Every post need not be a comedy routine, but none exists just to maintain publishing frequency.
 
-### Voice and personality
+**Topic test:** before writing, complete “This interests me because it reveals ____, and understanding it matters because ____.” A news item becomes a post only with an original angle, meaningful contradiction, less-obvious consequence or transferable principle.
 
-- Write predominantly in the first person. A person should be clearly present behind the prose.
-- Convey experience without solemnity, judgement without dogmatism, curiosity, pragmatism, and comfort with uncertainty or failure.
-- Prefer “I ran into this, tried that, and changed my mind for this reason” to “I am going to teach you the correct way”.
-- Distinguish facts and observations from contextual decisions and personal opinions.
-- Use humour when it grows naturally from events. Occasional irony and enthusiasm for investigating beyond strict necessity fit; a stream of jokes does not.
-- Geek references and AntoñiOS phrases—`DAME CINCO MINUTOS...`, `SIDE QUEST EN CURSO`, rabbit holes, games, bugs, processes, or builds—are an optional second layer. They are neither catchphrases nor branding requirements.
-- Avoid corporate language, unnecessary academic tone, false authority, and phrasing that sounds generic or mass-produced.
+### Voice, authenticity and humour
 
-Authenticity test: **if any developer could have written the article, it is not finished yet**. It must contain at least one real experience, observation, decision, test, error, change of mind, or recognisable line of reasoning. Never invent anecdotes to satisfy this rule; flag missing real information during editing.
+- **Experienced, not a dinosaur.** Recognise patterns without claiming infallibility; update your view when evidence changes.
+- **Sharp, not arrogant.** Direct sarcasm at hype, bureaucracy, poor decisions and corporate contradictions, not learners, vulnerable people or users.
+- **Human, not a manufactured character.** Natural first-person prose; admit doubts, excitement, mistakes, self-contradictions and changed minds.
+- **Geeky, not a meme catalogue.** Jira, Kubernetes, legacy, games and dev jargon are optional seasoning, never required catchphrases.
+- **Thoughtful, not preachy.** Take a stance, give reasons and acknowledge the limits of contextual judgement.
 
-### Scope, title, and length
+Write like a developer telling an interesting story over coffee, not delivering a corporate announcement. Colloquial phrasing, sharp irony and an occasional organic swear word are permitted. **Humour exposes contradictions, it does not pad an article.** If removing a joke improves a paragraph, remove it. Do not force one per paragraph or trivialise serious human consequences.
 
-**One article develops one main idea.** Prefer a concrete question or discovery to an encyclopaedic topic. The title creates curiosity without clickbait or promising a definitive guide the text does not deliver.
+First person is more than prepending “I think” to a press summary. Explain what surprised me, what I disagree with, what I used to believe, what I would change, or what remains uncertain. **Never invent personal anecdotes, projects, experiments or conversations** to manufacture authenticity. Distinguish first-hand experience from others' reporting; privacy is not the price of sounding real.
 
-The usual target is a 3–5 minute read: roughly 600–1,000 words, with a soft limit around 1,200. Never pad an article to reach a number. If the idea is properly told in 500 words, publish 500. If it clearly exceeds 1,200, first check whether it contains two articles.
+Playful AI nicknames: “Gepeto”, “Claudio” and “Gema” where appropriate for OpenAI, Claude and Gemini respectively. No mechanical rotation or universal mascot. Use actual product names where precision matters. AntoñiOS jokes and references remain an optional secondary layer.
 
-### Narrative rhythm
+### Topics, headlines and the three-minute rule
 
-There is no mandatory template, but the usual rhythm is:
+**One thesis per article.** Headlines should invite curiosity through a contradiction, awkward question or earned punchline without clickbait or false promises of a definitive guide. The hand-written `summary` sets up tension rather than giving away the whole answer.
 
-1. **Hook.** A sentence or short paragraph that immediately introduces a situation, contradiction, problem, or question. Never “In this article we will…”.
-2. **Context.** Only what is needed to understand what I was doing and why it mattered; not complete project documentation.
-3. **Question.** The detail that made further investigation worthwhile.
-4. **Rabbit hole.** Tests, code, architecture, measurements, hypotheses, errors, alternatives, and trade-offs. Experience and evidence come before generic theory.
-5. **What I am taking away.** The conclusion, personal rule, decision, changed practice, uncertainty, or better question left by the investigation.
-6. **Closing beat.** When it fits, a short sentence that closes the story—not an academic conclusion or a generic question to the reader.
+**New posts:** target **400–460 words**, editorial ceiling **480 words**, **including narrative, headings, conclusions and learning notes**. References and citations are excluded from the estimate; time needed to read code, diagrams and charts is not. Set `readingTime` for the complete reader experience at a conservative baseline of about **160 words/minute**, with sensible language and complexity adjustments. Never exclude learning notes from new articles' stated reading time.
 
-Use headings and lists only when they improve reading, particularly on mobile. The progression should feel like a narrative, not a filled-in outline.
+Do not pad to reach the target. Edit introductions, duplicate arguments and unnecessary exposition. If technical precision cannot fit, narrow the thesis, split genuinely separate investigations or make an explicitly justified exception—and **never misstate reading time**.
 
-### Technical rigour
+### Topic families and the new category
 
-The preferred path is **problem → reasoning → experiment → result → learning**, not **definition → theory → tutorial → conclusion**. Code, logs, benchmarks, diagrams, and results appear only when they help tell the story and are reduced to the smallest useful fragment. Keep observations separate from interpretations, never invent results, and do not present a contextual experience as a universal law.
+Editorial categories for new posts:
 
-Do not explain basic concepts a technical reader can find in official documentation unless they are essential to the story. SEO, metadata, and semantic HTML still matter in implementation, but they do not shape the visible voice.
+| Spanish | English | Focus |
+| --- | --- | --- |
+| Arquitectura | Architecture | Architecture, performance, trade-offs, cost, quality and pragmatic choices. |
+| Ingeniería agéntica | Agentic engineering | Agents, automation, delegation, validation and developer workflows. |
+| IA / Reflexiones | AI / Reflections | AI research, ethics, abilities, limits and open questions. |
+| Side quests | Side quests | Curiosity and discoveries beyond the original ticket. |
+| **Salseo con logs** | **Drama with Receipts** | Tech controversies, public failures, runaway marketing and revealing corporate contradictions, backed by evidence. |
+
+**“Drama with Receipts” is not a rumour feed or a public-shaming column.** Drama draws attention; analysis earns it. Start with verified facts, explain the decisions and mechanisms behind the incident, and draw a useful transferable lesson. A founder who mistakes a prompt-built prototype for production-ready software may be a strong angle; **never attribute a specific breach or negligence without verification**. Sensitive information visible in frontend code does not automatically establish a data breach; assess the nature of the data and real authorisation and access controls.
+
+For reputation-sensitive cases, prefer primary evidence with independent corroboration; clearly distinguish allegations from proven facts; avoid unsupported motives, private data, credentials and unnecessarily actionable exploit details. Critique decisions, not victims.
+
+Categories describe the editorial **angle**; tags describe secondary technologies and topics. An AI security story may belong in Drama with Receipts when corporate judgement is central, or AI / Reflections when the point is conceptual. Do not duplicate an article for multiple categories.
+
+**Implementation note:** the current `category` field accepts plain text. A new category can appear when a new published article actually uses it; this document alone does not create an empty navigation category. Keep historical classifications untouched.
+
+### Narrative rhythm without a template
+
+Let the piece read like a story, not a filled-out form. Preferred flexible arc:
+
+1. **Hook:** an immediate tension or contradiction in the first two or three sentences; never “In this article we will…”.
+2. **Conflict:** only the facts and context needed to understand the situation.
+3. **My take:** the author's judgement—what seems absurd, what I question, why it matters to me or what I would do differently.
+4. **Resolution:** one strong idea, actionable criterion or precisely stated uncertainty.
+5. **Closing beat:** when it fits, an ironic, sharp, human or memorable final line without repeating the thesis.
+
+Evidence and examples serve the story. Add headings when they help mobile reading, not to satisfy a template. Tone may vary by subject, but the writing must never feel mass-produced.
+
+### Rigour, utility and limits
+
+When relevant prefer **problem → reasoning → evidence/experiment → result → learning**, not definition → theory → tutorial → conclusion. Separate verifiable facts from interpretation, opinion and hypotheses. Do not turn case-specific observations into universal laws, correlations into causation or personal estimates into measurements; address material counterarguments fairly.
+
+Code, logs, charts, tables and diagrams appear only where essential, reduced to the smallest useful unit. Skip technical basics better covered by official documentation. Give readers a perspective, decision rule or concept that helps beyond one product.
+
+**Publishing is optional.** Reject summaries of press releases without an original view, shallow trend-chasing, generic tutorials, filler morals and repetitions of recent lessons. A calendar is not a reason to publish a weak article.
 
 ### Available editorial blocks
 
@@ -190,56 +263,71 @@ Existing MDX components are optional. They are not decoration or a rigid article
 
 `LOG` already appears as the automatic visual identifier in the article header; it is not a separate MDX block. `POSTMORTEM` exists as an article type (`type: postmortem`), not as a component. Add no new component until a repeated editorial need justifies its semantics and maintenance cost.
 
-### Covers
+### Covers: one collection, five recognisable families
 
-Every published article has its own illustration: retro adventure-game pixel art, plum shadows, violet and magenta lighting, cyan/mint accents, and warm highlights. Each scene conveys an article idea with understated humour; a shared style does not mean a recurring protagonist. **Claudio appears only in his own article.** Do not reuse him as a general blog mascot.
+**For new articles only.** Preserve the shared AntoñiOS aesthetic: retro adventure-game pixel art, narrative scenes, cinematic lighting, plum shadows, strong contrast and coherent texture. Make topics identifiable through **dominant colour, atmosphere and scene language**, rather than recolouring the same generic illustration.
 
-Covers are landscape (16:9), without an embedded title, and with a focal subject readable at thumbnail size. Avoid text inside artwork; when necessary, create a localised version for each language. Set `cover` and natural ES/EN `coverAlt` text. Store shared assets in `src/assets/blog/`; cards, article headers, and social metadata use the same visual identity.
+| Family | Reference dominant | Atmosphere and motifs |
+| --- | --- | --- |
+| Architecture | Technical blue `#397BD5` | Plans, structures, systems, connected infrastructure. |
+| Agentic engineering | Cyan/turquoise `#30C7CF` | Bots, terminals, automation, organised chaos. |
+| AI / Reflections | Violet/lavender `#9874DE` | Labs, abstractions, questions and dilemmas. |
+| Side quests | Amber/gold `#E9B458` | Exploration, discoveries, workshops and adventure. |
+| Drama with Receipts | Coral/rosy red `#F16577` | Absurd offices, alerts, premature celebrations and corporate chaos. |
 
-Current scene directions (generated with ImageGen):
+Hex codes define **art direction**, not per-pixel requirements or automatic UI recolouring. Keep a common nocturnal/plum foundation, but do not let every image revert to dominant purple. Change lighting, characters and scenery meaningfully across topics. The illustration should convey a scene, not simply depict a technology logo.
 
-- `claudio-es.webp` / `claudio-en.webp`: exhausted Claudio, telephone, legacy binders, and the option to end the conversation.
-- `portfolio.webp`: desktop windows getting stuck while passing through a browser frame.
-- `cache.webp`: an old frozen price beside the current price and a speed symbol.
-- `green-pr.webp`: a celebrated green checkmark on a pedestal with the bug still underneath.
-- `question.webp`: a question mark remaining above a closed laptop after the work is finished.
+Use **16:9**, a clear miniature-readable focal subject, composition suitable for cards/article headers/social previews, no embedded article title, and minimal text. Set `cover` and natural ES/EN `coverAlt`; localise image text if unavoidable. Keep shared assets under `src/assets/blog/`. Each story gets distinct artwork. Claudio appears only in his own article and is not a general blog mascot. For public scandals, caricature decisions and behaviours; never forge apparent evidence, expose private information or mislead viewers with real-person depictions.
 
-### Learning notes excluded from reading time
+**Backwards compatibility:** all covers and metadata in existing articles remain untouched. The current schema **does not implement** `visualTheme`; if category accents are automated later, this could become an optional field with a safe legacy fallback. Approving this guide **does not** itself modify schema, CSS or existing interfaces.
 
-After the narrative ending, each article includes a **learning notes** section before the sources. Give it a different, mildly playful heading in each article (for example, "What survived the garbage collector", "Knowledge unlocked" or "What made it into RAM"); never randomise it on each visit.
+### Learning worth highlighting
 
-- Normally present 3–5 structured learning points, each with a bold concept and a short explanation, plus one final takeaway. Prioritise high-level principles reusable across projects and domains; the technology and the article's case are examples, not the boundaries of the lesson.
-- Include the section in the draft presented for review and obtain content approval before publishing it or adding it to an existing article.
-- Capture concepts and practical judgement **rather than repeating** the story.
-- Prioritise clarity, accuracy and brevity. Add diagrams or tables only when they make the notes quicker to consult.
-- Distinguish sourced ideas from the author's interpretations and proposals; link sources at the end.
-- This is an **appendix**, excluded from both target narrative length and the main article's `readingTime` frontmatter field.
-- Place sources after the learning section. If concrete lessons are missing, flag this during review before publication; never fabricate learning points just to fill a template.
+Every **new** article ends with a concise learning block **within the three-minute budget**, after the narrative closing beat and before sources. Treat it like highlighted study notes: **typically three concepts** (two or four if justified), each a **bold, short principle** plus **one precise sentence** explaining its use or limitations. Aim for **70–95 words total, including the final takeaway**.
+
+Vary the heading naturally with understated geek humour (“What survived the garbage collector”, “Knowledge unlocked”, “Saved to RAM”); choose it while editing, never randomise on page visits. Conclude with a memorable “Save to RAM” line or suitable variation.
+
+Prioritise **transferable principles**, not restatements of the specific technology. Introduce no claims unsupported by the story. Do not invent lessons to fill a list. Example:
+
+- **Cost ≠ value.** A solution being cheap to build does not make it worth maintaining.
+- **Delegation requires verification.** Responsibility stays with the person accepting the outcome even when a tool performs the task.
+- **Learning is not production.** Shipping efficiently and developing sound judgement are distinct goals.
+
+**Save to RAM:** as building gets cheaper, choosing what deserves to be built grows more important.
+
+Editorial approval includes this section and accurate `readingTime`. **Never update older appendices or legacy reading-time metadata** to make them fit v2.1.
 
 ### Sources heading
 
 When including sources or further reading, use a short, natural heading with understated humour. Vary it between articles: “Sources, just in case”, “I didn't make all of this up”, “Where all this comes from”, “To fact-check my ramblings”, or similar wording. Choose a variant during editing and keep it in the article; do not randomise it on each visit. Avoid “Further down the rabbit hole” as a recurring formula. Claudio's article uses “I didn't make all of this up”.
 
-### Metadata and reuse
+### Metadata, languages and reuse
 
-The MDX article is the single content source. `summary` is hand-written and presents the question or discovery without resolving the whole article. It feeds cards, listings, RSS, and default social copy; it also supplies the SEO description when `seo.description` is absent. Use `linkedin.text` only when the post needs a deliberate adaptation. The canonical URL is derived from `locale` and `slug`; it is not copied into the article. `translationKey` connects ES/EN versions even when their slugs differ.
+MDX remains the single source of content. Hand-write `summary` for cards, listings, RSS and default social copy; it also supplies the SEO description unless `seo.description` exists. Use `linkedin.text` for a deliberate social adaptation; derive canonical URLs from `locale` and `slug` instead of copying them into the body. `translationKey` links ES/EN even when slugs differ.
 
-Do not publish duplicate article bodies or put internal MDX, CMS, indexable-URL, or SEO implementation details in the article.
+**Review every new article in Spanish and English.** Preserve thesis, meaning and evidence while adapting jokes and cultural references naturally. Keep categories paired and cover identity aligned. Each language version needs its own honest complete reading-time estimate. Do not duplicate bodies or expose internal CMS, SEO or route mechanics in visible prose.
 
-### LinkedIn summaries
+### LinkedIn: conversation, not promotion
 
-Summaries must work as standalone posts: an idea, a short story or a reflection in the blog's voice. Avoid announcing or selling the article with phrases such as “in this article I explore/connect/develop”, “here I reflect” or “discover how”. Any transition to the link should be subtle and natural; by default, end with the direct link alone, without promotional copy. Do not add generic engagement prompts.
+A LinkedIn adaptation must **stand on its own**: a useful observation, small story or reflection in the blog's voice even if readers never click. Avoid “I've published an article”, “discover how” and contrived engagement questions. If an article link appears, use a natural direct transition without sales copy; add emoji or hashtags only where helpful.
 
-### Review checklist
+No new article or social adaptation goes live without the established review and approval. Do not rewrite historical social copy to retrofit v2.1.
 
-Before publishing or completing a review:
+### Editorial and publishing review
 
-- confirm one main idea, an opening paragraph with tension, and narrative progression;
-- check that first person feels natural and the text shows why Antonio is telling this story;
-- remove repetition, obvious explanations, long sentences, and unnecessary headings or lists;
-- check that humour does not feel inserted and technology does not overshadow the question;
-- avoid “In today's fast-paced world…”, “In this article we will explore…”, “As developers…”, “In conclusion…”, “It is important to note…” and “Next, we will see…”;
-- avoid keyword stuffing, artificial SEO openings, forced morals, clickbait, and generic engagement prompts;
-- review the length and split the text if it contains two investigations;
-- review ES and EN together for equivalent meaning, equivalent metadata, and natural prose in each language;
-- validate frontmatter, static HTML, navigation, language switching, canonical, RSS, sitemap, SEO, mobile rendering, tests, lint, typecheck, and build.
+Before approving a **new** article:
+
+- **Signature:** does it reflect a recognisable personal perspective, rather than generic developer prose?
+- **Coffee test:** would I tell this story to a colleague without corporate jargon or manufactured authority?
+- **Hook and tension:** does it engage immediately, honestly, with one thesis?
+- **Scissors:** can duplicated context, rambling arguments or the weakest joke go?
+- **Truth:** are facts checked and distinct from interpretations, opinions and hypotheses?
+- **Highlighter:** are the lessons precise, supported, transferable and easy to revisit?
+- **Three minutes:** do narrative + ending + learning stay at ≤480 words with an honest `readingTime`?
+- **Archive:** does the post avoid recycled ideas and leave older published articles unchanged?
+- **Thumbnail:** is the common pixel-art identity intact and the topic family obvious at a glance?
+- **ES/EN:** is meaning equivalent and humour idiomatic in both languages?
+- **Drama:** if claims or incidents concern real people, have evidence, privacy and harm been assessed?
+- **Technical:** validate frontmatter, static HTML, navigation, language switch, canonical, RSS, sitemap, SEO, mobile, tests, lint, typecheck and build before publication.
+
+Avoid “In today's fast-paced world…”, “In this article we will explore…”, “As developers…”, “In conclusion…”, SEO keyword stuffing, forced morals, clickbait and engagement bait. Do not meet publishing quotas by manufacturing value: **three minutes, one story, a touch of bite and a thought worth keeping.**
