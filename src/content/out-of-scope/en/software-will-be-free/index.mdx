@@ -1,0 +1,81 @@
+---
+title: "Software will be free. Apparently, so will the data."
+summary: "A CEO celebrates vibe coding; months later an old company dashboard exposes information. The coincidence makes a great story, but what do the facts actually show?"
+date: 2026-10-23
+slug: "software-will-be-free"
+locale: "en"
+translationKey: "free-software-exposed-data"
+tags: ["Security", "AI", "Vibe coding", "Access control"]
+category: "Drama with Receipts"
+type: "postmortem"
+readingTime: 3
+featured: false
+cover: "../../../../assets/blog/software-gratis-datos.webp"
+coverAlt: "Pixel art illustration of a fictional CEO drinking coffee at BROTLAGGER while data escapes from the internal BROS dashboard."
+draft: false
+linkedin:
+  enabled: false
+  mode: "disabled"
+---
+
+On Monday you discover Claude. By Tuesday you're automating reports. Six weeks later you're on LinkedIn predicting that software will soon be free.
+
+Three months after that, somebody discovers that some of your company's data is free too.
+
+Our story has coffee, artificial intelligence, and a beautiful login. Username, password, and that touching illusion that somebody had considered security.
+
+## Vibe coding, caffeine, and a manifesto
+
+In July 2026, Ricky Ruthenberg, CEO of South African coffee chain Bootlegger, described spending his evenings *vibe coding*. He was so enthusiastic that he encouraged his managers to adopt Claude. His prediction: software would soon be free.
+
+I'll give him this: I love seeing an executive actually build things. Confusing a working demo with something fit for production is another matter.
+
+## It has a login. What more do you want?
+
+In October, MyBroadband investigated an internal dashboard called BOS. It displayed a login form, complete with username, password, and the gravitas of a bank vault.
+
+One minor detail: business information and contact details were reaching browsers before anyone signed in. The publication verified information associated with 132 locations.
+
+According to the person who reported the issue, the address was discovered in employees' Instagram photos of laptops. No cinematic hacking required. Just a photograph revealing rather more than intended.
+
+Bootlegger acknowledged that an old version remained accessible, with historical information inadequately protected. It took the application offline on October 15 and said no customer data had been collected there and there was no evidence of access to its core systems.
+
+## Kerckhoffs orders another coffee
+
+Back in 1883, Auguste Kerckhoffs argued that cryptographic security must not rely on keeping the system itself secret.
+
+A hundred and forty-three years later, corporate security sometimes still means: “Relax, nobody knows the URL.”
+
+But here's where the gossip needs brakes: **there is no proof that AI wrote BOS**.
+
+Still, a CEO going all-in on *vibe coding* shortly before this embarrassing discovery is enough to raise one eyebrow.
+
+I'll save the other until we see the code.
+
+Accusing someone without evidence would be its own kind of *vibe coding*. With facts instead of functions.
+
+What is confirmed is less futuristic and far more uncomfortable: weak access controls and a retired application that hadn't really been retired.
+
+Writing code may be getting cheaper. Checking what it exposes, maintaining it, and deciding when to shut it down still require engineering judgement.
+
+**Software might become free. The bill for failing to review it probably won't.**
+
+---
+
+## What survived deployment
+
+- **Security through obscurity is not security.** An unknown URL is no substitute for real access controls.
+- **Retirement is engineering too.** A migration isn't finished until the old system is disabled and its data handled properly.
+- **A good story is not evidence.** A striking coincidence doesn't prove who wrote a program or caused a failure.
+
+**Save to RAM:** when implementation gets cheaper, engineering doesn't disappear; it sends the bill from wherever nobody thought to look.
+
+---
+
+## Sources, before somebody asks
+
+- [MyBroadband — Original investigation (16 October 2026)](https://mybroadband.co.za/news/software/672602-south-african-coffee-franchise-exposes-company-and-private-data-in-vibe-coded-web-application.html)
+- [MyBroadband — Bootlegger's response (16 October 2026)](https://mybroadband.co.za/news/security/672647-ceo-of-top-south-african-coffee-franchise-responds-after-vibe-coded-web-application-exposed-sensitive-data.html)
+- [ITWeb — Independent coverage (20 October 2026)](https://www.itweb.co.za/article/bootlegger-ceos-ai-enthusiasm-meets-reality/Gb3Bw7Wa9kPq2k6V)
+- [OWASP — Broken Access Control, Top 10:2025](https://top10.owasp.org/2025/A01_2025-Broken_Access_Control/)
+- [University of Virginia — Kerckhoffs's principle](https://www.cs.virginia.edu/~evans/crypto/day1-kerckhoffs.html)

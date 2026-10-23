@@ -1,0 +1,81 @@
+---
+title: "El software será gratis. Los datos también, por lo visto."
+summary: "Un CEO se entusiasma con el vibe coding y meses después aparece un panel antiguo con información expuesta. La coincidencia es tentadora; las pruebas obligan a mirar más allá."
+date: 2026-10-23
+slug: "el-software-sera-gratis"
+locale: "es"
+translationKey: "free-software-exposed-data"
+tags: ["Seguridad", "IA", "Vibe coding", "Control de acceso"]
+category: "Salseo con logs"
+type: "postmortem"
+readingTime: 3
+featured: false
+cover: "../../../../assets/blog/software-gratis-datos.webp"
+coverAlt: "Ilustración pixel art de un CEO ficticio con café en BROTLAGGER mientras los datos escapan del panel interno BROS."
+draft: false
+linkedin:
+  enabled: true
+  mode: "review"
+---
+
+Un lunes descubres Claude. El martes estás automatizando informes. Seis semanas después, publicas en LinkedIn que el software pronto será gratis.
+
+Y tres meses más tarde alguien descubre que también lo eran algunos datos de tu empresa.
+
+La historia tiene café, inteligencia artificial y un login precioso. Con sus campos, su contraseña y esa entrañable ilusión de que alguien había pensado en la seguridad.
+
+## Vibe coding, cafeína y un manifiesto
+
+En julio de 2026, Ricky Ruthenberg, CEO de Bootlegger, una cadena sudafricana de cafeterías, contó que había pasado noches haciendo *vibe coding*. Se entusiasmó tanto que extendió Claude entre sus responsables. Remató con una predicción: el software acabaría siendo gratis.
+
+Conviene reconocerle algo: me encanta que un directivo se manche las manos construyendo. Otra cosa es confundir lo que funciona en una demo con lo que merece entrar en producción.
+
+## Tiene login. ¿Qué más quieres?
+
+En octubre, MyBroadband investigó el panel interno BOS. Mostraba su formulario de acceso, con usuario, contraseña y toda la solemnidad de una puerta blindada.
+
+El pequeño detalle: información empresarial y contactos estaban llegando al navegador sin necesidad de iniciar sesión. El medio comprobó datos asociados a 132 locales.
+
+Según el denunciante, encontraron la dirección en fotografías de portátiles compartidas en Instagram. No hizo falta una película de hackers. Bastó una foto con más información de la prevista.
+
+Bootlegger reconoció que se trataba de una versión antigua, todavía accesible, con datos históricos insuficientemente protegidos. La desconectó el 15 de octubre. Aseguró que no había datos de clientes ni indicios de acceso a sistemas centrales.
+
+## Kerckhoffs pide otro café
+
+En 1883, Auguste Kerckhoffs ya advertía de algo fundamental en criptografía: la seguridad no debe depender de mantener secreto el funcionamiento del sistema.
+
+Ciento cuarenta y tres años después, seguimos practicando la versión empresarial: «Tranquilos, nadie conoce la URL».
+
+Y aquí toca frenar el salseo: **no está demostrado que la IA programara BOS**.
+
+Ahora bien, que el CEO se viniera arriba con el *vibe coding* y meses después aparezca semejante chapuza invita a levantar una ceja.
+
+La otra la guardamos hasta ver el código.
+
+Porque acusar sin pruebas también sería una especie de *vibe coding*. Esta vez, con los hechos.
+
+El problema confirmado es menos futurista y bastante más incómodo: controles de acceso deficientes y una aplicación retirada a medias.
+
+Escribir código puede costar cada vez menos. Comprobar qué expone, mantenerlo y decidir cuándo apagarlo sigue costando oficio.
+
+**El software quizá sea gratis. La factura de no revisarlo, difícilmente.**
+
+---
+
+## Lo que sobrevivió al deploy
+
+- **Seguridad por oscuridad no es seguridad.** Una URL desconocida no sustituye un control de acceso real.
+- **Retirar también es ingeniería.** Una migración no termina hasta desactivar el sistema anterior y gestionar sus datos.
+- **La narrativa no es una prueba.** Una coincidencia vistosa no demuestra quién escribió un programa ni qué provocó su fallo.
+
+**Para guardar en RAM:** cuando la implementación se abarata, la ingeniería no desaparece: pasa factura donde nadie estaba mirando.
+
+---
+
+## No me lo he inventado todo. Esta vez.
+
+- [MyBroadband — Investigación original del incidente (16/10/2026)](https://mybroadband.co.za/news/software/672602-south-african-coffee-franchise-exposes-company-and-private-data-in-vibe-coded-web-application.html)
+- [MyBroadband — Respuesta de Bootlegger (16/10/2026)](https://mybroadband.co.za/news/security/672647-ceo-of-top-south-african-coffee-franchise-responds-after-vibe-coded-web-application-exposed-sensitive-data.html)
+- [ITWeb — Cobertura independiente (20/10/2026)](https://www.itweb.co.za/article/bootlegger-ceos-ai-enthusiasm-meets-reality/Gb3Bw7Wa9kPq2k6V)
+- [OWASP — Broken Access Control, Top 10:2025](https://top10.owasp.org/2025/A01_2025-Broken_Access_Control/)
+- [Universidad de Virginia — Principio de Kerckhoffs](https://www.cs.virginia.edu/~evans/crypto/day1-kerckhoffs.html)
