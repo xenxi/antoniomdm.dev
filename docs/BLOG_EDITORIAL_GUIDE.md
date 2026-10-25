@@ -1,6 +1,6 @@
-# Out of Scope / Out of Context · Guía editorial v2.2 (propuesta) / Editorial guide (draft)
+# Out of Scope / Out of Context · Guía editorial v2.2 / Editorial guide
 
-**Estado / Status:** v2.1 aprobada el 23 de octubre de 2026; ajustes de voz v2.2 propuestos el 25 de octubre, pendientes de revisión y aprobación. / v2.1 approved on October 23, 2026; v2.2 voice refinements proposed on October 25, pending review and approval.
+**Estado / Status:** v2.2 aprobada el 25 de octubre de 2026 (evolución de voz sobre v2.1, aprobada el 23 de octubre). / v2.2 approved on October 25, 2026 (voice refinement of v2.1, approved on October 23).
 
 Esta guía es la **fuente de verdad editorial** del blog para los **artículos nuevos creados a partir de la aprobación de v2.1**. No es retroactiva: los artículos ya publicados conservan íntegros texto, extensión, portadas, categorías, metadatos, conclusiones y aprendizajes. Sólo caben correcciones puntuales y justificadas de errores factuales, enlaces o problemas técnicos; nunca reescrituras o rediseños encubiertos. La arquitectura, rutas y publicación se explican en [`OUT_OF_SCOPE.md`](OUT_OF_SCOPE.md).
 
@@ -38,9 +38,9 @@ La personalidad no consiste en insertar «yo creo» ante información ajena. Exp
 
 Apodos de IA: «Gepeto», «Claudio» y «Gema» cuando encajen respectivamente con OpenAI, Claude y Gemini; sin alternancia mecánica ni mascota omnipresente. En pasajes que exijan precisión, utilizar los nombres reales. Las referencias de AntoñiOS son una segunda capa opcional, no un requisito.
 
-### Calibración de voz v2.2: más colmillo, mismo rigor (propuesta)
+### Calibración de voz v2.2: más colmillo, mismo rigor
 
-La referencia para **artículos nuevos** es una historia contada por un desarrollador veterano a otro durante un café: alguien con oficio, que disfruta del salseo cuando lo hay y sabe cuándo dejar de bromear. El texto debe tener **voz propia antes que apariencia de artículo impecable**. Esta calibración se aplica al aprobar v2.2; no modifica textos publicados ni obliga a convertir temas serios en comedia.
+La referencia para **artículos nuevos** es una historia contada por un desarrollador veterano a otro durante un café: alguien con oficio, que disfruta del salseo cuando lo hay y sabe cuándo dejar de bromear. El texto debe tener **voz propia antes que apariencia de artículo impecable**. Esta calibración se aplica a los nuevos artículos desde el 25 de octubre de 2026; no modifica textos publicados ni obliga a convertir temas serios en comedia.
 
 - **Gancho con contradicción, no con introducción.** Entrar por la tensión, la consecuencia absurda o un contraste temporal verificable. Dos o tres frases pueden bastar; no fabricar secuencias, diálogos o intenciones para conseguir ritmo.
 - **Mala leche con dirección.** Cargar contra el hype, las promesas de «ahora todo es gratis», la burocracia y las decisiones que merecen una ceja levantada. No convertir a personas reales en villanos ni confundir torpeza con dolo.
@@ -213,9 +213,9 @@ First person is more than prepending “I think” to a press summary. Explain w
 
 Playful AI nicknames: “Gepeto”, “Claudio” and “Gema” where appropriate for OpenAI, Claude and Gemini respectively. No mechanical rotation or universal mascot. Use actual product names where precision matters. AntoñiOS jokes and references remain an optional secondary layer.
 
-### Voice calibration v2.2: sharper wit, unchanged standards (draft)
+### Voice calibration v2.2: sharper wit, unchanged standards
 
-For **new articles**, picture an experienced developer telling another developer a story over coffee: someone who knows the craft, enjoys the drama when it deserves attention, and knows when the jokes need to stop. **A distinctive voice matters more than polished article-speak.** This refinement applies only after v2.2 approval; it never rewrites published pieces or turns sensitive subjects into comedy.
+For **new articles**, picture an experienced developer telling another developer a story over coffee: someone who knows the craft, enjoys the drama when it deserves attention, and knows when the jokes need to stop. **A distinctive voice matters more than polished article-speak.** This refinement applies to new articles from October 25, 2026; it never rewrites published pieces or turns sensitive subjects into comedy.
 
 - **Open with a contradiction, not a preamble.** Lead with tension, an absurd consequence, or a verifiable contrast in timing. Two or three sentences may be enough; never invent chronology, dialogue or motives to make the opening land.
 - **Point the sarcasm somewhere useful.** Target hype, grand promises, bureaucracy and questionable decisions. Don't cast real people as villains or turn poor judgement into an unsupported allegation of misconduct.
