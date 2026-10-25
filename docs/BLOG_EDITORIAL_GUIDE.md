@@ -1,6 +1,6 @@
-# Out of Scope / Out of Context · Guía editorial v2.1 / Editorial guide
+# Out of Scope / Out of Context · Guía editorial v2.2 (propuesta) / Editorial guide (draft)
 
-**Estado / Status:** Aprobada el 23 de octubre de 2026 / Approved on October 23, 2026.
+**Estado / Status:** v2.1 aprobada el 23 de octubre de 2026; ajustes de voz v2.2 propuestos el 25 de octubre, pendientes de revisión y aprobación. / v2.1 approved on October 23, 2026; v2.2 voice refinements proposed on October 25, pending review and approval.
 
 Esta guía es la **fuente de verdad editorial** del blog para los **artículos nuevos creados a partir de la aprobación de v2.1**. No es retroactiva: los artículos ya publicados conservan íntegros texto, extensión, portadas, categorías, metadatos, conclusiones y aprendizajes. Sólo caben correcciones puntuales y justificadas de errores factuales, enlaces o problemas técnicos; nunca reescrituras o rediseños encubiertos. La arquitectura, rutas y publicación se explican en [`OUT_OF_SCOPE.md`](OUT_OF_SCOPE.md).
 
@@ -37,6 +37,21 @@ Escribir como alguien que cuenta una historia interesante durante un café, no c
 La personalidad no consiste en insertar «yo creo» ante información ajena. Explicar qué me llamó la atención, por qué discrepo, qué habría pensado antes, qué cambiaría en mi práctica o qué incertidumbre persiste. **Nunca inventar proyectos, experiencias, experimentos ni conversaciones** para parecer cercano. Diferenciar lo observado personalmente de lo leído en otras fuentes; no divulgar información privada por autenticidad.
 
 Apodos de IA: «Gepeto», «Claudio» y «Gema» cuando encajen respectivamente con OpenAI, Claude y Gemini; sin alternancia mecánica ni mascota omnipresente. En pasajes que exijan precisión, utilizar los nombres reales. Las referencias de AntoñiOS son una segunda capa opcional, no un requisito.
+
+### Calibración de voz v2.2: más colmillo, mismo rigor (propuesta)
+
+La referencia para **artículos nuevos** es una historia contada por un desarrollador veterano a otro durante un café: alguien con oficio, que disfruta del salseo cuando lo hay y sabe cuándo dejar de bromear. El texto debe tener **voz propia antes que apariencia de artículo impecable**. Esta calibración se aplica al aprobar v2.2; no modifica textos publicados ni obliga a convertir temas serios en comedia.
+
+- **Gancho con contradicción, no con introducción.** Entrar por la tensión, la consecuencia absurda o un contraste temporal verificable. Dos o tres frases pueden bastar; no fabricar secuencias, diálogos o intenciones para conseguir ritmo.
+- **Mala leche con dirección.** Cargar contra el hype, las promesas de «ahora todo es gratis», la burocracia y las decisiones que merecen una ceja levantada. No convertir a personas reales en villanos ni confundir torpeza con dolo.
+- **Humor de situación, no chistes pegados.** Buscar el detalle técnico que hace cómica la contradicción: una interfaz impecable que no protege nada, un despliegue celebrado antes de verificarlo, un sistema «retirado» que sigue vivo. Los ejemplos son mecanismos, **no frases para reciclar**.
+- **Conversación con ritmo.** Alternar frases cortas, pausas y algún remate seco; preferir verbos concretos, imágenes reconocibles y expresiones coloquiales a explicaciones ceremoniosas. Permitir un punto de irreverencia sin sonar como un personaje actuando ni encadenar bromas por obligación.
+- **La ceja no es una prueba.** Se puede expresar sospecha, extrañeza o escepticismo, pero separar claramente hechos verificados, versión de las partes, indicios e interpretación personal. Si falta evidencia, decirlo sin rodeos; nunca insinuar una acusación grave sólo para conservar el chiste.
+- **Remate con segunda lectura.** Buscar un cierre irónico que resuma la contradicción y deje una idea útil, sin volver a explicar toda la moraleja. Evitar muletillas y repetir recursos recientes: ni el mismo login, ni las mismas cejas, ni la misma factura en cada artículo.
+
+**Intensidad variable por tema:** «Salseo con logs» admite mayor mordacidad y contraste cómico; Arquitectura e Ingeniería agéntica pueden ser irónicas sin perder profundidad; IA / Reflexiones y temas humanos o sensibles requieren más contención. La personalidad permanece, pero el volumen del sarcasmo cambia.
+
+**Prueba de edición:** si el texto podría firmarlo cualquier divulgador tecnológico, buscar qué contradicción concreta te importa y qué opinas tú. Si una broma oscurece los hechos, humilla a un afectado o parece copiada del artículo anterior, quitarla. Si el remate funciona pero el argumento no, todavía no hay artículo.
 
 ### Temas, titulares y tres minutos
 
@@ -159,6 +174,7 @@ No publicar nuevos artículos ni sus adaptaciones sociales sin la revisión y ap
 Antes de aprobar un artículo **nuevo**:
 
 - **Firma:** ¿hay perspectiva personal o podría firmarlo cualquier desarrollador?
+- **Colmillo:** ¿el sarcasmo nace de una contradicción real, tiene un blanco legítimo y no recicla el chiste de la semana pasada?
 - **Café:** ¿lo contaría así a un colega, sin jerga corporativa ni tono académico impostado?
 - **Gancho y tensión:** ¿engancha desde el principio sin clickbait? ¿Hay una única tesis?
 - **Tijeras:** ¿podemos suprimir repeticiones, contexto innecesario o el chiste menos inspirado?
@@ -196,6 +212,21 @@ Write like a developer telling an interesting story over coffee, not delivering 
 First person is more than prepending “I think” to a press summary. Explain what surprised me, what I disagree with, what I used to believe, what I would change, or what remains uncertain. **Never invent personal anecdotes, projects, experiments or conversations** to manufacture authenticity. Distinguish first-hand experience from others' reporting; privacy is not the price of sounding real.
 
 Playful AI nicknames: “Gepeto”, “Claudio” and “Gema” where appropriate for OpenAI, Claude and Gemini respectively. No mechanical rotation or universal mascot. Use actual product names where precision matters. AntoñiOS jokes and references remain an optional secondary layer.
+
+### Voice calibration v2.2: sharper wit, unchanged standards (draft)
+
+For **new articles**, picture an experienced developer telling another developer a story over coffee: someone who knows the craft, enjoys the drama when it deserves attention, and knows when the jokes need to stop. **A distinctive voice matters more than polished article-speak.** This refinement applies only after v2.2 approval; it never rewrites published pieces or turns sensitive subjects into comedy.
+
+- **Open with a contradiction, not a preamble.** Lead with tension, an absurd consequence, or a verifiable contrast in timing. Two or three sentences may be enough; never invent chronology, dialogue or motives to make the opening land.
+- **Point the sarcasm somewhere useful.** Target hype, grand promises, bureaucracy and questionable decisions. Don't cast real people as villains or turn poor judgement into an unsupported allegation of misconduct.
+- **Find humour in the situation.** The best joke often sits inside the technical contradiction: a polished interface that protects nothing, a deployment celebrated before verification, a supposedly retired system still running. These are **patterns to notice, not punchlines to copy**.
+- **Sound like a conversation.** Mix short sentences, pauses and the occasional dry punchline. Prefer concrete verbs and recognisable details to ceremonial explanations. Be irreverent when it fits, but never perform a character or force a joke into every paragraph.
+- **A raised eyebrow isn't evidence.** Curiosity and scepticism are welcome, but verified facts, the parties' accounts, indications and personal interpretation must remain distinct. State what isn't known; don't smuggle a serious accusation into a witty insinuation.
+- **Close on a second meaning.** Aim for an ironic last line that crystallises the tension and leaves a useful thought without restating the whole lesson. Avoid repeating recent devices and signature jokes across articles.
+
+**Adjust the intensity to the subject:** Drama with Receipts can be sharper and more mischievous; Architecture and Agentic engineering can be wry without sacrificing depth; AI / Reflections and sensitive human stories require more restraint. Keep the personality, change the volume.
+
+**Editing test:** if any tech writer could sign the piece, find the specific contradiction that matters to you and explain your own position. Cut jokes that obscure facts, mock affected people or echo the previous post. A great punchline without a sound argument is not yet an article.
 
 ### Topics, headlines and the three-minute rule
 
@@ -318,6 +349,7 @@ No new article or social adaptation goes live without the established review and
 Before approving a **new** article:
 
 - **Signature:** does it reflect a recognisable personal perspective, rather than generic developer prose?
+- **Bite:** does the sarcasm arise from a real contradiction, have a legitimate target and avoid recycling last week's joke?
 - **Coffee test:** would I tell this story to a colleague without corporate jargon or manufactured authority?
 - **Hook and tension:** does it engage immediately, honestly, with one thesis?
 - **Scissors:** can duplicated context, rambling arguments or the weakest joke go?
