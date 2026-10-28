@@ -1,0 +1,101 @@
+---
+title: "We Made Servers Stateless. Then Agents Arrived with Memory."
+summary: "MCP removed protocol sessions, making horizontal scaling easier. But agents still need context, and business operations still have consequences."
+slug: "we-made-servers-stateless-then-agents-arrived"
+locale: "en"
+tags: ["MCP", "Distributed architecture", "Idempotency", "AI agents", ".NET"]
+category: "Architecture"
+seo:
+  description: "MCP removes protocol sessions, but agents and business operations still carry state. Stateless architecture, retries, and idempotency."
+date: 2026-10-28
+translationKey: "stateless-servers-agents-with-memory"
+type: "exploration"
+readingTime: 3
+featured: false
+draft: false
+linkedin:
+  enabled: false
+  mode: "disabled"
+---
+
+We've spent years trying to make our servers forget everything.
+
+Interchangeable instances, load balancers distributing requests, horizontal scaling without drama.
+
+Then AI agents arrived. With memory, tools, and conversations that survive more restarts than some legacy projects.
+
+Distributed architecture has rediscovered selective amnesia.
+
+## The protocol has unloaded a headache
+
+In July 2026, MCP removed sessions from the protocol core.
+
+Goodbye `Mcp-Session-Id` and the initialization handshake. Each request carries the metadata needed to process it without depending on a previous session.
+
+A compatible instance can handle the request without remembering who called before.
+
+Less session affinity. Less infrastructure to maintain it. Easier horizontal scaling.
+
+Wonderful.
+
+Have we eliminated state?
+
+Not a chance.
+
+## State doesn't disappear. It moves.
+
+Imagine an agent handling orders.
+
+It reads a cart, calculates tax, applies discounts, and asks to confirm a purchase.
+
+The MCP server can be entirely *stateless*.
+
+But the order still has state.
+
+And the agent still needs context to continue.
+
+MCP allows explicit identifiers to travel between calls. The application decides where information lives and how to retrieve it.
+
+So far, fairly ordinary distributed architecture.
+
+The trouble starts when an operation fails and the agent decides to try again.
+
+Agents have a wonderful quality: persistence.
+
+And a `retry` on a payment operation is an excellent way to discover we've confused fault tolerance with recurring billing.
+
+## The headache is still ours
+
+Here's where I want responsibilities to stay separate.
+
+The protocol defines how tools communicate. It doesn't decide whether an operation is safe to repeat, who's authorized to run it, or what happens when two agents modify the same order.
+
+That takes contracts, idempotency, concurrency control, and appropriate persistence.
+
+We don't need the server to remember every conversation.
+
+We need the business to remember what matters.
+
+And we need an operation identifier to recognize a retry without repeating its side effects.
+
+The newer MCP design makes interchangeable servers easier to deploy. It doesn't automatically make business operations safe.
+
+## What I'm taking from this move
+
+- **Stateless doesn't mean state-free.** It means not relying on implicit memory between requests.
+- **Retrying isn't repeating without consequences.** Idempotency belongs in the operation's design.
+- **Clear ownership simplifies systems.** The protocol transports; the application governs rules and effects.
+
+**Architecture improves when every piece of state has a clear owner, not when we pretend it doesn't exist.**
+
+We've taught MCP servers to forget conversations.
+
+Now we just need our agents to remember that an order has already been charged.
+
+---
+
+### Sources, in case you think I made it up
+
+- [MCP — July 28, 2026 specification](https://blog.modelcontextprotocol.io/posts/2026-07-28/).
+- [SEP-2567: Sessionless MCP](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/seps/2567-sessionless-mcp.md).
+- [MCP C# SDK — Stateless and stateful mode](https://csharp.sdk.modelcontextprotocol.io/v2/concepts/stateless/stateless.html).
