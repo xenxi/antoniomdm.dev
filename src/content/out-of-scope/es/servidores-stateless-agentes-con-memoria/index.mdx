@@ -1,0 +1,102 @@
+---
+title: "Hicimos los servidores stateless. Luego llegaron los agentes con memoria."
+summary: "MCP ha eliminado las sesiones del protocolo, facilitando el escalado horizontal. Pero los agentes siguen necesitando contexto y las operaciones de negocio siguen teniendo consecuencias."
+slug: "servidores-stateless-agentes-con-memoria"
+locale: "es"
+tags: ["MCP", "Arquitectura distribuida", "Idempotencia", "Agentes IA", ".NET"]
+category: "Arquitectura"
+seo:
+  description: "MCP elimina las sesiones del protocolo, pero los agentes y las operaciones siguen teniendo estado. Arquitectura stateless, reintentos e idempotencia."
+date: 2026-10-28
+translationKey: "stateless-servers-agents-with-memory"
+type: "exploration"
+readingTime: 3
+featured: false
+draft: false
+linkedin:
+  enabled: true
+  mode: "review"
+  text: "Llevamos años intentando que nuestros servidores no recuerden nada.\n\nY ahora tenemos agentes de IA que recuerdan hasta lo que no deberían.\n\nMCP ha eliminado las sesiones del núcleo del protocolo. Menos afinidad, menos complejidad y escalado horizontal más sencillo.\n\nFantástico.\n\nPero el estado no ha desaparecido.\n\nEl pedido sigue existiendo. Los pagos siguen teniendo consecuencias. Y un agente que reintenta una operación puede terminar cobrándola dos veces si no hemos diseñado bien la idempotencia.\n\nPorque hacer un servidor stateless no significa que el negocio también pueda tener amnesia.\n\nEl protocolo se ha quitado un marrón. La arquitectura sigue siendo responsabilidad nuestra.\n\n🔗 Artículo completo: https://antoniomdm.dev/blog/servidores-stateless-agentes-con-memoria/\n\n#SoftwareArchitecture #MCP #AIEngineering"
+---
+
+Llevamos años intentando que nuestros servidores no recuerden nada.
+
+Instancias intercambiables, balanceadores repartiendo peticiones y escalado horizontal sin dramas.
+
+Y entonces llegaron los agentes de IA. Con memoria, herramientas y conversaciones que sobreviven a más reinicios que algunos proyectos legacy.
+
+La arquitectura distribuida acaba de redescubrir la amnesia selectiva.
+
+## El protocolo se ha quitado un marrón
+
+En julio de 2026, MCP eliminó las sesiones del núcleo del protocolo.
+
+Adiós a `Mcp-Session-Id` y al *handshake* de inicialización. Cada petición incorpora los metadatos necesarios para procesarla sin depender de una sesión anterior.
+
+Una instancia compatible puede atenderla sin recordar quién llamó antes.
+
+Menos afinidad de sesión. Menos infraestructura dedicada a mantenerla. Escalado horizontal más sencillo.
+
+Estupendo.
+
+¿Hemos eliminado el estado?
+
+Ni de coña.
+
+## El estado no desaparece. Se muda.
+
+Imaginemos un agente gestionando pedidos.
+
+Consulta un carrito, calcula impuestos, aplica descuentos y solicita confirmar una compra.
+
+El servidor MCP puede ser completamente *stateless*.
+
+Pero el pedido sigue teniendo estado.
+
+Y el agente también necesita contexto para continuar.
+
+MCP permite transportar identificadores explícitos entre llamadas. La aplicación decide dónde conservar la información y cómo recuperarla.
+
+Hasta aquí, arquitectura distribuida bastante convencional.
+
+El problema aparece cuando una operación falla y el agente decide repetirla.
+
+Porque los agentes tienen una cualidad maravillosa: insisten.
+
+Y un `retry` sobre una operación de cobro puede ser una excelente forma de descubrir que hemos confundido tolerancia a fallos con facturación recurrente.
+
+## El marrón sigue siendo nuestro
+
+Aquí es donde me interesa separar responsabilidades.
+
+El protocolo resuelve cómo se comunican las herramientas. No decide si una operación puede repetirse, quién tiene autorización para ejecutarla ni qué ocurre cuando dos agentes modifican el mismo pedido.
+
+Eso exige contratos, idempotencia, control de concurrencia y persistencia adecuada.
+
+No necesitamos que el servidor recuerde cada conversación.
+
+Necesitamos que el negocio recuerde lo que importa.
+
+Y que un identificador de operación permita reconocer un reintento sin volver a ejecutar sus efectos.
+
+La versión nueva de MCP facilita desplegar servidores intercambiables. No convierte automáticamente las operaciones en seguras.
+
+## Lo que me llevo de esta mudanza
+
+- **Stateless no significa sin estado.** Significa no depender de memoria implícita entre peticiones.
+- **Reintentar no es repetir sin consecuencias.** La idempotencia pertenece al diseño de la operación.
+- **Separar responsabilidades simplifica.** El protocolo transporta; la aplicación gobierna las reglas y sus efectos.
+
+**La arquitectura mejora cuando cada estado tiene un dueño claro, no cuando fingimos que no existe.**
+
+Hemos conseguido que los servidores MCP olviden las conversaciones.
+
+Ahora solo falta conseguir que nuestros agentes recuerden que un pedido ya está cobrado.
+
+---
+
+### Las fuentes, por si acaso
+
+- [MCP — Especificación 2026-07-28](https://blog.modelcontextprotocol.io/posts/2026-07-28/) — cambios oficiales del protocolo.
+- [SEP-2567: Sessionless MCP](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/seps/2567-sessionless-mcp.md) — identificadores explícitos de estado.
+- [MCP C# SDK — Stateless and stateful mode](https://csharp.sdk.modelcontextprotocol.io/v2/concepts/stateless/stateless.html) — implementación y compatibilidad con versiones anteriores.
