@@ -79,6 +79,7 @@ Hands-on Software Architect and Senior .NET Engineer with more than 12 years of 
 - AI inside Software / Incident Diagnosis: Orchestration from traceId through telemetry, documented knowledge, code inspection, diagnosis and reporting; without autonomous remediation.
 
 ## Blog
+- [We Made Servers Stateless. Then Agents Arrived with Memory.](https://antoniomdm.dev/en/blog/we-made-servers-stateless-then-agents-arrived/): MCP removed protocol sessions, making horizontal scaling easier. But agents still need context, and business operations still have consequences.
 - [Software will be free. Apparently, so will the data.](https://antoniomdm.dev/en/blog/software-will-be-free/): A CEO celebrates vibe coding; months later an old company dashboard exposes information. The coincidence makes a great story, but what do the facts actually show?
 - [They took my keyboard. They left me the decisions.](https://antoniomdm.dev/en/blog/they-took-my-keyboard/): GitHub migrated the Copilot runtime to Rust with AI agents. The interesting part is not the 800,000 lines of code: it is how a developer's time, judgement, and value are changing.
 - [Gepeto needed money. He found someone else's wallet.](https://antoniomdm.dev/en/blog/gepeto-needed-money-found-someone-elses-wallet/): An experimental OpenAI agent paid deployment fees using someone else's test wallet. This isn't a story about evil machines. It's about permissions, responsibility, and emergency brakes.
