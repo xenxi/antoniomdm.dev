@@ -165,6 +165,8 @@ El MDX es la única fuente del artículo. `summary` se escribe a mano para tarje
 
 ### LinkedIn: conversación, no anuncio
 
+**Regla permanente para resúmenes de LinkedIn (3 de noviembre de 2026):** consultar y aplicar esta sección antes de redactar cualquier resumen o adaptación de un post para LinkedIn, tanto bajo demanda como en tareas programadas. El resumen debe aportar contenido por sí mismo. No añadir coletillas metadiscursivas ni llamadas a hacer clic como «aquí desarrollo el artículo», «mis conclusiones están en…», «ve al link», «lee el artículo», «te lo cuento en el blog» o equivalentes. Para enlazar, cerrar simplemente con **«Artículo completo en: [URL directa del artículo]»**, sin promesas, explicaciones promocionales ni enviar al lector a los comentarios. Aplicar siempre salvo instrucción explícita distinta del usuario para una pieza concreta.
+
 Un resumen de LinkedIn funciona **de manera autónoma**: cuenta una idea, una historia o reflexión con la voz del blog, aunque nadie abra el enlace. Evitar «he escrito un artículo», «descubre cómo» y llamadas artificiosas a comentar. Si aparece un enlace, incorporarlo con naturalidad, por defecto directo y sin eslogan comercial. Emojis y hashtags sólo cuando aporten.
 
 No publicar nuevos artículos ni sus adaptaciones sociales sin la revisión y aprobación establecidas. El archivo publicado no se reescribe para encajar con estas pautas.
@@ -339,6 +341,8 @@ MDX remains the single source of content. Hand-write `summary` for cards, listin
 **Review every new article in Spanish and English.** Preserve thesis, meaning and evidence while adapting jokes and cultural references naturally. Keep categories paired and cover identity aligned. Each language version needs its own honest complete reading-time estimate. Do not duplicate bodies or expose internal CMS, SEO or route mechanics in visible prose.
 
 ### LinkedIn: conversation, not promotion
+
+**Standing rule for LinkedIn summaries (November 3, 2026):** read and apply this section before writing any LinkedIn summary or post adaptation, whether on demand or scheduled. The summary must offer value on its own. Do not append meta commentary or click prompts such as “I develop this in the article”, “my conclusions are at…”, “go to the link”, “read the article”, “I explain it on the blog”, or equivalents. To link, simply close with **“Full article at: [direct article URL]”**, without promotional promises, explanatory pitches or directing readers to comments. Always apply unless the user explicitly requests an exception for a specific post.
 
 A LinkedIn adaptation must **stand on its own**: a useful observation, small story or reflection in the blog's voice even if readers never click. Avoid “I've published an article”, “discover how” and contrived engagement questions. If an article link appears, use a natural direct transition without sales copy; add emoji or hashtags only where helpful.
 
