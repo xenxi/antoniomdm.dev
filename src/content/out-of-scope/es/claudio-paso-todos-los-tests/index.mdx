@@ -1,0 +1,142 @@
+---
+title: "Claudio pasó todos los tests. También cambió las reglas."
+summary: "Una PR generada con IA, tests verdes y regresiones escondidas. ¿Cuánto cuesta realmente el código que producimos como churros?"
+date: 2026-11-07
+slug: "claudio-paso-todos-los-tests"
+locale: "es"
+translationKey: "claudio-tests-churreria"
+tags: ["IA", "Agentes", "Testing", "Regresiones", "Ingeniería de software"]
+category: "Salseo con logs"
+type: "postmortem"
+readingTime: 6
+featured: false
+draft: true
+linkedin:
+  enabled: true
+  mode: "review"
+---
+
+*La IA implementó la funcionalidad, modificó los tests y dejó la PR en verde. Revisarla costó más que desarrollarla. Empiezo a tener dudas sobre dónde estamos ahorrando.*
+
+Hace poco me tocó revisar una PR desarrollada con IA en un proyecto legacy.
+
+El código estaba bastante decente, especialmente teniendo en cuenta el historial arqueológico del proyecto. La funcionalidad solicitada parecía implementada, los tests pasaban y, a primera vista, no había nada especialmente preocupante.
+
+Hasta que empezamos a revisar el comportamiento, no solamente el código.
+
+Claudio había implementado lo solicitado. Y, de propina, había cambiado funcionalidades que nadie le había pedido tocar.
+
+Cambios sutiles. Nada que hiciera explotar la aplicación. Lo suficiente para que cosas que antes funcionaban de una manera ahora funcionasen de otra.
+
+¿Y los tests?
+
+También los había modificado.
+
+**Ahora comprobaban que el comportamiento incorrecto era el esperado.**
+
+Fantástico. El incendio venía con certificado de instalación eléctrica.
+
+## Igual Claudio había discutido con su mujer
+
+No sé qué ocurrió exactamente durante aquella sesión.
+
+Quizá el compañero no definió un buen *harness*: instrucciones, contexto, restricciones y mecanismos de validación que delimitan lo que un agente puede modificar y cómo debe comprobarlo.
+
+O quizá Claudio había discutido con su mujer aquella mañana y decidió que, si él tenía un mal día, nosotros también.
+
+Me inclino por lo primero.
+
+Lo preocupante fue el tiempo necesario para reconstruir qué había cambiado, por qué y qué consecuencias podía tener.
+
+**Tardé más revisando aquella PR de lo que habría costado desarrollar el cambio.**
+
+Y eso que encontramos los errores.
+
+## Cuando los tests se convierten en cómplices
+
+Aquí hay un problema técnico que merece más atención que el habitual debate sobre si la IA programa mejor o peor que nosotros.
+
+Un test no demuestra que una funcionalidad sea correcta. Demuestra que, bajo determinadas condiciones, el código cumple unas expectativas concretas.
+
+Si esas expectativas están equivocadas, podemos tener una cobertura estupenda y un comportamiento desastroso.
+
+Es lo que ocurre cuando implementación y pruebas comparten el mismo error de interpretación.
+
+Y no es un problema exclusivo de la IA. Los desarrolladores llevamos años escribiendo tests que confirman nuestras propias suposiciones.
+
+La diferencia es que ahora podemos generar código, pruebas y modificaciones en cuestión de minutos, multiplicando la velocidad a la que consolidamos esas equivocaciones.
+
+Por eso importa la independencia de la validación.
+
+Los criterios de aceptación deberían existir antes de generar la solución. Los tests de regresión deben proteger comportamientos existentes, no adaptarse automáticamente a cualquier cambio que proponga el agente.
+
+Y cuando una PR modifica pruebas existentes, habría que preguntarse si está corrigiendo una expectativa obsoleta o simplemente haciendo que el resultado vuelva a ser verde.
+
+**Un test que cambia para justificar un bug no es una red de seguridad. Es su coartada.**
+
+## La factura que no aparece en el benchmark
+
+Nos encanta medir cuánto código produce la IA, cuánto tarda en completar una tarea y cuántos tickets podemos cerrar.
+
+Pero hay una pregunta que empieza a incomodarme.
+
+¿Cuántas regresiones estamos introduciendo sin enterarnos?
+
+Porque una cosa es detectar una modificación inesperada revisando una PR. Otra muy distinta es descubrir, meses después, que llevas todo ese tiempo vendiendo productos por debajo de su coste porque alguien alteró sutilmente una regla de cálculo.
+
+Y aquí ya no basta con corregir el código y desplegar.
+
+**Las ventas están hechas. El dinero se ha perdido. Y no existe un `git revert` para recuperar el margen de cientos de operaciones cerradas.**
+
+A eso súmale las reclamaciones, las explicaciones al negocio y la confianza de unos clientes que empiezan a preguntarse qué más estará calculando mal tu sistema.
+
+Todo por una regresión que pasó los tests.
+
+Y me pregunto cuántas pequeñas barbaridades estarán llegando a producción porque nadie tiene tiempo de revisar a fondo todo lo que ahora somos capaces de generar.
+
+## Nuestro trabajo ha cambiado. La responsabilidad, no.
+
+Y aquí está la parte que menos me gusta reconocer.
+
+**El problema no es que Claudio escriba código incorrecto. El problema es que nosotros demos por bueno algo que no hemos comprobado.**
+
+La manera de desarrollar software ha cambiado. Y mucho.
+
+Antes dedicábamos buena parte del tiempo a implementar soluciones. Ahora podemos delegar una parte importante de esa ejecución en agentes capaces de producir código, pruebas y refactorizaciones a una velocidad difícil de igualar.
+
+Pero eso no elimina nuestro trabajo. **Desplaza dónde tenemos que aportar valor.**
+
+Menos tiempo escribiendo cada línea y más entendiendo el problema, definiendo contratos, preparando un buen *harness*, identificando riesgos y verificando que el resultado respeta las reglas del negocio.
+
+No basta con que Claudio haga lo que le hemos pedido. Tenemos que asegurarnos de que le hemos pedido lo correcto, de que no ha roto nada por el camino y de que sabemos justificar lo que estamos entregando.
+
+La IA puede asumir parte de la implementación. No puede asumir nuestra responsabilidad profesional.
+
+Y aquí aparece otra trampa.
+
+Si Claudio nos ahorra dos horas programando, ese tiempo debería servir para mejorar el diseño, revisar los casos límite, reforzar las pruebas y entender mejor las consecuencias de los cambios.
+
+Pero si lo utilizamos exclusivamente para meter cinco tickets más en el sprint, estaremos produciendo código como churros.
+
+**Y si nos dedicamos a producir código como churros, que no nos sorprenda descubrir dentro de unos meses que lo que hemos montado es una churrería.**
+
+Con muchos commits, muchas funcionalidades y una cantidad de problemas que nadie tuvo tiempo de detectar.
+
+Porque cuando dejamos de revisar para ganar velocidad, el trabajo no desaparece. Se acumula.
+
+Hasta que algo empieza a arder.
+
+Y entonces toca investigar bajo presión, corregir con clientes afectados y asumir pérdidas que quizá ya no tienen solución.
+
+Todo ese tiempo que creíamos haber ahorrado termina gastándose en el peor momento posible, cuando verificar es más difícil, corregir es más caro y la productividad que celebrábamos se evapora.
+
+**No hemos dejado de ser responsables de construir buen software. Simplemente hemos dejado de necesitar escribirlo todo nosotros mismos.**
+
+## Lo que me llevo a RAM
+
+- **Verde no significa correcto.** Los tests verifican expectativas concretas; si estas son incorrectas, pueden consolidar una regresión en lugar de detectarla.
+- **El harness importa.** Definir límites, contexto y criterios de aceptación reduce el margen de interpretación del agente, pero no sustituye la validación independiente.
+- **El valor se desplaza.** Cuando automatizamos implementación, debemos dedicar más criterio a diseño, contratos, revisión y comprensión del negocio.
+- **La responsabilidad permanece.** El agente puede escribir el código, pero somos nosotros quienes debemos garantizar que lo entregado funciona como debería.
+
+**Para guardar en RAM:** antes de celebrar cuánto tarda Claudio en programar, quizá deberíamos empezar a medir cuánto nos cuesta confiar en lo que programa. Y recordar que esa confianza no tiene que ganársela Claudio: tenemos que construirla nosotros.
