@@ -1,0 +1,142 @@
+---
+title: "Claudio Passed Every Test. He Changed the Rules Too."
+summary: "An AI-generated pull request, green tests and hidden regressions. What's the real cost of churning out code?"
+date: 2026-11-07
+slug: "claudio-passed-every-test"
+locale: "en"
+translationKey: "claudio-tests-churreria"
+tags: ["AI", "Agents", "Testing", "Regressions", "Software engineering"]
+category: "Drama with Receipts"
+type: "postmortem"
+readingTime: 6
+featured: false
+draft: true
+linkedin:
+  enabled: true
+  mode: "review"
+---
+
+*The AI implemented the feature, changed the tests and left the PR green. Reviewing it took longer than writing it. I'm starting to wonder where the savings are.*
+
+I recently reviewed an AI-generated PR in a legacy project.
+
+The code was reasonably decent, especially given the project's archaeological record. The requested feature appeared to be implemented, the tests passed, and nothing looked particularly alarming at first glance.
+
+Until we started reviewing behaviour rather than just code.
+
+Claudio had implemented the request. And, as a complimentary extra, changed features nobody had asked him to touch.
+
+Subtle changes. Nothing that would bring the application crashing down. Just enough to make things that used to work one way behave differently.
+
+And the tests?
+
+He'd changed those too.
+
+**They now asserted that the wrong behaviour was the expected behaviour.**
+
+Wonderful. The fire came with an electrical safety certificate.
+
+## Maybe Claudio had argued with his wife
+
+I don't know exactly what happened in that session.
+
+Maybe my colleague hadn't defined a good *harness*: instructions, context, constraints and validation mechanisms governing what an agent can change and how it should check its work.
+
+Or maybe Claudio had argued with his wife that morning and decided we should all have a bad day.
+
+My money's on the first explanation.
+
+What worried me was how long it took to reconstruct what had changed, why, and what consequences it might have.
+
+**Reviewing that PR took me longer than implementing the change would have.**
+
+And we actually caught the mistakes.
+
+## When tests become accomplices
+
+There's a technical issue here that deserves more attention than the usual argument about whether AI codes better or worse than we do.
+
+A test doesn't prove a feature is correct. It proves that, under certain conditions, the code meets particular expectations.
+
+If those expectations are wrong, you can have excellent coverage and disastrous behaviour.
+
+That's what happens when the implementation and its tests share the same misunderstanding.
+
+And it's not an AI-only problem. Developers have been writing tests that confirm our own assumptions for decades.
+
+The difference is that we can now generate code, tests and changes in minutes, multiplying the speed at which we institutionalise our mistakes.
+
+That's why independent validation matters.
+
+Acceptance criteria should exist before the solution is generated. Regression tests should protect existing behaviour, not automatically adapt to whatever the agent proposes.
+
+And whenever a PR changes existing tests, we should ask whether it's correcting an outdated expectation or merely turning the result green again.
+
+**A test changed to justify a bug isn't a safety net. It's an alibi.**
+
+## The bill missing from the benchmark
+
+We love measuring how much code AI produces, how quickly it completes a task and how many tickets we close.
+
+But one question is starting to bother me.
+
+How many regressions are we introducing without noticing?
+
+Catching an unexpected change during PR review is one thing. Discovering months later that you've been selling products below cost because somebody subtly altered a pricing rule is quite another.
+
+At that point, fixing the code and deploying isn't enough.
+
+**The sales are done. The money is gone. And there's no `git revert` that restores the margin on hundreds of completed orders.**
+
+Add customer complaints, explanations to the business and the trust of customers now wondering what else your system is calculating incorrectly.
+
+All because of a regression that passed its tests.
+
+And I wonder how many small disasters are reaching production because nobody has time to thoroughly review everything we're now capable of generating.
+
+## Our work has changed. Our responsibility hasn't.
+
+Here's the part I like admitting least.
+
+**The problem isn't that Claudio writes incorrect code. It's that we accept something we haven't verified.**
+
+Software development has changed. A lot.
+
+We used to spend much of our time implementing solutions. Now we can delegate a significant part of that execution to agents that produce code, tests and refactors at remarkable speed.
+
+But that doesn't eliminate our work. **It shifts where we need to add value.**
+
+Less time writing every line, more time understanding the problem, defining contracts, preparing a proper *harness*, identifying risks and checking that the result respects business rules.
+
+It's not enough for Claudio to do what we asked. We have to make sure we asked for the right thing, that nothing broke along the way and that we can justify what we're shipping.
+
+AI can take on part of the implementation. It can't take on our professional responsibility.
+
+And there's another trap.
+
+If Claudio saves us two hours of coding, that time should help us improve design, examine edge cases, strengthen tests and understand the consequences of changes.
+
+But if we use it exclusively to cram five more tickets into the sprint, we'll be churning out code like a churro factory.
+
+**And if we keep churning out code like churros, we shouldn't be surprised when we realise a few months later that we've built an entire churro shop.**
+
+Plenty of commits, plenty of features and a pile of problems nobody had time to catch.
+
+Because when we skip review to go faster, the work doesn't vanish. It accumulates.
+
+Until something catches fire.
+
+Then we investigate under pressure, fix things with customers already affected and absorb losses we may never recover.
+
+All that time we thought we'd saved gets spent at the worst possible moment, when verification is harder, fixes cost more and our celebrated productivity evaporates.
+
+**We haven't stopped being responsible for building good software. We've simply stopped needing to write every line ourselves.**
+
+## What I'm keeping in RAM
+
+- **Green doesn't mean correct.** Tests check particular expectations; when those are wrong, they can entrench a regression instead of catching it.
+- **The harness matters.** Constraints, context and acceptance criteria limit an agent's room for interpretation, but don't replace independent validation.
+- **Value moves elsewhere.** When implementation is automated, we need to invest more judgement in design, contracts, review and business understanding.
+- **Responsibility remains.** The agent can write the code, but it's still on us to ensure what we ship works as intended.
+
+**Save to RAM:** before celebrating how fast Claudio writes code, maybe we should measure what it costs to trust that code. And remember: Claudio isn't the one who has to earn that trust. We're the ones who have to build it.
