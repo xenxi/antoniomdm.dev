@@ -171,6 +171,8 @@ Un resumen de LinkedIn funciona **de manera autónoma**: cuenta una idea, una hi
 
 No publicar nuevos artículos ni sus adaptaciones sociales sin la revisión y aprobación establecidas. El archivo publicado no se reescribe para encajar con estas pautas.
 
+Las adaptaciones aprobadas para LinkedIn se programan con **Buffer** en el perfil personal de Antonio Manuel Díaz Moreno. Sigue el [procedimiento de publicación](OUT_OF_SCOPE.md#linkedin) antes de programar.
+
 ### Revisión editorial y de publicación
 
 Antes de aprobar un artículo **nuevo**:
@@ -347,6 +349,8 @@ MDX remains the single source of content. Hand-write `summary` for cards, listin
 A LinkedIn adaptation must **stand on its own**: a useful observation, small story or reflection in the blog's voice even if readers never click. Avoid “I've published an article”, “discover how” and contrived engagement questions. If an article link appears, use a natural direct transition without sales copy; add emoji or hashtags only where helpful.
 
 No new article or social adaptation goes live without the established review and approval. Do not rewrite historical social copy to retrofit v2.1.
+
+Approved LinkedIn adaptations are scheduled through **Buffer** on Antonio Manuel Díaz Moreno’s personal profile. Follow the [publishing procedure](OUT_OF_SCOPE.md#linkedin-1) before scheduling.
 
 ### Editorial and publishing review
 

@@ -79,7 +79,14 @@ El Blog reutiliza `AnalyticsConsent.astro`, la propiedad GA4 existente y la pasa
 npm run article:social -- --locale=es --slug=mi-pregunta
 ```
 
-El formatter usa `title + summary + canonical URL` y añade los UTM de LinkedIn. `linkedin.text` es el override previsto; el valor por defecto de `mode` es `review`. El workflow genera el preview después del deploy y tiene `continue-on-error`; no publica nada. No hay credenciales, scraping ni automatización de navegador. Una integración futura debe usar una aplicación y API oficial de LinkedIn, guardar la `Review key` devuelta por el formatter y rechazar una segunda publicación con esa clave. También debe comprobar primero que la URL canónica desplegada responde correctamente.
+El formatter prepara una vista previa a partir del título, el resumen y la URL con UTM. `linkedin.text` permite una adaptación propia y `review` es el modo por defecto. GitHub Actions genera esta vista previa tras desplegar el artículo.
+
+**Buffer es el programador de LinkedIn para Out of Scope.** Usa el canal conectado del perfil personal de Antonio Manuel Díaz Moreno. Este procedimiento se aplica tanto a publicaciones bajo demanda como a las que parten del borrador semanal.
+
+1. Prepara la adaptación según la [guía editorial](BLOG_EDITORIAL_GUIDE.md). Comprueba que la URL canónica del artículo publicado responde y que es el enlace directo de la publicación.
+2. Presenta el texto final, el perfil, la fecha y la hora en `Europe/Madrid`. Programa en Buffer solo con la aprobación explícita de esa publicación.
+3. Antes de crear la entrada, comprueba en Buffer si el mismo artículo ya está programado o publicado. Durante la transición, ten en cuenta los envíos que ya consten en Metricool. Si la operación devuelve un resultado incierto, revisa la cola antes de reintentar.
+4. Verifica la entrada en Buffer y comunica el estado y la hora programada. Guarda el identificador de Buffer junto con la URL del artículo o la `Review key` si está disponible. Si Buffer no está disponible, entrega el texto aprobado para programación manual en Buffer.
 
 ### Publicidad
 
@@ -126,7 +133,14 @@ The Blog reuses `AnalyticsConsent.astro`, the existing GA4 property, and the typ
 
 ### LinkedIn
 
-Run `npm run article:social -- --locale=en --slug=my-question` to produce review copy from `title + summary + canonical URL` with LinkedIn UTM values. `linkedin.text` is the planned override and `review` is the default mode. The post-deploy workflow only generates a preview and cannot publish. It contains no credentials, scraping, or browser automation. A future integration must use an official LinkedIn application/API, persist the formatter's `Review key`, refuse duplicate keys, and first verify that the deployed canonical URL is reachable.
+Run `npm run article:social -- --locale=en --slug=my-question` for a preview based on the title, summary, and URL with UTM parameters. `linkedin.text` allows a custom adaptation and `review` is the default mode. GitHub Actions generates this preview after deploying the article.
+
+**Buffer is the LinkedIn scheduler for Out of Scope.** Use the connected channel for Antonio Manuel Díaz Moreno’s personal profile. This procedure applies to on-demand posts and posts based on the weekly draft.
+
+1. Prepare the adaptation using the [editorial guide](BLOG_EDITORIAL_GUIDE.md). Check that the published article’s canonical URL is reachable and use it as the direct link in the post.
+2. Present the final copy, profile, date, and time in `Europe/Madrid`. Schedule in Buffer only after explicit approval for that post.
+3. Before creating the entry, check Buffer for scheduled or published posts for the same article. During the transition, account for any posts already recorded in Metricool. If the result is uncertain, check the queue before retrying.
+4. Verify the entry in Buffer and report its status and scheduled time. Record the Buffer ID with the article URL or the formatter’s `Review key` when available. If Buffer is unavailable, provide the approved copy for manual scheduling in Buffer.
 
 ### Advertising
 
