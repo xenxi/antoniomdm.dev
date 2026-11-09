@@ -79,6 +79,7 @@ Arquitecto de software hands-on y Senior .NET Engineer con más de 12 años de e
 - IA dentro del software / Diagnóstico de incidencias: Orquestación desde traceId a telemetría, conocimiento documentado, inspección de código, diagnóstico e informe; sin remediación autónoma.
 
 ## Blog
+- [Claudio pasó todos los tests. También cambió las reglas.](https://antoniomdm.dev/blog/claudio-paso-todos-los-tests/): Una PR generada con IA, tests verdes y regresiones escondidas. ¿Cuánto cuesta realmente el código que producimos como churros?
 - [Metieron sus borradores en Codex. OpenAI llegó con diez mil agentes.](https://antoniomdm.dev/blog/metieron-borradores-en-codex/): Dos matemáticos confiaron su investigación a herramientas de IA. Cuando una de esas empresas anunció un descubrimiento relacionado, surgió una pregunta incómoda: ¿habían utilizado sus datos?
 - [Hicimos los servidores stateless. Luego llegaron los agentes con memoria.](https://antoniomdm.dev/blog/servidores-stateless-agentes-con-memoria/): MCP ha eliminado las sesiones del protocolo, facilitando el escalado horizontal. Pero los agentes siguen necesitando contexto y las operaciones de negocio siguen teniendo consecuencias.
 - [El software será gratis. Los datos también, por lo visto.](https://antoniomdm.dev/blog/el-software-sera-gratis/): Un CEO se entusiasma con el vibe coding y meses después aparece un panel antiguo con información expuesta. La coincidencia es tentadora; las pruebas obligan a mirar más allá.

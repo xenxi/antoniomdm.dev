@@ -79,6 +79,7 @@ Hands-on Software Architect and Senior .NET Engineer with more than 12 years of 
 - AI inside Software / Incident Diagnosis: Orchestration from traceId through telemetry, documented knowledge, code inspection, diagnosis and reporting; without autonomous remediation.
 
 ## Blog
+- [Claudio Passed Every Test. He Changed the Rules Too.](https://antoniomdm.dev/en/blog/claudio-passed-every-test/): An AI-generated pull request, green tests and hidden regressions. What's the real cost of churning out code?
 - [They put their drafts into Codex. OpenAI arrived with ten thousand agents.](https://antoniomdm.dev/en/blog/private-drafts-in-codex/): Two mathematicians trusted AI tools with unpublished research. When one of those companies announced a related breakthrough, a deeply awkward question followed: had their data been used?
 - [We Made Servers Stateless. Then Agents Arrived with Memory.](https://antoniomdm.dev/en/blog/we-made-servers-stateless-then-agents-arrived/): MCP removed protocol sessions, making horizontal scaling easier. But agents still need context, and business operations still have consequences.
 - [Software will be free. Apparently, so will the data.](https://antoniomdm.dev/en/blog/software-will-be-free/): A CEO celebrates vibe coding; months later an old company dashboard exposes information. The coincidence makes a great story, but what do the facts actually show?
